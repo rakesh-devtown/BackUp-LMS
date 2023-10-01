@@ -1,25 +1,94 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  LaptopOutlined,
+  NotificationOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import Cal from './components/Cal'
 
-function App() {
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { StyledLayout } from "./styles/app.styles";
+import { FullScreenContent, StyledButton } from "./styles/shared.styles";
+const { Header, Content, Sider } = Layout;
+const items1 = ["1", "2", "3"].map((key) => ({
+  key,
+  label: `nav ${key}`,
+}));
+const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
+  (icon, index) => {
+    const key = String(index + 1);
+    return {
+      key: `sub${key}`,
+      icon: React.createElement(icon),
+      label: `subnav ${key}`,
+      children: new Array(4).fill(null).map((_, j) => {
+        const subKey = index * 4 + j + 1;
+        return {
+          key: subKey,
+          label: `option${subKey}`,
+        };
+      }),
+    };
+  }
+);
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <StyledLayout>
+      <Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          background: "#6322CC",
+        }}
+      >
+        <div className="demo-logo" />
+        <Menu
+          style={{
+            background: "transparent",
+            color:'#fff'
+          }}
+          mode="horizontal"
+          defaultSelectedKeys={["2"]}
+          items={items1}
+        />
+      </Header>
+      <Layout>
+        <Sider
+          width={200}
+          style={{
+            color:'#6322CC'
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            style={{
+              height: "100%",
+              borderRight: 0,
+              color:'#6322CC'
+            }}
+            items={items2}
+          />
+        </Sider>
+        <Layout
+          style={{
+            padding: "0 24px 0px",
+          }}
+        >
+          <FullScreenContent
+            style={{
+              padding: 24,
+              margin: 0,
+              minHeight: 280,
+            }}
+          >
+            
+           <Cal/>
+          </FullScreenContent>
+        </Layout>
+      </Layout>
+    </StyledLayout>
   );
-}
-
+};
 export default App;
