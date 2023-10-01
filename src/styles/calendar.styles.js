@@ -5,7 +5,7 @@ import { Calendar } from "antd";
 export const StyledCaledar = styled(Calendar)`
     background: #111;
     .ant-picker-cell{
-        background:orange;
+        background:pink;
         &:hover{
             background:purple;
         }
