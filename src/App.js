@@ -5,11 +5,21 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import Cal from './components/Cal'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+
 
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { StyledLayout } from "./styles/app.styles";
 import { FullScreenContent, StyledButton } from "./styles/shared.styles";
+import { routes } from "./routes";
 const { Header, Content, Sider } = Layout;
+//router
+const router = createBrowserRouter(routes);
+
 const items1 = ["1", "2", "3"].map((key) => ({
   key,
   label: `nav ${key}`,
@@ -33,62 +43,65 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 );
 const App = () => {
   return (
-    <StyledLayout>
-      <Header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          background: "#6322CC",
-        }}
-      >
-        <div className="demo-logo" />
-        <Menu
-          style={{
-            background: "transparent",
-            color:'#fff'
-          }}
-          mode="horizontal"
-          defaultSelectedKeys={["2"]}
-          items={items1}
-        />
-      </Header>
-      <Layout>
-        <Sider
-          width={200}
-          style={{
-            color:'#6322CC'
-          }}
-        >
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{
-              height: "100%",
-              borderRight: 0,
-              color:'#6322CC'
-            }}
-            items={items2}
-          />
-        </Sider>
-        <Layout
-          style={{
-            padding: "0 24px 0px",
-          }}
-        >
-          <FullScreenContent
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-            }}
-          >
+  <RouterProvider router={router} />
+  )
+  // return (
+  //   <StyledLayout>
+  //     <Header
+  //       style={{
+  //         display: "flex",
+  //         alignItems: "center",
+  //         background: "#6322CC",
+  //       }}
+  //     >
+  //       <div className="demo-logo" />
+  //       <Menu
+  //         style={{
+  //           background: "transparent",
+  //           color:'#fff'
+  //         }}
+  //         mode="horizontal"
+  //         defaultSelectedKeys={["2"]}
+  //         items={items1}
+  //       />
+  //     </Header>
+  //     <Layout>
+  //       <Sider
+  //         width={200}
+  //         style={{
+  //           color:'#6322CC'
+  //         }}
+  //       >
+  //         <Menu
+  //           mode="inline"
+  //           defaultSelectedKeys={["1"]}
+  //           defaultOpenKeys={["sub1"]}
+  //           style={{
+  //             height: "100%",
+  //             borderRight: 0,
+  //             color:'#6322CC'
+  //           }}
+  //           items={items2}
+  //         />
+  //       </Sider>
+  //       <Layout
+  //         style={{
+  //           padding: "0 24px 0px",
+  //         }}
+  //       >
+  //         <FullScreenContent
+  //           style={{
+  //             padding: 24,
+  //             margin: 0,
+  //             minHeight: 280,
+  //           }}
+  //         >
             
-           <Cal/>
-          </FullScreenContent>
-        </Layout>
-      </Layout>
-    </StyledLayout>
-  );
+  //          <Cal/>
+  //         </FullScreenContent>
+  //       </Layout>
+  //     </Layout>
+  //   </StyledLayout>
+  // );
 };
 export default App;
