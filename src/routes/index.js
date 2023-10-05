@@ -40,7 +40,7 @@ export const routes =
             },
             {
                 path: routeDefinitions.PROGRAM,
-                element: <h1>hh</h1>,
+                element: <Outlet/>,
                 children:[
                     {
                         path: routeDefinitions.INDEX,
