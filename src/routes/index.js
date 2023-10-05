@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { routeDefinitions } from "../constants/routes";
 import Sidebar from "../layout/Sidebar";
+import Cal from "../components/Cal"
 
 export const routes =
 [{
@@ -62,7 +63,7 @@ export const routes =
           
             {
                 path: routeDefinitions.Schedule,
-                element: <h1>schdeule</h1>,
+                element: <Cal/>,
             },
             {
                 path: routeDefinitions.Meeting,
