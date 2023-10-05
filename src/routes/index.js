@@ -46,8 +46,8 @@ export const routes =
                         element: <h1>program index</h1>
                     },
                     {
-                        path: routeDefinitions.Overview,
-                        element: <h1>program overview</h1>
+                        path: routeDefinitions.Batch,
+                        element: <h1>program Batch</h1>
                     },
                     {
                         path: routeDefinitions.Assignments,
