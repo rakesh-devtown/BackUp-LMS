@@ -47,9 +47,11 @@ const events = [
   {
     id: 1,
     date: '2023-10-04',
-    "topic": "Day-70 Project setup",
+    "day":"Day-70",
+    "topic": " Project setup",
     "description": "Day-70 Project setup",
     "instrutor":"Kartik Gupta",
+
     button: (
       <button onClick={() => alert('Button clicked for Event {id}')}>
         Click Me
@@ -74,9 +76,10 @@ const events = [
   {
     id: 3,
     date: '2023-10-12',
+    time : '6:00 pm',
     "topic": "Day-70 Project setup",
     "description": "Day-70 Project setup",
-    "instrutor":"Kartik Gupta"
+    "instructor": "Kartik Gupta",
   },
   // Add more events as needed
 ];
