@@ -1,8 +1,40 @@
-import React from "react";
-import { StyledCaledar } from "../styles/calendar.styles";
-const Cal = () => {
-  const onPanelChange = (value, mode) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
+import React, { useState } from "react";
+import { Drawer, Button, Card } from "antd";
+import { StyledCalendar } from "../styles/calendar.styles";
+
+const CalendarScheduler = ({ events }) => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const handleDateClick = (value) => {
+    setSelectedDate(value);
+    const date = value.format("YYYY-MM-DD");
+    const eventsForDate = events.filter((event) => event.date === date);
+    setSelectedEvent(eventsForDate[0] || null);
+    setDrawerVisible(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setSelectedDate(null);
+    setSelectedEvent(null);
+    setDrawerVisible(false);
+  };
+
+  const dateCellRender = (value) => {
+    const date = value.format("YYYY-MM-DD");
+    const eventsForDate = events.filter((event) => event.date === date);
+
+    return (
+      <div className="date-cell">
+        {eventsForDate.length > 0 && (
+          <div className="event-title">
+            {eventsForDate[0].topic}
+          </div>
+        )}
+       {/* // {value.date()} */}
+      </div>
+    );
   };
 
   return (
@@ -37,4 +69,5 @@ const Cal = () => {
     </div>
   );
 };
-export default Cal;
+
+export default CalendarScheduler;
