@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { routeDefinitions } from "../constants/routes";
 import Sidebar from "../layout/Sidebar";
-
+import CourseOverview from "../components/CourseOverview";
 export const routes =
 [{
     path: routeDefinitions.AUTH,
@@ -47,7 +47,7 @@ export const routes =
                     },
                     {
                         path: routeDefinitions.Overview,
-                        element: <h1>program overview</h1>
+                        element: <CourseOverview/>
                     },
                     {
                         path: routeDefinitions.Assignments,
