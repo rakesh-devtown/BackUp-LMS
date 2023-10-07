@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { routeDefinitions } from "../constants/routes";
 import Sidebar from "../layout/Sidebar";
+import Cal from "../components/Cal"
 
 export const routes =
 [{
@@ -39,15 +40,15 @@ export const routes =
             },
             {
                 path: routeDefinitions.PROGRAM,
-                element: <h1>hh</h1>,
+                element: <Outlet/>,
                 children:[
                     {
                         path: routeDefinitions.INDEX,
                         element: <h1>program index</h1>
                     },
                     {
-                        path: routeDefinitions.Overview,
-                        element: <h1>program overview</h1>
+                        path: routeDefinitions.Batch,
+                        element: <h1>program Batch</h1>
                     },
                     {
                         path: routeDefinitions.Assignments,
@@ -62,7 +63,7 @@ export const routes =
           
             {
                 path: routeDefinitions.Schedule,
-                element: <h1>schdeule</h1>,
+                element: <Cal/>,
             },
             {
                 path: routeDefinitions.Meeting,
