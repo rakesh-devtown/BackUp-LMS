@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { routeDefinitions } from "../constants/routes";
 import Sidebar from "../layout/Sidebar";
+import CourseOverview from "../components/CourseOverview";
 import Cal from "../components/Cal"
 
 export const routes =
@@ -47,8 +48,8 @@ export const routes =
                         element: <h1>program index</h1>
                     },
                     {
-                        path: routeDefinitions.Batch,
-                        element: <h1>program Batch</h1>
+                        path: routeDefinitions.Overview,
+                        element: <CourseOverview/>
                     },
                     {
                         path: routeDefinitions.Assignments,
