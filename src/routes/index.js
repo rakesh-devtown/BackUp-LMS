@@ -2,6 +2,8 @@ import { Outlet } from "react-router-dom";
 import { routeDefinitions } from "../constants/routes";
 import Sidebar from "../layout/Sidebar";
 import Cal from "../components/Cal"
+import Profile from "../pages/Profile/Profile";
+import Programs from "../pages/Programs/Programs";
 
 export const routes =
 [{
@@ -36,7 +38,7 @@ export const routes =
             },
             {
                 path:  routeDefinitions.PROGRAMS,
-                element: <h1>programs</h1>,
+                element: <Programs/>,
             },
             {
                 path: routeDefinitions.PROGRAM,
@@ -75,7 +77,7 @@ export const routes =
             },
             {
                 path: routeDefinitions.Me,
-                element: <h1>profile</h1>,
+                element: <Profile/>,
             },
             {
                 path: routeDefinitions.Video,

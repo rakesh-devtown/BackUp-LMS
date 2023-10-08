@@ -20,6 +20,7 @@ import { FullScreenContent, StyledButton } from "../styles/shared.styles";
 import { Layout, Menu, Button, theme } from 'antd';
 import { routeDefinitions } from '../constants/routes'
 import { Link } from 'react-router-dom';
+import SearchBar from '../components/SearchBar/Searchbar';
 
 const { Header, Sider, Content } = Layout;
 
@@ -80,52 +81,21 @@ const Sidebar = () => {
           background: "#6322CC",
         }}
       >
-  
-        {/* <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          /> */}
-
-      </Header>
-    <Layout >
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
         <Link to={"/"} style={{
             background: "transparent",
             color:'#fff',
-            padding: '10px',
             display:'flex',
-            alignItems:'center',
+            alignItems:'flex-start',
             justifyContent:'center' 
           }}>
             <img src={Logo} alt="logo" />
          </Link>
-         <div style={{
-            background: "transparent",
-            display:'flex',
-            alignItems:'center',
-            justifyContent:'center',
-            fontSize: '16px',
-          }}>
-                  {collapsed ?<PlusOutlined onClick={() => setCollapsed(!collapsed)} style={{
-        color: 'white',
-      }}
-/>: 
-                  <CloseOutlined onClick={() => setCollapsed(!collapsed)} style={{
-                    color: 'white',
-                  }}
-             /> }
-
-         {/* <Button
-          icon={collapsed ?<PlusOutlined /> : <CloseOutlined /> }
-          onClick={() => setCollapsed(!collapsed)} /> */}
-          </div>
+         <SearchBar/>
+      </Header>
+    <Layout >
+      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <div className="demo-logo-vertical"  />
+        
         <p style={{
             background: "transparent",
             color:'#fff',
