@@ -3,6 +3,9 @@ import { routeDefinitions } from "../constants/routes";
 import Sidebar from "../layout/Sidebar";
 import CourseOverview from "../components/CourseOverview";
 import Cal from "../components/Cal"
+import Profile from "../pages/Profile/Profile";
+import Programs from "../pages/Programs/Programs";
+import VideoDetail from "../pages/Program/VideoDetail";
 import Courses from "../components/Courses";
 import LoginPage from "../components/LoginPage";
 
@@ -59,8 +62,7 @@ export const routes =
             },
             {
                 path:  routeDefinitions.PROGRAMS,
-                 element: <CourseOverview/>, //added temporarily
-                //element:<Courses/>,
+                element: <Programs/>,
             },
             {
                 path: routeDefinitions.PROGRAM,
@@ -99,11 +101,11 @@ export const routes =
             },
             {
                 path: routeDefinitions.Me,
-                element: <h1>profile</h1>,
+                element: <Profile/>,
             },
             {
                 path: routeDefinitions.Video,
-                element: <h1>video</h1>,
+                element: <VideoDetail/>,
             },
         ],
     },
