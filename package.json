@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@u-wave/react-vimeo": "^0.9.10",
     "antd": "^5.9.4",
     "axios": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-player": "^2.13.0",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "styled-components": "^6.0.8",
