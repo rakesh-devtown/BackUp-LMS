@@ -4,6 +4,7 @@ import Sidebar from "../layout/Sidebar";
 import Cal from "../components/Cal"
 import Profile from "../pages/Profile/Profile";
 import Programs from "../pages/Programs/Programs";
+import VideoDetail from "../pages/Program/VideoDetail";
 
 export const routes =
 [{
@@ -81,7 +82,7 @@ export const routes =
             },
             {
                 path: routeDefinitions.Video,
-                element: <h1>video</h1>,
+                element: <VideoDetail/>,
             },
         ],
     },
