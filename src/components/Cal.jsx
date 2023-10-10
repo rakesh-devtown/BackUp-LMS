@@ -1,6 +1,6 @@
 import React from "react";
 import { StyledCaledar } from "../styles/calendar.styles";
-const App = () => {
+const Cal = () => {
   const onPanelChange = (value, mode) => {
     console.log(value.format("YYYY-MM-DD"), mode);
   };
@@ -11,4 +11,4 @@ const App = () => {
     />
   );
 };
-export default App;
+export default Cal;
