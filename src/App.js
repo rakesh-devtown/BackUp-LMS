@@ -4,8 +4,7 @@ import {
   NotificationOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import Cal from './components/Cal'
-import CourseOverview from "./components/CourseOverview";
+
 import {
   createBrowserRouter,
   RouterProvider,

@@ -3,7 +3,7 @@ import { Collapse, Card, List, Typography, Button, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Tabs } from 'antd';
 import StickyBox from 'react-sticky-box';
-
+import courseData from './dummydata';
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { Item } = List;
@@ -11,25 +11,7 @@ const { Title } = Typography;
 
 const courseName = "FSWD-120822🟢"; // Replace with the actual name of your course
 
-const courseData = [
-  {
-    week: 'Week 1',
-    days: [
-      { day: 'Day 1', recordingLink: 'Link 1', materialLink: 'Link A', classTiming: '9:00 AM - 10:30 AM' },
-      { day: 'Day 2', recordingLink: 'Link 2', materialLink: 'Link B', classTiming: '10:45 AM - 12:15 PM' },
-      // Add more days for Week 1
-    ],
-  },
-  {
-    week: 'Week 2',
-    days: [
-      { day: 'Day 1', recordingLink: 'Link 3', materialLink: 'Link C', classTiming: '9:00 AM - 10:30 AM' },
-      { day: 'Day 2', recordingLink: 'Link 4', materialLink: 'Link D', classTiming: '10:45 AM - 12:15 PM' },
-      // Add more days for Week 2
-    ],
-  },
-  // Add more weeks as needed
-];
+
 
 function CourseOverview() {
   const navigate = useNavigate();
