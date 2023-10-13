@@ -1,12 +1,11 @@
 import React from "react";
 //import './App.css';
 //import 'antd/dist/antd.css'; // Import Ant Design CSS
-import { Layout, Form, Input, Button, } from "antd";
+import { Layout, Form } from "antd";
 import { useNavigate } from 'react-router-dom'; 
 import {StyledLoginPage, StyledLoginForm,StyledFormContainer,StyledLogo,StyledHeading,StyledDevTown,StyledP ,InputUsername,StyledPassword, ForgotPassword,StyledButton , StyledImg} from "../../styles/LoginPage.styles.js";
 
 //import styles from "../../styles/LoginPage.styles.js";
-const { Content } = Layout;
 
 
 

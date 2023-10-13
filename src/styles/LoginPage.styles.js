@@ -1,13 +1,10 @@
 
 import styled from 'styled-components';
-import Layout from 'antd/es/layout/layout';
 import Input from 'antd/es/input/Input';
 import { Button } from 'antd';
 
-// LoginPage.styles.js
-
 export const StyledLogo=styled.img`
-     width: auto;
+    width: auto;
     height: 3rem;
     margin-left: auto;
     margin-right: auto;
@@ -31,13 +28,13 @@ export const StyledLoginPage = styled.div`
             } 
 `
 export const StyledImg = styled.img`
-  @media (max-width:1207px)
- {
-    display: none;} 
+           @media (max-width:1207px)
+           {
+         display: none;} 
 `
 
 export const StyledFormContainer = styled.div`
-     background:linear-gradient(90deg, rgba(89,86,139,1) 0%, rgba(76,9,121,1) 8%, rgba(0,82,255,1) 100%);
+              background:linear-gradient(90deg, rgba(89,86,139,1) 0%, rgba(76,9,121,1) 8%, rgba(0,82,255,1) 100%);
               padding-left:  2rem;
               padding-right: 2rem;
               padding-bottom: 10rem;
@@ -47,8 +44,7 @@ export const StyledFormContainer = styled.div`
               align-items: center;
               height: 100vh;
               display: flex;
-              /* border: 0 solid #e5e7eb;
-              box-sizing: border-box; */
+       
               @media (min-width:768px){
                 width:50%;
               }
@@ -57,6 +53,9 @@ export const StyledFormContainer = styled.div`
                  padding-left: 1.5rem;
                  padding-right: 1.5rem;
             }
+            @media (max-width:1207px)
+           {
+         width :100%;}
 `
 
 export const StyledLoginForm = styled.div`
@@ -86,9 +85,7 @@ export const StyledP = styled.p`
                          line-height: 1.25rem;
 ` 
 export const InputUsername = styled(Input)`
-    height: 2.5rem ;  
-    /* font-size: .875rem;
-    line-height: 1.25rem; */
+    height: 2.5rem ;   
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;
     padding-left: 0.75rem;
@@ -104,7 +101,7 @@ export const InputUsername = styled(Input)`
    
 `
 export const StyledPassword = styled(Input.Password)`
-background-color: white;
+    background-color: white;
     height: 2.5rem ;    
     font-size: .875rem;
     line-height: 1.25rem;
@@ -127,6 +124,6 @@ export const ForgotPassword = styled.p`
                     text-align: right;
 `
 export const StyledButton = styled(Button)`
-height:2.5em;  
-width: 100%;
+                    height:2.5em;  
+                    width: 100%;
 `
