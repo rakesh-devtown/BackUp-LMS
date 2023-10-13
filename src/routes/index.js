@@ -1,38 +1,20 @@
 import { Outlet } from "react-router-dom";
 import { routeDefinitions } from "../constants/routes";
 import Sidebar from "../layout/Sidebar";
-import CourseOverview from "../components/CourseOverview";
-import Cal from "../components/Cal"
+import CourseOverview from "../components/courses/CourseOverview";
+import Cal from "../components/schedule/CalendarSchedular"
 import Profile from "../pages/Profile/Profile";
 import Programs from "../pages/Programs/Programs";
 import VideoDetail from "../pages/Program/VideoDetail";
-import Courses from "../components/Courses";
-import LoginPage from "../components/LoginPage";
+import events from "../components/schedule/dummydata";
+import Login from "../components/auth/Login";
 
-//for calender added temporarily 
-const events = [
-    {
-      id: 1,
-      date: '2023-10-04',
-      "day":"Day-70",
-      "topic": " Project setup",
-      "description": "Day-70 Project setup",
-      "instrutor":"Kartik Gupta",
-  
-      button: (
-        <button onClick={() => alert('Button clicked for Event {id}')}>
-          Click Me
-        </button>
-      ),
-  
-    },
-   
-    // Add more events as needed
-  ];
+
+
 export const routes =
 [{
     path: routeDefinitions.AUTH,
-    element: <LoginPage />,
+    element: <Login />,
     children: [
         {
             path: routeDefinitions.INDEX,

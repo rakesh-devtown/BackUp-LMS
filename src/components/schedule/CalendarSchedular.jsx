@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Drawer, Button, Card } from "antd";
-import { StyledCalendar } from "../styles/calendar.styles";
+import { StyledCalendar } from "../../styles/calendar.styles";
+
 
 
 const CalendarScheduler = ({ events }) => {
@@ -9,7 +10,7 @@ const CalendarScheduler = ({ events }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const handleDateClick = (value) => {
-    setSelectedDate(value);
+    setSelectedDate(value);   
     const date = value.format("YYYY-MM-DD");
     const eventsForDate = events.filter((event) => event.date === date);
     setSelectedEvent(eventsForDate[0] || null);
