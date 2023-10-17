@@ -79,6 +79,7 @@ const Sidebar = () => {
           display: "flex",
           alignItems: "center",
           background: "#6322CC",
+          padding:"0px"
         }}
       >
         <Link to={"/"} style={{
