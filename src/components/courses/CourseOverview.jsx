@@ -70,7 +70,7 @@ function CourseOverview() {
                         }}
                       >
                         <List>
-                          <Item style={{display:'flex',}}>
+                          <Item style={{display:'flex', justifyContent:'space-between',width:'30rem'}}>
                          <p>{dayData.day}</p>  
                             
                             <Button

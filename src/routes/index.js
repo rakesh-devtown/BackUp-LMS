@@ -41,6 +41,7 @@ export const routes =
             {
                 path: routeDefinitions.INDEX,
                 element: <h1>index</h1>,
+                // element:<CourseOverview/>
             },
             {
                 path:  routeDefinitions.PROGRAMS,
@@ -52,7 +53,7 @@ export const routes =
                 children:[
                     {
                         path: routeDefinitions.INDEX,
-                        element: <h1>program index</h1>
+                        element: <CourseOverview/>
                     },
                     {
                         path: routeDefinitions.Overview,

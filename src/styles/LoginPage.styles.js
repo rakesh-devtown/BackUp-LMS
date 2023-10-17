@@ -48,7 +48,7 @@ export const StyledFormContainer = styled.div`
               @media (min-width:768px){
                 width:50%;
               }
-              @media (min-width: 640px)
+              @media (min-width: 640px) 
              {
                  padding-left: 1.5rem;
                  padding-right: 1.5rem;
