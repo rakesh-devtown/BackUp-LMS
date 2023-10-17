@@ -12,7 +12,7 @@ export const routeDefinitions = {
     Schedule : 'schedule',
     Meeting: 'meeting/:id',
     Practice: 'practice',
-    Me: 'me',
+    Me: 'me', 
     Video: 'video',
     Tree:'tree',
     File:'file'

@@ -18,10 +18,13 @@ import {
   StyledImg,
   CenteredButtonContainer,
 } from "../../styles/LoginPage.styles.js";
+import Config from "../../config.js"
 
 //import styles from "../../styles/LoginPage.styles.js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleAuthLogin } from "./GoogleAuthLogin.jsx";
+
+const googleClientId = Config.googleClientId; // Access the client ID from the config
 
 function Login() {
   const navigate = useNavigate();
@@ -98,7 +101,7 @@ function Login() {
                   Log in
                 </StyledButton>
                 <CenteredButtonContainer>
-                <GoogleOAuthProvider clientId="970443825554-si54tskbc2sls46t9ip912ldii6r9nkv.apps.googleusercontent.com">
+                <GoogleOAuthProvider clientId={googleClientId }>
                   <GoogleAuthLogin />
                 </GoogleOAuthProvider>
                 </CenteredButtonContainer>
