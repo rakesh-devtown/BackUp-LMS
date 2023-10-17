@@ -127,3 +127,10 @@ export const StyledButton = styled(Button)`
                     height:2.5em;  
                     width: 100%;
 `
+export const  CenteredButtonContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+margin-top: 20px; 
+`;
