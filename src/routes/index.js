@@ -40,7 +40,8 @@ export const routes =
         children: [
             {
                 path: routeDefinitions.INDEX,
-                element: <h1>index</h1>,
+                //element: <h1>index</h1>,
+                element:<CourseOverview/>
             },
             {
                 path:  routeDefinitions.PROGRAMS,
