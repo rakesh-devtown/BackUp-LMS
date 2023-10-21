@@ -68,8 +68,9 @@ function Login() {
                 name="username"
                 rules={[
                   {
+                    type:"email",
                     required: true,
-                    message: "Please enter your username!",
+                    message: "Please enter your email!",
                   },
                 ]}
               >
@@ -79,11 +80,20 @@ function Login() {
               <Form.Item
                 name="password"
                 rules={[
-                  {
-                    required: true,
-                    message: "Please enter your password!",
-                  },
-                ]}
+    {
+      required: true,
+      message: "Please enter your password!",
+    },
+    {
+      min: 8,
+      message: "Password must be at least 8 characters long.",
+    },
+    // {
+    //   pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    //   message:
+    //     "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.",
+    // },
+  ]}
               >
                 <StyledPassword placeholder="Password" type="password" />
               </Form.Item>
