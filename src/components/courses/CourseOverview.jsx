@@ -7,6 +7,7 @@ import StickyBox from "react-sticky-box";
 import courseData from "./dummydata";
 import { StyledButton, StyledP } from "../../styles/LoginPage.styles";
 import Test from "./Test";
+import AttendanceCalendar from "./AttendanceCalendar";
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -48,7 +49,7 @@ const CourseOverview = ({ events }) => {
   const buttonStyle = { width: "150px" }; // Custom CSS style to set a fixed width for buttons
 
   return (
-    <div>
+    <div style={{padding:'2rem 5rem'}}>
       <div
         style={{
           display: "flex",
@@ -194,7 +195,7 @@ const CourseOverview = ({ events }) => {
         <TabPane tab="Attendance" key="tab3">
           <div>
             <StickyBox offsetTop={20} offsetBottom={20}>
-              <p>This content is sticky within Tab 3</p>
+              <div><AttendanceCalendar/></div>
             </StickyBox>
           </div>
         </TabPane>
