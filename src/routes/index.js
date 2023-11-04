@@ -8,21 +8,25 @@ import Programs from "../pages/Programs/Programs";
 import VideoDetail from "../pages/Program/VideoDetail";
 import events from "../components/schedule/dummydata";
 import Login from "../components/auth/Login";
-
+import SessionLimit from "../pages/Auth/SessionLimit";
 
 
 export const routes =
 [{
     path: routeDefinitions.AUTH,
-    element: <Login />,
+    element:<Outlet/>,
     children: [
         {
             path: routeDefinitions.INDEX,
-            element: <h1>login</h1>,
+            element:  <Login />,
         },
         {
             path: routeDefinitions.LOGIN,
-            element: <h1>login</h1>,
+            element:  <Login />,
+        },
+        {
+            path: routeDefinitions.SessionLimit,
+            element: <SessionLimit/>,
         },
         {
             path: routeDefinitions.FORGOT_PASSWORD,

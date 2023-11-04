@@ -1,7 +1,7 @@
 import React from "react";
 import { Divider, List, Typography, Button } from "antd";
 import test from '../../assets/images/test.svg'
-import KebabMenu from "./Menu";
+import KebabMenu from "./KebabMenu";
 
 const data = ["Test1 ", "Test2 ", "Test3 "];
 const Test = () => (
@@ -13,7 +13,7 @@ const Test = () => (
         <List.Item
           style={{
             display: "flex",
-            height: "3rem ",
+            height: "5rem ",
             alignContent: "flex-start",
             justifyContent: "left",
             

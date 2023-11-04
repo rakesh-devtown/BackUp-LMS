@@ -15,5 +15,6 @@ export const routeDefinitions = {
     Me: 'me', 
     Video: 'video',
     Tree:'tree',
-    File:'file'
+    File:'file',
+    SessionLimit:'session-limit'
 }
