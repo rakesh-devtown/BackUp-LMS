@@ -7,21 +7,23 @@ import Profile from "../pages/Profile/Profile";
 import Programs from "../pages/Programs/Programs";
 import VideoDetail from "../pages/Program/VideoDetail";
 import events from "../components/schedule/dummydata";
-import Login from "../components/auth/Login";
+import Login from "../pages/Auth/Login";
 import SessionLimit from "../pages/Auth/SessionLimit";
-
-
+import { ProtectedRoute } from "../pages/Auth/RouteProtection/protectedRoute";
+import AuthWrapper from "../Wrapper/AuthWrapper";
+import ForgetPass from "../pages/Auth/ForgetPass"
 export const routes =
 [{
     path: routeDefinitions.AUTH,
-    element:<Outlet/>,
+    // element:<Outlet/>,
+    element:<AuthWrapper/>,
     children: [
         {
             path: routeDefinitions.INDEX,
-            element:  <Login />,
+            element: <Login />,
         },
         {
-            path: routeDefinitions.LOGIN,
+            path: routeDefinitions.AUTH,
             element:  <Login />,
         },
         {
@@ -30,7 +32,7 @@ export const routes =
         },
         {
             path: routeDefinitions.FORGOT_PASSWORD,
-            element: <h1>forgot password</h1>,
+            element: <ForgetPass/>,
         },
         {
             path: routeDefinitions.RESET_PASSWORD,

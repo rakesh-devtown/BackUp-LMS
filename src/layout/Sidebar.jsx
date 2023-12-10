@@ -1,5 +1,5 @@
-import React,{useState} from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { useState } from "react";
+import { Outlet ,useNavigate } from "react-router-dom";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -11,33 +11,39 @@ import {
   CompassFilled,
   QuestionCircleFilled,
   CloseOutlined,
-  PlusOutlined
-} from '@ant-design/icons';
-import logout from '../assets/images/Logout.svg';
+  PlusOutlined,
+} from "@ant-design/icons";
+import logout from "../assets/images/Logout.svg";
 import Logo from "../assets/images/devtown-vector.svg";
 import { StyledLayout } from "../styles/app.styles";
 import { FullScreenContent, StyledButton } from "../styles/shared.styles";
-import { Layout, Menu, Button, theme } from 'antd';
-import { routeDefinitions } from '../constants/routes'
-import { Link } from 'react-router-dom';
-import SearchBar from '../components/SearchBar/Searchbar';
-
+import { Layout, Menu, Button, theme } from "antd";
+import { routeDefinitions } from "../constants/routes";
+import { Link } from "react-router-dom";
+import SearchBar from "../components/SearchBar/Searchbar";
+import { useStore } from "zustand";
+import authStore from "../store/authStore"
 const { Header, Sider, Content } = Layout;
-
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+const navigate = useNavigate();
+const logoutUser = useStore(authStore).logout;
 
+  const handleLogout = () => {
+    logoutUser();
+    navigate('/auth');
+  };
   const menuItems = [
     {
-      key: '1',
+      key: "1",
       icon: <UserOutlined />,
       label: <Link to={routeDefinitions.Me}>Profile</Link>,
     },
     {
-      key: '2',
+      key: "2",
       icon: <CompassFilled />,
       label: (
         <a
@@ -50,27 +56,26 @@ const Sidebar = () => {
       ),
     },
     {
-      key: '3',
+      key: "3",
       icon: <BookFilled />,
       label: <Link to={routeDefinitions.PROGRAMS}>Programs</Link>,
     },
     {
-      key: '4',
+      key: "4",
       icon: <CalendarFilled />,
       label: <Link to={routeDefinitions.Schedule}>My Schedule</Link>,
     },
     {
-      key: '5',
+      key: "5",
       icon: <EditFilled />,
       label: <Link to={routeDefinitions.Practice}>Practice</Link>,
     },
     {
-      key: '6',
+      key: "6",
       icon: <MessageFilled />,
       label: <Link to={routeDefinitions.MESSAGE}>Message</Link>,
     },
   ];
-
 
   return (
     <StyledLayout>
@@ -79,32 +84,43 @@ const Sidebar = () => {
           display: "flex",
           alignItems: "center",
           background: "#6322CC",
-          padding:"0px"
+          padding: "0px",
         }}
       >
-        <Link to={"/"} style={{
+        <Link
+          to={"/"}
+          style={{
             background: "transparent",
-            color:'#fff',
-            display:'flex',
-            alignItems:'flex-start',
-            justifyContent:'center' 
-          }}>
-            <img src={Logo} alt="logo" />
-         </Link>
-         <SearchBar/>
+            color: "#fff",
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          <img src={Logo} alt="logo" />
+        </Link>
+        <SearchBar />
       </Header>
-    <Layout >
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="demo-logo-vertical"  />
-        
-        <p style={{
-            background: "transparent",
-            color:'#fff',
-            padding: '10px',
-            display:'flex',
-            alignItems:'center',
-            justifyContent:'center' 
-          }}>Menu</p>
+      <Layout>
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+        >
+          <div className="demo-logo-vertical" />
+
+          <p
+            style={{
+              background: "transparent",
+              color: "#fff",
+              padding: "10px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            Menu
+          </p>
 
           <Menu theme="dark" mode="inline">
             {menuItems.map((item) => (
@@ -114,39 +130,55 @@ const Sidebar = () => {
             ))}
           </Menu>
 
-        <p style={{
-            background: "transparent",
-            color:'#fff',
-            padding: '10px',
-            display:'flex',
-            alignItems:'center',
-            justifyContent:'center'
-          }}>Actions</p>
+          <p
+            style={{
+              background: "transparent",
+              color: "#fff",
+              padding: "10px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            Actions
+          </p>
 
-         <Menu theme="dark" mode="inline">
+          <Menu theme="dark" mode="inline">
             {/* ... */}
             <Menu.Item key="1" icon={<QuestionCircleFilled />}>
-              <a href="https://www.devtown.in/contact-us" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.devtown.in/contact-us"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Contact Us
               </a>
             </Menu.Item>
-            <Menu.Item key="2" icon={<img src={logout} alt="logout" />}>
+            <Menu.Item
+              key="2"
+              icon={<img src={logout} alt="logout" />}
+              onClick={() => {
+                if (window.confirm("Are you sure you want to logout?")) {
+                 handleLogout(); // call your logout function here
+                }
+              }}
+            >
               Logout
             </Menu.Item>
           </Menu>
-      </Sider>
-      <Layout>
-        <FullScreenContent
+        </Sider>
+        <Layout>
+          <FullScreenContent
             style={{
               padding: 24,
               margin: 0,
               minHeight: 280,
             }}
-          >          
-          <Outlet/>
+          >
+            <Outlet />
           </FullScreenContent>
+        </Layout>
       </Layout>
-    </Layout>
     </StyledLayout>
   );
 };

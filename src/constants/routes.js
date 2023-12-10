@@ -1,5 +1,5 @@
 export const routeDefinitions = {
-    INDEX: '',
+    INDEX: '', //to make this the entry point
     AUTH: 'auth',
     LOGIN:'login',
     FORGOT_PASSWORD: 'forgot-password',
@@ -16,5 +16,5 @@ export const routeDefinitions = {
     Video: 'video',
     Tree:'tree',
     File:'file',
-    SessionLimit:'session-limit'
+    SessionLimit:'/auth/session-limit'
 }
