@@ -3,8 +3,9 @@ import { message,notification } from 'antd';
 import { serviceGet, servicePost } from "../utils/api";
 import { deleteHeader, setHeader } from "../utils/header";
 import FingerprintJS from '@fingerprintjs/fingerprintjs';
+import { devtools } from 'zustand/middleware';
 
-const useAuthStore = create((set) => ({
+const useAuthStore = create(devtools((set) => ({
   token: null,
   chatToken: null,
   isAuthenticated: false,
@@ -22,23 +23,34 @@ const useAuthStore = create((set) => ({
       const res = await servicePost('auth/auth-api/v1/login?type=student', { ...values, signature: visitorId });
       const { data: { user, token, chatToken }, message, success } = res;
       if (success) {
-        message.success(`Hey ${user.firstName} Welcome back`, { duration: 4000 });
+        console.log("success: true");
+        // message.success(`Hey ${user.firstName} Welcome back`, { duration: 4000 });
         localStorage.setItem('token', token);
         setHeader('signature', visitorId);
         setHeader('auth', `bearer ${token}`);
-        set({ token, chatToken, user, isAuthenticated: true });
+        set({ token, 
+          chatToken,
+           user:{ ...user},
+            isAuthenticated: true });
       } else {
+        // console.log("else");
+        
         message.error(message, { duration: 4000 });
         if (message === 'Too many active sessions') {
           localStorage.setItem('token', token);
           setHeader('auth', `bearer ${token}`);
           set({ token, chatToken, user, isAuthenticated: false, screenLimitReached: true });
-        } else {
-          set({ token: null, chatToken: null, user: null, isAuthenticated: false });
+        } else { 
+          //console.log("else:session error");
+          set({ token: null,
+             chatToken: null,
+              user: null, 
+              isAuthenticated: false });
         }
       }
     } catch (error) {
       deleteHeader('auth');
+      //console.log("error: goes to catch block",error);
       set({ token: null, chatToken: null, user: null, isAuthenticated: false });
     }
   },
@@ -50,13 +62,13 @@ const useAuthStore = create((set) => ({
       const { data: { user, token, chatToken }, message, success } = res;
       if (success) {
         const { firstName = '', lastName = '', email = '' } = user;
-        message.success(`Hey ${firstName} Welcome back`, { duration: 4000 });
+        // message.success(`Hey ${firstName} Welcome back`, { duration: 4000 });
         localStorage.setItem('token', token);
         setHeader('signature', visitorId);
         setHeader('auth', `bearer ${token}`);
         set({ token, chatToken, user, isGoogleAuthenticated: true });
       } else {
-        message.error(message, { duration: 4000 });
+        // message.error(message, { duration: 4000 });
         if (message === 'Too many active sessions') {
           setHeader('auth', `bearer ${token}`);
           set({ token, chatToken, user, isAuthenticated: false, screenLimitReached: true });
@@ -65,6 +77,7 @@ const useAuthStore = create((set) => ({
         }
       }
     } catch (error) {
+      console.log(error);
       deleteHeader('auth');
       set({ token: null, chatToken: null, user: null, isGoogleAuthenticated: false });
     }
@@ -110,7 +123,7 @@ const useAuthStore = create((set) => ({
     localStorage.removeItem('token');
     deleteHeader('auth');
     set({ token: null, chatToken: null, user: null, isAuthenticated: false, isGoogleAuthenticated: false });
-  console.log("logout");
+  //console.log("logout");
   },
   clearSessions: () => {
     set({ screenLimitReached: false, isGoogleAuthenticated: true, isAuthenticated: true });
@@ -119,14 +132,14 @@ const useAuthStore = create((set) => ({
     try {
         const res = await servicePost('auth/auth-api/v1/forgot-password?type=student', { ...values, callbackUrl:"https://www.student-platform.devtown.in" })
         const { success, message } = res
-        console.log(message)
+        //console.log(message)
         if (success != false) {
             notification.success({ message: 'Success', description: message });
         } else {
             notification.error({ message: 'Error', description: message });
         }
     } catch (error) {
-        console.log(error.message)
+        //console.log(error.message)
     }
 },
 
@@ -141,7 +154,7 @@ async resetPassword(values, token) {
             }
             else {
                 const [err] = res.data.errors
-                console.log(err)
+                //console.log(err)
                 return err.param === "token"
                     ? notification.error({ message: 'Error', description: "Your invite has expired !! Reset password via Forget Password link" })
                     : notification.error({ message: 'Error', description: "Error" });
@@ -149,12 +162,12 @@ async resetPassword(values, token) {
 
         } catch (error) {
             notification.error({ message: 'Error', description: error.message })
-            console.log(error)
+            //console.log(error)
         }
     }
 }
   
 
-}));
-
+})));
+// useAuthStore.subscribe(console.log, state => state.isAuthenticated);
 export default useAuthStore;

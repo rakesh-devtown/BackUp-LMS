@@ -16,6 +16,7 @@ import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { StyledLayout } from "./styles/app.styles";
 import { FullScreenContent, StyledButton } from "./styles/shared.styles";
 import { routes } from "./routes";
+import useAuthStore from "./store/authStore";
 const { Header, Content, Sider } = Layout;
 //router
 const router = createBrowserRouter(routes);
@@ -44,7 +45,10 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 
 
 const App = () => {
+  const store = useAuthStore();
+  console.log(store);
   return (
+    
   <RouterProvider router={router} />
   
   )

@@ -1,10 +1,11 @@
 import { GoogleOAuthProvider, GoogleLogin, useGoogleOneTapLogin} from '@react-oauth/google';
 import { useEffect } from 'react';
 import jwt_decode from "jwt-decode";
-
+import useAuthStore from '../../store/authStore';
 export const GoogleAuthLogin = () =>{
-    const responseGoogle = (response) => {
-        //console.log(response);
+  const {googleLogin } = useAuthStore();
+    const responseGoogle = async(response) => {
+        console.log(response);
          const userObject = jwt_decode(response.credential);
          console.log(userObject);
          localStorage.setItem('user', JSON.stringify(userObject));
@@ -17,6 +18,7 @@ export const GoogleAuthLogin = () =>{
            email:email,
          };
             console.log(doc)
+            await googleLogin(response.credential)
        }
     const onSignInSuccess = (response) => {
         console.log('Google Sign-In Success:', response);
