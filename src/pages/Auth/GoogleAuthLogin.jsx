@@ -6,7 +6,9 @@ export const GoogleAuthLogin = () =>{
   const {googleLogin } = useAuthStore();
     const responseGoogle = async(response) => {
         console.log(response);
-         const userObject = jwt_decode(response.credential);
+        const idToken=response.credential;
+        //  const userObject = jwt_decode(response.credential);
+         const userObject = jwt_decode(idToken);
          console.log(userObject);
          localStorage.setItem('user', JSON.stringify(userObject));
          const { name, sub, picture,email } = userObject;
@@ -18,7 +20,7 @@ export const GoogleAuthLogin = () =>{
            email:email,
          };
             console.log(doc)
-            await googleLogin(response.credential)
+            await googleLogin(idToken)
        }
     const onSignInSuccess = (response) => {
         console.log('Google Sign-In Success:', response);
