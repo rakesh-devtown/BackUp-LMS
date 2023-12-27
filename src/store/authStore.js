@@ -41,6 +41,8 @@ const useAuthStore = create(
         } = res;
         if (success) {
           console.log("success: true");
+          notification.success({ message: 'Login Success', description: `Hey ${user.firstName} Welcome back` });
+
           // message.success(`Hey ${user.firstName} Welcome back`, { duration: 4000 });
           localStorage.setItem("token", token);
           setHeader("signature", visitorId);
@@ -49,7 +51,7 @@ const useAuthStore = create(
         } else {
           // console.log("else");
 
-          message.error(message, { duration: 4000 });
+          notification.error({ message: 'Login Error', description: message });
           if (message === "Too many active sessions") {
             localStorage.setItem("token", token);
             setHeader("auth", `bearer ${token}`);
@@ -72,6 +74,8 @@ const useAuthStore = create(
         }
       } catch (error) {
         deleteHeader("auth");
+        notification.error({ message: 'Login Error', description: 'An error occurred during login' });
+
         //console.log("error: goes to catch block",error);
         set({
           token: null,
@@ -95,6 +99,8 @@ const useAuthStore = create(
           success,
         } = res;
         if (success) {
+          notification.success({ message: 'Login Success', description: `Hey ${user.firstName} Welcome back` });
+
           const { firstName = "", lastName = "", email = "" } = user;
           // message.success(`Hey ${firstName} Welcome back`, { duration: 4000 });
           localStorage.setItem("token", token);
@@ -102,6 +108,8 @@ const useAuthStore = create(
           setHeader("auth", `bearer ${token}`);
           set({ token, chatToken, user, isGoogleAuthenticated: true });
         } else {
+          notification.error({ message: 'Login Error', description: message });
+
           // message.error(message, { duration: 4000 });
           if (message === "Too many active sessions") {
             setHeader("auth", `bearer ${token}`);
@@ -124,6 +132,7 @@ const useAuthStore = create(
       } catch (error) {
         console.log(error);
         deleteHeader("auth");
+        notification.error({ message: 'Login Error', description: 'An error occurred during login' });
 
       }
     },
