@@ -51,8 +51,9 @@ const App = () => {
         {
           loading && (
             <div
-            className={`bg-sky-300 bg-opacity-30 flex`}
+            
             style={{
+              backgroundColor: '#BEE3F8', opacity: '0.3', display: 'flex',
               width: "100vw",
               height: "100vh",
               position: "fixed",
