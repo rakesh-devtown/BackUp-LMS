@@ -3,8 +3,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const SERVICE_URL = "https://j66d85vpbf.execute-api.ap-south-1.amazonaws.com"
-const TEST_MODE = window.location.href.includes("localhost")? true : false;
- //const TEST_MODE = false;
+// const TEST_MODE = window.location.href.includes("localhost")? true : false;
+ const TEST_MODE = false;
 if(TEST_MODE) toast('Test mode Active !! ', {
   icon: '🧪',
 });
@@ -63,6 +63,21 @@ export const serviceDelete = async (path, headers) => {
         axios
             .delete(`${!TEST_MODE?`${SERVICE_URL}/${path}`:path.split('/').shift()==='student'?`http://localhost:8083${path.slice(7)}`:`http://localhost:8080${path.slice(4)}`}`, {
                 headers: headers
+            })
+            .then(function (response) {
+                resolve(response.data);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};
+export const serviceGetWithCustomResponse = async (path, headers , responseType) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`${!TEST_MODE?`${SERVICE_URL}/${path}`:path.split('/').shift()==='student'?`http://localhost:8083${path.slice(7)}`:`http://localhost:8080${path.slice(4)}`}`, {
+                headers: headers,
+                ...responseType,
             })
             .then(function (response) {
                 resolve(response.data);

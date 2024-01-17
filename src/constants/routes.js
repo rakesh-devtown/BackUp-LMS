@@ -11,10 +11,13 @@ export const routeDefinitions = {
     Attendance: ':batch/attendance',
     Schedule : 'schedule',
     Meeting: 'meeting/:id',
+    MeetingEnded : 'meeting/ended',
     Practice: 'practice',
     Me: 'me', 
     Video: 'video',
     Tree:'tree',
     File:'file',
-    SessionLimit:'/auth/session-limit'
+    SessionLimit:'/auth/session-limit', 
+    MESSAGE: 'message',
+    Download: 'download/:certId',
 }

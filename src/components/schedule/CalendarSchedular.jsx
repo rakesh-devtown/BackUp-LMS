@@ -1,6 +1,12 @@
-import React, { useState } from "react";
-import { Drawer, Button, Card } from "antd";
+import React, { useEffect, useState } from "react";
+import { Drawer, Button, Card, notification } from "antd";
 import { StyledCalendar } from "../../styles/calendar.styles";
+import { serviceGet } from "../../utils/api";
+import { setHeader } from "../../utils/header";
+import { formatDate } from "../courses/CourseOverview";
+import MeetingModal from "../Meetings/MeetingModal";
+import useAuthStore from "../../store/authStore";
+import useBatchStore from "../../store/batchStore";
 
 const CalendarScheduler = ({ events }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -8,10 +14,9 @@ const CalendarScheduler = ({ events }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const handleDateClick = (value) => {
-    setSelectedDate(value);   
-    const date = value.format("YYYY-MM-DD");
-    const eventsForDate = events.filter((event) => event.date === date);
-    setSelectedEvent(eventsForDate[0] || null);
+    setSelectedDate(value["$d"]);
+    console.log("value", value["$d"]);
+
     setDrawerVisible(true);
   };
 
@@ -28,15 +33,42 @@ const CalendarScheduler = ({ events }) => {
     return (
       <div className="date-cell">
         {eventsForDate.length > 0 && (
-          <div className="event-title">
-            {eventsForDate[0].topic}
-          </div>
+          <div className="event-title">{eventsForDate[0].topic}</div>
         )}
-     
       </div>
     );
   };
-
+  const setCurrentBatchId = useBatchStore((state) => state.setCurrentBatchId);
+  const [sessions, setSessions] = useState([]);
+  const [open, setopen] = useState(false);
+  const [meetingData, setMeetingData] = useState({});
+  const [openMeetingConfirmation, setOpenMeetingConfirmation] = useState(false);
+  const getSessions = async () => {
+    try {
+      // dispatch(setLoadingTrue());
+      console.log(selectedDate);
+      const st = new Date(selectedDate + selectedDate.getTimezoneOffset());
+      const en = new Date(selectedDate + selectedDate.getTimezoneOffset());
+      st.setUTCHours(0, 0, 0);
+      en.setUTCHours(23, 59, 59);
+      setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+      const res = await serviceGet(
+        `student/student-api/v1/upcommingSessions?start=${st.toISOString()}&end=${en.toISOString()}`
+      );
+      const {
+        data: { upcommingSessions },
+      } = res;
+      setSessions(upcommingSessions);
+      // dispatch(setLoadingFalse());
+    } catch (error) {
+      // dispatch(setLoadingFalse());
+      console.log(error.message);
+    }
+  };
+  console.log(sessions);
+  useEffect(() => {
+    getSessions();
+  }, [selectedDate]);
   return (
     <div>
       <StyledCalendar
@@ -45,26 +77,103 @@ const CalendarScheduler = ({ events }) => {
       />
 
       <Drawer
-        title={`Classes for ${
-          selectedDate ? selectedDate.format("MMM D, YYYY") : ""
-        }`}
+        title={`Classes for ${selectedDate ? formatDate(selectedDate)[1] : ""}`}
         width={400}
         placement="right"
         onClose={handleCloseDrawer}
         visible={drawerVisible}
       >
-        {selectedEvent && (
-          <Card
-            title={`Title: ${selectedEvent.topic}`}
-            style={{
-              width: 300,
-            }}
-          >
-            <p>Description: {selectedEvent.description}</p>
-            <p>Instructor: {selectedEvent.instructor}</p>
-            <Button type="primary">Join</Button>
-          </Card>
-        )}
+        
+        {sessions && sessions.length >  0  ?
+          sessions.map((session, i) => {
+            const dt = new Date(
+              new Date(session?.date).toLocaleString("en-US", {
+                timeZone: "Asia/Calcutta",
+              })
+            );
+            const dt_e = new Date(
+              new Date(session?.date).toLocaleString("en-US", {
+                timeZone: "Asia/Calcutta",
+              })
+            );
+            dt_e.setHours(dt.getHours() + 2);
+            return (
+              <>
+                <MeetingModal
+                  meetingNumber={meetingData?.meetingNumber}
+                  name={meetingData?.topic}
+                  date={meetingData?.startTime}
+                  platform={meetingData?.platform}
+                  url={meetingData?.url}
+                  open={openMeetingConfirmation}
+                  setOpen={setOpenMeetingConfirmation}
+                />
+                <Card
+                  key={i}
+                  title={`Title: ${session.topic}`}
+                  style={{
+                    width: 300,
+                  }}
+                >
+                  <p>Description: {session.description}</p>
+                  {/* <p>Instructor: {session.instructor}</p> */}
+                  <Button 
+                  
+                  onClick={() => {
+
+
+
+                    setCurrentBatchId(session?.batch._id)
+
+                    // dispatch(setDayId(session?.day));
+                    // dispatch(setWeeksTrue(session?.week));
+                    // dispatch(setTypeOfBatch('classroom')); // hard coded here cause it will be always classroom
+                    setOpenMeetingConfirmation(true);
+                          setMeetingData({
+                            meetingNumber:
+                              session?.meeting[0]?.meetingNumber,
+                            name: session?.topic,
+                            date: session?.meeting[0]?.startTime,
+                            platform: session?.meeting[0]?.platform,
+                            url: session?.meeting[0]?.joinUrl,
+                      });
+
+
+
+
+                    if(new Date() < dt){
+                      notification.error({message: 'Meeting has not started yet'}); 
+                      // toast.error('Meeting has not started yet');
+                    }
+                    else if (new Date()>= dt && new Date() <= dt_e) {
+                      setCurrentBatchId(session?.batch._id)
+
+                      // dispatch(setDayId(session?.day));
+                      // dispatch(setWeeksTrue(session?.week));
+                      // dispatch(setTypeOfBatch('classroom')); // hard coded here cause it will be always classroom
+                      openMeetingConfirmation(true);
+                            setMeetingData({
+                              meetingNumber:
+                                session?.meeting[0]?.meetingNumber,
+                              name: session?.topic,
+                              date: session?.meeting[0]?.startTime,
+                              platform: session?.meeting[0]?.platform,
+                              url: session?.meeting[0]?.joinUrl,
+                        });
+                    } else notification.error({message: 'Meeting has ended'});
+                  }}
+                  
+                  type="primary">Join</Button>
+                </Card>
+              </>
+            );
+          })
+        : <div>
+          <h1 style={{textAlign:"center"}}>
+            No classes scheduled for this day
+          </h1>
+        </div>
+        }
       </Drawer>
     </div>
   );

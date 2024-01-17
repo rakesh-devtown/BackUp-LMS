@@ -1,8 +1,8 @@
 import React from 'react';
 import { Progress, Space } from 'antd';
-const ProgressBar = () => (
+const ProgressBar = ({percent  }) => (
   <Space wrap>
-    <Progress type="circle" percent={75} size={300} strokeWidth={15}/>    
+    <Progress type="circle" percent={percent} size={window.innerWidth < 1163 ? 200  :300} strokeWidth={10}/>    
   </Space>
 );
 export default ProgressBar;

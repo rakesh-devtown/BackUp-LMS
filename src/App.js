@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   LaptopOutlined,
   NotificationOutlined,
@@ -8,15 +8,16 @@ import {
 import {
   createBrowserRouter,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
 
-
-
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Layout, Menu, notification, theme } from "antd";
 import { StyledLayout } from "./styles/app.styles";
 import { FullScreenContent, StyledButton } from "./styles/shared.styles";
 import { routes } from "./routes";
 import useAuthStore from "./store/authStore";
+import useLoadingStore from "./store/loadingStore";
+import Loader from "./components/loader/Loader";
 const { Header, Content, Sider } = Layout;
 //router
 const router = createBrowserRouter(routes);
@@ -43,14 +44,31 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
   }
 );
 
-
 const App = () => {
-  const store = useAuthStore();
-  console.log(store);
+  const loading = useLoadingStore((state) => state.loading);
   return (
-    
-  <RouterProvider router={router} />
-  
-  )
- };
+    <>
+        {
+          loading && (
+            <div
+            
+            style={{
+              backgroundColor: '#BEE3F8', opacity: '0.3', display: 'flex',
+              width: "100vw",
+              height: "100vh",
+              position: "fixed",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: "100",
+            }}
+          >
+            <Loader />
+          </div>
+          )
+        }   
+        <RouterProvider router={router} />
+   
+    </>
+  );
+};
 export default App;
