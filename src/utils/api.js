@@ -72,3 +72,18 @@ export const serviceDelete = async (path, headers) => {
             });
     });
 };
+export const serviceGetWithCustomResponse = async (path, headers , responseType) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`${!TEST_MODE?`${SERVICE_URL}/${path}`:path.split('/').shift()==='student'?`http://localhost:8083${path.slice(7)}`:`http://localhost:8080${path.slice(4)}`}`, {
+                headers: headers,
+                ...responseType,
+            })
+            .then(function (response) {
+                resolve(response.data);
+            })
+            .catch(function (error) {
+                reject(error);
+            });
+    });
+};

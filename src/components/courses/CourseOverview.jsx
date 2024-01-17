@@ -23,6 +23,7 @@ import { set } from "date-fns";
 import MeetingModal from "../Meetings/MeetingModal";
 import { FilePdfFilled, PlayCircleFilled } from "@ant-design/icons";
 import ModalVideo from "react-modal-video";
+import YouTubeIframe from "./YouTubeIframe";
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -185,8 +186,8 @@ const CourseOverview = ({ events }) => {
             title="YouTube video player"
             src={VideoID}
           ></iframe> */}
-
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/xopvkx6CpNs?si=ic_UGTf5K8MBThmO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <YouTubeIframe VideoId={VideoID} />
+          {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/xopvkx6CpNs?si=ic_UGTf5K8MBThmO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
           {/* <ModalVideo
             channel="youtube"
             autoplay

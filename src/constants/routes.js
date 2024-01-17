@@ -19,4 +19,5 @@ export const routeDefinitions = {
     File:'file',
     SessionLimit:'/auth/session-limit', 
     MESSAGE: 'message',
+    Download: 'download/:certId',
 }

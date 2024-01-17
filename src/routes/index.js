@@ -18,6 +18,7 @@ import IndexScreen from "../components/Dev/IndexScreen";
 import DevScreen from "../components/Dev/DevScreen";
 import Meeting from "../components/Meetings/Meeting";
 import MeetingEnded from "../components/Meetings/MeetingEnded";
+import DownloadCertificate from "../components/DevtownCertificates/DownloadCertificate";
 export const routes =
 [{
     
@@ -110,7 +111,11 @@ export const routes =
             {
                 path : routeDefinitions.MESSAGE,
                 element : <DiscussionLayout/>
-            }
+            },
+            {
+                path: routeDefinitions.Download,
+                element: <DownloadCertificate/>
+            },
         ],
     },
     {

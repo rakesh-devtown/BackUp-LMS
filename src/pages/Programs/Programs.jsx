@@ -153,6 +153,7 @@ const Programs = () => {
           style={{
             display: "flex",
             justifyContent: "start",
+            alignItems:"stretch",
           }}
         >
           {batch.map((batch, idx) => (
@@ -160,6 +161,9 @@ const Programs = () => {
               key={batch._id}
               style={{
                 paddingBottom: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "stretch",
               }}
             >
               <Card
