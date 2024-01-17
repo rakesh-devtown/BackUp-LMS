@@ -12,8 +12,15 @@ import SessionLimit from "../pages/Auth/SessionLimit";
 import { ProtectedRoute } from "../pages/Auth/RouteProtection/protectedRoute";
 import AuthWrapper from "../Wrapper/AuthWrapper";
 import ForgetPass from "../pages/Auth/ForgetPass"
+import DiscussionLayout from "../pages/Message/DiscussionLayout";
+import DevArea from "../pages/DevArea/DevArea";
+import IndexScreen from "../components/Dev/IndexScreen";
+import DevScreen from "../components/Dev/DevScreen";
+import Meeting from "../components/Meetings/Meeting";
+import MeetingEnded from "../components/Meetings/MeetingEnded";
 export const routes =
 [{
+    
     path: routeDefinitions.AUTH,
     // element:<Outlet/>,
     element:<AuthWrapper/>,
@@ -46,8 +53,8 @@ export const routes =
         children: [
             {
                 path: routeDefinitions.INDEX,
-                element: <h1>index</h1>,
-                // element:<CourseOverview/>
+                // element: <h1>index</h1>,
+                element:<CourseOverview/>
             },
             {
                 path:  routeDefinitions.PROGRAMS,
@@ -82,11 +89,15 @@ export const routes =
             },
             {
                 path: routeDefinitions.Meeting,
-                element: <h1>meeting</h1>,
+                element: <Meeting/>,
+            },
+            {
+                path: routeDefinitions.MeetingEnded,
+                element: <MeetingEnded/>,
             },
             {
                 path: routeDefinitions.Practice,
-                element: <h1>coming soon</h1>,
+                element: <h1>Coming soon</h1>,
             },
             {
                 path: routeDefinitions.Me,
@@ -96,20 +107,26 @@ export const routes =
                 path: routeDefinitions.Video,
                 element: <VideoDetail/>,
             },
+            {
+                path : routeDefinitions.MESSAGE,
+                element : <DiscussionLayout/>
+            }
         ],
     },
     {
         path: routeDefinitions.Tree,
-        element:<Outlet/>,
+        element:<DevArea/>,
         children:[
             {
                 path:routeDefinitions.INDEX,
-                element:<h1>tree index</h1>
+                element:<IndexScreen/>
             },
+
             {
                 path:routeDefinitions.File,
-                element:<h1>tree file</h1>
+                element:<DevScreen/>
             },
         ]
-    }
+    },
+    
 ]

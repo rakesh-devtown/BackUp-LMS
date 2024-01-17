@@ -1,189 +1,193 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { Typography } from "antd";
+import { Typography, notification } from "antd";
 import {
   FormOutlined,
   GithubOutlined,
   LinkedinOutlined,
   EditOutlined,
   PlusOutlined,
-  LinkOutlined
+  LinkOutlined,
 } from "@ant-design/icons";
+import { formatDate } from "../../components/courses/CourseOverview";
+import Dot from "../../assets/images/Ellipse.svg";
 
-import Dot from '../../assets/images/Ellipse.svg'
+import {
+  StyledHeader,
+  StyledTitle,
+  StyledDownloadText,
+  StyledContentContainer,
+  StyledAvatar,
+  OnlyFlexCol,
+  OnlyFlex,
+  OnlyFlexM,
+  OnlySpaceBetween,
+  OnlySpaceBetweenM,
+  OnlyGap,
+  StyledContent,
+  StyledSectionSeparator,
+  StyledEditIcon,
+  StyledLocation,
+  StyledGenericText,
+  StyledSubText,
+  StyledDot,
+  StyledSubContent,
+  StyledInfo,
+  StyledHeading,
+  StyledSkillsBg,
+  StyledEachSkill,
+  StyledProfileBox,
+} from "../../styles/profile.styles";
+import useAuthStore from "../../store/authStore";
+import { serviceGet } from "../../utils/api";
+import { setHeader } from "../../utils/header";
+import ProfileModal from "../../components/ProfileModals/ProfileModal";
+// import EducationModal from "../../components/ProfileModals/EducationModal";
+import AboutMe from "../../components/ProfileModals/AboutMe";
+import ProfileComponent from "../../components/ProfileModals/ProfileComponent";
+import useWindowSize from "../../hooks/useWindowSixe";
+import DevtownCertificates from "../../components/DevtownCertificates/DevtownCertificates";
+const Profile = () => {
+   // const user = useSelector(profileState);
+  //  const dispatch = useDispatch();
+  const {width} = useWindowSize();
+   const [profile, setprofile] = useState({
+     firstName: "",
+     lastName: "",
+     mobile: "",
+     image: "",
+     email: "",
+     address: {
+       city: "",
+       pincode: "",
+       state: "",
+     },
+   });
+   const getProfile = async () => {
+    try {
+      setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+        const {
+            success,
+            data: { student },
+        } = await serviceGet("student/student-api/v1/me");
+        if (success) {
+          notification.success({
+            message: "Success",
+            description: "Student Details fetched",
+          });
 
-import { StyledHeader,StyledTitle,StyledDownloadText,StyledContentContainer,StyledAvatar,OnlyFlexCol,OnlyFlex,OnlyFlexM
-,OnlySpaceBetween,OnlySpaceBetweenM,OnlyGap,StyledContent,StyledSectionSeparator,
-StyledEditIcon,StyledLocation,StyledGenericText,StyledSubText,StyledDot,StyledSubContent,StyledInfo,StyledHeading,
-StyledSkillsBg,StyledEachSkill,StyledProfileBox } from "../../styles/profile.styles";
+            // toast.success('Student Details fetched');
+            return student;
+        }
+    } catch (error) {
+        // toast.error(error.response);
+        notification.error({
+            message: "Error",
+            description: error.message,
+        });
+        return null;
+    }
+};
+   //function which gets the student profile
+   const about = async () => {
+    //  dispatch(setLoadingTrue());
+     const student = await getProfile(); //gets the student profile
+     // console.log(student)
+     const skills = student?.skill ? student.skill : [];
+     setprofile({
+       about: {
+         firstName: student?.firstName,
+         lastName: student?.lastName,
+         mobile: student?.mobile,
+         email: student?.email,
+         address: student?.address,
+         image: student?.image,
+         resume: student?.resume,
+         githubLink: student?.githubLink,
+         blogLink: student?.blogLink,
+         leetCode: student?.leetCode,
+         codeChef: student?.codeChef,
+         codeForce: student?.codeForce,
+         profileComplete: student?.profileComplete,
+       },
+       edu: {
+         education: student?.education,
+       },
+       proj: {
+         projects: student?.projects,
+       },
+       workex: {
+         experience: student?.experience,
+       },
+       cert: {
+         certificate: student?.certificate,
+       },
+       ski: {
+         skill: skills,
+       },
+     });
+    //  dispatch(setLoadingFalse());
+   };
+ 
+   useEffect(() => {
+     about();
+   }, []);
 
-const Profile = () => (
-  <StyledProfileBox>
-    <StyledHeader>
-      <StyledTitle level={2}>My Profile</StyledTitle>
-      <StyledDownloadText>Download Resume</StyledDownloadText>
-    </StyledHeader>
-    <StyledContentContainer>
-    <OnlyFlex>
-
-      <StyledContent>
-        <OnlyFlexM>
-          <StyledAvatar
-            src="https://student-platform-assets.s3.ap-south-1.amazonaws.com/profile-pictures/36ee23beb4ed63a7f4513d8aae5e688d.jpeg"
-            alt="Avatar"
+  return (
+  
+<div style={{backgroundColor: '#FFFFFF', paddingBottom: '2rem' , fontSize:"20px"}}>
+  
+  <div
+    style={{backgroundColor: '#e5e3e3', marginTop: '5rem', marginBottom: '5rem', paddingBottom: '1.5rem', borderRadius: '0.375rem', width: '100%', maxWidth: width<700 ? '100%' : '75%', height: !profile?.about?.profileComplete ? '700px' : 'fit-content', margin: width < 768 ? 0 : '0 auto', }}
+  >
+    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem'}}>
+      <p style={{color: '#302F2F', fontSize: '1.875rem', fontWeight: '700', fontFamily: 'DM Sans'}}>My Profile</p>
+      {/* if resume link exists then only show option to download it */}
+      {profile?.about?.resume && (
+        <a href={profile?.about?.resume}>
+          <p style={{color: '#9865E8', fontWeight: '700', fontFamily: 'DM Sans', textDecoration: 'underline', cursor: 'pointer'}}>
+            Download Resume
+          </p>
+        </a>
+      )}
+    </div>
+    <div style={{backgroundColor: '#FFFFFF', margin: '0 2rem'}}>
+      <AboutMe about={about} profile={profile?.about} />
+      {profile?.about?.profileComplete && ( // Check if profile is complete, if yes then only show other components for workex, education, projects, skills, certificates
+        <>
+          <DevtownCertificates />
+          <ProfileComponent
+            about={about}
+            experience={profile?.workex}
+            text="Work Experience"
           />
-          <div>
-            <StyledGenericText level={3}>Saumya Agarwal</StyledGenericText>
-            <StyledLocation>Ghaziabad, Uttar Pradesh - 201017</StyledLocation>
-          </div>
-        </OnlyFlexM>
-      </StyledContent>
-      <EditOutlined style={{ fontSize: "20px", color: "#818181" }} />
-</OnlyFlex>
-      <StyledSectionSeparator />
-      <StyledGenericText level={3}>Contact Information</StyledGenericText>
-      <StyledContent>
-        <OnlySpaceBetweenM>
-          <OnlyFlexCol>
-            <StyledSubText>Email</StyledSubText>
-            <StyledSubContent>Saumyaagrawal106@gmail.com</StyledSubContent>
-          </OnlyFlexCol>
-          <OnlyFlexCol>
-            <StyledSubText>Phone No</StyledSubText>
-            <StyledSubContent>8957242825</StyledSubContent>
-          </OnlyFlexCol>
-          <OnlyFlexCol>
-            <StyledSubText>Extra Details</StyledSubText>
-            <StyledSubContent>
-              <GithubOutlined /> <LinkedinOutlined />
-            </StyledSubContent>
-          </OnlyFlexCol>
-        </OnlySpaceBetweenM>
-      </StyledContent>
-      <StyledSectionSeparator />
-      <OnlySpaceBetween>
-        <StyledGenericText level={3}>Work Experience</StyledGenericText>
-        <PlusOutlined style={{ fontSize: "20px", color: "#818181" }} />
-      </OnlySpaceBetween>
-      <StyledContent>
-          <OnlySpaceBetween>
-            <StyledHeading level={4}>Organisation's Name</StyledHeading>
-            <EditOutlined style={{ fontSize: "20px", color: "#818181" }} />
-          </OnlySpaceBetween>
-          </StyledContent>
-          <OnlyFlex>
-            <StyledSubText>React Developer</StyledSubText>
-            <LinkOutlined />
-            {/* <StyledDot>.</StyledDot> */}
-            <img src={Dot} alt="bullet"/>
-            <StyledSubText>July 2023 - September 2023</StyledSubText>
-          </OnlyFlex>
-          <StyledInfo>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia accusantium architecto 
-            omnis? Sed ullam repellendus quos fuga vel reiciendis ab ipsum et beatae, perspiciatis
-             expedita veniam ratione laudantium tempora aut!
-          </StyledInfo>
-          <StyledSectionSeparator/>
-          <OnlySpaceBetween>
-        <StyledGenericText level={3}>Education </StyledGenericText>
-        <PlusOutlined style={{ fontSize: "20px", color: "#818181" }} />
-      </OnlySpaceBetween>
-      <OnlySpaceBetween>
-        
-      <StyledContent>
-      <OnlyFlex>
-            <StyledHeading level={4}>Institute's Name</StyledHeading>
-            {/* <StyledDot>.</StyledDot> */}
-            <img src={Dot} alt="bullet"/>
-            <StyledSubText>March 2018 - March 2020</StyledSubText>
-            </OnlyFlex>
-      </StyledContent>
-      <EditOutlined style={{ fontSize: "20px", color: "#818181" }} />
-      
-      </OnlySpaceBetween> 
-      <StyledInfo>
-        Grade : CGPA 80%
-        </StyledInfo>
-        <OnlySpaceBetween>
-      <StyledContent>
-      <OnlyFlex>
-            <StyledHeading level={4}>Institute's Name</StyledHeading>
-            {/* <StyledDot>.</StyledDot> */}
-            <img src={Dot} alt="bullet"/>
-            <StyledSubText>March 2018 - March 2020</StyledSubText>
-            </OnlyFlex>
-      </StyledContent>
-      <EditOutlined style={{ fontSize: "20px", color: "#818181" }} />
-      </OnlySpaceBetween> 
-      <StyledInfo>
-        Grade : CGPA 80%
-        </StyledInfo>
-        <StyledSectionSeparator/>
-        <OnlySpaceBetween>
-        <StyledGenericText level={3}>Projects </StyledGenericText>
-        <PlusOutlined style={{ fontSize: "20px", color: "#818181" }} />
-      </OnlySpaceBetween>
-      <OnlySpaceBetween>
-      <StyledContent>
-      <OnlyFlex>
-            <StyledHeading level={4}>Project Name</StyledHeading>
-            <GithubOutlined/>
-            <LinkOutlined/>
-            {/* <StyledDot>.</StyledDot> */}
-            <img src={Dot} alt="bullet"/>
-            <StyledSubText>January 2021 - March 2021</StyledSubText>
-            </OnlyFlex>
-      </StyledContent>
-      <EditOutlined style={{ fontSize: "20px", color: "#818181" }} />
-      </OnlySpaceBetween> 
-      <StyledInfo>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde quasi facere veniam delectus. Labore ipsum maxime 
-        consectetur. Ullam sint aspernatur dicta suscipit, repudiandae quos esse, consequuntur fuga quidem eveniet molestiae.
-        </StyledInfo>
-          <StyledSectionSeparator/>
-          <OnlySpaceBetween>
-        <StyledGenericText level={3}>Certificates</StyledGenericText>
-        <PlusOutlined style={{ fontSize: "20px", color: "#818181" }} />
-      </OnlySpaceBetween>
-      <StyledContent>
-          <OnlySpaceBetween>
-            <StyledHeading level={4}>Certificate Name</StyledHeading>
-            <EditOutlined style={{ fontSize: "20px", color: "#818181" }} />
-          </OnlySpaceBetween>
-          </StyledContent>
-          <StyledContent>
-          <OnlyFlex>
-            <StyledSubText>Certificate credential</StyledSubText>
-            <LinkOutlined />
-            {/* <StyledDot>.</StyledDot> */}
-            <img src={Dot} alt="bullet"/>
-            <StyledSubText>July 2023 - September 2023</StyledSubText>
-            </OnlyFlex>
-          </StyledContent>
-          <StyledInfo>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia accusantium architecto 
-            omni
-          </StyledInfo>
-          <StyledSectionSeparator/>
-          <OnlySpaceBetween>
-        <StyledGenericText level={3}>Skills</StyledGenericText>
-        <PlusOutlined style={{ fontSize: "20px", color: "#818181" }} />
-      </OnlySpaceBetween>
-          <StyledSkillsBg>
-            <StyledEachSkill>Python</StyledEachSkill>
-            <StyledEachSkill>c++</StyledEachSkill>
-            <StyledEachSkill>Frontend Development</StyledEachSkill>
-            <StyledEachSkill>Python</StyledEachSkill>
-            <StyledEachSkill>Python</StyledEachSkill>
-            <StyledEachSkill>Python</StyledEachSkill>
-            <StyledEachSkill>abcde</StyledEachSkill>
-            <StyledEachSkill>Python</StyledEachSkill>
-            <StyledEachSkill>Python</StyledEachSkill>
-            <StyledEachSkill>Python</StyledEachSkill>
-            <StyledEachSkill>Python</StyledEachSkill>
-          </StyledSkillsBg>    
-    </StyledContentContainer>
-  </StyledProfileBox>
-);
+          <ProfileComponent
+            about={about}
+            education={profile?.edu}
+            text="Education"
+          />
+          <ProfileComponent
+            about={about}
+            project={profile?.proj}
+            text="Projects"
+          />
+          <ProfileComponent
+            about={about}
+            certificate={profile?.cert}
+            text="Certificates"
+          />
+          <ProfileComponent
+            about={about}
+            skill={profile?.ski}
+            text="Skills"
+          />
+        </>
+      )}
+    </div>
+  </div>
+</div>
+
+  );
+};
 
 export default Profile;

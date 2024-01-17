@@ -1,210 +1,199 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card, Col, Row } from "antd";
 import { Input, Space, Button, Layout } from "antd";
 import { Typography } from "antd";
 import { Progress } from "antd";
 import { Tabs } from "antd";
-import { Link } from "react-router-dom";
-import { routeDefinitions } from "../../constants/routes";
-import { FullScreenContent, StyledButton } from "../../styles/shared.styles";
-const onChange = (key) => {
-  console.log(key);
-};
+import useProgramStore from "../../store/programStore";
+import { Link, useNavigate } from "react-router-dom";
+import useBatchStore from "../../store/batchStore";
+import useAuthStore from "../../store/authStore";
+import useLoadingStore from "../../store/loadingStore";
+
 const { Title } = Typography;
 const { Search } = Input;
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 const { Meta } = Card;
 
-const Programs = () => (
-  <Layout>
-    <Title style={{ padding: "10px 0px" }}> My Programs</Title>
-    <Tabs
-      onChange={onChange}
-      type="card"
-      style={{
-        padding: "10px 0px",
-        display: "flow",
-        flexDirection: "column",
-        gap: "20px",
-      }}
-      items={new Array(3).fill(null).map((_, i) => {
-        const id = String(i + 1);
-        return {
-          label: `Tab ${id}`,
-          key: id,
-          // children: `Content of Tab Pane ${id}`,
-        };
-      })}
-    />
-    <Space direction="vertical">
-      <Row gutter={24}>
-        <Col
-          span={8}
+const arr = [
+  { type: "all", name: "All Courses" },
+  { type: "bootcamp", name: "Bootcamps" },
+  { type: "classroom", name: "Classrooms" },
+  { type: "video", name: "Videos" },
+];
+
+const Programs = () => {
+  
+  const [type, setType] = useState("all");
+  const [batch, setBatches] = useState([]); 
+  const navigate = useNavigate();
+
+  const name = useProgramStore(state => state.name);
+  const getCurrentBatch = useBatchStore((state) => state.getCurrentBatch);
+  const allBatches = useProgramStore(state  => state.allBatches)
+  const getAllbatches = useProgramStore.getState().getAllbatches;
+  const setCurrentBatchId = useBatchStore(state => state.setCurrentBatchId);
+  const setLoading = useLoadingStore(state => state.setLoading);
+  const handleGetAllBatches = useCallback(async () => {
+    setLoading(true);
+     await getAllbatches();
+     setLoading(false);
+  }, [getAllbatches, setLoading]);
+
+
+  const handleGetBatches = useCallback( () => {
+    if (type === "all") {
+      if (name === "") setBatches(allBatches);
+      else
+        setBatches(
+          allBatches.filter((batch) => {
+            if (batch?.name.toLowerCase().includes(name.toLowerCase()))
+              return batch;
+          })
+        );
+    } else {
+      if (name === "")
+        setBatches(
+          allBatches.filter((batch) => {
+            if (batch.course.courseType === type) return batch;
+          })
+        );
+      else
+        setBatches(
+          allBatches.filter((batch) => {
+            if (
+              batch.course.courseType === type &&
+              batch?.name.toLowerCase().startsWith(name.toLowerCase())
+            )
+              return batch;
+          })
+        );
+    }
+  }, [allBatches, name, type]
+  )
+
+  const handleNavigate = async  ( id  ,courseType ) =>  {
+    console.log(id , courseType)
+    setCurrentBatchId(id); 
+    await getCurrentBatch(id); 
+    
+
+    navigate(`${courseType=== "classroom" ? "/program" : "/video"}`)
+
+  }
+  useEffect(() => {
+
+    handleGetBatches();
+
+  }, [type, handleGetBatches, name ,allBatches]);
+  useEffect(() => {
+
+    handleGetAllBatches();
+  }, [handleGetAllBatches]);
+
+
+  if (!batch.length)
+    return (
+      <Layout>
+        <Title style={{ padding: "10px 0px" }}> My Programs</Title>
+
+        <Tabs
+          onChange={(key) => {
+            setType(key);
+          }}
+          type="card"
           style={{
-            paddingBottom: "10px",
+            padding: "10px 0px",
+            display: "flow",
+            flexDirection: "column",
+            gap: "20px",
           }}
         >
-          <Card
-            hoverable
-            style={{
-              width: 300,
-            }}
-            cover={
-              <img
-                alt="example"
-                src="https://student-platform-assets.s3.ap-south-1.amazonaws.com/course-images/Screenshot+2022-06-17+at+2.26.45+PM.png"
-                height="176px"
-                width="full"
-              />
-            }
-          >
-            <Progress percent={50} status="active" />
-            <div
+          {arr.map((item, i) => (
+            <Tabs.TabPane tab={item.name} key={item.type} />
+          ))}
+        </Tabs>
+        <Space direction="vertical">
+          <Row gutter={24}>
+            <Title
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "start",
+                margin: "auto",
               }}
             >
-              <Meta title="Course Video" description="video" />
-              <Button type="primary"> Continue</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col
-          span={8}
+              No batches in this Section{" "}
+            </Title>
+          </Row>
+        </Space>
+      </Layout>
+    );
+
+  return (
+    <Layout>
+      <Title style={{ padding: "10px 0px" }}> My Programs</Title>
+
+      <Tabs
+        onChange={(key) => {
+          setType(key);
+        }}
+        type="card"
+        style={{
+          padding: "10px 0px",
+          display: "flow",
+          flexDirection: "column",
+          gap: "20px",
+        }}
+      >
+        {arr.map((item, i) => (
+          <Tabs.TabPane tab={item.name} key={item.type} />
+        ))}
+      </Tabs>
+      <Space direction="vertical">
+        <Row
+          gutter={24}
           style={{
-            paddingBottom: "10px",
+            display: "flex",
+            justifyContent: "start",
           }}
         >
-          <Card
-            hoverable
-            style={{
-              width: 300,
-            }}
-            cover={
-              <img
-                alt="example"
-                src="https://student-platform-assets.s3.ap-south-1.amazonaws.com/course-images/Screenshot+2022-06-17+at+2.26.45+PM.png"
-                height="176px"
-                width="full"
-              />
-            }
-          >
-            <Progress percent={50} status="active" />
-            <div
+          {batch.map((batch, idx) => (
+            <Col
+              key={batch._id}
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "start",
+                paddingBottom: "10px",
               }}
             >
-              <Meta title="Course Video" description="video" />
-              <Button type="primary">Primary Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col
-          span={8}
-          style={{
-            paddingBottom: "10px",
-          }}
-        >
-          <Card
-            hoverable
-            style={{
-              width: 300,
-            }}
-            cover={
-              <img
-                alt="example"
-                src="https://student-platform-assets.s3.ap-south-1.amazonaws.com/course-images/Screenshot+2022-06-17+at+2.26.45+PM.png"
-                height="176px"
-                width="full"
-              />
-            }
-          >
-            <Progress percent={50} status="active" />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "start",
-              }}
-            >
-              <Meta title="Course Video" description="video" />
-              <Button type="primary">Primary Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col
-          span={8}
-          style={{
-            paddingBottom: "10px",
-          }}
-        >
-          <Card
-            hoverable
-            style={{
-              width: 300,
-            }}
-            cover={
-              <img
-                alt="example"
-                src="https://student-platform-assets.s3.ap-south-1.amazonaws.com/course-images/Screenshot+2022-06-17+at+2.26.45+PM.png"
-                height="176px"
-                width="full"
-              />
-            }
-          >
-            <Progress percent={50} status="active" />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "start",
-              }}
-            >
-              <Meta title="Course Video" description="video" />
-              <Button type="primary">Primary Button</Button>
-            </div>
-          </Card>
-        </Col>
-        <Col
-          span={8}
-          style={{
-            paddingBottom: "10px",
-          }}
-        >
-          <Card
-            hoverable
-            style={{
-              width: 300,
-            }}
-            cover={
-              <img
-                alt="example"
-                src="https://student-platform-assets.s3.ap-south-1.amazonaws.com/course-images/Screenshot+2022-06-17+at+2.26.45+PM.png"
-                height="176px"
-                width="full"
-              />
-            }
-          >
-            <Progress percent={50} status="active" />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "start",
-              }}
-            >
-              <Meta title="Course Video" description="video" />
-              <Button type="primary">Primary Button</Button>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-    </Space>
-  </Layout>
-);
+              <Card
+                hoverable
+                style={{
+                  width: 300,
+                }}
+                cover={
+                  <img
+                    alt="example"
+                    src={batch?.course?.image}
+                    height="176px"
+                    width="full"
+                  />
+                }
+              >
+                <Progress percent={50} status="active" />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "start",
+                  }}
+                >
+                  <Meta title={batch?.name} description={batch?.description} />
+                 
+                    <Button onClick={()=> handleNavigate(batch._id , batch?.course?.courseType) } type="primary"> Continue</Button>
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Space>
+    </Layout>
+  );
+};
 export default Programs;

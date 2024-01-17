@@ -7,8 +7,8 @@ import { devtools } from "zustand/middleware";
 
 const useAuthStore = create(
   devtools((set) => ({
-    token: null,
-    chatToken: null,
+    token: localStorage.getItem("token")? (localStorage.getItem("token")) : null ,
+    chatToken: localStorage.getItem("chatToken")? (localStorage.getItem("chatToken")) : null,
     isAuthenticated: false,
     isGoogleAuthenticated: false,
     user: null,
@@ -30,10 +30,13 @@ const useAuthStore = create(
       try {
         const fp = await FingerprintJS.load();
         const { visitorId } = await fp.get();
+        
+        
         const res = await servicePost("auth/auth-api/v1/login?type=student", {
           ...values,
           signature: visitorId,
-        });
+        }, );
+        
         const {
           data: { user, token, chatToken },
           message,
@@ -41,17 +44,24 @@ const useAuthStore = create(
         } = res;
         if (success) {
           console.log("success: true");
-          notification.success({ message: 'Login Success', description: `Hey ${user.firstName} Welcome back` });
+          set({
+            user
+          })
+          notification.success({
+            message: "Login Success",
+            description: `Hey ${user.firstName} Welcome back`,
+          });
 
           // message.success(`Hey ${user.firstName} Welcome back`, { duration: 4000 });
           localStorage.setItem("token", token);
+          localStorage.setItem("chatToken", chatToken);
           setHeader("signature", visitorId);
           setHeader("auth", `bearer ${token}`);
           useAuthStore.getState().reset(token, chatToken, user);
         } else {
           // console.log("else");
 
-          notification.error({ message: 'Login Error', description: message });
+          notification.error({ message: "Login Error", description: message });
           if (message === "Too many active sessions") {
             localStorage.setItem("token", token);
             setHeader("auth", `bearer ${token}`);
@@ -74,7 +84,10 @@ const useAuthStore = create(
         }
       } catch (error) {
         deleteHeader("auth");
-        notification.error({ message: 'Login Error', description: 'An error occurred during login' });
+        notification.error({
+          message: "Login Error",
+          description: "An error occurred during login",
+        });
 
         //console.log("error: goes to catch block",error);
         set({
@@ -99,7 +112,10 @@ const useAuthStore = create(
           success,
         } = res;
         if (success) {
-          notification.success({ message: 'Login Success', description: `Hey ${user.firstName} Welcome back` });
+          notification.success({
+            message: "Login Success",
+            description: `Hey ${user.firstName} Welcome back`,
+          });
 
           const { firstName = "", lastName = "", email = "" } = user;
           // message.success(`Hey ${firstName} Welcome back`, { duration: 4000 });
@@ -108,10 +124,11 @@ const useAuthStore = create(
           setHeader("auth", `bearer ${token}`);
           set({ token, chatToken, user, isGoogleAuthenticated: true });
         } else {
-          notification.error({ message: 'Login Error', description: message });
+          notification.error({ message: "Login Error", description: message });
 
           // message.error(message, { duration: 4000 });
           if (message === "Too many active sessions") {
+            localStorage.setItem('token', token);
             setHeader("auth", `bearer ${token}`);
             set({
               token,
@@ -132,8 +149,10 @@ const useAuthStore = create(
       } catch (error) {
         console.log(error);
         deleteHeader("auth");
-        notification.error({ message: 'Login Error', description: 'An error occurred during login' });
-
+        notification.error({
+          message: "Login Error",
+          description: "An error occurred during login",
+        });
       }
     },
     // googleLogin: async (credential) => {
@@ -188,6 +207,7 @@ const useAuthStore = create(
         const fp = await FingerprintJS.load();
         const { visitorId } = await fp.get();
         const {
+          success , 
           data: { user, chatToken },
         } = await serviceGet(
           `auth/auth-api/v1/verifyAuthToken?u=student&token=${token}&signature=${visitorId}`
@@ -195,6 +215,7 @@ const useAuthStore = create(
         if (user) {
           setHeader("auth", `bearer ${token}`);
           setHeader("signature", visitorId);
+          localStorage.setItem("chatToken", chatToken)
           set({
             token,
             chatToken,
@@ -202,6 +223,8 @@ const useAuthStore = create(
             isAuthenticated: true,
             isGoogleAuthenticated: true,
           });
+          return success; 
+
         } else {
           deleteHeader("auth");
           set({
@@ -211,6 +234,8 @@ const useAuthStore = create(
             isAuthenticated: false,
             isGoogleAuthenticated: false,
           });
+          return success;
+          
         }
       } catch (error) {
         deleteHeader("auth");
@@ -221,6 +246,7 @@ const useAuthStore = create(
           isAuthenticated: false,
           isGoogleAuthenticated: false,
         });
+        return false;
       }
     },
     logout: () => {

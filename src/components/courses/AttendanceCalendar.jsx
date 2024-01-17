@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Calendar, Menu,  theme  } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Calendar, Menu, notification, theme } from "antd";
 import {
   addDays,
   subDays,
@@ -8,138 +8,114 @@ import {
   startOfMonth,
   endOfMonth,
   isWithinInterval,
-} from 'date-fns';
-
+} from "date-fns";
 
 import {
   customMenuStyle,
   dateInputsStyle,
   inputStyle,
   highlightedDateCellStyle,
-} from '../../styles/AttendanceCalendar.styles.js';
-import Title from 'antd/es/typography/Title.js';
-import ProgressBar from './ProgressBar.jsx';
+} from "../../styles/AttendanceCalendar.styles.js";
+import Title from "antd/es/typography/Title.js";
+import ProgressBar from "./ProgressBar.jsx";
+import AttendanceTable from "./AtttendanceTable.jsx";
+import { serviceGet } from "../../utils/api.js";
+import useBatchStore from "../../store/batchStore.js";
+import { setHeader } from "../../utils/header.js";
+import useLoadingStore from "../../store/loadingStore.js";
 
 function AttendanceCalendar() {
-    const { token } = theme.useToken();
-    const wrapperStyle = {
-        width: 300,
-        border: `1px solid ${token.colorBorderSecondary}`,
-        borderRadius: token.borderRadiusLG,
-      };
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [daysUpToToday, setDaysUpToToday] = useState(0);
-  const [daysStartingToday, setDaysStartingToday] = useState(0);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  const handleDaysUpToTodayChange = (e) => {
-    const days = parseInt(e.target.value, 10);
-    setDaysUpToToday(days);
-  };
-
-  const handleDaysStartingTodayChange = (e) => {
-    const days = parseInt(e.target.value, 10);
-    setDaysStartingToday(days);
-  };
-  
-
-  const selectToday = () => {
-    handleDateChange(new Date());
-  };
-
-  const selectYesterday = () => {
-    handleDateChange(subDays(new Date(), 1));
-  };
-
-  const selectThisWeek = () => {
-    const startDate = startOfWeek(new Date(), { weekStartsOn: 1 });
-    const endDate = endOfWeek(new Date(), { weekStartsOn: 1 });
-    handleDateChange({ startDate, endDate });
-  };
-
-  const selectLastWeek = () => {
-    const startDate = startOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 });
-    const endDate = endOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 });
-    handleDateChange({ startDate, endDate });
-  };
-
-  const selectThisMonth = () => {
-    const startDate = startOfMonth(new Date());
-    const endDate = endOfMonth(new Date());
-    handleDateChange({ startDate, endDate });
-  };
-
-  const dateCellRender = (date) => {
-    if (
-      daysUpToToday > 0 &&
-      isWithinInterval(date, subDays(new Date(), daysUpToToday), new Date())
-    ) {
-      return <div style={highlightedDateCellStyle} />;
+  const [data, setData] = useState([]);
+  const currentBatchId = useBatchStore((state) => state.currentBatchId);
+  const [chartData, setChartData] = useState({});
+  const setLoading = useLoadingStore((state) => state.setLoading);
+  const handleGetAttendance = async () => {
+    try {
+      setLoading(true)
+      setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+      const {
+        data: { sessions },
+      } = await serviceGet(
+        `student/student-api/v1/batch/attendance?batchId=${currentBatchId}`
+      );
+      const thresholdToAttendance = 1800;
+      if (sessions) {
+        setData(
+          sessions
+            // uncomment this
+            .filter((s) => {
+              return new Date(s.date) < Date.now();
+            })
+            .map((s) => {
+              return {
+                topic: s?.topic,
+                date: new Date(s.date),
+                attendance:
+                  !s?.attendance ||
+                  s?.attendance?.duration / 60 < s?.sessionDuration * 0.7 ||
+                  s?.attendance?.duration < thresholdToAttendance
+                    ? false
+                    : true,
+                sessionDuration: s?.sessionDuration,
+                partialPresence: s?.sessionDuration
+                  ? s?.attendance?.duration / 60 < s?.sessionDuration * 0.7
+                  : s?.attendance?.duration < thresholdToAttendance,
+                duration: s?.attendance?.duration / 60,
+              };
+            })
+        );
+      }
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: error.message,
+      });
+    } finally{
+      setLoading(false)
     }
-    if (
-      daysStartingToday > 0 &&
-      isWithinInterval(date, new Date(), addDays(new Date(), daysStartingToday))
-    ) {
-      return <div style={highlightedDateCellStyle} />;
-    }
-    return null;
   };
+  useEffect(() => {
+    const totalClasses = data.length;
+    const attendedClasses = data.filter((item) => item.attendance).length;
+    const percentage = ((attendedClasses / totalClasses) * 100).toFixed(2);
 
+    setChartData({
+      totalClasses,
+      attendedClasses,
+      percentage,
+    });
+
+  }, [data]);
+  console.log(chartData)
+  useEffect(() => {
+    handleGetAttendance();
+  }, []);
   return (
     <div>
-    <Title level={4}>Attendence</Title>
-    <div style={{display:'flex', justifyContent:'space-between'}} >
-    
-    <div style={{display:'flex'}}>
-    
-      <div style={customMenuStyle}>
-        <Menu mode="vertical">
-          <Menu.Item onClick={selectToday}>Today</Menu.Item>
-          <Menu.Item onClick={selectYesterday}>Yesterday</Menu.Item>
-          <Menu.Item onClick={selectThisWeek}>This Week</Menu.Item>
-          <Menu.Item onClick={selectLastWeek}>Last Week</Menu.Item>
-          <Menu.Item onClick={selectThisMonth}>This Month</Menu.Item>
-        </Menu>
-        <div style={dateInputsStyle}>
-        <div style={{display:'flex',alignContent:'center',alignItems:'center'}}>
-          <input
-         
-
-
-            type="number"
-            placeholder="Days Up To Today"
-            value={daysUpToToday}
-            onChange={handleDaysUpToTodayChange}
-            style={inputStyle}
-          /><p>days upto today</p>
+      <Title level={4}>Attendence</Title>
+      <div
+        style={{
+          display: "flex",
+          gap : "4px" ,
+          flexDirection: window.innerWidth <= 1163 ? "column" : "row",
+          justifyContent: "space-around",
+        }}
+      >
+        <div style={{ display: "flex" }}>
+          <AttendanceTable data={data} />
         </div>
-        <div style={{display:'flex',alignContent:'center',alignItems:'center'}}>
-          <input
-            type="number"
-            placeholder="Days Starting Today"
-            value={daysStartingToday}
-            onChange={handleDaysStartingTodayChange}
-            style={inputStyle}
-          /><p>days from today</p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent : "center" , alignItems : "center", 
+            borderStyle: "solid 2px ",
+            borderColor: "grey",
+            borderRadius: "5rem",
+          }}
+        >
+          <ProgressBar percent={chartData.percentage} />
         </div>
       </div>
-      </div>
-     
-      <div style={wrapperStyle}>
-      <Calendar fullscreen={false}
-        onSelect={handleDateChange}
-        dateCellRender={dateCellRender}
-        value={selectedDate}
-      />
-      </div>
-    </div>
-    <div style={{borderStyle:'solid 2px ',borderColor:'grey', borderRadius:'5rem'}}>
-    <ProgressBar/>
-    </div>
-    </div>
     </div>
   );
 }

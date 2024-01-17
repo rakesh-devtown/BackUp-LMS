@@ -30,7 +30,7 @@ export default function Login() {
   const { login,isAuthenticated, isGoogleAuthenticated  } = useAuthStore();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);  
-  // const screenLimitReached = useAuthStore(state => state.screenLimitReached);
+  const screenLimitReached = useAuthStore(state => state.screenLimitReached);
 
   
   const handleSubmit = async (values) => {
@@ -55,20 +55,32 @@ export default function Login() {
 
 
 
-  //navigate to main dashboard
-  // useEffect(() => {
-  //   if (screenLimitReached) navigate(routeDefinitions.SessionLimit);
-  // }, [screenLimitReached, navigate])
+  // navigate to main dashboard
+  useEffect(() => {
+    if (screenLimitReached) navigate("/auth/session-limit");
+  }, [screenLimitReached, navigate])
   useEffect(() => {
     if (isAuthenticated || isGoogleAuthenticated) { // Check if either isAuthenticated or isGoogleAuthenticated is true
-      navigate('/');
+      navigate('/programs');
     }
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
 
   return (
-    <Layout className="layout">
-      <StyledLoginPage>
+    <Layout className="layout" style={{
+
+    }}>
+      <StyledLoginPage
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+
+
+      }}
+
+      >
+          
         <StyledFormContainer>
+          
           <StyledLoginForm>
             <StyledLogo
               src="https://www.student-platform.devtown.in/static/media/ICON.a874e4deea467c4d46a5055eb58c4e7b.svg" // Replace with the path to your image file
@@ -89,7 +101,7 @@ export default function Login() {
             <Form name="login-form" onFinish={handleSubmit}>
               <Form.Item name="form-text">
                 <StyledP>
-                  Login to your account to get back to your learning.
+                  Login to your account to get back to your learning.  
                 </StyledP>
               </Form.Item>
               {/* Username input */}
@@ -116,7 +128,7 @@ export default function Login() {
       message: "Please enter your password!",
     },
     {
-      min: 8,
+      min: 1,
       message: "Password must be at least 8 characters long."
     },
   ]}

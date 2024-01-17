@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Outlet ,useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Outlet ,useLocation,useNavigate } from "react-router-dom";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -17,12 +17,15 @@ import logout from "../assets/images/Logout.svg";
 import Logo from "../assets/images/devtown-vector.svg";
 import { StyledLayout } from "../styles/app.styles";
 import { FullScreenContent, StyledButton } from "../styles/shared.styles";
-import { Layout, Menu, Button, theme } from "antd";
+import { Layout, Menu, Button, theme, notification } from "antd";
 import { routeDefinitions } from "../constants/routes";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar/Searchbar";
 import { useStore } from "zustand";
 import authStore from "../store/authStore"
+import { setHeader } from "../utils/header";
+import useAuthStore from "../store/authStore";
+import useLoadingStore from "../store/loadingStore";
 const { Header, Sider, Content } = Layout;
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -76,7 +79,25 @@ const logoutUser = useStore(authStore).logout;
       label: <Link to={routeDefinitions.MESSAGE}>Message</Link>,
     },
   ];
+  
+  const loadUser = useAuthStore((state) => state.loadUser);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const location = useLocation() 
+  console.log(location.pathname)
+  const setLoading = useLoadingStore(state => state.setLoading)
+  const verifyAuthToken = async() =>  {
+    setLoading(true);
+    await  loadUser(); 
+    setLoading(false);
+    if(!isAuthenticated){
+      navigate('/auth');
+    }
+  }
 
+  
+  useEffect(() =>  {
+    verifyAuthToken();
+  } , [ ])
   return (
     <StyledLayout>
       <Header
@@ -88,7 +109,7 @@ const logoutUser = useStore(authStore).logout;
         }}
       >
         <Link
-          to={"/"}
+          to={"/programs"}
           style={{
             background: "transparent",
             color: "#fff",
@@ -170,7 +191,7 @@ const logoutUser = useStore(authStore).logout;
         <Layout>
           <FullScreenContent
             style={{
-              padding: 24,
+              padding: location.pathname==="/message"  ? "0px" : "24px",
               margin: 0,
               minHeight: 280,
             }}
