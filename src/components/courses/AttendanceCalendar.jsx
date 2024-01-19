@@ -23,12 +23,14 @@ import { serviceGet } from "../../utils/api.js";
 import useBatchStore from "../../store/batchStore.js";
 import { setHeader } from "../../utils/header.js";
 import useLoadingStore from "../../store/loadingStore.js";
+import useWindowSize from "../../hooks/useWindowSixe.js";
 
 function AttendanceCalendar() {
   const [data, setData] = useState([]);
   const currentBatchId = useBatchStore((state) => state.currentBatchId);
   const [chartData, setChartData] = useState({});
   const setLoading = useLoadingStore((state) => state.setLoading);
+  const {width} = useWindowSize()
   const handleGetAttendance = async () => {
     try {
       setLoading(true)
@@ -91,17 +93,18 @@ function AttendanceCalendar() {
     handleGetAttendance();
   }, []);
   return (
-    <div>
+    <>
+    
       <Title level={4}>Attendence</Title>
       <div
         style={{
           display: "flex",
           gap : "4px" ,
-          flexDirection: window.innerWidth <= 1163 ? "column" : "row",
+          flexDirection: width <= 1163 ? "column" : "row",
           justifyContent: "space-around",
         }}
       >
-        <div style={{ display: "flex" }}>
+        <div>
           <AttendanceTable data={data} />
         </div>
         <div
@@ -116,7 +119,7 @@ function AttendanceCalendar() {
           <ProgressBar percent={chartData.percentage} />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

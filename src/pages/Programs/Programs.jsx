@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useBatchStore from "../../store/batchStore";
 import useAuthStore from "../../store/authStore";
 import useLoadingStore from "../../store/loadingStore";
-
+import "./Programs.css";
 const { Title } = Typography;
 const { Search } = Input;
 const onSearch = (value, _e, info) => console.log(info?.source, value);
@@ -95,6 +95,7 @@ const Programs = () => {
   if (!batch.length)
     return (
       <Layout>
+        
         <Title style={{ padding: "10px 0px" }}> My Programs</Title>
 
         <Tabs
@@ -184,12 +185,15 @@ const Programs = () => {
                 <div
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    // justifyContent: "space-between",
                     alignItems: "start",
+                    flexDirection: "column",
+                    gap: "10px",
                   }}
                 >
-                  <Meta title={batch?.name} description={batch?.description} />
-                 
+                  
+                  {/* <Meta classNam  e="meta" title={batch?.name +"askjfdbsadjhfbsdajhfbhjkvb"} /> */}
+                  <Meta className="meta" title={batch?.name} description={batch?.course?.name} />
                     <Button onClick={()=> handleNavigate(batch._id , batch?.course?.courseType) } type="primary"> Continue</Button>
                 </div>
               </Card>

@@ -76,7 +76,7 @@ function DevtownCertificates() {
             {certificates?.map((certificate) => (
                 <div style={{display: 'flex', width: '100%', backgroundColor: '#F7FAFC', border: ''}}>
                     <div
-                        key={certificate?.name}
+                        key={certificate?._id}
                         style={{display: 'grid', borderStyle: 'solid', borderColor: '#E2E8F0', borderWidth: '0 0 1px 0', margin: '0 auto', width: '100%', padding: '0.5rem 1rem', cursor: 'pointer'}}
                     >
                         <details className="group">
