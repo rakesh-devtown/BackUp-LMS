@@ -24,7 +24,7 @@ import MeetingModal from "../Meetings/MeetingModal";
 import { FilePdfFilled, PlayCircleFilled } from "@ant-design/icons";
 import ModalVideo from "react-modal-video";
 import YouTubeIframe from "./YouTubeIframe";
-
+import {  Link} from "react-router-dom";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { Item } = List;
@@ -48,6 +48,7 @@ export const formatDate = (dateString) => {
 };
 
 const CourseOverview = ({ events }) => {
+  
   const [openMeetingConfirmation, setOpenMeetingConfirmation] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
@@ -156,7 +157,7 @@ const CourseOverview = ({ events }) => {
     setModalVideoOpen(false);
   };
   return (
-    <div style={{ padding: "2rem 5rem" }}>
+    <div style={{ paddingTop: "2rem" ,paddingLeft: activeTab==="tab3" ? "1rem" : "3rem"  }}>
       <MeetingModal
         meetingNumber={meetingData?.meetingNumber}
         name={meetingData?.topic}
@@ -180,21 +181,9 @@ const CourseOverview = ({ events }) => {
             padding: "15px",
           }}
         >
-          {/* <iframe
-            width="420"
-            height="215"
-            title="YouTube video player"
-            src={VideoID}
-          ></iframe> */}
+          
           <YouTubeIframe VideoId={VideoID} />
-          {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/xopvkx6CpNs?si=ic_UGTf5K8MBThmO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
-          {/* <ModalVideo
-            channel="youtube"
-            autoplay
-            isOpen={true}
-            videoId={VideoID}
-            onClose={() => setModalVideoOpen(false)}
-          /> */}
+
         </div>
       </Modal>
       <div
@@ -202,18 +191,23 @@ const CourseOverview = ({ events }) => {
           display: "flex",
           alignItems: "center",
           marginBottom: "20px",
-          width: "50%",
+
         }}
       >
+        
+        <Link to="/programs">
         <Title level={2}>My Programs</Title>
+        </Link>
       </div>
 
       <Title level={3}>{currentBatch?.name}</Title>
       <Title level={4}>Course Content</Title>
-
+        
       <Tabs activeKey={activeTab} onChange={handleTabChange}>
+        
         <TabPane tab="Overview" key="tab1">
           <div>
+            
             <StickyBox offsetTop={20} offsetBottom={20}>
               {syllabus?.map((weekData, weekIndex) => (
                 <Collapse
@@ -442,7 +436,7 @@ const CourseOverview = ({ events }) => {
                                       target="_blank"
                                       rel="noreferrer"
                                     >
-                                      <button
+                                      <Button
                                         style={{
                                           width: "100%",
                                           fontSize: "0.875rem",
@@ -452,8 +446,8 @@ const CourseOverview = ({ events }) => {
                                         <div
                                           style={{
                                             fontWeight: "600",
-                                            paddingTop: "0.25rem",
-                                            paddingBottom: "0.25rem",
+                                            // paddingTop: "0.25rem",
+                                            // paddingBottom: "0.25rem",
                                           }}
                                         >
                                           <div
@@ -461,20 +455,20 @@ const CourseOverview = ({ events }) => {
                                               display: "flex",
                                               gap: "0.5rem",
                                               alignItems: "center",
-                                              padding: "1px",
-                                              paddingLeft: "5px",
+                                              // padding: "1px",
+                                              // paddingLeft: "5px",
                                             }}
                                           >
                                             <div
                                               style={{
-                                                backgroundColor: "#679DAA",
+                                                // backgroundColor: "#679DAA",
                                                 borderRadius: "50%",
                                               }}
                                             >
                                               <FilePdfFilled
                                                 size={22}
                                                 style={{
-                                                  color: "white",
+                                                  color: "black",
                                                   padding: "0.25rem",
                                                 }}
                                               />
@@ -492,10 +486,10 @@ const CourseOverview = ({ events }) => {
                                             </p>
                                           </div>
                                         </div>
-                                      </button>
+                                      </Button>
                                     </a>
                                   ) : (
-                                    <button
+                                    <Button
                                       onClick={() => setModalVideoOpen(true)}
                                       style={{
                                         width: "100%",
@@ -503,17 +497,18 @@ const CourseOverview = ({ events }) => {
                                         marginLeft: "1rem",
                                       }}
                                     >
+                                      
                                       <div
                                         style={{
                                           fontWeight: "600",
-                                          paddingTop: "0.25rem",
-                                          paddingBottom: "0.25rem",
+                                          // paddingTop: "0.25rem",
+                                          // paddingBottom: "0.25rem",
                                         }}
                                       >
                                         <div
                                           style={{
-                                            padding: "1px",
-                                            paddingLeft: "5px",
+                                            // padding: "1px",
+                                            // paddingLeft: "5px",
                                             display: "flex",
                                             gap: "0.5rem",
                                             alignItems: "center",
@@ -521,14 +516,14 @@ const CourseOverview = ({ events }) => {
                                         >
                                           <div
                                             style={{
-                                              backgroundColor: "#679DAA",
+                     
                                               borderRadius: "50%",
                                             }}
                                           >
                                             <PlayCircleFilled
                                               size={22}
                                               style={{
-                                                color: "white",
+                                                color: "black",
                                                 padding: "0.25rem",
                                               }}
                                             />
@@ -546,7 +541,7 @@ const CourseOverview = ({ events }) => {
                                           </p>
                                         </div>
                                       </div>
-                                    </button>
+                                    </Button>
                                   )}
                                 </div>
                               </div>

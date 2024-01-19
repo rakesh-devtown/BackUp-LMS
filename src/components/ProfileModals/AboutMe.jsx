@@ -225,7 +225,7 @@ function AboutMe({ profile, about }) {
                   <>
                     <label htmlFor="desktop-upload">
                       <img
-                        src={profile?.image ? profile?.image : "fdsjhgg"}
+                        src={profile?.image ? profile?.image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"}
                         style={{
                           height: "112px",
                           width: "112px",
@@ -494,7 +494,7 @@ function AboutMe({ profile, about }) {
                 >
                   <label htmlFor="desktop-upload">
                     <img
-                      src={profile?.image ? profile?.image : "fjkdnf"}
+                      src={profile?.image? profile?.image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"}
                       style={{
                         height: "192px",
                         width: "192px",
