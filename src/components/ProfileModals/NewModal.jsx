@@ -38,7 +38,7 @@ function NewModal(props) {
         {props.text === "Logout" ? (
           <>
             <LogoutOutlined style={{ marginLeft: "40%" }} size={"1.3em"} />
-            <p style={{ fontSize: "1em", marginTop: "8px" }}>{props.text}</p>
+            <p style={{  marginTop: "8px" ,fontSize: "1.125em",  }}>{props.text}</p>
           </>
         ) : props.text === "Add" ? (
           <PlusOutlined  />
@@ -73,6 +73,7 @@ function NewModal(props) {
               color: "#928e8e",
               fontWeight: "bold",
               borderRadius: "8px",
+              fontSize: "1.125em",  
             }}
           >
             {props.text}
@@ -84,6 +85,7 @@ function NewModal(props) {
               background: "linear-gradient(to bottom right, #7b68ee, #1e90ff)",
               padding: "8px 16px",
               borderRadius: "8px",
+              fontSize: "1.125em",  
             }}
           >
             {props.text}

@@ -25,8 +25,8 @@ function ProfileComponent(
     <div style={{ width: "100%", paddingLeft: "16px", gridColumn: "1 / span 8" }}>
       <div style={{ borderRadius: "8px", backgroundColor: "white" }}>
         <div style={{ paddingLeft: "20px", paddingTop: "20px", backgroundColor: "white", display: "flex", flexDirection: "row" }}>
-          <h2 style={{ fontSize: "1.125em", fontWeight: "bold", width: "100%" }}>{text}</h2>
-          <div style={{ float: "right" }}>
+          <h2 style={{ fontSize: "1.4rem", fontWeight: "bold", width: "100%" }}>{text}</h2>
+          <div style={{ float: "right" ,fontSize: "1.125em",   }}>
             {text === "Education" ? (
               <NewModal about={about} text="Add" mainSub="Add Education">
                 <EducationModal type="Add" />

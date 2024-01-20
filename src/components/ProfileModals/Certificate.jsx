@@ -14,7 +14,7 @@ function Certificate({ cert, index, len, about }) {
   {index === len - 1 ? (
     <>
       <div style={{ backgroundColor: "white", display: "flex", flexDirection: "row", marginTop: "12px" }}>
-        <p style={{ fontSize: "1.25em", fontWeight: "500", marginTop: "4px", width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+        <p style={{ fontSize: "0.9em", fontWeight: "600", marginTop: "4px", width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {cert?.title}
         </p>
         <div style={{ paddingTop: "8px", paddingBottom: "8px" }}>
@@ -24,14 +24,17 @@ function Certificate({ cert, index, len, about }) {
         </div>
         <div style={{ paddingTop: "8px", paddingBottom: "8px", float: "right" }}></div>
       </div>
-      <div style={{ backgroundColor: "white", display: "flex", flexDirection: "row", alignItems: "center" }}>
-        <p style={{ fontSize: "1em", fontWeight: "500" }}>{cert?.organization}</p>
+      <div style={{ backgroundColor: "white", display: "flex", flexDirection: "row", alignItems: "center" ,gap:"3px" }}>
+        <p style={{ fontSize: "0.8em", fontWeight: "500" }}>{cert?.organization}</p>
         <div style={{ paddingLeft: "4px", width: "5%" }}>
           <a href={cert?.url} target="_blank" rel="noreferrer">
             <LinkOutlined size={"1.3em"} />
           </a>
         </div>
-        <p style={{ fontSize: "2em", marginBottom: "12px", fontWeight: "bold", color: "#808080", marginRight: "12px" }}>.</p>
+        <p style={{  fontSize: "2em",
+                marginBottom: "20px",
+                fontWeight: "900",}}>.</p>
+                {" "}
         <p style={{ fontSize: "0.75em", fontWeight: "500", color: "#808080" }}>
           {s_monthAndYear} - {e_monthAndYear}
         </p>
@@ -42,7 +45,7 @@ function Certificate({ cert, index, len, about }) {
   ) : (
     <>
       <div style={{ backgroundColor: "white", display: "flex", flexDirection: "row", marginTop: "12px" }}>
-        <p style={{ fontSize: "1.25em", fontWeight: "500", marginTop: "4px", width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+        <p style={{ fontSize: "0.9em", fontWeight: "600", marginTop: "4px", width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {cert?.title}
         </p>
         <div style={{ paddingTop: "8px", paddingBottom: "8px" }}>
@@ -53,13 +56,15 @@ function Certificate({ cert, index, len, about }) {
         <div style={{ paddingTop: "8px", paddingBottom: "8px", float: "right" }}></div>
       </div>
       <div style={{ backgroundColor: "white", display: "flex", flexDirection: "row", alignItems: "center" }}>
-        <p style={{ fontSize: "1em", fontWeight: "500" }}>{cert?.organization}</p>
+        <p style={{ fontSize: "0.8em", fontWeight: "500" }}>{cert?.organization}</p>
         <div style={{ paddingLeft: "4px", width: "5%" }}>
           <a href={cert?.url} target="_blank">
             <LinkOutlined size={"1.3em"} />
           </a>
         </div>
-        <p style={{ fontSize: "2em", marginBottom: "12px", fontWeight: "bold", color: "#808080", marginRight: "12px" }}>.</p>
+        <p style={{ fontSize: "2em",
+                marginBottom: "20px",
+                fontWeight: "900", }}>.</p> {" "}
         <p style={{ fontSize: "0.75em", fontWeight: "500", color: "#808080" }}>
           {s_monthAndYear} - {e_monthAndYear}
         </p>

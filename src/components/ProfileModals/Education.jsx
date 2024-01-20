@@ -16,9 +16,11 @@ function Education({ educ, index, len, about }) {
       <div style={{ backgroundColor: "white", display: "flex", flexDirection: "row", marginTop: "12px" }}></div>
       <div style={{ display: "flex", flexDirection: "row", gap: "12px", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <p style={{ fontSize: "1em", fontWeight: "500" }}>{educ?.collegeName}</p>
+          <p style={{ fontSize: "0.9em", fontWeight: "600" }}>{educ?.collegeName}</p>
 
-          <p style={{ fontSize: "2em", marginBottom: "12px", fontWeight: "bold", color: "#808080" }}>.</p>
+          <p style={{  fontSize: "2em",
+                marginBottom: "20px",
+                fontWeight: "900", }}>.</p>
           <p style={{ fontSize: "0.75em", fontWeight: "500", color: "#808080" }}>
             {s_monthAndYear} - {e_monthAndYear}
           </p>
@@ -37,9 +39,11 @@ function Education({ educ, index, len, about }) {
     <>
       <div style={{ display: "flex", flexDirection: "row", gap: "12px", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <p style={{ fontSize: "1em", fontWeight: "500" }}>{educ?.collegeName}</p>
+          <p style={{ fontSize: "0.9em", fontWeight: "500" }}>{educ?.collegeName}</p>
 
-          <p style={{ fontSize: "2em", marginBottom: "12px", fontWeight: "bold", color: "#808080" }}>.</p>
+          <p style={{  fontSize: "2em",
+                marginBottom: "20px",
+                fontWeight: "900", }}>.</p>
           <p style={{ fontSize: "0.75em", fontWeight: "500", color: "#808080" }}>
             {s_monthAndYear} - {e_monthAndYear}
           </p>

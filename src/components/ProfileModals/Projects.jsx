@@ -15,7 +15,7 @@ function Projects ( { proj, index, len, about }  )   {
     <>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ backgroundColor: "white", display: "flex", flexDirection: "row", alignItems: "center", gap: "8px" }}>
-          <p style={{ fontSize: "1em", fontWeight: "500" }}>{proj?.title}</p>
+          <p style={{ fontSize: "0.9em", fontWeight: "600" }}>{proj?.title}</p>
           <div style={{ paddingLeft: "4px", display: "flex" }}>
             <a href={proj?.deployedLink} target="_blank">
               <LinkOutlined size={"1.3em"} />
@@ -24,7 +24,9 @@ function Projects ( { proj, index, len, about }  )   {
               <GithubFilled size={"1.3em"} />
             </a>
           </div>
-          <p style={{ fontSize: "2em", marginBottom: "12px", fontWeight: "bold", color: "#808080" }}>.</p>
+          <p style={{  fontSize: "2em",
+                marginBottom: "20px",
+                fontWeight: "900",}}>.</p>
 
           <p style={{ fontSize: "0.75em", fontWeight: "500", color: "#808080" }}>
             {s_monthAndYear} - {e_monthAndYear}
@@ -44,7 +46,7 @@ function Projects ( { proj, index, len, about }  )   {
     <>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ backgroundColor: "white", display: "flex", flexDirection: "row", alignItems: "center", gap: "8px" }}>
-          <p style={{ fontSize: "1em", fontWeight: "500" }}>{proj?.title}</p>
+          <p style={{ fontSize: "0.9em", fontWeight: "600" }}>{proj?.title}</p>
           <div style={{ paddingLeft: "4px", display: "flex" }}>
             <a href={proj?.deployedLink} target="_blank">
               <LinkOutlined size={"1.3em"} />
@@ -53,7 +55,9 @@ function Projects ( { proj, index, len, about }  )   {
               <GithubFilled size={"1.3em"} />
             </a>
           </div>
-          <p style={{ fontSize: "2em", marginBottom: "12px", fontWeight: "bold", color: "#808080" }}>.</p>
+          <p style={{  fontSize: "2em",
+                marginBottom: "20px",
+                fontWeight: "900", }}>.</p>
 
           <p style={{ fontSize: "0.75em", fontWeight: "500", color: "#808080" }}>
             {s_monthAndYear} - {e_monthAndYear}

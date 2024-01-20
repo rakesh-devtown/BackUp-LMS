@@ -11,7 +11,7 @@ function SubProfileComponent({ text, educ, proj, workex, cert, about, skill }) {
     text === "Education" ||
     text === "Projects" ||
     text === "Certificates") ? (
-    <div style={{ paddingLeft: "16px", paddingRight: "24px" }}>
+    <div style={{ paddingLeft: "30px", paddingRight: "0" }}>
       {text === "Work Experience" ? (
         <>
           {workex?.experience?.map((element, index) => (

@@ -12,32 +12,7 @@ import {
 import { formatDate } from "../../components/courses/CourseOverview";
 import Dot from "../../assets/images/Ellipse.svg";
 
-import {
-  StyledHeader,
-  StyledTitle,
-  StyledDownloadText,
-  StyledContentContainer,
-  StyledAvatar,
-  OnlyFlexCol,
-  OnlyFlex,
-  OnlyFlexM,
-  OnlySpaceBetween,
-  OnlySpaceBetweenM,
-  OnlyGap,
-  StyledContent,
-  StyledSectionSeparator,
-  StyledEditIcon,
-  StyledLocation,
-  StyledGenericText,
-  StyledSubText,
-  StyledDot,
-  StyledSubContent,
-  StyledInfo,
-  StyledHeading,
-  StyledSkillsBg,
-  StyledEachSkill,
-  StyledProfileBox,
-} from "../../styles/profile.styles";
+
 import useAuthStore from "../../store/authStore";
 import { serviceGet } from "../../utils/api";
 import { setHeader } from "../../utils/header";
@@ -148,7 +123,7 @@ const Profile = () => {
         </a>
       )}
     </div>
-    <div style={{backgroundColor: '#FFFFFF', margin: '0 2rem'}}>
+    <div style={{backgroundColor: '#FFFFFF', margin:width > 640? '0 2rem' : "0rem"}}>
       <AboutMe about={about} profile={profile?.about} />
       {profile?.about?.profileComplete && ( // Check if profile is complete, if yes then only show other components for workex, education, projects, skills, certificates
         <>

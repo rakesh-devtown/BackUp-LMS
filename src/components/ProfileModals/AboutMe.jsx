@@ -12,10 +12,10 @@ import {
 } from "@ant-design/icons";
 import NewModal from "./NewModal";
 import ProfileModal from "./ProfileModal";
-import useWindowSize from "../../hooks/useWindowSixe"
+import useWindowSize from "../../hooks/useWindowSixe";
 
 function AboutMe({ profile, about }) {
-    const {width} = useWindowSize() ;
+  const { width } = useWindowSize();
 
   const loadUser = useAuthStore((state) => state.loadUser);
   const [imageProfile, setImageProfile] = useState({
@@ -192,7 +192,6 @@ function AboutMe({ profile, about }) {
   }, [profile]);
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(8, 1fr)" }}>
-      
       <div
         style={{
           marginTop: "1.25rem",
@@ -201,6 +200,7 @@ function AboutMe({ profile, about }) {
           gridColumnEnd: "9",
           paddingLeft: "1rem",
           paddingRight: "1rem",
+          
         }}
       >
         <div style={{ backgroundColor: "#FFFFFF", marginBottom: "2rem" }}>
@@ -216,7 +216,7 @@ function AboutMe({ profile, about }) {
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "column",
+                    flexDirection: width > 550 ? "row" : "column",
                     alignItems: "center",
                     gap: "4px",
                     padding: "8px",
@@ -225,7 +225,11 @@ function AboutMe({ profile, about }) {
                   <>
                     <label htmlFor="desktop-upload">
                       <img
-                        src={profile?.image ? profile?.image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"}
+                        src={
+                          profile?.image
+                            ? profile?.image
+                            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                        }
                         style={{
                           height: "112px",
                           width: "112px",
@@ -249,8 +253,6 @@ function AboutMe({ profile, about }) {
                         fontSize: "2em",
                         fontWeight: "bold",
                         marginRight: "2px",
-                        
-
                       }}
                     >
                       {profile?.firstName + " " + profile?.lastName}
@@ -269,7 +271,7 @@ function AboutMe({ profile, about }) {
                 </div>
                 <div style={{ marginTop: "24px" }}>
                   <NewModal about={about} text="Prof" mainSub="Edit User">
-      <ProfileModal student={profile} />
+                    <ProfileModal student={profile} />
                   </NewModal>
                 </div>
               </div>
@@ -288,9 +290,9 @@ function AboutMe({ profile, about }) {
                 >
                   <p
                     style={{
-                      fontSize: "22px",
-                      fontWeight: "bold",
-                      color: "#484848",
+                      fontSize: "1.4rem",
+                      fontWeight: "700",
+                     
                     }}
                   >
                     Contact Information
@@ -303,7 +305,6 @@ function AboutMe({ profile, about }) {
                     gap: "24px",
                     width: "100%",
                     marginTop: "16px",
-                    
                   }}
                 >
                   <div
@@ -322,7 +323,17 @@ function AboutMe({ profile, about }) {
                     >
                       Email address
                     </p>
-                    <span style={{ fontWeight: "500" }}>{profile?.email}</span>
+                    <span
+                      style={{
+                        fontWeight: "700",
+                        whiteSpace: "nowrap", // Keeps the text within a single line
+                        overflow: "hidden", // Hides the text that overflows
+                        textOverflow: "ellipsis",
+                      }}
+                      title={profile?.email}
+                    >
+                      {profile?.email}
+                    </span>
                   </div>
                   <div
                     style={{
@@ -340,11 +351,11 @@ function AboutMe({ profile, about }) {
                     >
                       Phone number
                     </p>
-                    <span style={{ fontWeight: "500" }}>{profile?.mobile}</span>
+                    <span style={{ fontWeight: "700" }}>{profile?.mobile}</span>
                   </div>
                   <div
                     style={{
-                        border : "1px solid #D1D5DB",
+                      border: "1px solid #D1D5DB",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
@@ -366,7 +377,9 @@ function AboutMe({ profile, about }) {
                         borderWidth: "1px",
                         color: "#374151",
                         padding: "8px 16px",
-                        borderRadius: "8px",
+                        fontWeight: "500",
+                        borderRadius: "19px",
+                     
                       }}
                     >
                       {profile?.resume ? "Update Resume" : "Add Resume"}
@@ -494,7 +507,11 @@ function AboutMe({ profile, about }) {
                 >
                   <label htmlFor="desktop-upload">
                     <img
-                      src={profile?.image? profile?.image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"}
+                      src={
+                        profile?.image
+                          ? profile?.image
+                          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                      }
                       style={{
                         height: "192px",
                         width: "192px",
@@ -539,7 +556,6 @@ function AboutMe({ profile, about }) {
                       {profile?.firstName + " " + profile?.lastName}
                     </h2>
                     <div>
-                        
                       <NewModal about={about} text="Prof" mainSub="Edit User">
                         <ProfileModal student={profile} />
                       </NewModal>
@@ -565,7 +581,7 @@ function AboutMe({ profile, about }) {
                       marginTop: "24px",
                     }}
                   >
-                    <p style={{ fontSize: "1.125em", fontWeight: "bold" }}>
+                    <p style={{ fontSize: "1.125em", fontWeight: "700" }}>
                       Contact Information
                     </p>
                   </div>
@@ -588,7 +604,7 @@ function AboutMe({ profile, about }) {
                       >
                         Email address
                       </p>
-                      <span style={{ fontWeight: "500" }}>
+                      <span style={{ fontWeight: "700" }}>
                         {profile?.email}
                       </span>
                     </div>
@@ -602,7 +618,7 @@ function AboutMe({ profile, about }) {
                       >
                         Phone number
                       </p>
-                      <span style={{ fontWeight: "500" }}>
+                      <span style={{ fontWeight: "700" }}>
                         {profile?.mobile}
                       </span>
                     </div>
@@ -628,7 +644,10 @@ function AboutMe({ profile, about }) {
                             border: "1px solid #ccc",
                             color: "#333",
                             padding: "8px 16px",
-                            borderRadius: "8px",
+                            fontWeight: "600",
+                            borderRadius: "19px",
+      
+
                           }}
                         >
                           {profile?.resume ? "Update Resume" : "Add Resume"}

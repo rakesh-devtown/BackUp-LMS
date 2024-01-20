@@ -53,8 +53,10 @@ function DevtownCertificates() {
   return certificates && certificates.length > 0  ?  (
     <div style={{padding: '0 2rem'}}>
     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        <div style={{height: 'auto', backgroundColor: 'white', marginBottom: '0.5rem', fontWeight: 'bold', fontSize: '1.125rem'}}>
-            DevTown Certificates
+        <div style={{height: 'auto', backgroundColor: 'white', marginBottom: '0.5rem', fontWeight: 'bold', fontSize: '1.4rem'}}>
+            <h4>
+                Devtown Certificates
+            </h4>
         </div>
         <div style={{marginBottom: '0.5rem'}}>
             {updateAllowed ? (
@@ -81,7 +83,7 @@ function DevtownCertificates() {
                     >
                         <details className="group">
                             <summary style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '500', listStyle: 'none', width: '100%', padding: '0.5rem 0'}}>
-                                <span>{certificate?.name}</span>
+                                <span style={{fontSize:"0.9em"}} >{certificate?.name}</span>
 
                                 <span className="transition-all group-open:rotate-180">
                                     <svg
