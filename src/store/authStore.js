@@ -270,19 +270,23 @@ const useAuthStore = create(
     },
     async forgotPassword(values) {
       try {
+        
         const res = await servicePost(
           "auth/auth-api/v1/forgot-password?type=student",
           { ...values, callbackUrl: "https://www.student-platform.devtown.in" }
         );
         const { success, message } = res;
-        //console.log(message)
+        notification.success({ message: "Success", description: message });   
+        console.log(message)
+        return true;
+
         if (success != false) {
           notification.success({ message: "Success", description: message });
         } else {
           notification.error({ message: "Error", description: message });
         }
       } catch (error) {
-        //console.log(error.message)
+        console.log(error.message)
       }
     },
 
@@ -317,6 +321,73 @@ const useAuthStore = create(
         }
       }
     },
+    async verifyMagicLink({token , setIsDataLoaded}) {
+      const VerificationToken =token;
+      try {
+          const fp = await FingerprintJS.load();
+          const { visitorId , components } = await fp.get();
+          
+          const res = await servicePost(`auth/auth-api/v1/verify-magic-link?type=student&token=${VerificationToken}`, {  signature: visitorId , platform : components.platform.value});
+          const { data: { user, token, chatToken }, message, success } = res;
+          setIsDataLoaded(message)
+       
+          if (success) {
+              const { firstName = '', lastName = '', email = '' } = user;
+              notification.success({
+                  message: 'Success',
+                  description: message,
+              });
+              
+            
+              // Store token
+              localStorage.setItem('token', token);
+              setHeader('signature', visitorId);
+              // Set the header
+              setHeader('auth', `bearer ${token}`);
+              return {
+                  token,
+                  chatToken,
+                  user: { ...user },
+                  isAuthenticated: true
+              };
+          }
+          notification.error({
+              message: 'Error',
+              description: message,
+          });
+          if(message==='Too many active sessions'){
+              localStorage.setItem('token', token);
+  
+              setHeader('auth', `bearer ${token}`);
+              return {
+                  token,
+                  chatToken,
+                  user: { ...user },
+                  isAuthenticated: false,
+                  screenLimitReached: true
+              };
+          }
+          
+          return {
+              token: null,
+              chatToken: null,
+              user: null,
+              isAuthenticated: false
+          };
+      } catch (error) {
+          deleteHeader('auth');
+          deleteHeader();
+          return {
+              token: null,
+              chatToken: null,
+              user: null,
+              isAuthenticated: false
+          };
+      }
+
+
+
+    }
   }))
 );
 // useAuthStore.subscribe(console.log, state => state.isAuthenticated);

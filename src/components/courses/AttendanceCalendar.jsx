@@ -88,7 +88,7 @@ function AttendanceCalendar() {
     });
 
   }, [data]);
-  console.log(chartData)
+
   useEffect(() => {
     handleGetAttendance();
   }, []);

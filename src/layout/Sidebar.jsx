@@ -12,6 +12,7 @@ import {
   QuestionCircleFilled,
   CloseOutlined,
   PlusOutlined,
+  ExclamationCircleFilled,
 } from "@ant-design/icons";
 import logout from "../assets/images/Logout.svg";
 import Logo from "../assets/images/devtown-vector.svg";
@@ -26,6 +27,7 @@ import authStore from "../store/authStore"
 import { setHeader } from "../utils/header";
 import useAuthStore from "../store/authStore";
 import useLoadingStore from "../store/loadingStore";
+import confirm from "antd/es/modal/confirm";
 const { Header, Sider, Content } = Layout;
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -83,8 +85,20 @@ const logoutUser = useStore(authStore).logout;
   const loadUser = useAuthStore((state) => state.loadUser);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const location = useLocation() 
-  console.log(location.pathname)
-  const setLoading = useLoadingStore(state => state.setLoading)
+  const setLoading = useLoadingStore(state => state.setLoading);
+  const showConfirm = () => {
+    confirm({
+      title: 'Do you Want to logout?',
+      icon: <ExclamationCircleFilled />,
+      
+      onOk() {
+        handleLogout()
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
   const verifyAuthToken = async() =>  {
     setLoading(true);
     await  loadUser(); 
@@ -178,11 +192,7 @@ const logoutUser = useStore(authStore).logout;
             <Menu.Item
               key="2"
               icon={<img src={logout} alt="logout" />}
-              onClick={() => {
-                if (window.confirm("Are you sure you want to logout?")) {
-                 handleLogout(); // call your logout function here
-                }
-              }}
+              onClick={showConfirm  }
             >
               Logout
             </Menu.Item>

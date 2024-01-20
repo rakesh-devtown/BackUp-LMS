@@ -40,7 +40,11 @@ export default function ForgetPass() {
   const { forgotPassword } = useAuthStore();
 
   const onFinish = (values) => {
-    forgotPassword(() => navigate('/'), values);
+    
+    if(forgotPassword(values  )) {
+      navigate('/auth');
+    }
+    // forgotPassword(() => navigate('/auth'), values);
   };
 
   return (

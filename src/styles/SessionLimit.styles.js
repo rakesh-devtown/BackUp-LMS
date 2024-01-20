@@ -16,11 +16,11 @@ export const BackButton = styled.button`
   top: 4px;
   left: 4px;
   padding: 6px 15px 6px 15px;
-  border: 1px solid #3498db;
+  border: 1px solid #012353;
   border-radius: 4px;
   display: inline-flex;
   gap: 10px;
-  color: #3498db;
+  color: black;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
@@ -82,11 +82,11 @@ export const ClearButton = styled.button`
    padding: 6px 6px;
    left:641px;
    top:219px;
-  border: 1px solid #3498db;
+  border: 1px solid #012353;
   border-radius: 4px;
   display: inline-flex;
   gap: 5px;
-  color: #3498db;
+  color: black;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.25rem;
@@ -95,7 +95,7 @@ export const ClearButton = styled.button`
 `;
 export const ClearAllButton=styled.button`
  width: 100%;
-  height: 3rem;
+  
   padding: 0.75rem 51px;
   left: 77px;
   top: 390px;

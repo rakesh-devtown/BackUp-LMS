@@ -185,18 +185,15 @@ const VideoDetail = () => {
     firstName: user?.firstName,
     lastName: user?.lastName,
   });
-
+  const {state: {thumbnail}} = useLocation();
   let progress;
-  console.log(sections);
-  console.log(section);
+ 
   if (sections && sections.length > 0 && section) {
     progress = sections?.filter((e) => e._id === section._id)[0];
   }
-  console.log(progress);
   const isPresent = progress?.progress?.videos.includes(
     currentVideoDetails._id
   );
-  console.log(isPresent)
 
   const handleSubmit = async (e) => {
     try {
@@ -308,7 +305,7 @@ const VideoDetail = () => {
 
       // if course is not completed or name is updated successfully and course is completed then update the progress
       else if (!cc || (cc && ready)) {
-        console.log("sfjgsdbjkfsdbfjkb");
+     
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
         const { data, success, message } = await servicePost(
           `student/student-api/v1/video/progress`,
@@ -357,6 +354,7 @@ const VideoDetail = () => {
   useEffect(() => {
     handleGetCourseData();
   }, []);
+  console.log(currentBatch)
   return (
     <>
       <StyledVideoBox>
@@ -407,7 +405,10 @@ const VideoDetail = () => {
               onEnd={onWatched}
             />
           ) : (
-            <div>Select a Video to get Started</div>
+            <div
+              style={{ maxWidth:'1100px'}}
+            ><img style={{overflow:"hidden" ,width:"100%"}} src={thumbnail} alt="thumbnail" />
+            </div>
           )}
           <StyledHeading>
             <StyledText>Course Overview</StyledText>

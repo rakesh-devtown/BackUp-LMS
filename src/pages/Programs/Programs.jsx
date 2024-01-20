@@ -72,13 +72,13 @@ const Programs = () => {
   }, [allBatches, name, type]
   )
 
-  const handleNavigate = async  ( id  ,courseType ) =>  {
+  const handleNavigate = async  ( id  ,courseType  , course) =>  {
     console.log(id , courseType)
     setCurrentBatchId(id); 
     await getCurrentBatch(id); 
-    
 
-    navigate(`${courseType=== "classroom" ? "/program" : "/video"}`)
+
+    navigate(`${courseType=== "classroom" ? "/program" : "/video"}` , {state:{thumbnail : course.image}})
 
   }
   useEffect(() => {
@@ -194,7 +194,7 @@ const Programs = () => {
                   
                   {/* <Meta classNam  e="meta" title={batch?.name +"askjfdbsadjhfbsdajhfbhjkvb"} /> */}
                   <Meta className="meta" title={batch?.name} description={batch?.course?.name} />
-                    <Button onClick={()=> handleNavigate(batch._id , batch?.course?.courseType) } type="primary"> Continue</Button>
+                    <Button onClick={()=> handleNavigate(batch._id , batch?.course?.courseType , batch?.course) } type="primary"> Continue</Button>
                 </div>
               </Card>
             </Col>

@@ -71,10 +71,7 @@ const Profile = () => {
             data: { student },
         } = await serviceGet("student/student-api/v1/me");
         if (success) {
-          notification.success({
-            message: "Success",
-            description: "Student Details fetched",
-          });
+          
 
             // toast.success('Student Details fetched');
             return student;

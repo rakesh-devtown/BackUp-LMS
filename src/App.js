@@ -18,6 +18,7 @@ import { routes } from "./routes";
 import useAuthStore from "./store/authStore";
 import useLoadingStore from "./store/loadingStore";
 import Loader from "./components/loader/Loader";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 const { Header, Content, Sider } = Layout;
 //router
 const router = createBrowserRouter(routes);
@@ -66,7 +67,10 @@ const App = () => {
           </div>
           )
         }   
-        <RouterProvider router={router} />
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} >
+
+          <RouterProvider router={router} />
+        </GoogleOAuthProvider>
    
     </>
   );

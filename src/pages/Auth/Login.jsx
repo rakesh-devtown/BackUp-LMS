@@ -18,7 +18,6 @@ import {
   ForgotPassword,
   StyledButton,
   StyledImg,
-  CenteredButtonContainer,
 } from "../../styles/LoginPage.styles.js";
 import Config from "../../config.js"
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -97,7 +96,7 @@ export default function Login() {
               }}
             />
             <StyledHeading>Welcome back to</StyledHeading>
-            <StyledDevTown>DevTown</StyledDevTown>
+            <StyledDevTown >DevTown</StyledDevTown>
             <Form name="login-form" onFinish={handleSubmit}>
               <Form.Item name="form-text">
                 <StyledP>
@@ -152,11 +151,21 @@ export default function Login() {
                 >
                   Log in
                 </StyledButton>
-                <CenteredButtonContainer>
-                <GoogleOAuthProvider clientId={googleClientId }>
-                  <GoogleAuthLogin />
-                </GoogleOAuthProvider>
-                </CenteredButtonContainer>
+                
+                <div style={{display : "flex" , justifyContent:"space-around" ,marginTop:"10px"}} >
+                  <GoogleOAuthProvider clientId={googleClientId }>
+                    <GoogleAuthLogin  />
+                  </GoogleOAuthProvider>
+                <div style={{display:"flex" , flexDirection:"column"}}>
+                  <Link style={{border : "1px solid" ,borderColor : "#E3E4E7" , padding:"3px" , display:"flex" ,margin:"auto" , borderRadius:"5px"}} to="/auth/magic-login">
+                  <img width="25" height="25" src="https://img.icons8.com/ios/50/000000/fantasy.png" alt="fantasy"/>
+                  </Link>
+                  <p>
+                    Magic Link
+                  </p>
+                </div>
+
+                </div>
 
               </Form.Item>
             </Form>

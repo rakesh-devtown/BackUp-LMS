@@ -23,10 +23,10 @@ const useProgramStore = create(
                 const {success,message, data: { batches } } = res ;
                 if(success) {
                     set({allBatches : batches});
-                    notification.success({
-                        message: "Batches fetched Successfully" ,
+                    // notification.success({
+                    //     message: "Batches fetched Successfully" ,
                         
-                      });
+                    //   });
                 }
                 else {
                     notification.error({

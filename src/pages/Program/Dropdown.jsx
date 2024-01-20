@@ -46,13 +46,28 @@ const Dropdown = ({ data, certificates , isPresent }) => {
     const prevItem = i > 0 ? data[i - 1] : null;
     const { progress = [], videos } = prevItem || {};
     const isLocked = !(progress?.videos?.length === videos?.length);
-    console.log(data)
+
     return {
       key: item._id,
       icon: <SettingOutlined />,
       children: item.videos.map((video, i) => ({
+        onClick:() => {
+          if (!isLocked) {
+            setCurrentVideo(video);
+          }
+        },
+        
         key: video._id,
-        icon: <SettingFilled />,
+        icon: <SettingFilled onClick={() => {
+          if (!isLocked) {
+            setCurrentVideo(video);
+          }
+        }}
+        style={{
+          color: isLocked ? "gray" : "black",
+          display: "flex",
+          justifyContent: "space-between",
+        }} />,
         label: (
           <div
             onClick={() => {
@@ -64,9 +79,17 @@ const Dropdown = ({ data, certificates , isPresent }) => {
               color: isLocked ? "gray" : "black",
               display: "flex",
               justifyContent: "space-between",
+
             }}
           >
-            {video.name} {isLocked ? <LockFilled /> : findVideoById(video._id , data ) ? <div style={{color:"green"}}> <CheckCircleFilled /></div> :  <UnlockFilled />}
+            <div style={{width:"93%" , whiteSpace:"nowrap" ,overflow:"hidden" ,textOverflow:"ellipsis"}}>
+
+            {video.name}
+            </div>
+            <div style={{width:"7%"}}>
+             {isLocked ? <LockFilled /> : findVideoById(video._id , data ) ? <div style={{color:"green"}}> <CheckCircleFilled /></div> :  <UnlockFilled />}
+
+            </div>
           </div>
         ),
       })),

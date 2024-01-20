@@ -21,10 +21,15 @@ import AttendanceCalendar from "./AttendanceCalendar";
 import useBatchStore from "../../store/batchStore";
 import { set } from "date-fns";
 import MeetingModal from "../Meetings/MeetingModal";
-import { FilePdfFilled, PlayCircleFilled } from "@ant-design/icons";
+import {
+  FilePdfFilled,
+  LinkOutlined,
+  LinkedinFilled,
+  PlayCircleFilled,
+} from "@ant-design/icons";
 import ModalVideo from "react-modal-video";
 import YouTubeIframe from "./YouTubeIframe";
-import {  Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { Item } = List;
@@ -48,7 +53,6 @@ export const formatDate = (dateString) => {
 };
 
 const CourseOverview = ({ events }) => {
-  
   const [openMeetingConfirmation, setOpenMeetingConfirmation] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
@@ -114,11 +118,10 @@ const CourseOverview = ({ events }) => {
     if (youTubeUrl == "undefined") {
     } else {
       console.log(youTubeUrl);
-      var VideoID =youTubeUrl;
+      var VideoID = youTubeUrl;
       console.log(VideoID);
     }
   } else {
-    console.log("pp");
   }
   // const handleBackClick = () => {
   //   navigate(-1);
@@ -127,7 +130,6 @@ const CourseOverview = ({ events }) => {
     setSelectedDay(day);
     setVisible(true);
   };
-  console.log("VideoID" , VideoID)
   const onClose = () => {
     setVisible(false);
     setSelectedDay(null);
@@ -157,7 +159,12 @@ const CourseOverview = ({ events }) => {
     setModalVideoOpen(false);
   };
   return (
-    <div style={{ paddingTop: "2rem" ,paddingLeft: activeTab==="tab3" ? "1rem" : "3rem"  }}>
+    <div
+      style={{
+        paddingTop: "2rem",
+        paddingLeft: activeTab === "tab3" ? "1rem" : "3rem",
+      }}
+    >
       <MeetingModal
         meetingNumber={meetingData?.meetingNumber}
         name={meetingData?.topic}
@@ -181,9 +188,7 @@ const CourseOverview = ({ events }) => {
             padding: "15px",
           }}
         >
-          
           <YouTubeIframe VideoId={VideoID} />
-
         </div>
       </Modal>
       <div
@@ -191,23 +196,19 @@ const CourseOverview = ({ events }) => {
           display: "flex",
           alignItems: "center",
           marginBottom: "20px",
-
         }}
       >
-        
         <Link to="/programs">
-        <Title level={2}>My Programs</Title>
+          <Title level={2}>My Programs</Title>
         </Link>
       </div>
 
       <Title level={3}>{currentBatch?.name}</Title>
       <Title level={4}>Course Content</Title>
-        
+
       <Tabs activeKey={activeTab} onChange={handleTabChange}>
-        
         <TabPane tab="Overview" key="tab1">
           <div>
-            
             <StickyBox offsetTop={20} offsetBottom={20}>
               {syllabus?.map((weekData, weekIndex) => (
                 <Collapse
@@ -399,17 +400,10 @@ const CourseOverview = ({ events }) => {
                         Resources:{" "}
                         <div
                           style={{
-                            marginTop: "0.5rem",
-                            display: resources?.length !== 0 ? "grid" : "flex",
-                            justifyContent:
-                              resources?.length !== 0 ? undefined : "center",
-                            alignItems:
-                              resources?.length !== 0 ? undefined : "center",
-                            gridTemplateColumns:
-                              resources?.length !== 0
-                                ? "repeat(2, minmax(0, 1fr))"
-                                : undefined,
-                            gap: resources?.length !== 0 ? "1rem" : undefined,
+                            display: "flex",
+                            flexWrap: "wrap",
+                            flexDirection: "row",
+                            gap: "5px",
                           }}
                         >
                           {resources?.length !== 0 ? (
@@ -421,125 +415,56 @@ const CourseOverview = ({ events }) => {
                                   marginTop: "0.5rem",
                                 }}
                               >
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  {resource.type === "url" ? (
-                                    <div style={{}}></div>
-                                  ) : null}
+                                <div style={{}}>
                                   {resource.type === "pdf" ? (
-                                    <a
-                                      href={resource.destinationUrl}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                    >
-                                      <Button
-                                        style={{
-                                          width: "100%",
-                                          fontSize: "0.875rem",
-                                          marginLeft: "1rem",
-                                        }}
-                                      >
-                                        <div
-                                          style={{
-                                            fontWeight: "600",
-                                            // paddingTop: "0.25rem",
-                                            // paddingBottom: "0.25rem",
-                                          }}
-                                        >
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              gap: "0.5rem",
-                                              alignItems: "center",
-                                              // padding: "1px",
-                                              // paddingLeft: "5px",
-                                            }}
-                                          >
-                                            <div
-                                              style={{
-                                                // backgroundColor: "#679DAA",
-                                                borderRadius: "50%",
-                                              }}
-                                            >
-                                              <FilePdfFilled
-                                                size={22}
-                                                style={{
-                                                  color: "black",
-                                                  padding: "0.25rem",
-                                                }}
-                                              />
-                                            </div>
-                                            <p
-                                              style={{
-                                                fontSize: "1.125rem",
-                                                fontWeight: "600",
-                                                color: "#4A4A4A",
-                                              }}
-                                            >
-                                              {resource?.name
-                                                ? resource.name.split(".")[0]
-                                                : resource?.title.split(".")[0]}
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </Button>
-                                    </a>
-                                  ) : (
                                     <Button
-                                      onClick={() => setModalVideoOpen(true)}
                                       style={{
                                         width: "100%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
                                         fontSize: "0.875rem",
-                                        marginLeft: "1rem",
+                                        maxWidth: "200px",
                                       }}
+                                      onClick={() =>
+                                        window.open(resource.destinationUrl)
+                                      }
                                     >
-                                      
+                                      <FilePdfFilled />
                                       <div
                                         style={{
-                                          fontWeight: "600",
-                                          // paddingTop: "0.25rem",
-                                          // paddingBottom: "0.25rem",
+                                          whiteSpace: "nowrap", // Keeps the text within a single line
+                                          overflow: "hidden", // Hides the text that overflows
+                                          textOverflow: "ellipsis", // Shows ellipsis (...) when the text overflows
                                         }}
                                       >
-                                        <div
-                                          style={{
-                                            // padding: "1px",
-                                            // paddingLeft: "5px",
-                                            display: "flex",
-                                            gap: "0.5rem",
-                                            alignItems: "center",
-                                          }}
-                                        >
-                                          <div
-                                            style={{
-                     
-                                              borderRadius: "50%",
-                                            }}
-                                          >
-                                            <PlayCircleFilled
-                                              size={22}
-                                              style={{
-                                                color: "black",
-                                                padding: "0.25rem",
-                                              }}
-                                            />
-                                          </div>
-                                          <p
-                                            style={{
-                                              fontSize: "1.125rem",
-                                              fontWeight: "600",
-                                              color: "#4A4A4A",
-                                            }}
-                                          >
-                                            {resource?.name
-                                              ? resource.name.split(".")[0]
-                                              : resource?.title.split(".")[0]}
-                                          </p>
-                                        </div>
+                                        {resource?.name
+                                          ? resource.name.split(".")[0]
+                                          : resource?.title.split(".")[0]}
+                                      </div>
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      style={{
+                                        width: "100%",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontSize: "0.875rem",
+                                      }}
+                                      onClick={() => setModalVideoOpen(true)}
+                                    >
+                                      <FilePdfFilled />
+                                      <div
+                                        style={{
+                                          whiteSpace: "nowrap", // Keeps the text within a single line
+                                          overflow: "hidden", // Hides the text that overflows
+                                          textOverflow: "ellipsis", // Shows ellipsis (...) when the text overflows
+                                        }}
+                                      >
+                                        {resource?.name
+                                          ? resource.name.split(".")[0]
+                                          : resource?.title.split(".")[0]}
                                       </div>
                                     </Button>
                                   )}
