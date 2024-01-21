@@ -1,0 +1,9 @@
+.meta {
+    /* display: flex; */
+    max-width: 270px;
+    overflow-wrap: break-word;
+    /* white-space: nowrap;
+    max-width: 270px;
+    max-height: 300px; */
+    /* word-wrap: break-word; */
+}

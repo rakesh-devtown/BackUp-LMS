@@ -1,4 +1,5 @@
 
+import { notification } from 'antd';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -8,6 +9,18 @@ const SERVICE_URL = "https://j66d85vpbf.execute-api.ap-south-1.amazonaws.com"
 if(TEST_MODE) toast('Test mode Active !! ', {
   icon: '🧪',
 });
+notification.info({
+    message: 'Test mode Active !!',
+    description:
+        'Test mode Active !!',
+    placement: 'bottomRight',
+    duration: 5,
+    style: {
+        backgroundColor: '#f6ffed',
+        border: '1px solid #b7eb8f',
+    },
+
+})
 
 export const servicePost = async (path, payload, headers = null) => {
     return new Promise((resolve, reject) => {
@@ -23,6 +36,7 @@ export const servicePost = async (path, payload, headers = null) => {
             });
     });
 };
+
 
 export const serviceGet = async (path, headers) => {
     return new Promise((resolve, reject) => {

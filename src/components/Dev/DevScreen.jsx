@@ -17,6 +17,7 @@ function DevScreen() {
   console.log(name, path, type, url);
   const [content, setContent] = useState("Loading");
   const navigate = useNavigate();
+  
   useEffect(() => {
     // Fetch data from your API and update the treeData state
     const fetchData = async () => {

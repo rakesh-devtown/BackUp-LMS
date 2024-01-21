@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, Button, Card, notification } from "antd";
+import { Drawer, Button, Card, notification, Calendar } from "antd";
 import { StyledCalendar } from "../../styles/calendar.styles";
 import { serviceGet } from "../../utils/api";
 import { setHeader } from "../../utils/header";
@@ -70,8 +70,9 @@ const CalendarScheduler = ({ events }) => {
     getSessions();
   }, [selectedDate]);
   return (
-    <div>
+    <div style={{display : "flex"  , backgroundColor : "red"}} >
       <StyledCalendar
+      
         onSelect={handleDateClick}
         dateCellRender={dateCellRender}
       />
