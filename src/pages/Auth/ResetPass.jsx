@@ -29,7 +29,7 @@ export default function ResetPass() {
 
   const handleSubmit = (values) => {
     if (values.password === values.confirmPassword) {
-      resetPassword(values, token, () => navigate("/"));
+      resetPassword(values, token, () => navigate("/programs"));
     } else {
       message.error("password mismatch");
     }

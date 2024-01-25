@@ -35,7 +35,6 @@ const DevTree = (  { treeData }) => {
     const splitArray = name.split('.');
     const extension = splitArray[splitArray.length-1];
     navigate(`/tree/file?name=${ name }&path=${path}&type=${type}&url=${url}&extension=${extension}` )
-    console.log('Trigger Select', JSON.parse(keys[0]));  
     
   };
   const onExpand = (keys, info) => {

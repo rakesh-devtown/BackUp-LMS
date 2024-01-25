@@ -42,7 +42,7 @@ function DevtownCertificates() {
 	useEffect(() => {
 		getCertificates();
 	}, [updateAllowed]);
-	// Function to toggle dropdown visibility
+
 	const toggleDropdown = (title) => {
 		if (selectedTitle === title) {
 			setSelectedTitle(null);

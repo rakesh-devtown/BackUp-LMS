@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, Button, Card, notification, Calendar } from "antd";
-import { StyledCalendar } from "../../styles/calendar.styles";
+import { Drawer, Button, Card, notification, Calendar, Flex } from "antd";
+import { StyledCalendar, StyledCalendarCard } from "../../styles/calendar.styles";
 import { serviceGet } from "../../utils/api";
 import { setHeader } from "../../utils/header";
 import { formatDate } from "../courses/CourseOverview";
 import MeetingModal from "../Meetings/MeetingModal";
 import useAuthStore from "../../store/authStore";
 import useBatchStore from "../../store/batchStore";
+import Title from "antd/es/typography/Title";
 
 const CalendarScheduler = ({ events }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -70,7 +71,7 @@ const CalendarScheduler = ({ events }) => {
     getSessions();
   }, [selectedDate]);
   return (
-    <div style={{display : "flex"  , backgroundColor : "red"}} >
+    <Flex  >
       <StyledCalendar
       
         onSelect={handleDateClick}
@@ -109,13 +110,10 @@ const CalendarScheduler = ({ events }) => {
                   open={openMeetingConfirmation}
                   setOpen={setOpenMeetingConfirmation}
                 />
-                <Card
-                  key={i}
-                  title={`Title: ${session.topic}`}
-                  style={{
-                    width: 300,
-                  }}
-                >
+                <StyledCalendarCard
+  key={i}
+  title={`Title: ${session.topic}`}
+>
                   <p>Description: {session.description}</p>
                   {/* <p>Instructor: {session.instructor}</p> */}
                   <Button 
@@ -165,18 +163,18 @@ const CalendarScheduler = ({ events }) => {
                   }}
                   
                   type="primary">Join</Button>
-                </Card>
+                </StyledCalendarCard>
               </>
             );
           })
         : <div>
-          <h1 style={{textAlign:"center"}}>
+          <Title>
             No classes scheduled for this day
-          </h1>
+          </Title>
         </div>
         }
       </Drawer>
-    </div>
+    </Flex>
   );
 };
 

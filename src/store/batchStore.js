@@ -60,7 +60,6 @@ const useBatchStore = create(
         });
       }
     },
-
     getCurrentBatch: async (batchId) => {
       try {
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);

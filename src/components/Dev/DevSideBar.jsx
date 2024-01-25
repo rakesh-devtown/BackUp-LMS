@@ -38,7 +38,7 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
       );
       if (statusCode === 404 || !data.tree) {
         // toast.error(message);
-        navigate("/");
+        navigate("/programs");
       }
       setTreeData(data.tree);
     } catch (error) {
@@ -49,7 +49,7 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
   };
   useEffect(() => {
     if (dayId && batchId) fetchData();
-    else navigate("/");
+    else navigate("/programs");
   }, []);
 
   const toggleSidebar = () => {

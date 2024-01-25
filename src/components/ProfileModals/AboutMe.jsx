@@ -699,7 +699,7 @@ function AboutMe({ profile, about }) {
                           marginRight: "12px",
                           marginBottom: "12px",
                           marginTop: "4px",
-                        }}
+                        }} rel="noreferrer"
                       >
                         <DeliveredProcedureOutlined size={28} />
                       </a>

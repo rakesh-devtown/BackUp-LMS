@@ -6,6 +6,7 @@ import {
   RightOutlined,
   EyeOutlined,
   CodeSandboxCircleFilled,
+  ArrowLeftOutlined,
 } from "@ant-design/icons";
 import { Button, Space } from "antd";
 
@@ -17,7 +18,12 @@ import { serviceGet, servicePost, servicePut } from "../../utils/api";
 import { setHeader } from "../../utils/header";
 import CertificateDropDown from "../../components/courses/CertficateDropDown";
 import useAuthStore from "../../store/authStore";
-
+import useWindowSize from "../../hooks/useWindowSixe";
+import {
+  ThumbnailImage,
+  VideoDetailBackButton,
+  VimeoContainer,
+} from "../../styles/videoDetail.styles";
 const { Title, Text } = Typography;
 
 const StyledVideoBox = styled.div`
@@ -25,7 +31,9 @@ const StyledVideoBox = styled.div`
   display: flex;
   gap: 1rem;
   justify-content: space-between;
-
+  align-items: ${(props) => (props.width > 764 ? "start" : "")};
+  padding: 0;
+  position: relative;
   @media (max-width: 768px) {
     flex-direction: column;
     justify-content: center;
@@ -38,6 +46,7 @@ const StyledLeft = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: ${(props) => (props.width < 764 ? "100%" : "")};
 `;
 const StyledRight = styled.div`
   display: flex;
@@ -123,7 +132,7 @@ const StyledProgramsText = styled(Text)`
   line-height: 1.75rem;
   font-weight: 600;
   color: rgb(163 162 162);
-
+  cursor: pointer;
   @media (max-width: 768px) {
     display: none;
   }
@@ -158,7 +167,7 @@ const StyledSubText = styled(Text)`
 
 const VideoDetail = () => {
   const navigate = useNavigate();
-
+  const { width } = useWindowSize();
   const currentBatchId = useBatchStore((state) => state.currentBatchId);
   const currentBatch = useBatchStore((state) => state.currentBatch);
   const [course, setCourse] = useState({});
@@ -185,9 +194,11 @@ const VideoDetail = () => {
     firstName: user?.firstName,
     lastName: user?.lastName,
   });
-  const {state: {thumbnail}} = useLocation();
+  const {
+    state: { thumbnail },
+  } = useLocation();
   let progress;
- 
+
   if (sections && sections.length > 0 && section) {
     progress = sections?.filter((e) => e._id === section._id)[0];
   }
@@ -273,8 +284,6 @@ const VideoDetail = () => {
     const lastSection = sections[sections.length - 1];
     const lastVideo = lastSection.videos[lastSection.videos.length - 1];
 
-    console.log("lastSection", lastSection);
-    console.log("lastVideo", lastVideo);
     try {
       // check if course has been completed or not
       let cc = false;
@@ -299,13 +308,12 @@ const VideoDetail = () => {
         notification.success({
           message: "Success",
           description:
-            "congratulations on completing the course, check your inbox for certificate",
+            "Congratulations on completing the course, check your inbox for certificate",
         });
       }
 
       // if course is not completed or name is updated successfully and course is completed then update the progress
       else if (!cc || (cc && ready)) {
-     
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
         const { data, success, message } = await servicePost(
           `student/student-api/v1/video/progress`,
@@ -330,7 +338,7 @@ const VideoDetail = () => {
             description: message,
           });
         }
-
+        getCurrentBatch(currentBatchId);
         // get certificate after name is updated and course is completed
         if (cc && ready) getCert();
       }
@@ -353,23 +361,34 @@ const VideoDetail = () => {
 
   useEffect(() => {
     handleGetCourseData();
-  }, []);
-  console.log(currentBatch)
+  }, [currentBatch]);
+
   return (
     <>
+      <CertificateDropDown
+        handleSubmit={handleSubmit}
+        open={open}
+        setOpen={setOpen}
+        updateProfile={updateProfile}
+        setupdateProfile={setupdateProfile}
+        setCertificateData={setCertificateData}
+      />
       <StyledVideoBox>
-        <CertificateDropDown
-          handleSubmit={handleSubmit}
-          open={open}
-          setOpen={setOpen}
-          updateProfile={updateProfile}
-          setupdateProfile={setupdateProfile}
-          setCertificateData={setCertificateData}
-        />
-        <StyledLeft>
+        {width < 700 && (
+          <VideoDetailBackButton
+            width={width}
+            type="primary"
+            onClick={() => navigate("/programs")}
+          >
+            <ArrowLeftOutlined />
+          </VideoDetailBackButton>
+        )}
+        <StyledLeft width={width}>
           <StyledHeading>
             <StyledHeadingSubPart>
-              <StyledProgramsText onClick={() => navigate("/programs")} style={{cursor:"pointer"}}  >My Programs</StyledProgramsText>
+              <StyledProgramsText onClick={() => navigate("/programs")}>
+                My Programs
+              </StyledProgramsText>
               <StyledProgramsText>
                 <RightOutlined />
               </StyledProgramsText>
@@ -394,30 +413,34 @@ const VideoDetail = () => {
             )}
           </StyledVideoTitle>
 
-          {/* <ReactPlayer width='720px' height='450px' style={{padding:'0.5rem'}} controls={true} url='https://youtu.be/BISJi_mMi7U?list=RD0UF_bT4CgtU'/> */}
+          <VimeoContainer>
+            {currentVideoDetails.player_link ? (
+              <Vimeo
+                video={currentVideoDetails?.player_link}
+                width={700}
+                height={450}
+                responsive={true}
+                onEnd={onWatched}
+              />
+            ) : (
+              <ThumbnailImage src={thumbnail} alt="thumbnail" />
+            )}
+          </VimeoContainer>
 
-          {currentVideoDetails.player_link ? (
-            <Vimeo
-              video={currentVideoDetails?.player_link}
-              width={700}
-              height={450}
-              responsive={true}
-              onEnd={onWatched}
-            />
-          ) : (
-            <div
-              style={{ maxWidth:'1100px'}}
-            ><img style={{overflow:"hidden" ,width:"100%"}} src={thumbnail} alt="thumbnail" />
-            </div>
-          )}
           <StyledHeading>
             <StyledText>Course Overview</StyledText>
           </StyledHeading>
 
-          <StyledSubText>{ currentBatch&& currentBatch.course&& currentBatch.course.length > 0 &&  currentBatch.course[0].name}</StyledSubText>
+          <StyledSubText>
+            {currentBatch &&
+              currentBatch.course &&
+              currentBatch.course.length > 0 &&
+              currentBatch.course[0].name}
+          </StyledSubText>
         </StyledLeft>
         <StyledRight>
           <StyledCourseText>Course Content</StyledCourseText>
+
           <Dropdown
             isPresent={isPresent}
             data={course.sections}

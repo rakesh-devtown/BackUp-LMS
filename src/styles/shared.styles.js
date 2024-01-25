@@ -6,3 +6,4 @@ export const FullScreenContent = styled(Content)`
 height: 100%;
 overflow: auto;
 `
+

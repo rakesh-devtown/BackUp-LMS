@@ -24,6 +24,7 @@ import useBatchStore from "../../store/batchStore.js";
 import { setHeader } from "../../utils/header.js";
 import useLoadingStore from "../../store/loadingStore.js";
 import useWindowSize from "../../hooks/useWindowSixe.js";
+import { CourseOverviewAttendanceStyledDiv } from "../../styles/courseOverView.styles.js";
 
 function AttendanceCalendar() {
   const [data, setData] = useState([]);
@@ -96,29 +97,13 @@ function AttendanceCalendar() {
     <>
     
       <Title level={4}>Attendence</Title>
-      <div
-        style={{
-          display: "flex",
-          gap : "4px" ,
-          flexDirection: width <= 1163 ? "column" : "row",
-          justifyContent: "space-around",
-        }}
-      >
-        <div>
+      <CourseOverviewAttendanceStyledDiv width={width}>
+        <div style={{}}>
           <AttendanceTable data={data} />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent : "center" , alignItems : "center", 
-            borderStyle: "solid 2px ",
-            borderColor: "grey",
-            borderRadius: "5rem",
-          }}
-        >
-          <ProgressBar percent={chartData.percentage} />
-        </div>
-      </div>
+          
+          <ProgressBar  percent={chartData.percentage} />
+        </CourseOverviewAttendanceStyledDiv>
     </>
   );
 }

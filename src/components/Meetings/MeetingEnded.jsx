@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { setHeader } from "../../utils/header";
 import { serviceGet, servicePost } from "../../utils/api";
 import MeetEndSVG from "../../assets/images/meetEnd.svg";
+import { MeetingContainer, MeetingImageContainer, MeetingInnerContainer, MeetingStatusContainer } from "../../styles/meeting.styles";
 
 function MeetingEnded() {
   const query = new URLSearchParams(window.location.search);
@@ -46,51 +47,22 @@ function MeetingEnded() {
   }, []);
 
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        width: "100%",
-        height: "100vh",
-        padding: "1rem",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          borderRadius: "0.5rem",
-          height: "100%",
-          width: "50%",
-          height: "50%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+    <MeetingContainer>
+      <MeetingInnerContainer>
+      <MeetingImageContainer>
           <img
             src={MeetEndSVG}
             alt="Meet ended"
             style={{ width: "100%", height: "100%" }}
           />
-        </div>
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: "1.25rem",
-            paddingTop: "1rem",
-          }}
-        >
+        </MeetingImageContainer>
+        <MeetingStatusContainer>
           {meetingStatus === "waiting"
             ? "Your Meeting has not started yet, please reload the page and wait on Zoom screen"
             : "Your meeting has ended, Thanks for joining"}
-        </div>
-      </div>
-    </div>
+        </MeetingStatusContainer>
+      </MeetingInnerContainer>
+    </MeetingContainer>
   );
 }
 

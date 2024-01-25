@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, useEffect, useState } from "react";
 import IconButton from "../ui/IconButton";
 import {
-    CloseCircleFilled,
+  CloseCircleFilled,
   EditFilled,
   FormatPainterFilled,
   LogoutOutlined,
@@ -9,6 +9,12 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import { Modal } from "antd";
+import {
+  NewModalButton,
+  NewModalFeedbackContainer,
+  NewModalLogoutText,
+  NewModalUpdateContainer,
+} from "../../styles/newModal.styles";
 
 function NewModal(props) {
   const [open, setopen] = useState(false);
@@ -34,62 +40,26 @@ function NewModal(props) {
   };
   return (
     <>
-      <IconButton  onClick={() => setopen(true)}>
+      <IconButton onClick={() => setopen(true)}>
         {props.text === "Logout" ? (
           <>
             <LogoutOutlined style={{ marginLeft: "40%" }} size={"1.3em"} />
-            <p style={{  marginTop: "8px" ,fontSize: "1.125em",  }}>{props.text}</p>
+            <NewModalLogoutText>{props.text}</NewModalLogoutText>
           </>
         ) : props.text === "Add" ? (
-          <PlusOutlined  />
+          <PlusOutlined />
         ) : props.text === "Feedback" ? (
-          <div
-            style={{
-              fontWeight: "bold",
-              color: "#9865E8",
-              marginTop: "80px",
-              marginBottom: "80px",
-              height: "200px",
-              fontSize: "1.125em",
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-          >
+          <NewModalFeedbackContainer>
             Give us your feedback
-          </div>
+          </NewModalFeedbackContainer>
         ) : props.text === "Edit" ? (
           <EditFilled color={"#928e8e"} size={"1.3em"} />
         ) : props.text === "Let's Continue" ? (
-          <button
-            onClick={() => setopen(true)}
-            style={{
-              marginTop: "16px",
-              marginBottom: "12px",
-              padding: "8px 16px",
-              backgroundColor: "white",
-              color: "#928e8e",
-              fontWeight: "bold",
-              borderRadius: "8px",
-              fontSize: "1.125em",  
-            }}
-          >
+          <NewModalButton onClick={() => setopen(true)}>
             {props.text}
-          </button>
+          </NewModalButton>
         ) : props.text === "Update" ? (
-          <div
-            style={{
-              color: "white",
-              background: "linear-gradient(to bottom right, #7b68ee, #1e90ff)",
-              padding: "8px 16px",
-              borderRadius: "8px",
-              fontSize: "1.125em",  
-            }}
-          >
-            {props.text}
-          </div>
+          <NewModalUpdateContainer>{props.text}</NewModalUpdateContainer>
         ) : (
           <EditFilled
             style={{ float: "right", marginRight: "28px", color: "#928e8e" }}
@@ -98,23 +68,20 @@ function NewModal(props) {
         )}
       </IconButton>
       {open ? (
-  <>
-    <Modal
-        open={open}
-        onCancel={()=> setopen(false)}
-        footer={null}
-      style={{
-       
-        height : "100%",
-       
-      }}
-      title={props.mainSub}
-    >
-      
-      {renderElements()}
-    </Modal>
-  </>
-) : null}
+        <>
+          <Modal
+            open={open}
+            onCancel={() => setopen(false)}
+            footer={null}
+            style={{
+              height: "100%",
+            }}
+            title={props.mainSub}
+          >
+            {renderElements()}
+          </Modal>
+        </>
+      ) : null}
     </>
   );
 }

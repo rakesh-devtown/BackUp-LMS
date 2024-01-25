@@ -11,6 +11,8 @@ import {
   Box,
   LoginTime,
   ClearAllButton,
+  StyledButton,
+  StyledClearButton,
 } from "../../styles/SessionLimit.styles";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
@@ -60,7 +62,7 @@ const SessionLimit = () => {
         } = await serviceGet(`student/student-api/v1/screen/${user?._id}`);
         setSessions(screenSessions);
       } else {
-        navigate("/");
+        navigate("/programs");
       }
     } catch (error) {
       console.log(error);
@@ -76,25 +78,10 @@ const SessionLimit = () => {
 
   return (
     <SessionLimitContainer>
-      <Button
-        style={{
-          position: "absolute",
-          top: "20px",
-          left: "20px",
-          padding: "6px 15px",
-          border: "1px solid #012353",
-          borderRadius: "4px",
-          display: "inline-flex",
-          gap: "10px",
-          color: "black",
-          fontSize: "14px",
-          fontWeight: "600",
-          lineHeight: "1.4",
-          fontFamily: "'Manrope', sans-serif",
-        }}
+      <StyledButton
       >
         Back
-      </Button>
+      </StyledButton>
 
       <CardContainer>
         <Title>Active Session Limit Reached</Title>
@@ -103,7 +90,7 @@ const SessionLimit = () => {
           end another session before logging in.
         </Description>
         {sessions.map((e  , idx) => (
-          <Box key={idx} style={{borderRadius:"10px"  , display:"flex" }}>
+          <Box key={idx} >
 
             <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
               <div style={{}}>
@@ -154,30 +141,18 @@ const SessionLimit = () => {
                   <div style={{color:"#595a5c"}}>
                     { width >500   && e?.os}
                   </div>
-            <Button
+            <StyledClearButton
               onClick={() => clearSession(e._id)}
-              style={{
-                marginLeft :"10px" ,
-                padding: "6px 15px",
-                border: "1px solid #012353",
-                borderRadius: "4px",
-                display: "inline-flex",
-                gap: "10px",
-                color: "black",
-                fontSize: "14px",
-                fontWeight: "600",
-                lineHeight: "1.4",
-                fontFamily: "'Manrope', sans-serif",
-              }}
+              
             >
               {" "}
               Logout{" "}
-            </Button>
+            </StyledClearButton>
           </Box>
         ))}
 
         <ClearAllButton
-          style={{ cursor: "pointer" }}
+     
           onClick={() => clearAllSession()}
         >
           {" "}

@@ -12,8 +12,8 @@ function YouTubeIframe( {VideoId}  ) {
       
       {VideoId && (
         <iframe
-          width="460"
-          height="315"
+          width="520"
+          height="415"
           src={VideoId}
           title="YouTube video player"
           frameBorder="0"

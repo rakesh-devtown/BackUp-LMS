@@ -4,7 +4,7 @@ import useProgramStore from '../../store/programStore';
 import { useLocation } from 'react-router-dom';
 const { Search } = Input;
 
-const SearchBar = () => {
+const SearchBar = (  { collapsed}) => {
   const name = useProgramStore((state) => state.name);
   const setName = useProgramStore((state) => state.setName);
 
@@ -28,6 +28,9 @@ const SearchBar = () => {
           style={{
             width: 600,
             fontSize: "30px",
+            marginLeft:collapsed? "0px":"58px",
+            transition: "all 0.2s ease",
+            
           }}
         />
         )

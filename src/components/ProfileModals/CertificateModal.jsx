@@ -3,6 +3,15 @@ import { setHeader } from "../../utils/header";
 import { serviceDelete, servicePost, servicePut } from "../../utils/api";
 import { Button, Input, notification } from "antd";
 import CustomDropdown from "../DropDown/CustomDropdown";
+import {
+  DateSelectContainer,
+  ModalButtonContainer,
+  ModalDeleteButton,
+  ModalFormContainer,
+  ModalLabel,
+  ModalSaveButton,
+  ModalTextArea,
+} from "../../styles/Modals/sharedModals.styles";
 
 function CertificateModal({ cert, type, setopen, about }) {
   const [startDate, setStartDate] = useState({ month: "", year: "" });
@@ -182,226 +191,178 @@ function CertificateModal({ cert, type, setopen, about }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div
-        style={{
-          marginBottom: "40px",
-          width: "100%",
-          padding: "0 12px",
-          color: "#747474",
-        }}
-      >
-        <p style={{ fontWeight: "600", marginTop: "20px", marginLeft: "4px", marginBottom: "8px" }}>
-  Certificate Title <span style={{ color: "#FF0000" }}>*</span>
-</p>
-<div style={{ marginBottom: "20px" }}>
-  {type === "Edit" ? (
-    <Input
-      id="title"
-      defaultValue={updateCertificate?.title}
-      name="title"
-      type="text"
-      required
-      onChange={(e) =>
-        setupdateCertificate({
-          ...updateCertificate,
-          title: e.target.value,
-        })
-      }
-      autoComplete="title"
-    />
-  ) : (
-    <Input
-      id="title"
-      name="title"
-      type="text"
-      required
-      onChange={(e) =>
-        setupdateCertificate({
-          ...updateCertificate,
-          title: e.target.value,
-        })
-      }
-      autoComplete="title"
-    />
-  )}
-</div>
-<div>
-  <p style={{ fontWeight: "600", marginTop: "20px", marginLeft: "4px", marginBottom: "8px" }}>
-    Organisation <span style={{ color: "#FF0000" }}>*</span>
-  </p>
-  {type === "Edit" ? (
-    <Input
-      id="organization"
-      defaultValue={updateCertificate?.organization}
-      name="organization"
-      type="text"
-      required
-      onChange={(e) =>
-        setupdateCertificate({
-          ...updateCertificate,
-          organization: e.target.value,
-        })
-      }
-      autoComplete="organization"
-    />
-  ) : (
-    <Input
-      id="organization"
-      name="organization"
-      type="text"
-      required
-      onChange={(e) =>
-        setupdateCertificate({
-          ...updateCertificate,
-          organization: e.target.value,
-        })
-      }
-      autoComplete="organization"
-    />
-  )}
-</div>
-<p style={{ fontWeight: "600", marginTop: "20px", marginLeft: "4px", marginBottom: "8px" }}>
-  Certificate Link <span style={{ color: "#FF0000" }}>*</span>
-</p>
+      <ModalFormContainer>
+        <ModalLabel>
+          Certificate Title <span style={{ color: "#FF0000" }}>*</span>
+        </ModalLabel>
 
+        {type === "Edit" ? (
+          <Input
+            id="title"
+            defaultValue={updateCertificate?.title}
+            name="title"
+            type="text"
+            required
+            onChange={(e) =>
+              setupdateCertificate({
+                ...updateCertificate,
+                title: e.target.value,
+              })
+            }
+            autoComplete="title"
+          />
+        ) : (
+          <Input
+            id="title"
+            name="title"
+            type="text"
+            required
+            onChange={(e) =>
+              setupdateCertificate({
+                ...updateCertificate,
+                title: e.target.value,
+              })
+            }
+            autoComplete="title"
+          />
+        )}
 
+        <div>
+          <ModalLabel>
+            {" "}
+            Organization <span style={{ color: "#FF0000" }}>*</span>{" "}
+          </ModalLabel>
 
-<div style={{ marginTop: "20px" }}>
-  {type === "Edit" ? (
-    <Input
-      id="url"
-      defaultValue={updateCertificate?.url}
-      name="url"
-      type="url"
-      required
-      onChange={(e) =>
-        setupdateCertificate({
-          ...updateCertificate,
-          url: e.target.value,
-        })
-      }
-      autoComplete="url"
-    />
-  ) : (
-    <Input
-      id="url"
-      name="url"
-      type="url"
-      required
-      onChange={(e) =>
-        setupdateCertificate({
-          ...updateCertificate,
-          url: e.target.value,
-        })
-      }
-      autoComplete="url"
-    />
-  )}
-</div>
-<p style={{ fontWeight: "600", marginTop: "20px", marginLeft: "4px", marginBottom: "8px" }}>Start Date</p>
-<div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
-  <CustomDropdown
-    type="month"
-    handleChange={handleStartDateMonthChange}
-  />
-  <CustomDropdown
-    type="year"
-    handleChange={handleStartDateYearChange}
-  />
-</div>
-<p style={{ fontWeight: "600", marginTop: "20px", marginLeft: "4px", marginBottom: "8px" }}>End Date</p>
-<div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
-  <CustomDropdown
-    type="month"
-    handleChange={handleEndDateMonthChange}
-  />
-  <CustomDropdown type="year" handleChange={handleEndDateYearChange} />
-</div>
+          {type === "Edit" ? (
+            <Input
+              id="organization"
+              defaultValue={updateCertificate?.organization}
+              name="organization"
+              type="text"
+              required
+              onChange={(e) =>
+                setupdateCertificate({
+                  ...updateCertificate,
+                  organization: e.target.value,
+                })
+              }
+              autoComplete="organization"
+            />
+          ) : (
+            <Input
+              id="organization"
+              name="organization"
+              type="text"
+              required
+              onChange={(e) =>
+                setupdateCertificate({
+                  ...updateCertificate,
+                  organization: e.target.value,
+                })
+              }
+              autoComplete="organization"
+            />
+          )}
+        </div>
+        <ModalLabel>
+          {" "}
+          Certificate Link <span style={{ color: "#FF0000" }}>*</span>{" "}
+        </ModalLabel>
 
+        <div style={{ marginTop: "20px" }}>
+          {type === "Edit" ? (
+            <Input
+              id="url"
+              defaultValue={updateCertificate?.url}
+              name="url"
+              type="url"
+              required
+              onChange={(e) =>
+                setupdateCertificate({
+                  ...updateCertificate,
+                  url: e.target.value,
+                })
+              }
+              autoComplete="url"
+            />
+          ) : (
+            <Input
+              id="url"
+              name="url"
+              type="url"
+              required
+              onChange={(e) =>
+                setupdateCertificate({
+                  ...updateCertificate,
+                  url: e.target.value,
+                })
+              }
+              autoComplete="url"
+            />
+          )}
+        </div>
+        <ModalLabel> Start Date</ModalLabel>
+        <DateSelectContainer>
+          <CustomDropdown
+            type="month"
+            handleChange={handleStartDateMonthChange}
+          />
+          <CustomDropdown
+            type="year"
+            handleChange={handleStartDateYearChange}
+          />
+        </DateSelectContainer>
+        <ModalLabel> End Date</ModalLabel>
+        <DateSelectContainer>
+          <CustomDropdown
+            type="month"
+            handleChange={handleEndDateMonthChange}
+          />
+          <CustomDropdown type="year" handleChange={handleEndDateYearChange} />
+        </DateSelectContainer>
 
-<p style={{ fontWeight: "600", marginTop: "20px", marginLeft: "4px" }}>Description</p>
-{type === "Edit" ? (
-  <textarea
-    id="description"
-    name="description"
-    type="text"
-    style={{
-      width: "100%",
-      padding: "10px 12px",
-      marginTop: "20px",
-      backgroundColor: "#F8F8FA",
-      color: "gray",
-      border: "1px solid",
-      borderRadius: "4px",
-      outline: "none",
-      boxShadow: "none",
-    }}
-    autoComplete="description"
-    rows="4"
-    defaultValue={updateCertificate?.description}
-    onChange={(e) =>
-      setupdateCertificate({
-        ...updateCertificate,
-        description: e.target.value,
-      })
-    }
-  ></textarea>
-) : (
-  <textarea
-    id="description"
-    name="description"
-    type="text"
-    style={{
-      width: "100%",
-      padding: "10px 12px",
-      marginTop: "20px",
-      backgroundColor: "#F8F8FA",
-      color: "gray",
-      border: "1px solid",
-      borderRadius: "4px",
-      outline: "none",
-      boxShadow: "none",
-    }}
-    autoComplete="description"
-    rows="4"
-    onChange={(e) =>
-      setupdateCertificate({
-        ...updateCertificate,
-        description: e.target.value,
-      })
-    }
-  ></textarea>
-)}
-<div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", gap: "12px" }}>
-<Button type="submit"  
-    style={{
-      border : "1px solid black",
-    }}
-    onClick={handleSubmit}
-  >
-    Save
-  </Button>
-  {type === "Edit" && (
-    <Button type="submit"  
-    style={{
-      border : "1px solid black",
-    }}
-    onClick={deleteSubmission}
-  >
-    Delete
-  </Button>
-  )}
-</div>
-
-
-
-
-
-
-
-
-
-      </div>
+        <ModalLabel> Description</ModalLabel>
+        {type === "Edit" ? (
+          <ModalTextArea
+            id="description"
+            name="description"
+            type="text"
+            autoComplete="description"
+            rows="4"
+            defaultValue={updateCertificate?.description}
+            onChange={(e) =>
+              setupdateCertificate({
+                ...updateCertificate,
+                description: e.target.value,
+              })
+            }
+          ></ModalTextArea>
+        ) : (
+          <ModalTextArea
+            id="description"
+            name="description"
+            type="text"
+            autoComplete="description"
+            rows="4"
+            onChange={(e) =>
+              setupdateCertificate({
+                ...updateCertificate,
+                description: e.target.value,
+              })
+            }
+          ></ModalTextArea>
+        )}
+        <ModalButtonContainer>
+          <ModalSaveButton type="submit" onClick={handleSubmit}>
+            Save
+          </ModalSaveButton>
+          {type === "Edit" && (
+            <ModalDeleteButton type="submit" onClick={deleteSubmission}>
+              Delete
+            </ModalDeleteButton>
+          )}
+        </ModalButtonContainer>
+      </ModalFormContainer>
     </form>
   );
 }

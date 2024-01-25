@@ -4,6 +4,7 @@ import Education from "./Education";
 import Projects from "./Projects";
 import Certificate from "./Certificate";
 import Skills from "./Skills";
+import { ProfileCompContainer, ProfileCompSkillsContainer } from "../../styles/profile.styles";
 
 function SubProfileComponent({ text, educ, proj, workex, cert, about, skill }) {
   return <>
@@ -11,7 +12,7 @@ function SubProfileComponent({ text, educ, proj, workex, cert, about, skill }) {
     text === "Education" ||
     text === "Projects" ||
     text === "Certificates") ? (
-    <div style={{ paddingLeft: "30px", paddingRight: "0" }}>
+      <ProfileCompContainer  >
       {text === "Work Experience" ? (
         <>
           {workex?.experience?.map((element, index) => (
@@ -61,18 +62,13 @@ function SubProfileComponent({ text, educ, proj, workex, cert, about, skill }) {
           ))}
         </>
       )}
-    </div>
+    </ProfileCompContainer>
   ) : (
-    <div style={{
-      display :"flex", 
-      flexWrap: "wrap",
-      justifyContent  : "center",
-      alignItems : "center",
-    }}>
+    <ProfileCompSkillsContainer>
       {skill?.map((skills) => (
         <Skills key={skills} text={skills} total_skill={skill} />
       ))}
-    </div>
+    </ProfileCompSkillsContainer>
   )}
 </>
 }

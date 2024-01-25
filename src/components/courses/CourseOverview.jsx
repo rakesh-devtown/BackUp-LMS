@@ -22,14 +22,19 @@ import useBatchStore from "../../store/batchStore";
 import { set } from "date-fns";
 import MeetingModal from "../Meetings/MeetingModal";
 import {
+  ArrowLeftOutlined,
   FilePdfFilled,
   LinkOutlined,
   LinkedinFilled,
   PlayCircleFilled,
+  PlayCircleOutlined,
 } from "@ant-design/icons";
 import ModalVideo from "react-modal-video";
 import YouTubeIframe from "./YouTubeIframe";
 import { Link } from "react-router-dom";
+import { BackButton } from "../../styles/SessionLimit.styles";
+import useWindowSize from "../../hooks/useWindowSixe";
+import { CourseOverViewStyledDiv, CourseOverviewBackButton, CourseOverviewItem, CourseOverviewModelInnerDiv, CourseOverviewModelOuterDiv, CourseOverviewPanel } from "../../styles/courseOverView.styles";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { Item } = List;
@@ -71,7 +76,7 @@ const CourseOverview = ({ events }) => {
   };
   const [dayId, setDayId] = useState("");
   const [resources, setResources] = useState([]);
-
+  const {width} = useWindowSize();
   const getSessionStatus = (startTime) => {
     const currentTime = new Date();
     const sessionTime = new Date(startTime);
@@ -159,12 +164,7 @@ const CourseOverview = ({ events }) => {
     setModalVideoOpen(false);
   };
   return (
-    <div
-      style={{
-        paddingTop: "2rem",
-        paddingLeft: activeTab === "tab3" ? "1rem" : "3rem",
-      }}
-    >
+    <CourseOverViewStyledDiv activeTab={activeTab}>
       <MeetingModal
         meetingNumber={meetingData?.meetingNumber}
         name={meetingData?.topic}
@@ -179,31 +179,36 @@ const CourseOverview = ({ events }) => {
         footer={null}
         open={ModalVideoOpen}
         onCancel={handleCancel}
+        // styles={{ }
       >
-        <div
-          style={{
-            display: "flex",
-            backgroundColor: "",
-            height: "350px",
-            padding: "15px",
-          }}
-        >
-          <YouTubeIframe VideoId={VideoID} />
-        </div>
+ <CourseOverviewModelOuterDiv>
+          <CourseOverviewModelInnerDiv  style={{
+            position:"absolute",
+            top:-20, 
+            left:-24,
+          
+          }} >
+          <YouTubeIframe  VideoId={VideoID} />
+
+          </CourseOverviewModelInnerDiv>
+        </CourseOverviewModelOuterDiv>
       </Modal>
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          marginBottom: "20px",
+
+      
         }}
       >
         <Link to="/programs">
-          <Title level={2}>My Programs</Title>
+        <CourseOverviewBackButton width={width} type="primary">
+  <ArrowLeftOutlined/>
+</CourseOverviewBackButton>
         </Link>
       </div>
 
-      <Title level={3}>{currentBatch?.name}</Title>
+      <Title level={7}>{currentBatch?.name}</Title>
       <Title level={4}>Course Content</Title>
 
       <Tabs activeKey={activeTab} onChange={handleTabChange}>
@@ -217,16 +222,7 @@ const CourseOverview = ({ events }) => {
                   expandIconPosition="right" // Move expand icon to the right
                   style={{ width: "50%" }}
                 >
-                  <Panel
-                    // Week 1 Week 2
-                    header={weekData.name}
-                    key={weekIndex}
-                    style={{
-                      background: "#f7f7f7", // Set a background color
-                      borderRadius: "4px", // Add some border radius
-                      marginBottom: "16px", // Add space between panels
-                    }}
-                  >
+                 <CourseOverviewPanel header={weekData.name} key={weekIndex}>
                     {weekData.days.map((dayData, dayIndex) => (
                       <div
                         key={dayIndex}
@@ -239,13 +235,7 @@ const CourseOverview = ({ events }) => {
                         }}
                       >
                         <List>
-                          <Item
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              width: "30rem",
-                            }}
-                          >
+                        <CourseOverviewItem>
                             <p
                               style={{ cursor: "pointer", fontWeight: "bold" }}
                               onClick={() => {
@@ -261,30 +251,17 @@ const CourseOverview = ({ events }) => {
                             >
                               {dayData.name}
                             </p>
-                            {/* 
-                            <Button
-                              styles={{
-                                marginLeft: "0.5em",
-                                marginRight: "0.5em",
-                              }}
-                              type="primary"
-                              style={buttonStyle}
-                              //
-                              href={dayData.description}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Join 
-                            </Button> */}
+
+                           
                             <Space>
                               <span>{formatDate(dayData.createdAt)}</span>
                             </Space>
-                          </Item>
+                          </CourseOverviewItem>
                           <Item></Item>
                         </List>
                       </div>
                     ))}
-                  </Panel>
+                  </CourseOverviewPanel>
                 </Collapse>
               ))}
             </StickyBox>
@@ -425,6 +402,7 @@ const CourseOverview = ({ events }) => {
                                         justifyContent: "center",
                                         fontSize: "0.875rem",
                                         maxWidth: "200px",
+                                        gap:"4px"
                                       }}
                                       onClick={() =>
                                         window.open(resource.destinationUrl)
@@ -451,10 +429,11 @@ const CourseOverview = ({ events }) => {
                                         alignItems: "center",
                                         justifyContent: "center",
                                         fontSize: "0.875rem",
+                                        gap:"4px"
                                       }}
                                       onClick={() => setModalVideoOpen(true)}
                                     >
-                                      <FilePdfFilled />
+                                      <PlayCircleFilled />
                                       <div
                                         style={{
                                           whiteSpace: "nowrap", // Keeps the text within a single line
@@ -495,7 +474,7 @@ const CourseOverview = ({ events }) => {
             </Drawer>
           </div>
         </TabPane>
-        <TabPane tab="Assignment" key="tab2">
+        {/* <TabPane tab="Assignment" key="tab2">
           <div>
             <StickyBox offsetTop={20} offsetBottom={20}>
               <div style={{ display: "flex", width: "30rem" }}>
@@ -508,7 +487,7 @@ const CourseOverview = ({ events }) => {
               </div>
             </StickyBox>
           </div>
-        </TabPane>
+        </TabPane> */}
         <TabPane tab="Attendance" key="tab3">
           <div>
             <StickyBox offsetTop={20} offsetBottom={20}>
@@ -519,7 +498,7 @@ const CourseOverview = ({ events }) => {
           </div>
         </TabPane>
       </Tabs>
-    </div>
+    </CourseOverViewStyledDiv>
   );
 };
 

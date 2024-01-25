@@ -16,7 +16,7 @@ function VerifyMagicLink() {
 		if (screenLimitReached) navigate("/session/limit");
 	}, [screenLimitReached, navigate]);
 	useEffect(() => {
-		if (isAuthenticated) navigate("/");
+		if (isAuthenticated) navigate("/programs");
 	}, [isAuthenticated, navigate]);
 	useEffect(() => {
 		setLoading(true);
@@ -39,7 +39,7 @@ function VerifyMagicLink() {
   {!isDataLoaded ? (
     <>
       <div style={{fontSize: '1.875rem', margin: '1rem 0'}}>Verifying</div>
-      <Link to="/" style={{padding: '1rem 2rem',backgroundColor:  "whitesmoke",color:"black", borderRadius: '0.5rem'}}> Home</Link>
+      <Link to="/programs" style={{padding: '1rem 2rem',backgroundColor:  "whitesmoke",color:"black", borderRadius: '0.5rem'}}> Home</Link>
     </>
   ) : isDataLoaded === "Link Expire" ? (
     <>
@@ -49,7 +49,7 @@ function VerifyMagicLink() {
   ) : (
     <>
       <div style={{fontSize: '1.875rem', margin: '1rem 0'}}>An error Occurred! May be Link is Invalid</div>
-      <Link to="/" style={{padding: '1rem 2rem', backgroundColor:  "whitesmoke",color:"black" , borderRadius: '0.5rem'}}>Home</Link>
+      <Link to="/programs" style={{padding: '1rem 2rem', backgroundColor:  "whitesmoke",color:"black" , borderRadius: '0.5rem'}}>Home</Link>
     </>
   )}
 </div>

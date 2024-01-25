@@ -3,6 +3,17 @@ import { serviceDelete, servicePost, servicePut } from "../../utils/api";
 import { setHeader } from "../../utils/header";
 import { notification, Input, Button } from "antd";
 import CustomDropdown from "../DropDown/CustomDropdown";
+import {
+  DateSelectContainer,
+  Important,
+  ModalButtonContainer,
+  ModalDeleteButton,
+  ModalFormContainer,
+  ModalLabel,
+  ModalSaveButton,
+  ModalTextArea,
+  PresentLabel,
+} from "../../styles/Modals/sharedModals.styles";
 
 function WorkModal({ workex, type, setopen, about }) {
   const [startDate, setStartDate] = useState({ month: "", year: "" });
@@ -173,8 +184,7 @@ function WorkModal({ workex, type, setopen, about }) {
       //   dispatch(setLoadingTrue());
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const { data } = await serviceDelete(
-        `student/student-api/v1/me/experience/${workex?._id}`
-        // axios.defaults.headers.common
+        `student/student-api/v1/me/experience/${workex?._id}` 
       );
       // toast.success("Experience Deleted");
       await about();
@@ -191,63 +201,40 @@ function WorkModal({ workex, type, setopen, about }) {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div
-        style={{
-          marginBottom: "40px",
-          width: "100%",
-          paddingLeft: "12px",
-          paddingRight: "12px",
-          color: "#747474",
-        }}
-      >
-        {/* Rest of the code */}
-        <div style={{ marginBottom: "20px" }}>
-          <p
-            style={{
-              fontWeight: "600",
-              marginTop: "20px",
-              marginLeft: "4px",
-              marginBottom: "8px",
-            }}
-          >
-            Role <span style={{ color: "#FF0000" }}>*</span>
-          </p>
-          {type === "Edit" ? (
-            <Input
-              id="position"
-              defaultValue={updateWork?.position}
-              name="i-position"
-              type="text"
-              required
-              onChange={(e) =>
-                setupdateWork({ ...updateWork, position: e.target.value })
-              }
-              autoComplete="position"
-            />
-          ) : (
-            <Input
-              id="position"
-              name="i-position"
-              type="text"
-              required
-              onChange={(e) =>
-                setupdateWork({ ...updateWork, position: e.target.value })
-              }
-              autoComplete="position"
-            />
-          )}
-        </div>
+      <ModalFormContainer>
+        <ModalLabel>
+          Role <Important>*</Important>
+        </ModalLabel>
+
+        {type === "Edit" ? (
+          <Input
+            id="position"
+            defaultValue={updateWork?.position}
+            name="i-position"
+            type="text"
+            required
+            onChange={(e) =>
+              setupdateWork({ ...updateWork, position: e.target.value })
+            }
+            autoComplete="position"
+          />
+        ) : (
+          <Input
+            id="position"
+            name="i-position"
+            type="text"
+            required
+            onChange={(e) =>
+              setupdateWork({ ...updateWork, position: e.target.value })
+            }
+            autoComplete="position"
+          />
+        )}
         <div>
-          <p
-            style={{
-              fontWeight: "600",
-              marginTop: "20px",
-              marginLeft: "4px",
-              marginBottom: "8px",
-            }}
-          >
-            Company Name <span style={{ color: "#FF0000" }}>*</span>
-          </p>
+          <ModalLabel>
+            Company Name <Important>*</Important>
+          </ModalLabel>
+
           {type === "Edit" ? (
             <Input
               id="institution-name"
@@ -275,17 +262,10 @@ function WorkModal({ workex, type, setopen, about }) {
         </div>
 
         <div style={{ marginTop: "20px" }}>
-          <p
-            style={{
-              fontWeight: "700",
-              fontSize: "0.875rem",
-              marginLeft: "4px",
-              marginBottom: "4px",
-              color: "#747474",
-            }}
-          >
-            Certificate Link <span style={{ color: "#FF0000" }}>*</span>
-          </p>
+          <ModalLabel>
+            Certificate Link <Important>*</Important>
+          </ModalLabel>
+
           {type === "Edit" ? (
             <Input
               id="certificate"
@@ -312,17 +292,9 @@ function WorkModal({ workex, type, setopen, about }) {
           )}
         </div>
 
-        <p
-          style={{
-            fontWeight: "600",
-            marginTop: "20px",
-            marginLeft: "4px",
-            marginBottom: "8px",
-          }}
-        >
-          Start Date
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
+        <ModalLabel>Start Date</ModalLabel>
+
+        <DateSelectContainer>
           <CustomDropdown
             type="month"
             handleChange={handleStartDateMonthChange}
@@ -331,100 +303,60 @@ function WorkModal({ workex, type, setopen, about }) {
             type="year"
             handleChange={handleStartDateYearChange}
           />
-        </div>
-        <p style={{ fontWeight: "600", marginTop: "20px", marginLeft: "4px", marginBottom: "8px" }}>End Date</p>
-<div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
-  <CustomDropdown
-    type="month"
-    handleChange={handleEndDateMonthChange}
-  />
-  <CustomDropdown type="year" handleChange={handleEndDateYearChange} />
-</div>
-<label style={{ display: "flex", gap: "8px", alignItems: "center", marginTop: "8px" }}>
-  <input
-    type="checkbox"
-    style={{}}
-    checked={isChecked}
-    onChange={handleCheckboxChange}
-  />
-  <p> Present</p>
-</label>
-<p style={{ fontWeight: "600", marginTop: "20px", marginLeft: "4px" }}>Description</p>
-{type === "Edit" ? (
-  <textarea
-    id="description"
-    name="description"
-    type="text"
-    style={{
-      width: "100%",
-      paddingLeft: "12px",
-      paddingRight: "12px",
-      paddingTop: "8px",
-      paddingBottom: "8px",
-      marginTop: "20px",
-      color: "#4A4A4A",
-      backgroundColor: "#F8F8FA",
-      border: "1px solid #D1D1D1",
-      borderRadius: "4px",
-      outline: "none",
-    }}
-    autoComplete="description"
-    rows="4"
-    defaultValue={updateWork?.description}
-    onChange={(e) =>
-      setupdateWork({ ...updateWork, description: e.target.value })
-    }
-  ></textarea>
-) : (
-  <textarea
-    id="description"
-    name="description"
-    type="text"
-    style={{
-      width: "100%",
-      paddingLeft: "12px",
-      paddingRight: "12px",
-      paddingTop: "8px",
-      paddingBottom: "8px",
-      marginTop: "20px",
-      color: "#4A4A4A",
-      backgroundColor: "#F8F8FA",
-      border: "1px solid #D1D1D1",
-      borderRadius: "4px",
-      outline: "none",
-    }}
-    autoComplete="description"
-    rows="4"
-    onChange={(e) =>
-      setupdateWork({ ...updateWork, description: e.target.value })
-    }
-  ></textarea>
-)}
-<div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", gap: "12px" }}>
-<Button type="submit"  
-    style={{
-      border : "1px solid black",
-    }}
-    onClick={handleSubmit}
-  >
-    Save
-  </Button>
-  {type === "Edit" && (
-    <Button type="submit"  
-    style={{
-      border : "1px solid black",
-    }}
-    onClick={deleteSubmission}
-  >
-    Delete
-  </Button>
-  )}
-</div> 
-          
-
-
-
-      </div>
+        </DateSelectContainer>
+        <ModalLabel>End Date</ModalLabel>
+        <DateSelectContainer>
+          <CustomDropdown
+            type="month"
+            handleChange={handleEndDateMonthChange}
+          />
+          <CustomDropdown type="year" handleChange={handleEndDateYearChange} />
+        </DateSelectContainer>
+        <PresentLabel>
+          <input
+            type="checkbox"
+            style={{}}
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
+          <p> Present</p>
+        </PresentLabel>
+        <ModalLabel>Description</ModalLabel>
+        {type === "Edit" ? (
+          <ModalTextArea
+            id="description"
+            name="description"
+            type="text"
+            autoComplete="description"
+            rows="4"
+            defaultValue={updateWork?.description}
+            onChange={(e) =>
+              setupdateWork({ ...updateWork, description: e.target.value })
+            }
+          ></ModalTextArea>
+        ) : (
+          <ModalTextArea
+            id="description"
+            name="description"
+            type="text"
+            autoComplete="description"
+            rows="4"
+            onChange={(e) =>
+              setupdateWork({ ...updateWork, description: e.target.value })
+            }
+          ></ModalTextArea>
+        )}
+        <ModalButtonContainer>
+          <ModalSaveButton type="submit" onClick={handleSubmit}>
+            Save
+          </ModalSaveButton>
+          {type === "Edit" && (
+            <ModalDeleteButton type="submit" onClick={deleteSubmission}>
+              Delete
+            </ModalDeleteButton>
+          )}
+        </ModalButtonContainer>
+      </ModalFormContainer>
     </form>
   );
 }

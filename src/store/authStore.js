@@ -98,13 +98,14 @@ const useAuthStore = create(
         });
       }
     },
-    googleLogin: async (jwt) => {
+
+    googleLogin: async (credential) => {
       try {
         const fp = await FingerprintJS.load();
         const { visitorId } = await fp.get();
         const res = await servicePost(
           "auth/auth-api/v1/login/google?type=student",
-          { jwt, signature: visitorId }
+          { credential: credential, signature: visitorId }
         );
         const {
           data: { user, token, chatToken },
@@ -112,11 +113,6 @@ const useAuthStore = create(
           success,
         } = res;
         if (success) {
-          notification.success({
-            message: "Login Success",
-            description: `Hey ${user.firstName} Welcome back`,
-          });
-
           const { firstName = "", lastName = "", email = "" } = user;
           // message.success(`Hey ${firstName} Welcome back`, { duration: 4000 });
           localStorage.setItem("token", token);
@@ -124,11 +120,8 @@ const useAuthStore = create(
           setHeader("auth", `bearer ${token}`);
           set({ token, chatToken, user, isGoogleAuthenticated: true });
         } else {
-          notification.error({ message: "Login Error", description: message });
-
           // message.error(message, { duration: 4000 });
           if (message === "Too many active sessions") {
-            localStorage.setItem('token', token);
             setHeader("auth", `bearer ${token}`);
             set({
               token,
@@ -149,58 +142,9 @@ const useAuthStore = create(
       } catch (error) {
         console.log(error);
         deleteHeader("auth");
-        notification.error({
-          message: "Login Error",
-          description: "An error occurred during login",
-        });
+
       }
     },
-    // googleLogin: async (credential) => {
-    //   try {
-    //     const fp = await FingerprintJS.load();
-    //     const { visitorId } = await fp.get();
-    //     const res = await servicePost(
-    //       "auth/auth-api/v1/login/google?type=student",
-    //       { credential: credential, signature: visitorId }
-    //     );
-    //     const {
-    //       data: { user, token, chatToken },
-    //       message,
-    //       success,
-    //     } = res;
-    //     if (success) {
-    //       const { firstName = "", lastName = "", email = "" } = user;
-    //       // message.success(`Hey ${firstName} Welcome back`, { duration: 4000 });
-    //       localStorage.setItem("token", token);
-    //       setHeader("signature", visitorId);
-    //       setHeader("auth", `bearer ${token}`);
-    //       set({ token, chatToken, user, isGoogleAuthenticated: true });
-    //     } else {
-    //       // message.error(message, { duration: 4000 });
-    //       if (message === "Too many active sessions") {
-    //         setHeader("auth", `bearer ${token}`);
-    //         set({
-    //           token,
-    //           chatToken,
-    //           user,
-    //           isAuthenticated: false,
-    //           screenLimitReached: true,
-    //         });
-    //       } else {
-    //         set({
-    //           token: null,
-    //           chatToken: null,
-    //           user: null,
-    //           isGoogleAuthenticated: false,
-    //         });
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //     deleteHeader("auth");
-
-    //   }
-    // },
     loadUser: async () => {
       try {
         const token = localStorage.getItem("token");
