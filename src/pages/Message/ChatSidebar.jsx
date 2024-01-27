@@ -17,7 +17,6 @@ function ChatSidebar({ chats, channel, setIsChatClicked }) {
   const handleChatClick = (discussionChannelName) => {
     channel.setChannel(discussionChannelName);
     try {
-      console.log("discussionChannelName", discussionChannelName);
       setIsChatClicked(discussionChannelName);
     } catch (error) {
       console.warn("Is Channel Clicked");
@@ -43,6 +42,7 @@ function ChatSidebar({ chats, channel, setIsChatClicked }) {
 
         {chats.map((chat, index) => (
           <ChatTabs
+            key={index}
             channel={channel.channel}
             discussionChannelName={chat.discussionChannelName}
             onClick={() => handleChatClick(chat.discussionChannelName)}

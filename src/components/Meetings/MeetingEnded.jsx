@@ -3,6 +3,7 @@ import { setHeader } from "../../utils/header";
 import { serviceGet, servicePost } from "../../utils/api";
 import MeetEndSVG from "../../assets/images/meetEnd.svg";
 import { MeetingContainer, MeetingImageContainer, MeetingInnerContainer, MeetingStatusContainer } from "../../styles/meeting.styles";
+import { notification } from "antd";
 
 function MeetingEnded() {
   const query = new URLSearchParams(window.location.search);
@@ -23,7 +24,10 @@ function MeetingEnded() {
         }
       );
     } catch (e) {
-      console.log(e);
+      notification.error({
+        message: "Error",
+        description: e.message,
+      });
     }
   };
 
@@ -36,7 +40,11 @@ function MeetingEnded() {
       );
       setmeetingStatus(status);
     } catch (e) {
-      console.log(e);
+      notification.error({
+        message: "Error",
+        description: e.message,
+      });
+
     } finally {
       //   dispatch(setLoadingFalse());
     }

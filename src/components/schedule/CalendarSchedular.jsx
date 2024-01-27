@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Drawer, Button, Card, notification, Calendar, Flex } from "antd";
-import { StyledCalendar, StyledCalendarCard } from "../../styles/calendar.styles";
+import {
+  StyledCalendar,
+  StyledCalendarCard,
+} from "../../styles/calendar.styles";
 import { serviceGet } from "../../utils/api";
 import { setHeader } from "../../utils/header";
 import { formatDate } from "../courses/CourseOverview";
@@ -16,7 +19,6 @@ const CalendarScheduler = ({ events }) => {
 
   const handleDateClick = (value) => {
     setSelectedDate(value["$d"]);
-    console.log("value", value["$d"]);
 
     setDrawerVisible(true);
   };
@@ -47,7 +49,6 @@ const CalendarScheduler = ({ events }) => {
   const getSessions = async () => {
     try {
       // dispatch(setLoadingTrue());
-      console.log(selectedDate);
       const st = new Date(selectedDate + selectedDate.getTimezoneOffset());
       const en = new Date(selectedDate + selectedDate.getTimezoneOffset());
       st.setUTCHours(0, 0, 0);
@@ -62,18 +63,19 @@ const CalendarScheduler = ({ events }) => {
       setSessions(upcommingSessions);
       // dispatch(setLoadingFalse());
     } catch (error) {
+      // notification.error({
+      //   message: "Error",
+      //   description: error.message,
+      // });
       // dispatch(setLoadingFalse());
-      console.log(error.message);
     }
   };
-  console.log(sessions);
   useEffect(() => {
     getSessions();
   }, [selectedDate]);
   return (
-    <Flex  >
+    <Flex>
       <StyledCalendar
-      
         onSelect={handleDateClick}
         dateCellRender={dateCellRender}
       />
@@ -85,8 +87,7 @@ const CalendarScheduler = ({ events }) => {
         onClose={handleCloseDrawer}
         visible={drawerVisible}
       >
-        
-        {sessions && sessions.length >  0  ?
+        {sessions && sessions.length > 0 ? (
           sessions.map((session, i) => {
             const dt = new Date(
               new Date(session?.date).toLocaleString("en-US", {
@@ -110,69 +111,55 @@ const CalendarScheduler = ({ events }) => {
                   open={openMeetingConfirmation}
                   setOpen={setOpenMeetingConfirmation}
                 />
-                <StyledCalendarCard
-  key={i}
-  title={`Title: ${session.topic}`}
->
+                <StyledCalendarCard key={i} title={`Title: ${session.topic}`}>
                   <p>Description: {session.description}</p>
                   {/* <p>Instructor: {session.instructor}</p> */}
-                  <Button 
-                  
-                  onClick={() => {
+                  <Button
+                    onClick={() => {
+                      setCurrentBatchId(session?.batch._id);
 
+                      // setOpenMeetingConfirmation(true);
+                      //       setMeetingData({
+                      //         meetingNumber:
+                      //           session?.meeting[0]?.meetingNumber,
+                      //         name: session?.topic,
+                      //         date: session?.meeting[0]?.startTime,
+                      //         platform: session?.meeting[0]?.platform,
+                      //         url: session?.meeting[0]?.joinUrl,
+                      //   });
 
-
-                    setCurrentBatchId(session?.batch._id)
-
-                    // dispatch(setDayId(session?.day));
-                    // dispatch(setWeeksTrue(session?.week));
-                    // dispatch(setTypeOfBatch('classroom')); // hard coded here cause it will be always classroom
-                    setOpenMeetingConfirmation(true);
-                          setMeetingData({
-                            meetingNumber:
-                              session?.meeting[0]?.meetingNumber,
-                            name: session?.topic,
-                            date: session?.meeting[0]?.startTime,
-                            platform: session?.meeting[0]?.platform,
-                            url: session?.meeting[0]?.joinUrl,
-                      });
-
-
-
-
-                    if(new Date() < dt){
-                      notification.error({message: 'Meeting has not started yet'}); 
-                      // toast.error('Meeting has not started yet');
-                    }
-                    else if (new Date()>= dt && new Date() <= dt_e) {
-                      setCurrentBatchId(session?.batch._id)
-
-                      // dispatch(setDayId(session?.day));
-                      // dispatch(setWeeksTrue(session?.week));
-                      // dispatch(setTypeOfBatch('classroom')); // hard coded here cause it will be always classroom
-                      openMeetingConfirmation(true);
-                            setMeetingData({
-                              meetingNumber:
-                                session?.meeting[0]?.meetingNumber,
-                              name: session?.topic,
-                              date: session?.meeting[0]?.startTime,
-                              platform: session?.meeting[0]?.platform,
-                              url: session?.meeting[0]?.joinUrl,
+                      if (new Date() < dt) {
+                        notification.error({
+                          message: "Meeting has not started yet",
                         });
-                    } else notification.error({message: 'Meeting has ended'});
-                  }}
-                  
-                  type="primary">Join</Button>
+                        // toast.error('Meeting has not started yet');
+                      } else if (new Date() >= dt && new Date() <= dt_e) {
+                        setCurrentBatchId(session?.batch._id);
+
+                        openMeetingConfirmation(true);
+                        setMeetingData({
+                          meetingNumber: session?.meeting[0]?.meetingNumber,
+                          name: session?.topic,
+                          date: session?.meeting[0]?.startTime,
+                          platform: session?.meeting[0]?.platform,
+                          url: session?.meeting[0]?.joinUrl,
+                        });
+                      } else
+                        notification.error({ message: "Meeting has ended" });
+                    }}
+                    type="primary"
+                  >
+                    Join
+                  </Button>
                 </StyledCalendarCard>
               </>
             );
           })
-        : <div>
-          <Title>
-            No classes scheduled for this day
-          </Title>
-        </div>
-        }
+        ) : (
+          <div>
+            <Title>No classes scheduled for this day</Title>
+          </div>
+        )}
       </Drawer>
     </Flex>
   );

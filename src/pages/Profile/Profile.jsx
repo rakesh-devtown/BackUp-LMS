@@ -65,7 +65,6 @@ const Profile = () => {
    const about = async () => {
     //  dispatch(setLoadingTrue());
      const student = await getProfile(); //gets the student profile
-     // console.log(student)
      const skills = student?.skill ? student.skill : [];
      setprofile({
        about: {

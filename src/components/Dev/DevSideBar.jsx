@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { serviceGet } from "../../utils/api";
 import { setHeader } from "../../utils/header";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import DevTree from "./DevTree";
+import { DevSideBarButton, DevSideBarButtonDownload, DevSideBarContainer, DevSideBarContent, DevSideBarExplorer, DevSideBarHeader, DevSideBarPadding, DevSideBarSVG } from "../../styles/dev.styles";
 
 function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
   const [treeData, setTreeData] = useState([]);
@@ -22,7 +23,11 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
       const { url } = data;
       window.open(url);
     } catch (error) {
-      console.log(error);
+      notification.error({
+        message: "Error",
+        description: error.message,
+      });
+
       // toast.error("Something went wrong");
     } finally {
       // dispatch(setLoadingFalse());
@@ -55,26 +60,11 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  console.log(isSidebarOpen)
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "16px",
-        }}
-      >
-        <button
-          style={{
-            color: "white",
-            cursor: "pointer",
-            backgroundColor: "transparent",
-          }}
-          onClick={toggleSidebar}
-        >
+  <DevSideBarHeader>
+  <DevSideBarButton onClick={toggleSidebar}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             style={{
@@ -91,19 +81,12 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
             <path d="M 2 5 L 2 7 L 22 7 L 22 5 L 2 5 z M 2 11 L 2 13 L 22 13 L 22 11 L 2 11 z M 2 17 L 2 19 L 22 19 L 22 17 L 2 17 z"></path>
           </svg>
           {/* SVG code */}
-        </button>
+        </DevSideBarButton>
         {isSidebarOpen && (
           <>
-            <div style={{ color: "white", fontWeight: "bold" , margin:"3px" }}>Explorer</div>
-            <div style={{ paddingLeft: "8px", paddingRight: "8px" }}>
-              <Button
-                onClick={downloadRepo}
-                style={{
-                  text: "white",
-                  background: "rgb(79,70,229)",
-                  border: "none",
-                }}
-              >
+            <DevSideBarExplorer>Explorer</DevSideBarExplorer>
+            <DevSideBarPadding>
+            <DevSideBarButtonDownload onClick={downloadRepo}>
                 {/* SVG code */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,21 +99,13 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
                     d="M12 21l-8-9h6v-12h4v12h6l-8 9zm9-1v2h-18v-2h-2v4h22v-4h-2z"
                   />
                 </svg>
-              </Button>
-            </div>
+              </DevSideBarButtonDownload>
+            </DevSideBarPadding>
           </>
         )}
-      </div>
+      </DevSideBarHeader>
       {!isSidebarOpen && (
-        <div style={{ paddingLeft: "8px", paddingRight: "8px" }}>
-          <Button
-            onClick={downloadRepo}
-            style={{
-              text: "white",
-              background: "rgb(79,70,229)",
-              border: "none",
-            }}
-          >
+       <DevSideBarPadding>            <DevSideBarButtonDownload onClick={downloadRepo}>
             {/* SVG code */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -143,14 +118,15 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
                 d="M12 21l-8-9h6v-12h4v12h6l-8 9zm9-1v2h-18v-2h-2v4h22v-4h-2z"
               />
             </svg>
-          </Button>
-        </div>
+          </DevSideBarButtonDownload>
+        </DevSideBarPadding>
       )}
-      <div style={{ display: isSidebarOpen ? "block" : "none" }}>
-        {/* Content */}
-        <DevTree treeData={treeData} />
-      </div>
+     <DevSideBarContent isSidebarOpen={isSidebarOpen}>
+    {/* Content */}
+    <DevTree treeData={treeData} />
+  </DevSideBarContent>
     </div>
+
   );
 }
 

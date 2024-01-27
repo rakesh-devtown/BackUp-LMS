@@ -43,7 +43,6 @@ const useAuthStore = create(
           success,
         } = res;
         if (success) {
-          console.log("success: true");
           set({
             user
           })
@@ -59,7 +58,6 @@ const useAuthStore = create(
           setHeader("auth", `bearer ${token}`);
           useAuthStore.getState().reset(token, chatToken, user);
         } else {
-          // console.log("else");
 
           notification.error({ message: "Login Error", description: message });
           if (message === "Too many active sessions") {
@@ -73,7 +71,6 @@ const useAuthStore = create(
               screenLimitReached: true,
             });
           } else {
-            //console.log("else:session error");
             set({
               token: null,
               chatToken: null,
@@ -89,7 +86,6 @@ const useAuthStore = create(
           description: "An error occurred during login",
         });
 
-        //console.log("error: goes to catch block",error);
         set({
           token: null,
           chatToken: null,
@@ -140,7 +136,6 @@ const useAuthStore = create(
           }
         }
       } catch (error) {
-        console.log(error);
         deleteHeader("auth");
 
       }
@@ -203,7 +198,6 @@ const useAuthStore = create(
         isAuthenticated: false,
         isGoogleAuthenticated: false,
       });
-      //console.log("logout");
     },
     clearSessions: () => {
       set({
@@ -221,7 +215,6 @@ const useAuthStore = create(
         );
         const { success, message } = res;
         notification.success({ message: "Success", description: message });   
-        console.log(message)
         return true;
 
         if (success != false) {
@@ -230,7 +223,7 @@ const useAuthStore = create(
           notification.error({ message: "Error", description: message });
         }
       } catch (error) {
-        console.log(error.message)
+        notification.error({ message: "Error", description: error.message });
       }
     },
 
@@ -250,7 +243,6 @@ const useAuthStore = create(
             });
           } else {
             const [err] = res.data.errors;
-            //console.log(err)
             return err.param === "token"
               ? notification.error({
                   message: "Error",
@@ -261,7 +253,6 @@ const useAuthStore = create(
           }
         } catch (error) {
           notification.error({ message: "Error", description: error.message });
-          //console.log(error)
         }
       }
     },
@@ -334,5 +325,4 @@ const useAuthStore = create(
     }
   }))
 );
-// useAuthStore.subscribe(console.log, state => state.isAuthenticated);
 export default useAuthStore;

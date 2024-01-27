@@ -244,13 +244,13 @@ const ProfileTitle = styled.p`
   color: #302F2F;
   font-size: 1.875rem;
   font-weight: 700;
-  font-family: 'DM Sans';
+
 `;
 
 const ProfileResumeLink = styled.a`
   color: #9865E8;
   font-weight: 700;
-  font-family: 'DM Sans';
+ 
   text-decoration: underline;
   cursor: pointer;
 `;

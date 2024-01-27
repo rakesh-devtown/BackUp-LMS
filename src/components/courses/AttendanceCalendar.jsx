@@ -98,7 +98,7 @@ function AttendanceCalendar() {
     
       <Title level={4}>Attendence</Title>
       <CourseOverviewAttendanceStyledDiv width={width}>
-        <div style={{}}>
+        <div >
           <AttendanceTable data={data} />
         </div>
           

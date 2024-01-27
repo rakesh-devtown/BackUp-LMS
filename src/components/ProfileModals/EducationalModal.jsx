@@ -15,7 +15,6 @@ import {
 import { MarginContainer } from "../../styles/Certificates/certificates.styles";
 
 function EducationModal({ educ, type, setopen, about }) {
-  console.log("educ", educ);
   const [startDate, setStartDate] = useState({ month: "", year: "" });
   const [endDate, setEndDate] = useState({ month: "", year: "" });
 

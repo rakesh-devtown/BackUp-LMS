@@ -118,7 +118,7 @@ const Sidebar = () => {
   }, []);
   return (
     <StyledLayout>
-     <LayoutHeader collapsed={collapsed} width={width}>
+     <LayoutHeader collapsed={collapsed.toString()} width={width}>
         {width > 700 ? (
          <LayoutLogoLink to="/programs">
             <img src={Logo} alt="logo" />
@@ -128,7 +128,7 @@ const Sidebar = () => {
             <BarsOutlined />
           </LayoutHamburger>
         )}
-        <SearchBar collapsed={collapsed} />
+        <SearchBar collapsed={collapsed.toString()} />
       </LayoutHeader>
       <LayoutContainer >
         {width < 700 && open && (
@@ -185,7 +185,7 @@ const Sidebar = () => {
         {width >= 700 && (
           <Sider
             collapsible
-            collapsed={collapsed}
+            collapsed={collapsed.toString()}
             onCollapse={(value) => {
               setCollapsed(value);
             }}

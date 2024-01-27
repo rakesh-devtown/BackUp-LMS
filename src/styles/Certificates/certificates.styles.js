@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
 const CertificateContainer = styled.div`
-  background-color: white;
   display: flex;
   flex-direction: row;
+  gap: 12px;
   align-items: center;
-  margin-top: 12px;
 `;
 
 const CertificateTitle = styled.p`
   font-size: 0.9em;
   font-weight: 600;
-  margin-top: 4px;
+  margin-top: 10px;
+  margin-bottom: ;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -64,7 +64,42 @@ const CertificateModalOuterContainer = styled.div`
 const MarginContainer = styled.div`
   margin-top: 20px;
 `;
+const CertWarningContainer = styled.div`
+  border: 2px dashed #EF4444;
+  margin: 1rem;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  background-color: #FEF2F2;
+  text-align: center;
+  font-weight: 600;
+`;
 
+const CertFormContainer = styled.div`
+  margin-bottom: 2.5rem;
+  width: 100%;
+  padding: 0 0.75rem;
+  color: #747474;
+`;
+
+const CertFormTitle = styled.p`
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-left: 0.25rem;
+  margin-bottom: 0.5rem;
+`;
+
+const CertFormTitleRequired = styled.span`
+  color: #EF4444;
+`;
+
+const CertFormInput = styled.input`
+  width: 100%;
+`;
+
+const CertFormButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 export {
   CertificateContainer,
   CertificateTitle,
@@ -76,5 +111,12 @@ export {
     OrganizationContainer,
     LinkContainer ,
     CertificateModalOuterContainer ,
-    MarginContainer
+    MarginContainer,
+    CertWarningContainer,
+    CertFormContainer,
+    CertFormTitle,
+    CertFormTitleRequired,
+    CertFormInput,
+    CertFormButtonContainer
+
 };

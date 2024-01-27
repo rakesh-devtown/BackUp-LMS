@@ -14,7 +14,6 @@ class Auth {
         try {
             const res = await servicePost('auth/auth-api/v1/forgot-password?type=student', { ...values, callbackUrl:"https://www.student-platform.devtown.in" })
             const { success, message } = res
-            console.log(message)
             if (success != false) {
                 notification.success({
                     message: 'Success',
@@ -30,7 +29,11 @@ class Auth {
             }
             callBack();
         } catch (error) {
-            console.log(error.message)
+            notification.error({
+                message: 'Error',
+                description: error.message,
+            });
+
         }
     }
 //reset password code
@@ -51,7 +54,6 @@ class Auth {
                 }
                 else {
                     const [err] = res.data.errors
-                    console.log(err)
                     callBack();
                     return err.param === "token"
                         ? notification.error({
@@ -71,7 +73,6 @@ class Auth {
                 });
 
                 // toast.error(error.message)
-                console.log(error)
             }
     }
     async generateMagicLink(values) {
@@ -79,7 +80,6 @@ class Auth {
             setHeader("auth", `bearer ${localStorage.getItem("token")}`);
             const res = await servicePost('auth/auth-api/v1/generate-magic-Link?type=student', { ...values, callbackUrl:"https://www.student-platform.devtown.in"})
             const { success, message } = res
-            console.log(message)
             if (success != false) {
                 notification.success({
                     message: 'Success',
@@ -94,7 +94,6 @@ class Auth {
                 // toast.error(message);
             }
         } catch (error) {
-            console.log(error.message)
         }
     }
 

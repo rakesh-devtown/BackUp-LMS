@@ -13,6 +13,8 @@ import {
   ClearAllButton,
   StyledButton,
   StyledClearButton,
+  SessionLimitContainers,
+  OsColor,
 } from "../../styles/SessionLimit.styles";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
@@ -26,7 +28,6 @@ const SessionLimit = () => {
   const clearSessions = useAuthStore((state) => state.clearSessions);
   const navigate = useNavigate();
   const clearSession = async (sessionId) => {
-    console.log(sessionId);
     try {
       const { success, message } = await serviceDelete(
         `student/student-api/v1/screen?screenSessionId=${sessionId}`
@@ -65,7 +66,6 @@ const SessionLimit = () => {
         navigate("/programs");
       }
     } catch (error) {
-      console.log(error);
       notification.error({ message: error.message });
     }
   };
@@ -79,6 +79,7 @@ const SessionLimit = () => {
   return (
     <SessionLimitContainer>
       <StyledButton
+      onClick={navigateToHomePage}
       >
         Back
       </StyledButton>
@@ -92,8 +93,8 @@ const SessionLimit = () => {
         {sessions.map((e  , idx) => (
           <Box key={idx} >
 
-            <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-              <div style={{}}>
+            <SessionLimitContainers >
+              <div >
                 {e?.os?.includes("Windows") ? (
                   <img
                     width="48"
@@ -131,16 +132,16 @@ const SessionLimit = () => {
                   />
                 )}
               </div>
-              <LoginTime style={{color:"#595a5c"}}>
+              <LoginTime >
                 {" "}
                 {`${new Date(e?.lastLogin).getMonth() + 1}/${new Date(
                   e?.lastLogin
                 ).getDate()}/${new Date(e?.lastLogin).getFullYear()}`}{" "}
               </LoginTime>
-            </div>
-                  <div style={{color:"#595a5c"}}>
-                    { width >500   && e?.os}
-                  </div>
+            </SessionLimitContainers>
+            <OsColor>
+  { width > 500 && e?.os }
+</OsColor>
             <StyledClearButton
               onClick={() => clearSession(e._id)}
               

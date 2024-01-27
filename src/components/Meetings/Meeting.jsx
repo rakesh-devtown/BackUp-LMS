@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import { servicePost } from '../../utils/api';
 import { setHeader } from '../../utils/header';
+import { notification } from 'antd';
 
 function Meeting() {
 
@@ -27,7 +28,11 @@ function Meeting() {
         setsignature(signature);
        
     } catch (e) {
-      console.log(e);
+      notification.error({
+        message: "Error",
+        description: e.message,
+      
+      })
     }
   };
   const markAttendance = async()=>{
@@ -44,10 +49,14 @@ function Meeting() {
         
       );
     } catch (e) {
-      console.log(e);
+      notification.error({
+        message: "Error",
+        description: e.message,
+      
+      })
     }
   }
-  console.log(signature  , url , pass) 
+
   useEffect(() => {
   getSignature();
   markAttendance();

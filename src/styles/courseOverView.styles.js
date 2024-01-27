@@ -20,12 +20,23 @@ const CourseOverviewModelInnerDiv = styled.div`
   left: -24px;
 `;
 
-const CourseOverviewBackButton = styled(Button)`
+const CourseOverviewBackButton = styled.button`
   position: absolute;
   top: ${(props) => (props.width < 700 ? "-10px" : "-15px")};
   left: ${(props) => (props.width < 700 ? "-10px" : "-15px")};
-  padding: "";
-  background-color: #001529;
+  padding: 3px 12px;
+  border: 1px solid #012353;
+  border-radius: 4px;
+  background-color: white;
+  gap: 2px;
+  color: black;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+  font-family: 'Manrope', sans-serif;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const CourseOverviewPanel = styled(Collapse.Panel)`
@@ -48,6 +59,68 @@ const CourseOverviewAttendanceStyledDiv = styled.div`
   align-items: ${props => props.width > 1284 ? '' : 'center'};
 `;
 
+const CourseOverviewContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const CourseOverviewWeekContainer = styled.div`
+  marginBottom: 12px; // Add space between cards
+  display: flex;
+`;
+
+const CourseOverviewDayImage = styled.img`
+  height: 11rem;
+  border-radius: 0.375rem;
+  width: 100%;
+`;
+const CourseOverviewResourceContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 5px;
+`;
+
+const ResourceItem = styled.div`
+  border-radius: 0.25rem;
+  margin-top: 0.5rem;
+`;
+
+const ResourceButton = styled(Button)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  gap: 4px;
+`;
+
+const ResourceButtonPDF = styled(ResourceButton)`
+  max-width: 200px;
+`;
+
+const ResourceText = styled.div`
+  white-space: nowrap; // Keeps the text within a single line
+  overflow: hidden; // Hides the text that overflows
+  text-overflow: ellipsis; // Shows ellipsis (...) when the text overflows
+`;
+
+const NoResources = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-family: 'DM Sans';
+  color: #797878;
+  font-size: 1rem;
+`;
+
+
+const DayName = styled.p`
+  cursor: pointer;
+  font-weight: bold;
+`;
+
 export {
   CourseOverviewItem,
   CourseOverviewPanel,
@@ -55,5 +128,16 @@ export {
   CourseOverviewModelOuterDiv,
   CourseOverviewModelInnerDiv,
   CourseOverviewBackButton,
-  CourseOverviewAttendanceStyledDiv
+  CourseOverviewAttendanceStyledDiv,
+  CourseOverviewContainer,
+  CourseOverviewWeekContainer,
+  CourseOverviewDayImage,
+  CourseOverviewResourceContainer,
+  ResourceItem,
+  ResourceButton,
+  ResourceButtonPDF,
+  ResourceText,
+  NoResources,
+  DayName
+
 };

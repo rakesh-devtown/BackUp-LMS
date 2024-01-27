@@ -14,6 +14,7 @@ import {
   ModalTextArea,
   PresentLabel,
 } from "../../styles/Modals/sharedModals.styles";
+import { MarginContainer } from "../../styles/Certificates/certificates.styles";
 
 function WorkModal({ workex, type, setopen, about }) {
   const [startDate, setStartDate] = useState({ month: "", year: "" });
@@ -261,7 +262,7 @@ function WorkModal({ workex, type, setopen, about }) {
           )}
         </div>
 
-        <div style={{ marginTop: "20px" }}>
+              <MarginContainer/>
           <ModalLabel>
             Certificate Link <Important>*</Important>
           </ModalLabel>
@@ -290,7 +291,7 @@ function WorkModal({ workex, type, setopen, about }) {
               autoComplete="certificate"
             />
           )}
-        </div>
+        
 
         <ModalLabel>Start Date</ModalLabel>
 
@@ -315,7 +316,7 @@ function WorkModal({ workex, type, setopen, about }) {
         <PresentLabel>
           <input
             type="checkbox"
-            style={{}}
+              
             checked={isChecked}
             onChange={handleCheckboxChange}
           />

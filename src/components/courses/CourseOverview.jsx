@@ -23,6 +23,7 @@ import { set } from "date-fns";
 import MeetingModal from "../Meetings/MeetingModal";
 import {
   ArrowLeftOutlined,
+  CloseOutlined,
   FilePdfFilled,
   LinkOutlined,
   LinkedinFilled,
@@ -34,7 +35,25 @@ import YouTubeIframe from "./YouTubeIframe";
 import { Link } from "react-router-dom";
 import { BackButton } from "../../styles/SessionLimit.styles";
 import useWindowSize from "../../hooks/useWindowSixe";
-import { CourseOverViewStyledDiv, CourseOverviewBackButton, CourseOverviewItem, CourseOverviewModelInnerDiv, CourseOverviewModelOuterDiv, CourseOverviewPanel } from "../../styles/courseOverView.styles";
+import {
+  CourseOverViewStyledDiv,
+  CourseOverviewBackButton,
+  CourseOverviewContainer,
+  CourseOverviewDayImage,
+  CourseOverviewItem,
+  CourseOverviewModelInnerDiv,
+  CourseOverviewModelOuterDiv,
+  CourseOverviewPanel,
+  CourseOverviewResourceContainer,
+  CourseOverviewWeekContainer,
+  DayName,
+  NoResources,
+  ResourceButton,
+  ResourceButtonPDF,
+  ResourceItem,
+  ResourceText,
+} from "../../styles/courseOverView.styles";
+import { StyledCloseIcon, StyledModal } from "../../styles/shared.styles";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { Item } = List;
@@ -67,7 +86,6 @@ const CourseOverview = ({ events }) => {
   const [meetingData, setMeetingData] = useState({}); // Define and initialize meetingData
   const currentBatchId = useBatchStore((state) => state.currentBatchId);
   const currentBatch = useBatchStore((state) => state.currentBatch);
-  console.log(currentBatch);
   const [ModalVideoOpen, setModalVideoOpen] = useState(false);
   const [selectedSession, setSelectedSession] = useState({});
   const [syllabus, setSyllabus] = useState();
@@ -76,7 +94,7 @@ const CourseOverview = ({ events }) => {
   };
   const [dayId, setDayId] = useState("");
   const [resources, setResources] = useState([]);
-  const {width} = useWindowSize();
+  const { width } = useWindowSize();
   const getSessionStatus = (startTime) => {
     const currentTime = new Date();
     const sessionTime = new Date(startTime);
@@ -122,9 +140,7 @@ const CourseOverview = ({ events }) => {
     }
     if (youTubeUrl == "undefined") {
     } else {
-      console.log(youTubeUrl);
       var VideoID = youTubeUrl;
-      console.log(VideoID);
     }
   } else {
   }
@@ -141,7 +157,6 @@ const CourseOverview = ({ events }) => {
   };
   const onDayClick = (day, classes, resources) => {
     setResources(resources);
-    console.log("classes, ", classes, resources);
     setClassDetails(classes);
     showDrawer(day);
   };
@@ -174,39 +189,25 @@ const CourseOverview = ({ events }) => {
         open={openMeetingConfirmation}
         setOpen={setOpenMeetingConfirmation}
       />
-      <Modal
-        style={{}}
-        footer={null}
-        open={ModalVideoOpen}
-        onCancel={handleCancel}
-        // styles={{ }
-      >
- <CourseOverviewModelOuterDiv>
-          <CourseOverviewModelInnerDiv  style={{
-            position:"absolute",
-            top:-20, 
-            left:-24,
-          
-          }} >
-          <YouTubeIframe  VideoId={VideoID} />
-
+     <StyledModal
+  footer={null}
+  open={ModalVideoOpen}
+  onCancel={handleCancel}
+  closeIcon={<StyledCloseIcon />}
+>
+        <CourseOverviewModelOuterDiv>
+          <CourseOverviewModelInnerDiv>
+            <YouTubeIframe VideoId={VideoID} />
           </CourseOverviewModelInnerDiv>
         </CourseOverviewModelOuterDiv>
-      </Modal>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-
-      
-        }}
-      >
+      </StyledModal>
+      <CourseOverviewContainer>
         <Link to="/programs">
-        <CourseOverviewBackButton width={width} type="primary">
-  <ArrowLeftOutlined/>
-</CourseOverviewBackButton>
+          <CourseOverviewBackButton width={width} type="primary">
+            <ArrowLeftOutlined /> Back 
+          </CourseOverviewBackButton>
         </Link>
-      </div>
+      </CourseOverviewContainer>
 
       <Title level={7}>{currentBatch?.name}</Title>
       <Title level={4}>Course Content</Title>
@@ -222,44 +223,28 @@ const CourseOverview = ({ events }) => {
                   expandIconPosition="right" // Move expand icon to the right
                   style={{ width: "50%" }}
                 >
-                 <CourseOverviewPanel header={weekData.name} key={weekIndex}>
+                  <CourseOverviewPanel header={weekData.name} key={weekIndex}>
                     {weekData.days.map((dayData, dayIndex) => (
-                      <div
+                      <CourseOverviewWeekContainer
                         key={dayIndex}
-                        // name of the day
                         title={dayData.name}
-                        style={{
-                          //border: 'none', // Remove border from the cards
-                          marginBottom: "12px", // Add space between cards
-                          display: "flex",
-                        }}
                       >
                         <List>
-                        <CourseOverviewItem>
-                            <p
-                              style={{ cursor: "pointer", fontWeight: "bold" }}
-                              onClick={() => {
-                                // (day  , sessions )
+                          <CourseOverviewItem>
+                          <DayName onClick={() => {
+  setDayId(dayData._id);
+  onDayClick(dayData.name, dayData.sessions, dayData.resources);
+}}>
+  {dayData.name}
+</DayName>
 
-                                setDayId(dayData._id);
-                                onDayClick(
-                                  dayData.name,
-                                  dayData.sessions,
-                                  dayData.resources
-                                );
-                              }}
-                            >
-                              {dayData.name}
-                            </p>
-
-                           
                             <Space>
                               <span>{formatDate(dayData.createdAt)}</span>
                             </Space>
                           </CourseOverviewItem>
                           <Item></Item>
                         </List>
-                      </div>
+                      </CourseOverviewWeekContainer>
                     ))}
                   </CourseOverviewPanel>
                 </Collapse>
@@ -276,21 +261,14 @@ const CourseOverview = ({ events }) => {
                 <Card title={`Live Classes for Day ${selectedDay}`}>
                   {classDetails.map((className, index) => (
                     <div key={index}>
-                      <img
+                      <CourseOverviewDayImage
                         src="https://global-uploads.webflow.com/60798d9b0b61160814b3d8c3/6214bfdec64863aa471aa0a0_fswd.png"
                         alt="fswd img"
-                        style={{
-                          height: "11rem",
-                          borderRadius: "0.375rem",
-                          width: "100%",
-                        }}
                       />
 
                       <StyledButton
                         type="primary"
-                        style={{ marginTop: "1rem" }}
                         onClick={() => {
-                          console.log(className);
                           const dt = new Date(
                             new Date(className?.date).toLocaleString("en-US", {
                               timeZone: "Asia/Calcutta",
@@ -302,15 +280,14 @@ const CourseOverview = ({ events }) => {
                             })
                           );
                           dt_e.setHours(dt.getHours() + 2);
-                          console.log(dt, dt_e);
-                          setOpenMeetingConfirmation(true);
-                          setMeetingData({
-                            meetingNumber: className?.meeting[0]?.meetingNumber,
-                            name: className?.topic,
-                            date: className?.meeting[0]?.startTime,
-                            platform: className?.meeting[0]?.platform,
-                            url: className?.meeting[0]?.joinUrl,
-                          });
+                          // setOpenMeetingConfirmation(true);
+                          // setMeetingData({
+                          //   meetingNumber: className?.meeting[0]?.meetingNumber,
+                          //   name: className?.topic,
+                          //   date: className?.meeting[0]?.startTime,
+                          //   platform: className?.meeting[0]?.platform,
+                          //   url: className?.meeting[0]?.joinUrl,
+                          // });
                           if (new Date() < dt) {
                             notification.error({
                               message: "Meeting has not started yet",
@@ -342,10 +319,7 @@ const CourseOverview = ({ events }) => {
                       >
                         Join
                       </StyledButton>
-                      <StyledButton
-                        type="primary"
-                        style={{ marginTop: "1rem", marginBottom: "1rem" }}
-                      >
+                      <StyledButton type="primary">
                         <a
                           target="_blank"
                           href={`/tree?dayId=${dayId}&batchId=${currentBatch._id}`}
@@ -375,97 +349,43 @@ const CourseOverview = ({ events }) => {
                       </StyledP>
                       <StyledP>
                         Resources:{" "}
-                        <div
-                          style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            flexDirection: "row",
-                            gap: "5px",
-                          }}
-                        >
+                        <CourseOverviewResourceContainer>
                           {resources?.length !== 0 ? (
                             resources?.map((resource, i) => (
-                              <div
-                                key={resource?._id}
-                                style={{
-                                  borderRadius: "0.25rem",
-                                  marginTop: "0.5rem",
-                                }}
-                              >
-                                <div style={{}}>
+                              <ResourceItem key={resource?._id}>
+                                <div>
                                   {resource.type === "pdf" ? (
-                                    <Button
-                                      style={{
-                                        width: "100%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontSize: "0.875rem",
-                                        maxWidth: "200px",
-                                        gap:"4px"
-                                      }}
+                                    <ResourceButtonPDF
                                       onClick={() =>
                                         window.open(resource.destinationUrl)
                                       }
                                     >
                                       <FilePdfFilled />
-                                      <div
-                                        style={{
-                                          whiteSpace: "nowrap", // Keeps the text within a single line
-                                          overflow: "hidden", // Hides the text that overflows
-                                          textOverflow: "ellipsis", // Shows ellipsis (...) when the text overflows
-                                        }}
-                                      >
+                                      <ResourceText>
                                         {resource?.name
                                           ? resource.name.split(".")[0]
                                           : resource?.title.split(".")[0]}
-                                      </div>
-                                    </Button>
+                                      </ResourceText>
+                                    </ResourceButtonPDF>
                                   ) : (
-                                    <Button
-                                      style={{
-                                        width: "100%",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontSize: "0.875rem",
-                                        gap:"4px"
-                                      }}
+                                    <ResourceButton
                                       onClick={() => setModalVideoOpen(true)}
                                     >
                                       <PlayCircleFilled />
-                                      <div
-                                        style={{
-                                          whiteSpace: "nowrap", // Keeps the text within a single line
-                                          overflow: "hidden", // Hides the text that overflows
-                                          textOverflow: "ellipsis", // Shows ellipsis (...) when the text overflows
-                                        }}
-                                      >
+                                      <ResourceText>
                                         {resource?.name
                                           ? resource.name.split(".")[0]
                                           : resource?.title.split(".")[0]}
-                                      </div>
-                                    </Button>
+                                      </ResourceText>
+                                    </ResourceButton>
                                   )}
                                 </div>
-                              </div>
+                              </ResourceItem>
                             ))
                           ) : (
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                fontWeight: "600",
-                                fontFamily: "DM Sans",
-                                color: "#797878",
-                                fontSize: "1rem",
-                              }}
-                            >
-                              No Resources
-                            </div>
+                            <NoResources>No Resources</NoResources>
                           )}
-                        </div>
+                        </CourseOverviewResourceContainer>
                       </StyledP>
                     </div>
                   ))}
@@ -474,20 +394,7 @@ const CourseOverview = ({ events }) => {
             </Drawer>
           </div>
         </TabPane>
-        {/* <TabPane tab="Assignment" key="tab2">
-          <div>
-            <StickyBox offsetTop={20} offsetBottom={20}>
-              <div style={{ display: "flex", width: "30rem" }}>
-                <Title level={4}>Course Content</Title>
-                <DropDown />
-              </div>
-              <div>
-                {" "}
-                <Test />{" "}
-              </div>
-            </StickyBox>
-          </div>
-        </TabPane> */}
+       
         <TabPane tab="Attendance" key="tab3">
           <div>
             <StickyBox offsetTop={20} offsetBottom={20}>

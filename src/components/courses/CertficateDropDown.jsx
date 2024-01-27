@@ -7,7 +7,6 @@ const CertificateDropDown = (  { handleSubmit , updateProfile , setupdateProfile
   
 
   const onClose = () => {
-    console.log("close")
     setOpen(false);
   };
   return (

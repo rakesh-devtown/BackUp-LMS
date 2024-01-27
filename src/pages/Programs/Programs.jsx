@@ -11,10 +11,9 @@ import useAuthStore from "../../store/authStore";
 import useLoadingStore from "../../store/loadingStore";
 import "./Programs.css";
 import useWindowSize from "../../hooks/useWindowSixe";
-import { StyledCol, StyledProgramsDiv, StyledRow, StyledTabs } from "../../styles/programs.styles";
+import { ProgramsTitle, StyledCol, StyledProgramsDiv, StyledRow, StyledTabs } from "../../styles/programs.styles";
 const { Title } = Typography;
 const { Search } = Input;
-const onSearch = (value, _e, info) => console.log(info?.source, value);
 const { Meta } = Card;
 
 const arr = [
@@ -74,7 +73,6 @@ const Programs = () => {
   )
 
   const handleNavigate = async  ( id  ,courseType  , course) =>  {
-    console.log(id , courseType)
     setCurrentBatchId(id); 
     setLoading(true);
 
@@ -100,14 +98,13 @@ const Programs = () => {
     return (
       <Layout>
         
-        <Title style={{ padding: "10px 0px" }}> My Programs</Title>
+        <ProgramsTitle >My Programs</ProgramsTitle>
 
         <StyledTabs
           onChange={(key) => {
             setType(key);
           }}
           type="card"
-         
         >
           {arr.map((item, i) => (
             <Tabs.TabPane tab={item.name} key={item.type} />
@@ -129,7 +126,7 @@ const Programs = () => {
 
   return (
     <Layout>
-      <Title style={{ padding: "10px 0px" }}> My Programs</Title>
+    <ProgramsTitle>My Programs</ProgramsTitle>
 
       <StyledTabs
         onChange={(key) => {
@@ -157,7 +154,7 @@ const Programs = () => {
                     alt="example"
                     src={batch?.course?.image}
                     height="176px"
-                    style={{}}
+
                     width="full"
                   />
                 }

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Tabs as AntTabs, Col, Row } from 'antd'; // replace with your actual import path
+import { Title } from './SessionLimit.styles';
 
 const StyledTabs = styled(AntTabs)`
   padding: 10px 0px;
@@ -20,7 +21,7 @@ const StyledCol = styled(Col)`
   display: flex;
   justify-content: center;
   align-items: stretch;
-  width: ${props => props.width < 700 ? 'min(85%, 400px)' : props.width < 1024 ? '45%' : props.width < 1440 ? '33%' : '25%'};
+  width: ${props => props.width < 700 ? 'min(95%, 420px)' : props.width < 1024 ? '45%' : props.width < 1440 ? '33%' :  props.width < 1800 ? "25%" :"20%" };
 `;
 const StyledProgramsDiv = styled.div`
   display: flex;
@@ -29,7 +30,11 @@ const StyledProgramsDiv = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
+const ProgramsTitle = styled(Title)`
+  padding: 10px 0px;
+`;
 
 
-
-export { StyledTabs , StyledRow, StyledCol, StyledProgramsDiv};
+export { StyledTabs , StyledRow, StyledCol, StyledProgramsDiv
+        , ProgramsTitle
+};

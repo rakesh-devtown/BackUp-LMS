@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Space, Table, Tag } from "antd";
 import { getFormattedDate } from "../../utils/getFormattedDateObj";
 import useWindowSize from "../../hooks/useWindowSixe";
+import { PartialPresenceContainer } from "../../styles/shared.styles";
 
 const AttendanceTable = ({ data }) => {
-  const {width} = useWindowSize()
+  const { width } = useWindowSize();
   const tabledata = data.map((item, index) => {
     return {
       key: index,
@@ -48,16 +49,8 @@ const AttendanceTable = ({ data }) => {
       key: "partialPresence",
       render: (partialPresence, row) =>
         partialPresence && (
-          <div
-          style={{
-            maxWidth: '80%',
-            color: '#A076E0',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            margin: 'auto',
-            position: 'absolute'
-          }}
+          <PartialPresenceContainer
+          
             data-tooltip-id="my-tooltip-inline"
             data-tooltip-content={
               row.duration < row.sessionDuration * 0.7
@@ -68,16 +61,14 @@ const AttendanceTable = ({ data }) => {
             data-tooltip-variant="light"
           >
             Yes
-          </div>
+          </PartialPresenceContainer>
         ),
     },
   ];
   return (
     <Table
-   
-    scroll={{ x: "700"  ,}}
-
-      pagination={  {
+      scroll={{ x: "700" }}
+      pagination={{
         position: "topRight",
       }}
       columns={columns}

@@ -49,12 +49,48 @@ const ModalFormContainer = styled.div`
   color: #747474;
 `;
 
+
+const DNDContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+  height: 100%;
+  margin-bottom: 0.5rem;
+  
+`;
+
+const DashedContainer = styled.div`
+  border: 2px dashed red;
+  margin: 1rem;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  background-color: #FEE2E2;
+  text-align: center;
+  font-weight: 600;
+`;
 const PresentLabel = styled.label`
   display: flex;
   gap: 8px;
   align-items: center;
   margin-top: 8px;
 `;
+
+const DNDInnerContainer = styled.div`
+  border: 2px dashed;
+  padding: 6rem;
+  background-color: ${props => props.isDragActive ? '#E5E7EB' : '#FFFFFF'};
+`;
+
+const DNDButton = styled(Button)`
+  
+  margin-left: 0.5rem;
+`;
+
+const AboutMeMargin = styled.div`
+  margin-top: 24px;
+`;
+
 export { DateSelectContainer 
     , ModalLabel ,
     ModalTextArea ,
@@ -64,6 +100,11 @@ export { DateSelectContainer
     ModalFormContainer ,
     Important ,
     PresentLabel, 
-    
+    DashedContainer ,
+    DNDContainer ,
+    DNDInnerContainer ,
+    DNDButton ,
+    AboutMeMargin
+
 
 };

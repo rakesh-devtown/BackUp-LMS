@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const MagicLinkContainer = styled.div`
@@ -6,8 +7,9 @@ const MagicLinkContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 3rem 1rem;
-  max-width: 36rem;
+  max-width: 40rem;
   margin: 0 auto;
+
 `;
 
 const BackButtonOuterContainer = styled.div`
@@ -40,12 +42,13 @@ const MagicLinkLogoHeading = styled.h2`
 const MagicLinkDescription = styled.p`
   text-align: center;
   font-size: 1rem;
+  
 `;
 const MagicLinkBoldText = styled.span`
   font-weight: bold;
 `;
 const MagicLinkForm = styled.form`
-  margin-top: 2rem;
+  margin-top: 0,8rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -64,6 +67,28 @@ const MagicLinkSubmitButtonContainer = styled.div`
   text-align: center;
   justify-content: center;
 `;
+const VerifyMagicLinkContainer = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: linear-gradient(to right, #5C258D, #4389A2);
+  color: white;
+`;
+
+const VerifyMagicLinkText = styled.div`
+  font-size: 1.875rem;
+  margin: 1rem 0;
+`;
+
+const VerifyMagicLinkButton = styled(Link)`
+  padding: 1rem 2rem;
+  background-color: whitesmoke;
+  color: black;
+  border-radius: 0.5rem;
+`;
 export {
   MagicLinkContainer,
   MagicLinkLogoOuterContainer,
@@ -74,6 +99,10 @@ export {
   MagicLinkBoldText,
   MagicLinkForm,
   MagicLinkFormInnerContainer,
-  MagicLinkSubmitButtonContainer
+  MagicLinkSubmitButtonContainer ,
+  VerifyMagicLinkContainer,
+  VerifyMagicLinkText,
+  VerifyMagicLinkButton
+
 
 };

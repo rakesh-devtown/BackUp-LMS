@@ -5,6 +5,8 @@ import { servicePut } from '../../utils/api';
 import { setHeader } from '../../utils/header';
 import { notification } from 'antd';
 import { PlusSquareFilled } from '@ant-design/icons';
+import { SkillListButton, SkillListContainer, SkillListItem, SkillListText, SkillListTitle, SkillListWrapper, SkillModalAddButton, SkillModalContainer, SkillModalInput, SkillModalParagraph, SkillModalResultItem, SkillModalSearchResult } from '../../styles/Modals/skillmodal.styles';
+import { ModalButtonContainer, ModalSaveButton } from '../../styles/Modals/sharedModals.styles';
 
 function SkillModal({ setopen, about, skill }) {
     const [searchText, setSearchText] = useState('');
@@ -87,95 +89,58 @@ function SkillModal({ setopen, about, skill }) {
 
   return (
     <form onSubmit={handleSaveSkills}>
-  <p style={{ fontSize: "0.875rem", fontWeight: "400", marginLeft: "12px", marginBottom: "20px" }}>Highlight your expertise and attract potential employers or collaborators by showcasing your skills.</p>
-  <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "center", marginBottom: "8px" }}>
-    <input
-      type="text"
-      placeholder="Add skill"
-      style={{
-        border: "1px solid gray",
-        borderRadius: "4px",
-        padding: "8px 12px",
-        width: "50%",
-        marginRight: "12px",
-        outline: "none",
-        boxShadow: "none",
-      }}
-      value={searchText}
-      onChange={(event) => setSearchText(event.target.value)}
-      onKeyDown={handleKeyDown}
-    />
-    {/* fuzzy search result */}
-    {searchText && (
-      <div style={{ position: "relative", zIndex: "50", padding: "8px", width: "50%", backgroundColor: "white", borderRadius: "8px", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", maxHeight: "240px", overflowY: "auto" }}>
-        {results.map((result) => (
-          <div
-            key={result.item.name}
-            style={{ padding: "8px 16px", cursor: "pointer", backgroundColor: "transparent" }}
-            onClick={() => {
-              setSkills([...skills, result.item.name]);
-              setSearchText('');
-            }}
-          >
-            {result.item.name}
-          </div>
-        ))}
-      </div>
-    )}
-    <div
-      style={{
-        border: "2px solid",
-        backgroundColor: "white",
-        borderColor: "#6422CD",
-        gap: "8px",
-        color: "#6422CD",
-        display: "flex",
-        alignItems: "center",
-        borderRadius: "4px",
-        padding: "8px 20px",
-        cursor: "pointer",
-      }}
-      onClick={handleAddSkill}
-    >
-      <PlusSquareFilled />
-      <p>Add</p>
-    </div>
-  </div>
-
-  <div style={{ marginBottom: "8px" }}>
-    <p style={{ fontSize: "1.125rem", fontWeight: "700", marginTop: "20px", marginBottom: "40px", marginLeft: "20px" }}>Current Skills</p>
-    <div style={{ display :"flex", flexWrap:"wrap" , gap: "8px", width: "91.666667%", marginLeft: "8px", marginTop: "4px" }}>
-      {skills.map((skill, index) => (
-        <div
-          style={{
-            backgroundColor:"#F3ECFE",
-            display: "flex",
-            justifyContent: "center",
-            padding: "8px 16px",
-            marginBottom: "20px",
-            border: "none",
-            fontSize: "1rem",
-            fontWeight: "500",
-            borderRadius: "4px",
-            cursor: "default",
+    <SkillModalParagraph>Highlight your expertise and attract potential employers or collaborators by showcasing your skills.</SkillModalParagraph>
+<SkillModalContainer>
+  <SkillModalInput
+    type="text"
+    placeholder="Add skill"
+    value={searchText}
+    onChange={(event) => setSearchText(event.target.value)}
+    onKeyDown={handleKeyDown}
+  />
+  {/* fuzzy search result */}
+  {searchText && (
+    <SkillModalSearchResult>
+      {results.map((result) => (
+        <SkillModalResultItem
+          key={result.item.name}
+          onClick={() => {
+            setSkills([...skills, result.item.name]);
+            setSearchText('');
           }}
-          key={index}
         >
-          <span style={{ marginRight: "4px", color: "#7030D1" }}>{skill}</span>
-          <button
-            style={{ color: "gray" }}
-            onClick={() => handleRemoveSkill(index)}
-          >
-            &#10005;
-          </button>
-        </div>
+          {result.item.name}
+        </SkillModalResultItem>
       ))}
-    </div>
-  </div>
+    </SkillModalSearchResult>
+  )}
+  <SkillModalAddButton onClick={handleAddSkill}>
+    <PlusSquareFilled />
+    <p>Add</p>
+  </SkillModalAddButton>
+</SkillModalContainer>
 
-  <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-    <button children='Save' type='submit' />
-  </div>
+<SkillListContainer>
+  <SkillListTitle>Current Skills</SkillListTitle>
+  <SkillListWrapper>
+    {skills.map((skill, index) => (
+      <SkillListItem key={index}>
+        <SkillListText>{skill}</SkillListText>
+        <SkillListButton onClick={() => handleRemoveSkill(index)}>
+          &#10005;
+        </SkillListButton>
+      </SkillListItem>
+    ))}
+  </SkillListWrapper>
+</SkillListContainer>
+
+
+  <ModalButtonContainer>
+          <ModalSaveButton type="submit" onClick={handleSaveSkills}>
+            Save
+          </ModalSaveButton>
+          
+        </ModalButtonContainer>
 </form>
   )
 }

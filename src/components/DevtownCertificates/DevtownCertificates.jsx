@@ -6,6 +6,7 @@ import useLoadingStore from '../../store/loadingStore';
 import NewModal from '../ProfileModals/NewModal';
 import { Link } from 'react-router-dom';
 import CertUpdateRequestModal from './CertUpdateRequestModal';
+import { CertificateDetails, CertificateHeader, CertificateHero, CertificateHeroInner, CertificateIcon, CertificateItem, CertificateItemInner, CertificateLink, CertificateLinkContainer, CertificateName, CertificateSummary, CertificateTitle, CertificateTitleContainer, CertificateUpdateContainer, CertificateUpdateModalContainer, CertificateViewContainer, CertificatesOuterContainer } from '../../styles/certificates.styles';
 
 function DevtownCertificates() {
     const [certificates, setCertificates] = useState([]);
@@ -51,75 +52,68 @@ function DevtownCertificates() {
 		}
 	};
   return certificates && certificates.length > 0  ?  (
-    <div style={{padding: '0 2rem'}}>
-    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        <div style={{height: 'auto', backgroundColor: 'white', marginBottom: '0.5rem', fontWeight: 'bold', fontSize: '1.4rem'}}>
-            <h4>
-                Devtown Certificates
-            </h4>
-        </div>
-        <div style={{marginBottom: '0.5rem'}}>
-            {updateAllowed ? (
-                <div style={{display: 'flex', alignItems: 'flex-start'}}>
-                    <NewModal
-                        text="Update"
-                        mainSub="Raise Update Request Certificate"
-                    >
-                        <CertUpdateRequestModal setUpdateAllowed={setUpdateAllowed} />
-                    </NewModal>
-                </div>
-            ) : (
-                ""
-            )}
-        </div>
-    </div>
-    <div style={{maxHeight: '12rem', overflowY: 'auto', width: '100%'}}>
-        <div style={{display: 'flex', flexWrap: 'wrap'}}>
-            {certificates?.map((certificate) => (
-                <div style={{display: 'flex', width: '100%', backgroundColor: '#F7FAFC', border: ''}}>
-                    <div
-                        key={certificate?._id}
-                        style={{display: 'grid', borderStyle: 'solid', borderColor: '#E2E8F0', borderWidth: '0 0 1px 0', margin: '0 auto', width: '100%', padding: '0.5rem 1rem', cursor: 'pointer'}}
-                    >
-                        <details className="group">
-                            <summary style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '500', listStyle: 'none', width: '100%', padding: '0.5rem 0'}}>
-                                <span style={{fontSize:"0.9em"}} >{certificate?.name}</span>
+    <CertificatesOuterContainer >
 
-                                <span className="transition-all group-open:rotate-180">
-                                    <svg
-                                        fill="none"
-                                        height="24"
-                                        shapeRendering="geometricPrecision"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="1.5"
-                                        viewBox="0 0 24 24"
-                                        width="24"
-                                    >
-                                        <path d="M6 9l6 6 6-6"></path>
-                                    </svg>
-                                </span>
-                            </summary>
-                            {certificate?.certificates?.map((certificate) => (
-                                <div style={{borderLeft: '4px solid #6B46C1', backgroundColor: 'white', display: 'flex', alignItems: 'center', transition: 'all 0.7s', ':hover': {backgroundColor: '#F7FAFC'}}}>
-                                    <Link
-                                        to={`/download/${certificate._id}`}
-                                        style={{width: '100%', fontSize: '0.875rem', marginLeft: '1rem'}}
-                                    >
-                                        <div style={{fontWeight: '600', padding: '0.25rem 0'}}>
-                                            <div>View</div>
-                                        </div>
-                                    </Link>
-                                </div>
-                            ))}
-                        </details>
-                    </div>
-                </div>
+
+<CertificateHeader>
+  <CertificateTitleContainer>
+    <CertificateTitle>Devtown Certificates</CertificateTitle>
+  </CertificateTitleContainer>
+  <CertificateUpdateContainer>
+    {updateAllowed ? (
+     <CertificateUpdateModalContainer>
+     <NewModal
+       text="Update"
+       mainSub="Raise Update Request Certificate"
+     >
+       <CertUpdateRequestModal setUpdateAllowed={setUpdateAllowed} />
+     </NewModal>
+   </CertificateUpdateModalContainer>
+    ) : (
+      ""
+    )}
+  </CertificateUpdateContainer>
+</CertificateHeader>
+<CertificateHero>
+  <CertificateHeroInner>
+    {certificates?.map((certificate , i ) => (
+      <CertificateItem key={i} >
+        <CertificateItemInner >
+          <CertificateDetails className="group">
+            <CertificateSummary>
+              <CertificateName>{certificate?.name}</CertificateName>
+              <CertificateIcon>
+                <svg
+                  fill="none"
+                  height="24"
+                  shapeRendering="geometricPrecision"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  viewBox="0 0 24 24"
+                  width="24"
+                >
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </CertificateIcon>
+            </CertificateSummary>
+            {certificate?.certificates?.map((certificate) => (
+              <CertificateLinkContainer>
+                <CertificateLink to={`/download/${certificate._id}`}>
+                <CertificateViewContainer>
+  <div>View</div>
+</CertificateViewContainer>
+                </CertificateLink>
+              </CertificateLinkContainer>
             ))}
-        </div>
-    </div>
-</div>
+          </CertificateDetails>
+        </CertificateItemInner>
+      </CertificateItem>
+    ))}
+  </CertificateHeroInner>
+</CertificateHero>
+</CertificatesOuterContainer>
 )
    : (
     <>

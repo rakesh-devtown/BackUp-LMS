@@ -16,7 +16,6 @@ export const GoogleAuthLogin = () => {
   const isGoogleAuthenticated = useAuthStore(
     (state) => state.isGoogleAuthenticated
   );
-  console.log(isGoogleAuthenticated);
   const responseGoogle = (response) => {
     try {
       const userObject = jwt_decode(response.credential);

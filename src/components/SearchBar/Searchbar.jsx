@@ -1,42 +1,30 @@
-import React, { useEffect } from 'react';
-import { Input, Space } from 'antd';
-import useProgramStore from '../../store/programStore';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Input, Space } from "antd";
+import useProgramStore from "../../store/programStore";
+import { useLocation } from "react-router-dom";
+import { CourseSearch } from "../../styles/shared.styles";
 const { Search } = Input;
 
-const SearchBar = (  { collapsed}) => {
+const SearchBar = ({ collapsed }) => {
   const name = useProgramStore((state) => state.name);
   const setName = useProgramStore((state) => state.setName);
 
-  const onSearch = (value, _e, info) => { 
+  const onSearch = (value, _e, info) => {
     setName(value);
-    console.log(info?.source, value);
-  }
-  const location = useLocation()
-  useEffect(() => {
-    console.log(name);
-    
-  }, [name ]);
+  };
+  const location = useLocation();
+  useEffect(() => {}, [name]);
   return (
-  
     <>
-      {
-        location.pathname === "/programs" && (
-          <Search
+      {location.pathname === "/programs" && (
+        <CourseSearch
           placeholder="search course"
           onSearch={onSearch}
-          style={{
-            width: 600,
-            fontSize: "30px",
-            marginLeft:collapsed? "0px":"58px",
-            transition: "all 0.2s ease",
-            
-          }}
+          collapsed={collapsed.toString()  }
         />
-        )
-      }
+      )}
     </>
-    )
-}
+  );
+};
 
 export default SearchBar;

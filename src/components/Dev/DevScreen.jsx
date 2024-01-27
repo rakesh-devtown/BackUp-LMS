@@ -19,7 +19,6 @@ function DevScreen() {
   const url = params.get("url");
   const extension = params.get("extension");
 
-  console.log(name, path, type, url);
   const [content, setContent] = useState("Loading");
   const navigate = useNavigate();
 
@@ -32,7 +31,6 @@ function DevScreen() {
         const {
           data: { fileContent },
         } = await serviceGet(`student/student-api/v1/day/blob?url=${url}`);
-        console.log("fired once");
 
         if (extension === "png" || extension === "jpeg") {
           setContent(fileContent);
@@ -87,12 +85,7 @@ function DevScreen() {
     <DevScreenOuterContainer>
       {extension === "png" || extension === "jpeg" ? (
         <DevScreenImageOuterContainer
-          style={{
-            height: "90vh",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+         
         >
           <DevScreenImage
             src={`data:image/${extension};base64, ${content}`}

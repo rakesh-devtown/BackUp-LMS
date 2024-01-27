@@ -4,9 +4,7 @@ function YouTubeIframe( {VideoId}  ) {
 //   const [url, setUrl] = useState('');
 
 
-  console.log(VideoId);
   const embedUrl = `https://www.youtube.com/embed/${VideoId.split('v=')[1]}`;
-    console.log(embedUrl);
   return (
     <>
       

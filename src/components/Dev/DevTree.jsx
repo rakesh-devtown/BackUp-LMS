@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 const { DirectoryTree } = Tree;
 
 const DevTree = (  { treeData }) => {
-    console.log(treeData)   
     const transformData = (data, parentIndex = '0') => {
       return data.map((item, index) => {
         const key = JSON.stringify(item);
@@ -30,7 +29,6 @@ const DevTree = (  { treeData }) => {
     const data = transformData(treeData);
     const navigate= useNavigate()
   const onSelect = (keys, info) => {
-    // console.log(JSON.parse( keys[0])
     const { name , path  , type, url }  =  JSON.parse(keys[0]) ;
     const splitArray = name.split('.');
     const extension = splitArray[splitArray.length-1];
@@ -38,7 +36,6 @@ const DevTree = (  { treeData }) => {
     
   };
   const onExpand = (keys, info) => {
-    console.log('Trigger Expand', keys, info);
   };
   return (
     <DirectoryTree

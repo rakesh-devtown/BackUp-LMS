@@ -74,7 +74,7 @@ export const Box=styled.div`
 
 `;
 export const LoginTime=styled.div`
-color: #000;
+color: #595a5c;
   font-size: 1rem;
   font-weight: normal;
   font-family: 'Manrope', sans-serif;
@@ -133,6 +133,7 @@ line-height: 1.4;
 font-family: 'Manrope', sans-serif;
 display: flex;
 align-items: center;
+cursor: pointer;
 `;
 
 
@@ -170,4 +171,13 @@ export const StyledClearButton = styled(Button)`
   font-weight: 600;
   line-height: 1.4;
   font-family: 'Manrope', sans-serif;
+`;
+export const SessionLimitContainers = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+`;
+
+export const OsColor = styled.div`
+  color: #595a5c;
 `;

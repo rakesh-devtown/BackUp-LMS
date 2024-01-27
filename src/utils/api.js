@@ -46,7 +46,6 @@ export const serviceGet = async (path, headers) => {
             })
             .then(function (response) {
                 // if(response.data.statusCode===403){
-                //    console.log('time to logout');
                 //    store.dispatch(logout());
                 // }
                 resolve(response.data);

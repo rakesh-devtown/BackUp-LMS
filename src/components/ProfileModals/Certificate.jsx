@@ -15,6 +15,7 @@ import {
   LinkContainer,
   MarginContainer,
 } from "../../styles/Certificates/certificates.styles";
+import { WorkExperienceSeparator } from "../../styles/ProfileComponents/work.styles";
 
 function Certificate({ cert, index, len, about }) {
   const { width } = useWindowSize();
@@ -34,13 +35,7 @@ function Certificate({ cert, index, len, about }) {
                 <CertificateModal type="Edit" cert={cert} />
               </NewModal>
             </CertificateModalOuterContainer>
-            <div
-              style={{
-                paddingTop: "8px",
-                paddingBottom: "8px",
-                float: "right",
-              }}
-            ></div>
+           
           </CertificateContainer>
           <CertificateContainer>
             <CertificateOrganization>
@@ -53,7 +48,7 @@ function Certificate({ cert, index, len, about }) {
 
 
             </LinkContainer>{" "}
-              <CertificateDot>. </CertificateDot>
+            <WorkExperienceSeparator>.</WorkExperienceSeparator>
             {" "}
             <CertificatePeriod>
               {s_monthAndYear} - {e_monthAndYear}
@@ -72,13 +67,7 @@ function Certificate({ cert, index, len, about }) {
                 <CertificateModal type="Edit" cert={cert} />
               </NewModal>
             </CertificateModalOuterContainer>
-            {/* <div
-              style={{
-                paddingTop: "8px",
-                paddingBottom: "8px",
-                float: "right",
-              }}
-            ></div> */}
+            
           </CertificateContainer>
           <CertificateContainer>
             <CertificateOrganization>

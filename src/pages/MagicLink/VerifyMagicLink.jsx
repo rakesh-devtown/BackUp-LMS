@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useLoadingStore from '../../store/loadingStore';
+import { VerifyMagicLinkButton, VerifyMagicLinkContainer, VerifyMagicLinkText } from '../../styles/magicLink.styles';
 
 function VerifyMagicLink() {
     const { token } = useParams();
@@ -35,24 +36,24 @@ function VerifyMagicLink() {
 	
 
   return (
-    <div style={{height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', background: 'linear-gradient(to right, #5C258D, #4389A2)', color: 'white'}}>
+    <VerifyMagicLinkContainer>
   {!isDataLoaded ? (
     <>
-      <div style={{fontSize: '1.875rem', margin: '1rem 0'}}>Verifying</div>
-      <Link to="/programs" style={{padding: '1rem 2rem',backgroundColor:  "whitesmoke",color:"black", borderRadius: '0.5rem'}}> Home</Link>
+      <VerifyMagicLinkText>Verifying</VerifyMagicLinkText>
+      <VerifyMagicLinkButton to="/programs">Home</VerifyMagicLinkButton>
     </>
   ) : isDataLoaded === "Link Expire" ? (
     <>
-      <div style={{fontSize: '1.875rem', margin: '1rem 0'}}>The Link you are using is expired</div>
-      <Link to="/auth/magic-login" style={{padding: '1rem 2rem',backgroundColor:  "whitesmoke",color:"black", borderRadius: '0.5rem'}}>Generate another</Link>
+      <VerifyMagicLinkText>The Link you are using is expired</VerifyMagicLinkText>
+      <VerifyMagicLinkButton to="/auth/magic-login">Generate another</VerifyMagicLinkButton>
     </>
   ) : (
     <>
-      <div style={{fontSize: '1.875rem', margin: '1rem 0'}}>An error Occurred! May be Link is Invalid</div>
-      <Link to="/programs" style={{padding: '1rem 2rem', backgroundColor:  "whitesmoke",color:"black" , borderRadius: '0.5rem'}}>Home</Link>
+      <VerifyMagicLinkText>An error Occurred! May be Link is Invalid</VerifyMagicLinkText>
+      <VerifyMagicLinkButton to="/programs">Home</VerifyMagicLinkButton>
     </>
   )}
-</div>
+</VerifyMagicLinkContainer>
   )
 }
 

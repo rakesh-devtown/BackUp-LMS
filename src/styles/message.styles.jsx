@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 const MessageContainer = styled.div`
+display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  overflow-y: hidden;
   background-color: white;
-  display: flex;
 `;
 const MessageSideBarContainer = styled.div`
   display: flex;
@@ -89,6 +90,7 @@ const ChatSideBarOuterContainer = styled.div`
 `;
 const RocketChatOuterContainer = styled.div`
   width: 100%;
+
 `;
 
 

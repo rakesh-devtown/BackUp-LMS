@@ -9,10 +9,8 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 function DownloadCertificate() {
   const { certId } = useParams();
-  console.log(certId)
   const [pdfBlob, setPdfBlob] = useState(null);
   const [pdfUrl, setPdfUrl] = useState(null);
-  console.log(pdfUrl)
   // const setLoading = useLoadingStore((state) => state.setLoading);
   const [loading, setLoading] = useState(true);
   const getCertificates = async () => {
@@ -32,7 +30,6 @@ function DownloadCertificate() {
         setLoading(false);
       });
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Error",
         description: error.message,
@@ -46,14 +43,13 @@ function DownloadCertificate() {
   const downloadCertificates = async () => {
     try {
       const downloadLink = document.createElement("a");
-      downloadLink.href = URL.createObjectURL(pdfBlob);
+      downloadLink.href = window.URL.createObjectURL(pdfBlob);
       downloadLink.download = `${certId}.pdf`;
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
-      URL.revokeObjectURL(downloadLink.href);
+      window.URL.revokeObjectURL(downloadLink.href);
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Error",
         description: error.message,

@@ -5,6 +5,7 @@ import { Button, Input, notification } from "antd";
 import CustomDropdown from "../DropDown/CustomDropdown";
 import {
   DateSelectContainer,
+  Important,
   ModalButtonContainer,
   ModalDeleteButton,
   ModalFormContainer,
@@ -193,7 +194,7 @@ function CertificateModal({ cert, type, setopen, about }) {
     <form onSubmit={handleSubmit}>
       <ModalFormContainer>
         <ModalLabel>
-          Certificate Title <span style={{ color: "#FF0000" }}>*</span>
+          Certificate Title <Important  >  *</Important>
         </ModalLabel>
 
         {type === "Edit" ? (
@@ -230,7 +231,7 @@ function CertificateModal({ cert, type, setopen, about }) {
         <div>
           <ModalLabel>
             {" "}
-            Organization <span style={{ color: "#FF0000" }}>*</span>{" "}
+            Organization <Important  >  *</Important>{" "}
           </ModalLabel>
 
           {type === "Edit" ? (
@@ -266,10 +267,10 @@ function CertificateModal({ cert, type, setopen, about }) {
         </div>
         <ModalLabel>
           {" "}
-          Certificate Link <span style={{ color: "#FF0000" }}>*</span>{" "}
+          Certificate Link <Important  >  *</Important>{" "}
         </ModalLabel>
 
-        <div style={{ marginTop: "20px" }}>
+
           {type === "Edit" ? (
             <Input
               id="url"
@@ -300,7 +301,7 @@ function CertificateModal({ cert, type, setopen, about }) {
               autoComplete="url"
             />
           )}
-        </div>
+     
         <ModalLabel> Start Date</ModalLabel>
         <DateSelectContainer>
           <CustomDropdown

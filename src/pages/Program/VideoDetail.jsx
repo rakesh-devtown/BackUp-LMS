@@ -275,7 +275,10 @@ const VideoDetail = () => {
 
       setCertificates(data.certificates);
     } catch (error) {
-      console.log(error);
+      notification.error({
+        message: "Error",
+        description: error.message,
+      });
     }
   };
 
@@ -287,7 +290,6 @@ const VideoDetail = () => {
     try {
       // check if course has been completed or not
       let cc = false;
-      console.log(currentVideoDetails._id, lastVideo._id);
       if (currentVideoDetails._id == lastVideo._id) {
         if (!lastSection.progress) {
           // check if there's just one video in section
@@ -327,11 +329,8 @@ const VideoDetail = () => {
         );
         if (success) {
           const { tracker } = data;
-          console.log("sectionbefore", sections, "tracker", tracker);
           setSection(tracker);
 
-          console.log("Section After", sections);
-          console.log(cc, "cc", ready, "ready");
         } else {
           notification.error({
             message: "Error",
@@ -343,7 +342,11 @@ const VideoDetail = () => {
         if (cc && ready) getCert();
       }
     } catch (error) {
-      console.log(error);
+      notification.error({
+        message: "Error",
+        description: error.message,
+      });
+
     }
   };
   const handleGetVideo = useCallback(async () => {
@@ -373,14 +376,14 @@ const VideoDetail = () => {
         setupdateProfile={setupdateProfile}
         setCertificateData={setCertificateData}
       />
-      <StyledVideoBox>
+      <StyledVideoBox width={width}>
         {width < 700 && (
           <VideoDetailBackButton
             width={width}
             type="primary"
             onClick={() => navigate("/programs")}
           >
-            <ArrowLeftOutlined />
+            <ArrowLeftOutlined /> Back 
           </VideoDetailBackButton>
         )}
         <StyledLeft width={width}>
@@ -398,11 +401,14 @@ const VideoDetail = () => {
 
           <StyledVideoTitle>
             <StyledVideoTitleText>{currentVideo.name} </StyledVideoTitleText>
+            {
+              currentVideo.name && (
+                <>
             {isPresent ? (
               <Button
-                type="primary"
-                style={{ cursor: "not-allowed" }}
-                icon={<EyeOutlined />}
+              type="primary"
+              style={{ cursor: "not-allowed" }}
+              icon={<EyeOutlined />}
               >
                 Marked as Watched
               </Button>
@@ -411,6 +417,10 @@ const VideoDetail = () => {
                 Mark as Watched
               </Button>
             )}
+            </>
+              ) 
+            }
+            
           </StyledVideoTitle>
 
           <VimeoContainer>

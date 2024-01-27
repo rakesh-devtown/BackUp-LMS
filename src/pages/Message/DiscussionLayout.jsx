@@ -3,7 +3,13 @@ import useWindowSize from "../../hooks/useWindowSixe";
 import { serviceGet } from "../../utils/api";
 import ChatSidebar from "./ChatSidebar";
 import RocketChat from "./RocketChat";
-import { ChatSideBarOuterContainer, MessageContainer, RocketChatOuterContainer, SmallChatSideBarContainer } from "../../styles/message.styles";
+import {
+  ChatSideBarOuterContainer,
+  MessageContainer,
+  RocketChatOuterContainer,
+  SmallChatSideBarContainer,
+} from "../../styles/message.styles";
+import { MessageOuterContainer } from "../../styles/rocketChat.styles";
 
 const DiscussionLayout = () => {
   const { width } = useWindowSize();
@@ -35,37 +41,39 @@ const DiscussionLayout = () => {
     fetchData();
   }, []);
   return (
-<MessageContainer>
-      {width > 740 ? (
-        <>
-          <ChatSideBarOuterContainer>
-            <ChatSidebar channel={{ channel, setChannel }} chats={chats} />
-          </ChatSideBarOuterContainer>
-          <RocketChatOuterContainer style={{ width: "100%" }}>
-            <RocketChat channel={channel} />
-          </RocketChatOuterContainer>
-        </>
-      ) : (
-        <>
-          {isChatClicked ? (
-            <RocketChatOuterContainer style={{ width: "100%" }}>
-              <RocketChat
-                channel={channel}
-                setIsChatClicked={setIsChatClicked}
-              />
+    <>
+      <MessageContainer>
+        {width > 740 ? (
+          <>
+            <ChatSideBarOuterContainer>
+              <ChatSidebar channel={{ channel, setChannel }} chats={chats} />
+            </ChatSideBarOuterContainer>
+            <RocketChatOuterContainer>
+              <RocketChat channel={channel} />
             </RocketChatOuterContainer>
-          ) : (
-            <SmallChatSideBarContainer >
-              <ChatSidebar
-                channel={{ channel, setChannel }}
-                chats={chats}
-                setIsChatClicked={setIsChatClicked}
-              />
-            </SmallChatSideBarContainer>
-          )}
-        </>
-      )}
-    </MessageContainer>
+          </>
+        ) : (
+          <>
+            {isChatClicked ? (
+              <RocketChatOuterContainer>
+                <RocketChat
+                  channel={channel}
+                  setIsChatClicked={setIsChatClicked}
+                />
+              </RocketChatOuterContainer>
+            ) : (
+              <SmallChatSideBarContainer>
+                <ChatSidebar
+                  channel={{ channel, setChannel }}
+                  chats={chats}
+                  setIsChatClicked={setIsChatClicked}
+                />
+              </SmallChatSideBarContainer>
+            )}
+          </>
+        )}
+      </MessageContainer>
+    </>
   );
 };
 export default DiscussionLayout;

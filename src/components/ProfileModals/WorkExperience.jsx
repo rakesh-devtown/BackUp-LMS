@@ -2,6 +2,20 @@ import React from "react";
 import NewModal from "./NewModal";
 import WorkModal from "./WorkModal";
 import { LinkOutlined, LinkedinFilled } from "@ant-design/icons";
+import {
+  WorkBottomSpace,
+  WorkCompany,
+  WorkContainer,
+  WorkDescription,
+  WorkExperienceDivider,
+  WorkExperienceSeparator,
+  WorkModalContainer,
+  WorkPeriod,
+  WorkPosition,
+  WorkPositionContainer,
+  WorkRightContainer,
+  WorkRowContainer,
+} from "../../styles/ProfileComponents/work.styles";
 
 function WorkExperience({ workex, index, len, about }) {
   const s_date = new Date(workex?.start_date);
@@ -13,28 +27,9 @@ function WorkExperience({ workex, index, len, about }) {
     <>
       {index === len - 1 ? (
         <>
-          <div
-            style={{
-              backgroundColor: "white",
-              display: "flex",
-              flexDirection: "row",
-              marginTop: "12px",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "0.9em",
-                fontWeight: "600",
-                marginTop: "4px",
-                width: "100%",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {workex?.company}
-            </p>
-            <div style={{ paddingTop: "8px", paddingBottom: "8px" }}>
+          <WorkContainer>
+            <WorkCompany>{workex?.company}</WorkCompany>
+            <WorkModalContainer>
               <NewModal
                 about={about}
                 text="Edit"
@@ -42,87 +37,33 @@ function WorkExperience({ workex, index, len, about }) {
               >
                 <WorkModal type="Edit" workex={workex} />
               </NewModal>
-            </div>
-            <div
-              style={{
-                paddingTop: "8px",
-                paddingBottom: "8px",
-                float: "right",
-              }}
-            ></div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "12px",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
-              <p style={{ fontSize: "0.8em", fontWeight: "600" }}>
-                {workex?.position}
-              </p>
+            </WorkModalContainer>
+            <WorkRightContainer />
+          </WorkContainer>
+          <WorkRowContainer>
+            <WorkPositionContainer>
+              <WorkPosition>{workex?.position}</WorkPosition>
               <div>
                 <a href={workex?.certificate} target="_blank">
                   <LinkOutlined size={"1.3em"} />
                 </a>
               </div>
-            </div>
-            <p
-              style={{
-                fontSize: "2em",
-                marginBottom: "20px",
-                fontWeight: "900",
-                
+            </WorkPositionContainer>
 
-              }}
-            >
-              .
-            </p>
-            <p
-              style={{
-                fontSize: "0.75em",
-                fontWeight: "500",
-                color: "#808080",
-              }}
-            >
+            <WorkExperienceSeparator>.</WorkExperienceSeparator>
+            <WorkPeriod>
               {s_monthAndYear} -
               {workex?.currentJob ? "Present" : <> {e_monthAndYear}</>}
-            </p>
-          </div>
-
-          <p
-            style={{ fontSize: "0.875em", color: "#808080", marginTop: "8px" }}
-          >
-            {workex?.description}
-          </p>
-          <div style={{ marginTop: "20px" }}></div>
+            </WorkPeriod>
+          </WorkRowContainer>
+          <WorkDescription>{workex?.description}</WorkDescription>
+          <WorkBottomSpace />
         </>
       ) : (
         <>
-          <div
-            style={{
-              backgroundColor: "white",
-              display: "flex",
-              flexDirection: "row",
-              marginTop: "12px",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "0.9em",
-                fontWeight: "600",
-                marginTop: "4px",
-                width: "100%",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {workex?.company}
-            </p>
-            <div style={{ paddingTop: "8px", paddingBottom: "8px" }}>
+          <WorkContainer>
+            <WorkCompany>{workex?.company}</WorkCompany>
+            <WorkModalContainer>
               <NewModal
                 about={about}
                 text="Edit"
@@ -130,70 +71,29 @@ function WorkExperience({ workex, index, len, about }) {
               >
                 <WorkModal type="Edit" workex={workex} />
               </NewModal>
-            </div>
-            <div
-              style={{
-                paddingTop: "8px",
-                paddingBottom: "8px",
-                float: "right",
-              }}
-            ></div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "12px",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
-              <p style={{ fontSize: "0.8em", fontWeight: "600" }}>
-                {workex?.position}
-              </p>
+            </WorkModalContainer>
+            <WorkRightContainer />
+          </WorkContainer>
+          <WorkRowContainer>
+            <WorkPositionContainer>
+              <WorkPosition>{workex?.position}</WorkPosition>
               <div>
-                <a href={workex?.certificate} target="_blank" rel="noreferrer">
-                  <LinkedinFilled size={"1.3em"} />
+                <a href={workex?.certificate} target="_blank">
+                  <LinkOutlined size={"1.3em"} />
                 </a>
               </div>
-            </div>
-            <p
-              style={{
-                fontSize: "2em",
-                marginBottom: "12px",
-                fontWeight: "bold",
-                color: "#808080",
-              }}
-            >
-              .
-            </p>
-            <p
-              style={{
-                fontSize: "0.75em",
-                fontWeight: "500",
-                color: "#808080",
-              }}
-            >
+            </WorkPositionContainer>
+
+            <WorkExperienceSeparator>.</WorkExperienceSeparator>
+            <WorkPeriod>
               {s_monthAndYear} -
               {workex?.currentJob ? "Present" : <> {e_monthAndYear}</>}
-            </p>
-          </div>
-
-          <p
-            style={{ fontSize: "0.875em", color: "#808080", marginTop: "8px" }}
-          >
-            {workex?.description}
-          </p>
+            </WorkPeriod>
+          </WorkRowContainer>
+          <WorkDescription>{workex?.description}</WorkDescription>
         </>
       )}
-      <div
-        style={{
-          width: "100%",
-          height: "2px",
-          marginTop: "8px",
-          backgroundColor: "#E5E3E3",
-        }}
-      ></div>
+      <WorkExperienceDivider />
     </>
   );
 }
