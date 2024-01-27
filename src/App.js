@@ -18,6 +18,8 @@ import { routes } from "./routes";
 import useAuthStore from "./store/authStore";
 import useLoadingStore from "./store/loadingStore";
 import Loader from "./components/loader/Loader";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { LoaderOuterContainer } from "./styles/loader.styles";
 const { Header, Content, Sider } = Layout;
 //router
 const router = createBrowserRouter(routes);
@@ -48,26 +50,14 @@ const App = () => {
   const loading = useLoadingStore((state) => state.loading);
   return (
     <>
-        {
-          loading && (
-            <div
-            
-            style={{
-              backgroundColor: '#BEE3F8', opacity: '0.3', display: 'flex',
-              width: "100vw",
-              height: "100vh",
-              position: "fixed",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: "100",
-            }}
-          >
-            <Loader />
-          </div>
-          )
-        }   
+      {loading && (
+        <LoaderOuterContainer>
+          <Loader />
+        </LoaderOuterContainer>
+      )}
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <RouterProvider router={router} />
-   
+      </GoogleOAuthProvider>
     </>
   );
 };

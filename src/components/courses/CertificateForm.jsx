@@ -9,7 +9,6 @@ const CertificateForm = ({
   open,
   setOpen,
 }) => {
-  console.log(updateProfile)
   const onFinish = async (values) => {
     setOpen(false);
     await handleSubmit();

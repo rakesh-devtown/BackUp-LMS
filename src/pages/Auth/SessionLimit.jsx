@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { Button, Card, notification } from "antd";
 import {
@@ -13,20 +11,23 @@ import {
   Box,
   LoginTime,
   ClearAllButton,
+  StyledButton,
+  StyledClearButton,
+  SessionLimitContainers,
+  OsColor,
 } from "../../styles/SessionLimit.styles";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { serviceDelete, serviceGet } from "../../utils/api";
-
+import useWindowSize from "../../hooks/useWindowSixe";  
 const SessionLimit = () => {
   const [sessions, setSessions] = useState([]); // Now useState is defined
-
+  const {width} = useWindowSize();
   const user = useAuthStore((state) => state.user);
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
   const clearSessions = useAuthStore((state) => state.clearSessions);
   const navigate = useNavigate();
   const clearSession = async (sessionId) => {
-    console.log(sessionId)
     try {
       const { success, message } = await serviceDelete(
         `student/student-api/v1/screen?screenSessionId=${sessionId}`
@@ -40,17 +41,19 @@ const SessionLimit = () => {
       notification.error({ message: "Something went wrong" });
     }
   };
-    const clearAllSession = async()=>{
+  const clearAllSession = async () => {
     try {
-      const {success, message} = await serviceDelete(`student/student-api/v1/screen?studentId=${user._id}`)
-      if(success){
+      const { success, message } = await serviceDelete(
+        `student/student-api/v1/screen?studentId=${user._id}`
+      );
+      if (success) {
         clearSessions();
-        navigate('/programs');
+        navigate("/programs");
       }
     } catch (error) {
-      notification.error({ message: 'Something went wrong' });
+      notification.error({ message: "Something went wrong" });
     }
-  }
+  };
 
   const fetchSessions = async () => {
     try {
@@ -60,10 +63,9 @@ const SessionLimit = () => {
         } = await serviceGet(`student/student-api/v1/screen/${user?._id}`);
         setSessions(screenSessions);
       } else {
-        navigate("/");
+        navigate("/programs");
       }
     } catch (error) {
-      console.log(error);
       notification.error({ message: error.message });
     }
   };
@@ -76,31 +78,87 @@ const SessionLimit = () => {
 
   return (
     <SessionLimitContainer>
-      <BackButton onClick={navigateToHomePage}>Back</BackButton>
+      <StyledButton
+      onClick={navigateToHomePage}
+      >
+        Back
+      </StyledButton>
+
       <CardContainer>
         <Title>Active Session Limit Reached</Title>
         <Description>
           You have reached your limit of 2 active sessions on DevTown. Please
           end another session before logging in.
         </Description>
-        {sessions.map((e) => (
-          <Box>
-            <LoginTime>
-              {" "}
-              {`${new Date(e?.lastLogin).getMonth() + 1}/${new Date(
-                e?.lastLogin
-              ).getDate()}/${new Date(e?.lastLogin).getFullYear()}`}{" "}
-            </LoginTime> 
+        {sessions.map((e  , idx) => (
+          <Box key={idx} >
 
-            <ClearButton style={{cursor : "pointer"}} onClick={() => clearSession(e._id)}>
+            <SessionLimitContainers >
+              <div >
+                {e?.os?.includes("Windows") ? (
+                  <img
+                    width="48"
+                    height="48"
+                    src="https://img.icons8.com/color/48/windows-10.png"
+                    alt="windows-10"
+                  />
+                ) : e?.os?.includes("Mac") ? (
+                  <img
+                    width="48"
+                    height="48"
+                    src="https://img.icons8.com/ios-filled/50/mac-os.png"
+                    alt="mac-os"
+                  />
+                ) : e?.os?.includes("Android") ? (
+                  <img
+                    width="48"
+                    height="48"
+                    src="https://img.icons8.com/plasticine/100/android-os.png"
+                    alt="android-os"
+                  />
+                ) : e?.os?.includes("Linux") ? (
+                  <img
+                    width="48"
+                    height="48"
+                    src="https://img.icons8.com/color/48/linux--v1.png"
+                    alt="linux--v1"
+                  />
+                ) : (
+                  <img
+                    width="48"
+                    height="48"
+                    src="https://img.icons8.com/pulsar-line/48/laptop-and-phone.png"
+                    alt="laptop-and-phone"
+                  />
+                )}
+              </div>
+              <LoginTime >
+                {" "}
+                {`${new Date(e?.lastLogin).getMonth() + 1}/${new Date(
+                  e?.lastLogin
+                ).getDate()}/${new Date(e?.lastLogin).getFullYear()}`}{" "}
+              </LoginTime>
+            </SessionLimitContainers>
+            <OsColor>
+  { width > 500 && e?.os }
+</OsColor>
+            <StyledClearButton
+              onClick={() => clearSession(e._id)}
+              
+            >
               {" "}
               Logout{" "}
-            </ClearButton>
+            </StyledClearButton>
           </Box>
         ))}
-       
 
-        <ClearAllButton style={{cursor : "pointer"}} onClick={() => clearAllSession()}  > Clear all Sessions</ClearAllButton>
+        <ClearAllButton
+     
+          onClick={() => clearAllSession()}
+        >
+          {" "}
+          Clear all Sessions
+        </ClearAllButton>
       </CardContainer>
     </SessionLimitContainer>
   );

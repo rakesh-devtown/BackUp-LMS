@@ -1,4 +1,4 @@
-import { Modal, notification } from "antd";
+import { Flex, Modal, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { serviceGet, servicePut } from "../../utils/api";
 import { setHeader } from "../../utils/header";
@@ -12,10 +12,37 @@ import {
 } from "@ant-design/icons";
 import NewModal from "./NewModal";
 import ProfileModal from "./ProfileModal";
-import useWindowSize from "../../hooks/useWindowSixe"
+import useWindowSize from "../../hooks/useWindowSixe";
+import {
+  AboutMeAddress,
+  AboutMeContactContainer,
+  AboutMeContactText,
+  AboutMeContainer,
+  AboutMeEmail,
+  AboutMeGridContainer,
+  AboutMeImage,
+  AboutMeInnerContainer,
+  AboutMeLink,
+  AboutMeLinkContainer,
+  AboutMeLinkText,
+  AboutMeLinkWrapper,
+  AboutMeNameHeading,
+  AboutMeOuterContainer,
+  AboutMePhone,
+  AboutMeSubContainer,
+  AboutMeText,
+  AboutMeUploadContainer,
+  AboutMeUploadLabel,
+  AboutModalContainer,
+  AboutModalText,
+  CloseIcon,
+  ProfileNameContainer,
+} from "../../styles/ProfileComponents/aboutme.styles";
+import { AboutMeMargin } from "../../styles/Modals/sharedModals.styles";
+import { AboutMeSectionDivider } from "../../styles/shared.styles";
 
 function AboutMe({ profile, about }) {
-    const {width} = useWindowSize() ;
+  const { width } = useWindowSize();
 
   const loadUser = useAuthStore((state) => state.loadUser);
   const [imageProfile, setImageProfile] = useState({
@@ -183,324 +210,28 @@ function AboutMe({ profile, about }) {
 
   const [open, setopen] = useState(false);
   useEffect(() => {
-    // console.log("Profile:", profile);
-    // check if profila data exists and has loaded and  profile is not complete, then open the modal
     if (profile && !profile?.profileComplete) {
-      // console.log("Opening modal");
       setopen(true);
     }
   }, [profile]);
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(8, 1fr)" }}>
-      
-      <div
-        style={{
-          marginTop: "1.25rem",
-          width: "100%",
-          gridColumnStart: "1",
-          gridColumnEnd: "9",
-          paddingLeft: "1rem",
-          paddingRight: "1rem",
-        }}
-      >
-        <div style={{ backgroundColor: "#FFFFFF", marginBottom: "2rem" }}>
-          {profile && profile.profileComplete ? (
-            <div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "4px",
-                    padding: "8px",
-                  }}
-                >
-                  <>
-                    <label htmlFor="desktop-upload">
-                      <img
-                        src={profile?.image ? profile?.image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"}
-                        style={{
-                          height: "112px",
-                          width: "112px",
-                          borderRadius: "50%",
-                          border: "4px solid white",
-                        }}
-                      />
-                    </label>
-                    <input
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      id="desktop-upload"
-                      style={{ display: "none" }}
-                      type="file"
-                    />
-                  </>
-                  <div>
-                    <h2
-                      style={{
-                        color: "#323232",
-                        fontSize: "2em",
-                        fontWeight: "bold",
-                        marginRight: "2px",
-                        
-
-                      }}
-                    >
-                      {profile?.firstName + " " + profile?.lastName}
-                    </h2>
-                    <p
-                      style={{
-                        fontSize: "1em",
-                        marginTop: "1px",
-                        fontWeight: "bold",
-                        color: "#818181",
-                      }}
-                    >
-                      {profile?.address?.city + ", " + profile?.address?.state}
-                    </p>
-                  </div>
-                </div>
-                <div style={{ marginTop: "24px" }}>
-                  <NewModal about={about} text="Prof" mainSub="Edit User">
-      <ProfileModal student={profile} />
-                  </NewModal>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  width: "95%",
-                  height: "1px",
-                  marginLeft: "6px",
-                  backgroundColor: "#E8E8E8",
-                }}
-              ></div>
-              <div style={{ padding: "16px", marginTop: "24px" }}>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <p
-                    style={{
-                      fontSize: "22px",
-                      fontWeight: "bold",
-                      color: "#484848",
-                    }}
-                  >
-                    Contact Information
-                  </p>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: width > 1100 ? "row" : "column",
-                    gap: "24px",
-                    width: "100%",
-                    marginTop: "16px",
-                    
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "8px",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: "1em",
-                        fontWeight: "bold",
-                        color: "#928e8e",
-                      }}
-                    >
-                      Email address
-                    </p>
-                    <span style={{ fontWeight: "500" }}>{profile?.email}</span>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "8px",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: "1em",
-                        fontWeight: "bold",
-                        color: "#928e8e",
-                      }}
-                    >
-                      Phone number
-                    </p>
-                    <span style={{ fontWeight: "500" }}>{profile?.mobile}</span>
-                  </div>
-                  <div
-                    style={{
-                        border : "1px solid #D1D5DB",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <input
-                      id="file-upload"
-                      type="file"
-                      accept="application/pdf"
-                      style={{ display: "none" }}
-                      onChange={handlePdfUpload}
-                    />
-                    <label
-                      htmlFor="file-upload"
-                      style={{
-                        cursor: "pointer",
-                        borderColor: "#D1D5DB",
-                        borderWidth: "1px",
-                        color: "#374151",
-                        padding: "8px 16px",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      {profile?.resume ? "Update Resume" : "Add Resume"}
-                    </label>
-                  </div>
-                </div>
-
-                {linkExists && (
-                  <div style={{ marginTop: "16px" }}>
-                    <p
-                      style={{
-                        fontSize: "1.125rem",
-                        fontWeight: "bold",
-                        margin: "8px 0",
-                      }}
-                    >
-                      Extra details
-                    </p>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        flexDirection: "row",
-                      }}
-                    >
-                      {profile?.githubLink && (
-                        <a
-                          href={profile.githubLink}
-                          style={{
-                            marginRight: "12px",
-                            marginBottom: "12px",
-                            marginTop: "4px",
-                          }}
-                          target="_blank"
-                        >
-                          <GithubFilled size={28} />
-                        </a>
-                      )}
-
-                      {profile?.blogLink && (
-                        <a
-                          href={profile.blogLink}
-                          target="_blank"
-                          style={{
-                            marginRight: "12px",
-                            marginBottom: "12px",
-                            marginTop: "4px",
-                          }}
-                        >
-                          <DeliveredProcedureOutlined size={28} />
-                        </a>
-                      )}
-                      {profile?.leetCode && (
-                        <a
-                          href={profile.leetCode}
-                          target="_blank"
-                          style={{
-                            marginRight: "12px",
-                            marginBottom: "12px",
-                            marginTop: "4px",
-                          }}
-                        >
-                          <CodeFilled size={28} />
-                        </a>
-                      )}
-                      {profile?.codeChef && (
-                        <a
-                          href={profile.codeChef}
-                          target="_blank"
-                          style={{
-                            marginRight: "12px",
-                            marginBottom: "12px",
-                            marginTop: "4px",
-                          }}
-                        >
-                          <CodeFilled size={28} />
-                        </a>
-                      )}
-                      {profile?.codeForce && (
-                        <a
-                          href={profile.codeForce}
-                          target="_blank"
-                          style={{ marginTop: "4px", marginBottom: "12px" }}
-                        >
-                          <CodeTwoTone size={28} />
-                        </a>
-                      )}
-
-                      {/* ... rest of the code */}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div
-                style={{
-                  width: "100%",
-                  height: "0.5px",
-                  marginTop: "8px",
-                  backgroundColor: "#E5E3E3",
-                }}
-              ></div>
-            </div>
-          ) : (
-            <div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "16px",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "16px",
-                    padding: "16px",
-                    width: "40%",
-                  }}
-                >
+    <AboutMeGridContainer>
+      <AboutMeInnerContainer>
+        {
+        
+        (profile && profile.profileComplete) ? (
+          <div>
+            <Flex justify="space-between" align="center">
+              {/* https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" */}
+              <ProfileNameContainer width={width}>
+                <>
                   <label htmlFor="desktop-upload">
-                    <img
-                      src={profile?.image? profile?.image : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"}
-                      style={{
-                        height: "192px",
-                        width: "192px",
-                        borderRadius: "50%",
-                        border: "4px solid white",
-                      }}
+                    <AboutMeImage
+                      src={
+                        profile?.image
+                          ? profile?.image
+                          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                      }
                     />
                   </label>
                   <input
@@ -510,285 +241,223 @@ function AboutMe({ profile, about }) {
                     style={{ display: "none" }}
                     type="file"
                   />
+                </>
+                <div>
+                  <AboutMeNameHeading>
+                    {profile?.firstName + " " + profile?.lastName}
+                  </AboutMeNameHeading>
+                  <AboutMeAddress>
+                    {profile?.address?.city + ", " + profile?.address?.state}
+                  </AboutMeAddress>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    marginTop: "40px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      width: "500px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <h2
-                      style={{
-                        fontSize: "2em",
-                        fontWeight: "bold",
-                        marginRight: "8px",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {profile?.firstName + " " + profile?.lastName}
-                    </h2>
-                    <div>
-                        
-                      <NewModal about={about} text="Prof" mainSub="Edit User">
-                        <ProfileModal student={profile} />
-                      </NewModal>
-                    </div>
-                  </div>
-                  <p
-                    style={{
-                      fontSize: "1em",
-                      marginTop: "8px",
-                      fontWeight: "bold",
-                      color: "#928e8e",
-                    }}
-                  >
-                    {profile?.address?.city && profile?.address?.state && (
-                      <>{profile.address.city + ", " + profile.address.state}</>
-                    )}
-                  </p>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      marginTop: "24px",
-                    }}
-                  >
-                    <p style={{ fontSize: "1.125em", fontWeight: "bold" }}>
-                      Contact Information
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "24px",
-                      width: "100%",
-                      marginTop: "8px",
-                    }}
-                  >
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <p
-                        style={{
-                          fontSize: "1em",
-                          fontWeight: "bold",
-                          color: "#928e8e",
-                        }}
-                      >
-                        Email address
-                      </p>
-                      <span style={{ fontWeight: "500" }}>
-                        {profile?.email}
-                      </span>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <p
-                        style={{
-                          fontSize: "1em",
-                          fontWeight: "bold",
-                          color: "#928e8e",
-                        }}
-                      >
-                        Phone number
-                      </p>
-                      <span style={{ fontWeight: "500" }}>
-                        {profile?.mobile}
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                      }}
-                    >
-                      <div>
-                        <input
-                          id="file-upload"
-                          type="file"
-                          accept="application/pdf"
-                          style={{ display: "none" }}
-                          onChange={handlePdfUpload}
-                        />
-                        <label
-                          htmlFor="file-upload"
-                          style={{
-                            cursor: "pointer",
-                            border: "1px solid #ccc",
-                            color: "#333",
-                            padding: "8px 16px",
-                            borderRadius: "8px",
-                          }}
-                        >
-                          {profile?.resume ? "Update Resume" : "Add Resume"}
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div style={{ padding: "64px 32px", marginTop: "40px" }}></div>
+              </ProfileNameContainer>
 
-              {linkExists && (
-                <div style={{ marginTop: "16px" }}>
-                  <p
-                    style={{
-                      fontSize: "1.125rem",
-                      fontWeight: "bold",
-                      margin: "8px 0",
-                    }}
-                  >
-                    Extra details
-                  </p>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      flexDirection: "column",
-                    }}
-                  >
-                    {profile?.githubLink && (
-                      <a
-                        href={profile.githubLink}
-                        style={{
-                          marginRight: "12px",
-                          marginBottom: "12px",
-                          marginTop: "4px",
-                        }}
-                        target="_blank"
-                      >
-                        <GithubFilled size={28} />
-                      </a>
-                    )}
-
-                    {profile?.blogLink && (
-                      <a
-                        href={profile.blogLink}
-                        target="_blank"
-                        style={{
-                          marginRight: "12px",
-                          marginBottom: "12px",
-                          marginTop: "4px",
-                        }}
-                      >
-                        <DeliveredProcedureOutlined size={28} />
-                      </a>
-                    )}
-                    {profile?.leetCode && (
-                      <a
-                        href={profile.leetCode}
-                        target="_blank"
-                        style={{
-                          marginRight: "12px",
-                          marginBottom: "12px",
-                          marginTop: "4px",
-                        }}
-                      >
-                        <CodeFilled size={28} />
-                      </a>
-                    )}
-                    {profile?.codeChef && (
-                      <a
-                        href={profile.codeChef}
-                        target="_blank"
-                        style={{
-                          marginRight: "12px",
-                          marginBottom: "12px",
-                          marginTop: "4px",
-                        }}
-                      >
-                        <CodeFilled size={28} />
-                      </a>
-                    )}
-                    {profile?.codeForce && (
-                      <a
-                        href={profile.codeForce}
-                        target="_blank"
-                        style={{ marginTop: "4px", marginBottom: "12px" }}
-                      >
-                        <CodeTwoTone size={28} />
-                      </a>
-                    )}
-
-                    {/* ... rest of the code */}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {!profile?.profileComplete && open && (
-            <Modal state={{ open }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "64px",
-                  borderRadius: "16px",
-                  backgroundColor: "#122344",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "relative",
-                }}
-              >
-                <CloseCircleFilled
-                  size={23}
-                  onClick={() => setopen(false)}
-                  style={{
-                    position: "absolute",
-                    top: "12px",
-                    right: "12px",
-                    cursor: "pointer",
-                    color: "white",
-                    fontSize: "24px",
-                  }}
-                />
-
-                <p
-                  style={{
-                    fontSize: "1.25rem",
-                    color: "white",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                  }}
-                >
-                  Hello {profile?.firstName},
-                </p>
-                <p
-                  style={{
-                    fontSize: "1.25rem",
-                    marginTop: "8px",
-                    color: "white",
-                    fontWeight: "bold",
-                    textAlign: "center",
-                  }}
-                >
-                  Please fill the mandatory fields
-                </p>
-                <NewModal
-                  about={about}
-                  text="Let's Continue"
-                  mainSub="Edit User"
-                >
+              <AboutMeMargin>
+                <NewModal about={about} text="Prof" mainSub="Edit User">
                   <ProfileModal student={profile} />
                 </NewModal>
-              </div>
-            </Modal>
-          )}
-        </div>
-      </div>
-    </div>
+              </AboutMeMargin>
+            </Flex>
+
+            <AboutMeSectionDivider />
+            <AboutMeOuterContainer>
+              <AboutMeContactContainer>
+                <AboutMeContactText>Contact Information</AboutMeContactText>
+              </AboutMeContactContainer>
+              <AboutMeContainer width={width}>
+                <AboutMeSubContainer>
+                  <AboutMeText>Email address</AboutMeText>
+                  <AboutMeEmail title={profile?.email}>
+                    {profile?.email}
+                  </AboutMeEmail>
+                </AboutMeSubContainer>
+                <AboutMeSubContainer>
+                  <AboutMeText>Phone number</AboutMeText>
+                  <AboutMePhone>{profile?.mobile}</AboutMePhone>
+                </AboutMeSubContainer>
+                <AboutMeUploadContainer>
+                  <input
+                    id="file-upload"
+                    type="file"
+                    accept="application/pdf"
+                    style={{ display: "none" }}
+                    onChange={handlePdfUpload}
+                  />
+                  <AboutMeUploadLabel htmlFor="file-upload">
+                    {profile?.resume ? "Update Resume" : "Add Resume"}
+                  </AboutMeUploadLabel>
+                </AboutMeUploadContainer>
+              </AboutMeContainer>
+
+              {linkExists && (
+                <AboutMeLinkContainer>
+                  <AboutMeLinkText>Extra details</AboutMeLinkText>
+                  <AboutMeLinkWrapper>
+                    {profile?.githubLink && (
+                      <AboutMeLink href={profile.githubLink} target="_blank">
+                        <GithubFilled size={28} />
+                      </AboutMeLink>
+                    )}
+                    {profile?.blogLink && (
+                      <AboutMeLink href={profile.blogLink} target="_blank">
+                        <DeliveredProcedureOutlined size={28} />
+                      </AboutMeLink>
+                    )}
+                    {profile?.leetCode && (
+                      <AboutMeLink href={profile.leetCode} target="_blank">
+                        <CodeFilled size={28} />
+                      </AboutMeLink>
+                    )}
+                    {profile?.codeChef && (
+                      <AboutMeLink href={profile.codeChef} target="_blank">
+                        <CodeFilled size={28} />
+                      </AboutMeLink>
+                    )}
+                    {profile?.codeForce && (
+                      <AboutMeLink
+                        href={profile.codeForce}
+                        target="_blank"
+                   
+                      >
+                        <CodeTwoTone size={28} />
+                      </AboutMeLink>
+                    )}
+                  </AboutMeLinkWrapper>
+                </AboutMeLinkContainer>
+              )}
+            </AboutMeOuterContainer>
+
+            <AboutMeSectionDivider />
+          </div>
+        ) : (
+          <div>
+            <Flex justify="space-between" align="center">
+              {/* https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" */}
+              <ProfileNameContainer width={width}>
+                <>
+                  <label htmlFor="desktop-upload">
+                    <AboutMeImage
+                      src={
+                        profile?.image
+                          ? profile?.image
+                          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                      }
+                    />
+                  </label>
+                  <input
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    id="desktop-upload"
+                    style={{ display: "none" }}
+                    type="file"
+                  />
+                </>
+                <div>
+                  <AboutMeNameHeading>
+                    {profile?.firstName + " " + profile?.lastName}
+                  </AboutMeNameHeading>
+                  <AboutMeAddress>
+                    {profile?.address?.city + ", " + profile?.address?.state}
+                  </AboutMeAddress>
+                </div>
+              </ProfileNameContainer>
+
+              <AboutMeMargin>
+                <NewModal about={about} text="Prof" mainSub="Edit User">
+                  <ProfileModal student={profile} />
+                </NewModal>
+              </AboutMeMargin>
+            </Flex>
+
+            <AboutMeSectionDivider />
+            <AboutMeOuterContainer>
+              <AboutMeContactContainer>
+                <AboutMeContactText>Contact Information</AboutMeContactText>
+              </AboutMeContactContainer>
+              <AboutMeContainer width={width}>
+                <AboutMeSubContainer>
+                  <AboutMeText>Email address</AboutMeText>
+                  <AboutMeEmail title={profile?.email}>
+                    {profile?.email}
+                  </AboutMeEmail>
+                </AboutMeSubContainer>
+                <AboutMeSubContainer>
+                  <AboutMeText>Phone number</AboutMeText>
+                  <AboutMePhone>{profile?.mobile}</AboutMePhone>
+                </AboutMeSubContainer>
+                <AboutMeUploadContainer>
+                  <input
+                    id="file-upload"
+                    type="file"
+                    accept="application/pdf"
+                    style={{ display: "none" }}
+                    onChange={handlePdfUpload}
+                  />
+                  <AboutMeUploadLabel htmlFor="file-upload">
+                    {profile?.resume ? "Update Resume" : "Add Resume"}
+                  </AboutMeUploadLabel>
+                </AboutMeUploadContainer>
+              </AboutMeContainer>
+
+              {linkExists && (
+                <AboutMeLinkContainer>
+                  <AboutMeLinkText>Extra details</AboutMeLinkText>
+                  <AboutMeLinkWrapper>
+                    {profile?.githubLink && (
+                      <AboutMeLink href={profile.githubLink} target="_blank">
+                        <GithubFilled size={28} />
+                      </AboutMeLink>
+                    )}
+                    {profile?.blogLink && (
+                      <AboutMeLink href={profile.blogLink} target="_blank">
+                        <DeliveredProcedureOutlined size={28} />
+                      </AboutMeLink>
+                    )}
+                    {profile?.leetCode && (
+                      <AboutMeLink href={profile.leetCode} target="_blank">
+                        <CodeFilled size={28} />
+                      </AboutMeLink>
+                    )}
+                    {profile?.codeChef && (
+                      <AboutMeLink href={profile.codeChef} target="_blank">
+                        <CodeFilled size={28} />
+                      </AboutMeLink>
+                    )}
+                    {profile?.codeForce && (
+                      <AboutMeLink
+                        href={profile.codeForce}
+                        target="_blank"
+                        
+                      >
+                        <CodeTwoTone size={28} />
+                      </AboutMeLink>
+                    )}
+                  </AboutMeLinkWrapper>
+                </AboutMeLinkContainer>
+              )}
+            </AboutMeOuterContainer>
+
+            <AboutMeSectionDivider />
+          </div>
+        )
+        
+        }
+
+        {!profile?.profileComplete && open && (
+          <Modal state={{ open }}>
+           <AboutModalContainer>
+           <CloseIcon size={23} onClick={() => setopen(false)} />
+
+           <AboutModalText>Hello {profile?.firstName},</AboutModalText>
+           <AboutModalText marginTop="8px">Please fill the mandatory fields</AboutModalText>
+              <NewModal about={about} text="Let's Continue" mainSub="Edit User">
+                <ProfileModal student={profile} />
+              </NewModal>
+            </AboutModalContainer>
+          </Modal>
+        )}
+      </AboutMeInnerContainer>
+    </AboutMeGridContainer>
   );
 }
 

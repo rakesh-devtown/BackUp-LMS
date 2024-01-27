@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import Input from 'antd/es/input/Input';
 import { Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 export const StyledLogo=styled.img`
     width: auto;
@@ -13,13 +14,17 @@ export const StyledLogo=styled.img`
     vertical-align: middle;
     overflow-clip-margin: content-box;
     overflow: clip;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 
 `
 export const StyledLoginPage = styled.div`
             display: flex;
             overflow: hidden;
             margin:0;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             height: 100vh; 
             @media (max-width: 1208px)
@@ -126,6 +131,8 @@ export const ForgotPassword = styled.p`
 export const StyledButton = styled(Button)`
                     height:2.5em;  
                     width: 100%;
+                    margin-top: 1rem;
+                    margin-bottom: 1rem;
 `
 export const  CenteredButtonContainer = styled.div`
 display: flex;
@@ -133,4 +140,25 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 margin-top: 20px; 
+`;
+
+
+export const LoginContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+`;
+
+export const LoginLinkContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const LoginLink = styled(Link)`
+  border: 1px solid;
+  border-color: #E3E4E7;
+  padding: 3px;
+  display: flex;
+  margin: auto;
+  border-radius: 5px;
 `;

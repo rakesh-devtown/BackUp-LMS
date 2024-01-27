@@ -19,6 +19,8 @@ import DevScreen from "../components/Dev/DevScreen";
 import Meeting from "../components/Meetings/Meeting";
 import MeetingEnded from "../components/Meetings/MeetingEnded";
 import DownloadCertificate from "../components/DevtownCertificates/DownloadCertificate";
+import GenerateMagicLink from "../pages/MagicLink/GenerateMagicLink";
+import VerifyMagicLink from "../pages/MagicLink/VerifyMagicLink";
 export const routes =
 [{
     
@@ -46,6 +48,14 @@ export const routes =
             path: routeDefinitions.RESET_PASSWORD,
             element: <h1>reset password using token</h1>,
         },
+        {
+            path: routeDefinitions.MagicLink,
+            element: <GenerateMagicLink/>
+        }, 
+        {
+            path: routeDefinitions.VerifyMaginLink,
+            element: <VerifyMagicLink/>
+        }
     ]
 },
 {
@@ -54,7 +64,6 @@ export const routes =
         children: [
             {
                 path: routeDefinitions.INDEX,
-                // element: <h1>index</h1>,
                 element:<CourseOverview/>
             },
             {

@@ -5,6 +5,11 @@ import { setHeader } from "../../utils/header";
 import { notification } from "antd";
 import { Editor } from "@monaco-editor/react";
 import { getLanguageByExtension } from "../../utils/getLanguage";
+import {
+  DevScreenImage,
+  DevScreenImageOuterContainer,
+  DevScreenOuterContainer,
+} from "../../styles/dev.styles";
 
 function DevScreen() {
   const [params] = useSearchParams();
@@ -14,10 +19,8 @@ function DevScreen() {
   const url = params.get("url");
   const extension = params.get("extension");
 
-  console.log(name, path, type, url);
   const [content, setContent] = useState("Loading");
   const navigate = useNavigate();
-  
   useEffect(() => {
     // Fetch data from your API and update the treeData state
     const fetchData = async () => {
@@ -27,7 +30,6 @@ function DevScreen() {
         const {
           data: { fileContent },
         } = await serviceGet(`student/student-api/v1/day/blob?url=${url}`);
-        console.log("fired once");
 
         if (extension === "png" || extension === "jpeg") {
           setContent(fileContent);
@@ -75,27 +77,33 @@ function DevScreen() {
         description: "Something went wrong",
       });
       // toast.error("Something Went Wrong");
-      navigate("/");
+      navigate("/programs");
     }
   }, [url]);
-  return(
-    <div style={{ overflow: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-    {
-      extension==='png' || extension==='jpeg' ?
-      <div style={{ height: '90vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <img src={`data:image/${extension};base64, ${content}`} alt="img" className='w-1/2 h-1/2' />
-      </div>
-      :
-      <Editor theme='vs-dark'
-      height="97vh"
-      //change default language
-       language={getLanguageByExtension(extension)}
-       defaultLanguage="javascript"
-       options={{readOnly: true}}
-       value={content} />
-      }
-  </div>
-  )
+  return (
+    <DevScreenOuterContainer>
+      {extension === "png" || extension === "jpeg" ? (
+        <DevScreenImageOuterContainer
+         
+        >
+          <DevScreenImage
+            src={`data:image/${extension};base64, ${content}`}
+            alt="img"
+          />
+        </DevScreenImageOuterContainer>
+      ) : (
+        <Editor
+          theme="vs-dark"
+          height="97vh"
+          //change default language
+          language={getLanguageByExtension(extension)}
+          defaultLanguage="javascript"
+          options={{ readOnly: true }}
+          value={content}
+        />
+      )}
+    </DevScreenOuterContainer>
+  );
 }
 
 export default DevScreen;

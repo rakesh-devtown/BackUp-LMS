@@ -1,4 +1,5 @@
 import React from 'react'
+import { Skill } from '../../styles/shared.styles';
 
 function Skills({ total_skill, text, ...props }) {
     const skills = total_skill;
@@ -8,17 +9,9 @@ function Skills({ total_skill, text, ...props }) {
     return colors[index % colors.length];
   };
   return (
-    <div
-    style={{
-    
-      backgroundColor: getColor(),
-      padding : "8px", 
-      margin : "3px", 
-      borderRadius:   "4px",
-    }}
-  >
-    {text}
-  </div>
+    <Skill color={getColor()}>
+  {text}
+</Skill>
   )
 }
 

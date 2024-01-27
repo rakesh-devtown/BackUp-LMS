@@ -20,4 +20,6 @@ export const routeDefinitions = {
     SessionLimit:'/auth/session-limit', 
     MESSAGE: 'message',
     Download: 'download/:certId',
+    MagicLink:'magic-login',
+    VerifyMaginLink:'verify-magic-link/:token'
 }

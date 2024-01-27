@@ -2,7 +2,6 @@ import { Select } from 'antd';
 const { Option } = Select;
 function DropDown() {
     function handleChange(value) {
-      console.log(`Selected: ${value}`);
     }
   
     return (

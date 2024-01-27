@@ -6,6 +6,7 @@ import ProjectModal from './ProjectModal'
 import CertificateModal from './CertificateModal'
 import SkillModal from './SkillModal'
 import SubProfileComponent from './SubProfileComponent'
+import { ProfileCompoAction, ProfileCompoCard, ProfileCompoContainer, ProfileCompoHeader, ProfileCompoInnerContainer, ProfileCompoTitle } from '../../styles/profile.styles'
 
 function ProfileComponent(
 
@@ -21,12 +22,12 @@ function ProfileComponent(
 ) {
   return (
     <>
-  <div style={{ display: "grid", gridTemplateColumns: "repeat(8, 1fr)" }}>
-    <div style={{ width: "100%", paddingLeft: "16px", gridColumn: "1 / span 8" }}>
-      <div style={{ borderRadius: "8px", backgroundColor: "white" }}>
-        <div style={{ paddingLeft: "20px", paddingTop: "20px", backgroundColor: "white", display: "flex", flexDirection: "row" }}>
-          <h2 style={{ fontSize: "1.125em", fontWeight: "bold", width: "100%" }}>{text}</h2>
-          <div style={{ float: "right" }}>
+  <ProfileCompoContainer>
+  <ProfileCompoInnerContainer>
+  <ProfileCompoCard>
+  <ProfileCompoHeader>
+  <ProfileCompoTitle>{text}</ProfileCompoTitle>
+  <ProfileCompoAction>
             {text === "Education" ? (
               <NewModal about={about} text="Add" mainSub="Add Education">
                 <EducationModal type="Add" />
@@ -52,8 +53,8 @@ function ProfileComponent(
                 <SkillModal skill={skill?.skill} type="Add" />
               </NewModal>
             )}
-          </div>
-        </div>
+          </ProfileCompoAction>
+        </ProfileCompoHeader>
         <SubProfileComponent
           about={about}
           cert={certificate}
@@ -63,9 +64,9 @@ function ProfileComponent(
           text={text}
           skill={skill?.skill}
         />
-      </div>
-    </div>
-  </div>
+      </ProfileCompoCard>
+    </ProfileCompoInnerContainer>
+  </ProfileCompoContainer>
 </>
   )
 }

@@ -1,78 +1,11 @@
 import React, { useState } from "react";
 import { Space, Table, Tag } from "antd";
 import { getFormattedDate } from "../../utils/getFormattedDateObj";
-// const columns = [
-//   {
-//     title: "Name",
-//     dataIndex: "name",
-//     key: "name",
-//     render: (text) => <a>{text}</a>,
-//   },
-//   {
-//     title: "Age",
-//     dataIndex: "age",
-//     key: "age",
-//   },
-//   {
-//     title: "Address",
-//     dataIndex: "address",
-//     key: "address",
-//   },
-//   {
-//     title: "Tags",
-//     key: "tags",
-//     dataIndex: "tags",
-//     render: (_, { tags }) => (
-//       <>
-//         {tags.map((tag) => {
-//           let color = tag.length > 5 ? "geekblue" : "green";
-//           if (tag === "loser") {
-//             color = "volcano";
-//           }
-//           return (
-//             <Tag color={color} key={tag}>
-//               {tag.toUpperCase()}
-//             </Tag>
-//           );
-//         })}
-//       </>
-//     ),
-//   },
-//   {
-//     title: "Action",
-//     key: "action",
-//     render: (_, record) => (
-//       <Space size="middle">
-//         <a>Invite {record.name}</a>
-//         <a>Delete</a>
-//       </Space>
-//     ),
-//   },
-// ];
-// const data = [
-//   {
-//     key: "1",
-//     name: "John Brown",
-//     age: 32,
-//     address: "New York No. 1 Lake Park",
-//     tags: ["nice", "developer"],
-//   },
-//   {
-//     key: "2",
-//     name: "Jim Green",
-//     age: 42,
-//     address: "London No. 1 Lake Park",
-//     tags: ["loser"],
-//   },
-//   {
-//     key: "3",
-//     name: "Joe Black",
-//     age: 32,
-//     address: "Sydney No. 1 Lake Park",
-//     tags: ["cool", "teacher"],
-//   },
-// ];
+import useWindowSize from "../../hooks/useWindowSixe";
+import { PartialPresenceContainer } from "../../styles/shared.styles";
+
 const AttendanceTable = ({ data }) => {
+  const { width } = useWindowSize();
   const tabledata = data.map((item, index) => {
     return {
       key: index,
@@ -116,8 +49,8 @@ const AttendanceTable = ({ data }) => {
       key: "partialPresence",
       render: (partialPresence, row) =>
         partialPresence && (
-          <div
-            className={`max-width-[80%] text-[#A076E0] truncate m-auto absolute`}
+          <PartialPresenceContainer
+          
             data-tooltip-id="my-tooltip-inline"
             data-tooltip-content={
               row.duration < row.sessionDuration * 0.7
@@ -128,13 +61,13 @@ const AttendanceTable = ({ data }) => {
             data-tooltip-variant="light"
           >
             Yes
-          </div>
+          </PartialPresenceContainer>
         ),
     },
   ];
   return (
     <Table
-    scroll={{ x: true }}
+      scroll={{ x: "700" }}
       pagination={{
         position: "topRight",
       }}
