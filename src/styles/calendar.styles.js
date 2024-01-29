@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Calendar } from "antd";
+import { Calendar, Card } from "antd";
 
 export const StyledCalendar = styled(Calendar)`
   // width: 70%; /* Adjust the width as needed */
@@ -29,4 +29,9 @@ export const StyledCalendar = styled(Calendar)`
   //   background-color: black; /* Set the background color to black */
   //   color: white; /* Set the text color to white or any contrasting color */
   // }
+`;
+
+
+export const StyledCalendarCard = styled(Card)`
+  width: 300px;
 `;

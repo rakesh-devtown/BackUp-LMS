@@ -208,3 +208,113 @@ background-color: #fff;
   text-align: center;
 
 `
+
+
+const ProfileContainer = styled.div`
+  background-color: #FFFFFF;
+  padding-bottom: 2rem;
+  font-size: 20px;
+`;
+
+const ProfileInnerContainer = styled.div`
+  background-color: #e5e3e3;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  padding-bottom: 1.5rem;
+  border-radius: 0.375rem;
+  width: 100%;
+  max-width: ${props => props.width < 700 ? '100%' : '75%'};
+  height: ${props => !props.profile?.about?.profileComplete ? '700px' : 'fit-content'};
+  margin: ${props => props.width < 768 ? 0 : '0 auto'};
+`;
+
+const ProfileHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+`;
+
+const ProfileContent = styled.div`
+  background-color: #FFFFFF;
+  margin: ${props => props.width > 640 ? '0 2rem' : '0rem'};
+`;
+
+const ProfileTitle = styled.p`
+  color: #302F2F;
+  font-size: 1.875rem;
+  font-weight: 700;
+
+`;
+
+const ProfileResumeLink = styled.a`
+  color: #9865E8;
+  font-weight: 700;
+ 
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
+const ProfileCompoContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+`;
+
+const ProfileCompoInnerContainer = styled.div`
+  width: 100%;
+  padding-left: 16px;
+  grid-column: 1 / span 8;
+`;
+
+const ProfileCompoCard = styled.div`
+  border-radius: 8px;
+  background-color: white;
+`;
+
+const ProfileCompoHeader = styled.div`
+  padding-left: 20px;
+  padding-top: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+`;
+
+const ProfileCompoTitle = styled.h2`
+  font-size: 1.4rem;
+  font-weight: bold;
+  width: 100%;
+`;
+
+const ProfileCompoAction = styled.div`
+  float: right;
+  font-size: 1.125em;
+`;
+const ProfileCompContainer = styled.div`
+  padding-left: 30px;
+  padding-right: 0;
+`;
+
+const ProfileCompSkillsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+`;
+export {
+  ProfileContainer,
+  ProfileInnerContainer,
+  ProfileHeader,
+  ProfileContent,
+  ProfileTitle,
+  ProfileResumeLink,
+  ProfileCompoContainer,
+  ProfileCompoInnerContainer,
+  ProfileCompoCard,
+  ProfileCompoHeader,
+  ProfileCompoTitle,
+  ProfileCompoAction,
+  ProfileCompContainer,
+  ProfileCompSkillsContainer
+
+
+}

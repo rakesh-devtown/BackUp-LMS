@@ -60,7 +60,6 @@ const useBatchStore = create(
         });
       }
     },
-
     getCurrentBatch: async (batchId) => {
       try {
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
@@ -75,10 +74,7 @@ const useBatchStore = create(
         if (success) {
           set({ currentBatch: batch });
           set({ sections: batch?.course[0]?.sections });
-          notification.success({
-            message: "Batch fetched Successfully",
-            description: message,
-          });
+         
         }
       } catch (e) {
         notification.error({

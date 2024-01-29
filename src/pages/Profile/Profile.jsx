@@ -12,32 +12,7 @@ import {
 import { formatDate } from "../../components/courses/CourseOverview";
 import Dot from "../../assets/images/Ellipse.svg";
 
-import {
-  StyledHeader,
-  StyledTitle,
-  StyledDownloadText,
-  StyledContentContainer,
-  StyledAvatar,
-  OnlyFlexCol,
-  OnlyFlex,
-  OnlyFlexM,
-  OnlySpaceBetween,
-  OnlySpaceBetweenM,
-  OnlyGap,
-  StyledContent,
-  StyledSectionSeparator,
-  StyledEditIcon,
-  StyledLocation,
-  StyledGenericText,
-  StyledSubText,
-  StyledDot,
-  StyledSubContent,
-  StyledInfo,
-  StyledHeading,
-  StyledSkillsBg,
-  StyledEachSkill,
-  StyledProfileBox,
-} from "../../styles/profile.styles";
+
 import useAuthStore from "../../store/authStore";
 import { serviceGet } from "../../utils/api";
 import { setHeader } from "../../utils/header";
@@ -47,6 +22,7 @@ import AboutMe from "../../components/ProfileModals/AboutMe";
 import ProfileComponent from "../../components/ProfileModals/ProfileComponent";
 import useWindowSize from "../../hooks/useWindowSixe";
 import DevtownCertificates from "../../components/DevtownCertificates/DevtownCertificates";
+import { ProfileContainer, ProfileContent, ProfileHeader, ProfileInnerContainer, ProfileResumeLink, ProfileTitle } from "../../styles/profile.styles";
 const Profile = () => {
    // const user = useSelector(profileState);
   //  const dispatch = useDispatch();
@@ -71,10 +47,7 @@ const Profile = () => {
             data: { student },
         } = await serviceGet("student/student-api/v1/me");
         if (success) {
-          notification.success({
-            message: "Success",
-            description: "Student Details fetched",
-          });
+          
 
             // toast.success('Student Details fetched');
             return student;
@@ -92,7 +65,6 @@ const Profile = () => {
    const about = async () => {
     //  dispatch(setLoadingTrue());
      const student = await getProfile(); //gets the student profile
-     // console.log(student)
      const skills = student?.skill ? student.skill : [];
      setprofile({
        about: {
@@ -135,23 +107,21 @@ const Profile = () => {
 
   return (
   
-<div style={{backgroundColor: '#FFFFFF', paddingBottom: '2rem' , fontSize:"20px"}}>
+<ProfileContainer>
   
-  <div
-    style={{backgroundColor: '#e5e3e3', marginTop: '5rem', marginBottom: '5rem', paddingBottom: '1.5rem', borderRadius: '0.375rem', width: '100%', maxWidth: width<700 ? '100%' : '75%', height: !profile?.about?.profileComplete ? '700px' : 'fit-content', margin: width < 768 ? 0 : '0 auto', }}
-  >
-    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem'}}>
-      <p style={{color: '#302F2F', fontSize: '1.875rem', fontWeight: '700', fontFamily: 'DM Sans'}}>My Profile</p>
-      {/* if resume link exists then only show option to download it */}
-      {profile?.about?.resume && (
-        <a href={profile?.about?.resume}>
-          <p style={{color: '#9865E8', fontWeight: '700', fontFamily: 'DM Sans', textDecoration: 'underline', cursor: 'pointer'}}>
-            Download Resume
-          </p>
-        </a>
-      )}
-    </div>
-    <div style={{backgroundColor: '#FFFFFF', margin: '0 2rem'}}>
+<ProfileInnerContainer profile={profile} width={width}>
+<ProfileHeader>
+<ProfileTitle>
+  My Profile
+</ProfileTitle>
+{/* if resume link exists then only show option to download it */}
+{profile?.about?.resume && (
+  <ProfileResumeLink href={profile?.about?.resume}>
+    Download Resume
+  </ProfileResumeLink>
+)}
+    </ProfileHeader>
+    <ProfileContent width={width}>
       <AboutMe about={about} profile={profile?.about} />
       {profile?.about?.profileComplete && ( // Check if profile is complete, if yes then only show other components for workex, education, projects, skills, certificates
         <>
@@ -183,9 +153,9 @@ const Profile = () => {
           />
         </>
       )}
-    </div>
-  </div>
-</div>
+    </ProfileContent>
+  </ProfileInnerContainer>
+</ProfileContainer>
 
   );
 };

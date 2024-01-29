@@ -10,9 +10,10 @@ import useBatchStore from "../../store/batchStore";
 import useAuthStore from "../../store/authStore";
 import useLoadingStore from "../../store/loadingStore";
 import "./Programs.css";
+import useWindowSize from "../../hooks/useWindowSixe";
+import { ProgramsTitle, StyledCol, StyledProgramsDiv, StyledRow, StyledTabs } from "../../styles/programs.styles";
 const { Title } = Typography;
 const { Search } = Input;
-const onSearch = (value, _e, info) => console.log(info?.source, value);
 const { Meta } = Card;
 
 const arr = [
@@ -23,11 +24,10 @@ const arr = [
 ];
 
 const Programs = () => {
-  
+  const {width} = useWindowSize();
   const [type, setType] = useState("all");
   const [batch, setBatches] = useState([]); 
   const navigate = useNavigate();
-
   const name = useProgramStore(state => state.name);
   const getCurrentBatch = useBatchStore((state) => state.getCurrentBatch);
   const allBatches = useProgramStore(state  => state.allBatches)
@@ -72,13 +72,15 @@ const Programs = () => {
   }, [allBatches, name, type]
   )
 
-  const handleNavigate = async  ( id  ,courseType ) =>  {
-    console.log(id , courseType)
+  const handleNavigate = async  ( id  ,courseType  , course) =>  {
     setCurrentBatchId(id); 
+    setLoading(true);
+
     await getCurrentBatch(id); 
     
-
-    navigate(`${courseType=== "classroom" ? "/program" : "/video"}`)
+    
+    navigate(`${courseType=== "classroom" ? "/program" : "/video"}` , {state:{thumbnail : course.image}})
+    setLoading(false);
 
   }
   useEffect(() => {
@@ -96,24 +98,18 @@ const Programs = () => {
     return (
       <Layout>
         
-        <Title style={{ padding: "10px 0px" }}> My Programs</Title>
+        <ProgramsTitle >My Programs</ProgramsTitle>
 
-        <Tabs
+        <StyledTabs
           onChange={(key) => {
             setType(key);
           }}
           type="card"
-          style={{
-            padding: "10px 0px",
-            display: "flow",
-            flexDirection: "column",
-            gap: "20px",
-          }}
         >
           {arr.map((item, i) => (
             <Tabs.TabPane tab={item.name} key={item.type} />
           ))}
-        </Tabs>
+        </StyledTabs>
         <Space direction="vertical">
           <Row gutter={24}>
             <Title
@@ -130,76 +126,51 @@ const Programs = () => {
 
   return (
     <Layout>
-      <Title style={{ padding: "10px 0px" }}> My Programs</Title>
+    <ProgramsTitle>My Programs</ProgramsTitle>
 
-      <Tabs
+      <StyledTabs
         onChange={(key) => {
           setType(key);
         }}
         type="card"
-        style={{
-          padding: "10px 0px",
-          display: "flow",
-          flexDirection: "column",
-          gap: "20px",
-        }}
+       
       >
         {arr.map((item, i) => (
           <Tabs.TabPane tab={item.name} key={item.type} />
         ))}
-      </Tabs>
+      </StyledTabs>
       <Space direction="vertical">
-        <Row
-          gutter={24}
-          style={{
-            display: "flex",
-            justifyContent: "start",
-            alignItems:"stretch",
-          }}
-        >
+      <StyledRow gutter={24}>
           {batch.map((batch, idx) => (
-            <Col
-              key={batch._id}
-              style={{
-                paddingBottom: "10px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "stretch",
-              }}
-            >
+            <StyledCol key={batch._id} width={width}>
               <Card
                 hoverable
                 style={{
-                  width: 300,
+                  width: "100%", 
+
                 }}
                 cover={
                   <img
                     alt="example"
                     src={batch?.course?.image}
                     height="176px"
+
                     width="full"
                   />
                 }
               >
                 <Progress percent={50} status="active" />
-                <div
-                  style={{
-                    display: "flex",
-                    // justifyContent: "space-between",
-                    alignItems: "start",
-                    flexDirection: "column",
-                    gap: "10px",
-                  }}
+                <StyledProgramsDiv
+                  
                 >
                   
-                  {/* <Meta classNam  e="meta" title={batch?.name +"askjfdbsadjhfbsdajhfbhjkvb"} /> */}
                   <Meta className="meta" title={batch?.name} description={batch?.course?.name} />
-                    <Button onClick={()=> handleNavigate(batch._id , batch?.course?.courseType) } type="primary"> Continue</Button>
-                </div>
+                    <Button onClick={()=> handleNavigate(batch._id , batch?.course?.courseType , batch?.course) } type="primary"> Continue</Button>
+                </StyledProgramsDiv>
               </Card>
-            </Col>
+            </StyledCol>
           ))}
-        </Row>
+        </    StyledRow>
       </Space>
     </Layout>
   );

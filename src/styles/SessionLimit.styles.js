@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import { Button } from 'antd';
 export const SessionLimitContainer = styled.div`
 height: 100vh;
 background-color: #fff;
@@ -16,11 +16,11 @@ export const BackButton = styled.button`
   top: 4px;
   left: 4px;
   padding: 6px 15px 6px 15px;
-  border: 1px solid #3498db;
+  border: 1px solid #012353;
   border-radius: 4px;
   display: inline-flex;
   gap: 10px;
-  color: #3498db;
+  color: black;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
@@ -69,10 +69,12 @@ export const Box=styled.div`
   border: 1px solid #ccc;
   border-radius: 1rem;
   margin-bottom: 1rem;
+  border-radius: 10px;
+  display: flex;
 
 `;
 export const LoginTime=styled.div`
-color: #000;
+color: #595a5c;
   font-size: 1rem;
   font-weight: normal;
   font-family: 'Manrope', sans-serif;
@@ -82,11 +84,11 @@ export const ClearButton = styled.button`
    padding: 6px 6px;
    left:641px;
    top:219px;
-  border: 1px solid #3498db;
+  border: 1px solid #012353;
   border-radius: 4px;
   display: inline-flex;
   gap: 5px;
-  color: #3498db;
+  color: black;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.25rem;
@@ -95,7 +97,7 @@ export const ClearButton = styled.button`
 `;
 export const ClearAllButton=styled.button`
  width: 100%;
-  height: 3rem;
+  
   padding: 0.75rem 51px;
   left: 77px;
   top: 390px;
@@ -112,4 +114,70 @@ export const ClearAllButton=styled.button`
   font-family: 'DM Sans', sans-serif;
   line-height: 2rem;
   border: none;
+  cursor: pointer;
+`;
+
+export const StyledButton = styled.button`
+position: absolute;
+top: 20px;
+left: 20px;
+padding: 6px 15px;
+border: 1px solid #012353;
+border-radius: 4px;
+display: inline-flex;
+gap: 5px;
+color: black;
+font-size: 10px;
+font-weight: 600;
+line-height: 1.4;
+font-family: 'Manrope', sans-serif;
+display: flex;
+align-items: center;
+cursor: pointer;
+`;
+
+
+
+
+export const StyledBoxSessionLimit = styled.div`
+  border-radius: 10px;
+  display: flex;
+  
+`;
+
+export const StyledDivOss = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+`;
+
+export const StyledLoginTime = styled(LoginTime)`
+  color: #595a5c;
+`;
+
+export const StyledOSDiv = styled.div`
+  color: #595a5c;
+`;
+
+export const StyledClearButton = styled(Button)`
+  margin-left: 10px;
+  padding: 6px 15px;
+  border: 1px solid #012353;
+  border-radius: 4px;
+  display: inline-flex;
+  gap: 10px;
+  color: black;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  font-family: 'Manrope', sans-serif;
+`;
+export const SessionLimitContainers = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+`;
+
+export const OsColor = styled.div`
+  color: #595a5c;
 `;

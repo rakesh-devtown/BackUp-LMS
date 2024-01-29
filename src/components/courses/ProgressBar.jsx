@@ -1,8 +1,11 @@
 import React from 'react';
 import { Progress, Space } from 'antd';
-const ProgressBar = ({percent  }) => (
-  <Space wrap>
-    <Progress type="circle" percent={percent} size={window.innerWidth < 1163 ? 200  :300} strokeWidth={10}/>    
-  </Space>
-);
+import useWindowSize from '../../hooks/useWindowSixe';
+const ProgressBar = ({percent  }) =>  {
+  const {width} = useWindowSize()
+  return(
+  
+    <Progress type={width >= 1284 ? "circle" : "line"}  size={ width >=1284 ?350  : "default"}   percent={percent} strokeWidth={width >=1284 ? 10 : 15 }  />    
+  // </Space>
+)};
 export default ProgressBar;

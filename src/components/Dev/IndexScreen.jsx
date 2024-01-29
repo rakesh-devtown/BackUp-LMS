@@ -1,8 +1,9 @@
 import React from 'react'
+import { DevIndexScreen } from '../../styles/dev.styles'
 
 const IndexScreen = () => {
   return (
-    <div style={{display:"flex", justifyContent:"center", alignItems:"center", height:"100%"}} >
+    <DevIndexScreen>
       
          <svg
           width="350"
@@ -34,7 +35,7 @@ const IndexScreen = () => {
             strokeWidth="1.82286"
           />
         </svg>
-    </div>
+    </DevIndexScreen>
   )
 }
 

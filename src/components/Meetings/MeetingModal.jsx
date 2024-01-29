@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Modal, notification } from "antd";
 import useAuthStore from "../../store/authStore";
 import { servicePost } from "../../utils/api";
 import { setHeader } from "../../utils/header";
@@ -30,13 +30,16 @@ const MeetingModal = ({
       );
       setOpen(false);
     } catch (error) {
-      console.log(error);
+      notification.error({
+        message: "Error",
+        description: error.message,
+      }); 
     }
   };
   const navigate = useNavigate() ;
 
   const handleOk = () => {
-
+    handleAttendance();
     platform == "zoom" ? navigate(`/meeting/${meetingNumber}` , {state : {name , date  , url }}) : window.open(url, '_blank');
     setOpen(false);
   };

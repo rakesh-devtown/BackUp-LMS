@@ -1,15 +1,16 @@
 import React from "react";
 
 import "./loader.css";
+import { LoaderContainer, LoaderInnerContainer } from "../../styles/loader.styles";
 
 const Loader = () => {
   return (
-    <div className="loader-container">
-      <div
+    <LoaderContainer className="loader-container">
+      <LoaderInnerContainer
         className="loader"
         
       >
-        {/* svg for devtown logo */}
+
         <svg
           width="700"
           height="700"
@@ -40,8 +41,8 @@ const Loader = () => {
             strokeWidth="1.82286"
           />
         </svg>
-      </div>
-    </div>
+      </LoaderInnerContainer>
+    </LoaderContainer>
   );
 };
 

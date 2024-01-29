@@ -4,7 +4,6 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { Form, Input, Button, message } from "antd";
 import styled from "styled-components";
 import useAuthStore from "../../store/authStore";
-console.log(useAuthStore.resetPassword());
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -21,6 +20,12 @@ const Card = styled.div`
   width: 100%;
 `;
 
+const ResetPassTitle = styled.h2`
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
 export default function ResetPass() {
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
@@ -29,7 +34,7 @@ export default function ResetPass() {
 
   const handleSubmit = (values) => {
     if (values.password === values.confirmPassword) {
-      resetPassword(values, token, () => navigate("/"));
+      resetPassword(values, token, () => navigate("/programs"));
     } else {
       message.error("password mismatch");
     }
@@ -38,9 +43,7 @@ export default function ResetPass() {
   return (
     <Container>
       <Card>
-        <h2 style={{ textAlign: "center", fontSize: "24px", fontWeight: "bold" }}>
-          Enter New Password !
-        </h2>
+      <ResetPassTitle>Enter New Password !</ResetPassTitle>
         <Form onFinish={handleSubmit}>
           <Form.Item name="password" rules={[{ required: true, message: 'Please input your new password!' }]}>
             <Input.Password

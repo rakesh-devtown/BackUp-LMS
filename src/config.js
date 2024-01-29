@@ -1,5 +1,5 @@
 const config = {
-    googleClientId: "550713624851-ppu2cjb33t1du9pqt5mg37cdfua5i4j2.apps.googleusercontent.com",
+    googleClientId: "418162522822-pe563ol3noa5q9vl6vj667ap8nsof6jg.apps.googleusercontent.com",
   };
   
   export default config;

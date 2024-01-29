@@ -3,6 +3,13 @@ import useWindowSize from "../../hooks/useWindowSixe";
 import { serviceGet } from "../../utils/api";
 import ChatSidebar from "./ChatSidebar";
 import RocketChat from "./RocketChat";
+import {
+  ChatSideBarOuterContainer,
+  MessageContainer,
+  RocketChatOuterContainer,
+  SmallChatSideBarContainer,
+} from "../../styles/message.styles";
+import { MessageOuterContainer } from "../../styles/rocketChat.styles";
 
 const DiscussionLayout = () => {
   const { width } = useWindowSize();
@@ -10,10 +17,9 @@ const DiscussionLayout = () => {
   const [chats, setChats] = useState([]);
   const [isChatClicked, setIsChatClicked] = useState(false);
 
-
   const fetchData = async () => {
     try {
-    //   dispatch(setLoadingTrue());
+      //   dispatch(setLoadingTrue());
       const { data } = await serviceGet(
         "student/student-api/v1/batch/discussion"
       );
@@ -27,43 +33,47 @@ const DiscussionLayout = () => {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-    //   dispatch(setLoadingFalse());
+      //   dispatch(setLoadingFalse());
     }
   };
 
   useEffect(() => {
     fetchData();
   }, []);
-  return <div style={{ width: '100%',   height: '100%', backgroundColor: 'white', display: 'flex' }}>
-  {width > 740 ? (
+  return (
     <>
-      <div style={{ width: '300px' }}>
-        <ChatSidebar channel={{ channel, setChannel }} chats={chats} />
-      </div>
-      <div style={{ width: '100%' }}>
-        <RocketChat channel={channel} />
-      </div>
+      <MessageContainer>
+        {width > 740 ? (
+          <>
+            <ChatSideBarOuterContainer>
+              <ChatSidebar channel={{ channel, setChannel }} chats={chats} />
+            </ChatSideBarOuterContainer>
+            <RocketChatOuterContainer>
+              <RocketChat channel={channel} />
+            </RocketChatOuterContainer>
+          </>
+        ) : (
+          <>
+            {isChatClicked ? (
+              <RocketChatOuterContainer>
+                <RocketChat
+                  channel={channel}
+                  setIsChatClicked={setIsChatClicked}
+                />
+              </RocketChatOuterContainer>
+            ) : (
+              <SmallChatSideBarContainer>
+                <ChatSidebar
+                  channel={{ channel, setChannel }}
+                  chats={chats}
+                  setIsChatClicked={setIsChatClicked}
+                />
+              </SmallChatSideBarContainer>
+            )}
+          </>
+        )}
+      </MessageContainer>
     </>
-  ) : (
-    <>
-      {isChatClicked ? (
-        <div style={{ width: '100%' }}>
-          <RocketChat
-            channel={channel}
-            setIsChatClicked={setIsChatClicked}
-          />
-        </div>
-      ) : (
-        <div style={{ width: '100%', height: '100%' }}>
-          <ChatSidebar
-            channel={{ channel, setChannel }}
-            chats={chats}
-            setIsChatClicked={setIsChatClicked}
-          />
-        </div>
-      )}
-    </>
-  )}
-</div>;
+  );
 };
 export default DiscussionLayout;
