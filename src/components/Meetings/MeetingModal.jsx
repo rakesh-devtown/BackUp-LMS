@@ -4,6 +4,7 @@ import useAuthStore from "../../store/authStore";
 import { servicePost } from "../../utils/api";
 import { setHeader } from "../../utils/header";
 import { useNavigate } from "react-router-dom";
+import useLoadingStore from "../../store/loadingStore";
 const MeetingModal = ({
   open,
   setopen,
@@ -14,12 +15,14 @@ const MeetingModal = ({
   platform = "zoom",
   url = "",
 }) => {
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
   const user = useAuthStore((state) => state.user);
   
   const handleAttendance = async () => {
     const { email } = user;
     try {
+      setLoading(true)
       setHeader("auth" , localStorage.getItem("token"));
       const { data, success, message } = await servicePost(
         `student/student-api/v1/webhook/attendance-gmeet`,
@@ -34,6 +37,8 @@ const MeetingModal = ({
         message: "Error",
         description: error.message,
       }); 
+    } finally {
+      setLoading(false)
     }
   };
   const navigate = useNavigate() ;

@@ -7,10 +7,12 @@ import { notification } from 'antd';
 import { PlusSquareFilled } from '@ant-design/icons';
 import { SkillListButton, SkillListContainer, SkillListItem, SkillListText, SkillListTitle, SkillListWrapper, SkillModalAddButton, SkillModalContainer, SkillModalInput, SkillModalParagraph, SkillModalResultItem, SkillModalSearchResult } from '../../styles/Modals/skillmodal.styles';
 import { ModalButtonContainer, ModalSaveButton } from '../../styles/Modals/sharedModals.styles';
+import useLoadingStore from '../../store/loadingStore';
 
 function SkillModal({ setopen, about, skill }) {
     const [searchText, setSearchText] = useState('');
     const [skills, setSkills] = useState(skill);
+    const setLoading = useLoadingStore((state) => state.setLoading);
 
     //implemented fuzzy search
     const options = {
@@ -42,6 +44,7 @@ function SkillModal({ setopen, about, skill }) {
     const handleSaveSkills = async (event) => {
         event.preventDefault();
         try { 
+          setLoading(true);
             setHeader("auth", `bearer ${localStorage.getItem("token")}`);
             const {
                 success,
@@ -71,6 +74,7 @@ function SkillModal({ setopen, about, skill }) {
             })
             // toast.error(error.response);
         } finally {
+          setLoading(false);
             // dispatch(setLoadingFalse());
         }
     };

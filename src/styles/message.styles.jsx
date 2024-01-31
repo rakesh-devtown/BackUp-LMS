@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 const MessageContainer = styled.div`
 display: flex;
+  
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   overflow-y: hidden;
   background-color: white;
 `;
@@ -14,6 +16,7 @@ const MessageSideBarContainer = styled.div`
   color: white;
   height: 100vh;
   width: 100%;
+  overflow-x: hidden;
 `;
 
 const MessageInnerContainer = styled.div`
@@ -83,6 +86,7 @@ const ChatImage = styled.img`
 const ChatName = styled.div`
   flex-grow: 1;
   flex-direction: row;
+  font-size : 20px;
 `;
 
 const ChatSideBarOuterContainer = styled.div`

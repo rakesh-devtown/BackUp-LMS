@@ -20,15 +20,19 @@ import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { serviceDelete, serviceGet } from "../../utils/api";
 import useWindowSize from "../../hooks/useWindowSixe";  
+import useLoadingStore from "../../store/loadingStore";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 const SessionLimit = () => {
   const [sessions, setSessions] = useState([]); // Now useState is defined
   const {width} = useWindowSize();
   const user = useAuthStore((state) => state.user);
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
   const clearSessions = useAuthStore((state) => state.clearSessions);
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const navigate = useNavigate();
   const clearSession = async (sessionId) => {
     try {
+      setLoading(true);
       const { success, message } = await serviceDelete(
         `student/student-api/v1/screen?screenSessionId=${sessionId}`
       );
@@ -39,10 +43,13 @@ const SessionLimit = () => {
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
+    } finally {
+      setLoading(false);
     }
   };
   const clearAllSession = async () => {
     try {
+      setLoading(true);
       const { success, message } = await serviceDelete(
         `student/student-api/v1/screen?studentId=${user._id}`
       );
@@ -52,13 +59,16 @@ const SessionLimit = () => {
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
+    } finally {
+      setLoading(false);
     }
   };
-
   const fetchSessions = async () => {
     try {
       if (user && screenLimitReached) {
+        setLoading(true);
         const {
+
           data: { screenSessions },
         } = await serviceGet(`student/student-api/v1/screen/${user?._id}`);
         setSessions(screenSessions);
@@ -67,6 +77,8 @@ const SessionLimit = () => {
       }
     } catch (error) {
       notification.error({ message: error.message });
+    } finally {
+      setLoading(false)
     }
   };
   useEffect(() => {
@@ -81,7 +93,7 @@ const SessionLimit = () => {
       <StyledButton
       onClick={navigateToHomePage}
       >
-        Back
+         <ArrowLeftOutlined/> Back
       </StyledButton>
 
       <CardContainer>

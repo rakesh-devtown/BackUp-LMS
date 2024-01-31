@@ -4,15 +4,17 @@ import { serviceGet, servicePost } from "../../utils/api";
 import MeetEndSVG from "../../assets/images/meetEnd.svg";
 import { MeetingContainer, MeetingImageContainer, MeetingInnerContainer, MeetingStatusContainer } from "../../styles/meeting.styles";
 import { notification } from "antd";
+import useLoadingStore from "../../store/loadingStore";
 
 function MeetingEnded() {
   const query = new URLSearchParams(window.location.search);
   const meetingNumber = query.get("meetingNumber");
   const email = query.get("email");
   const [meetingStatus, setmeetingStatus] = useState("");
-
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const markAttendance = async () => {
     try {
+      setLoading(true);
       setHeader("auth", localStorage.getItem("token"));
       const { message } = await servicePost(
         "student/student-api/v1/attendance",
@@ -28,6 +30,9 @@ function MeetingEnded() {
         message: "Error",
         description: e.message,
       });
+    } 
+    finally {
+      setLoading(false);
     }
   };
 
@@ -52,6 +57,10 @@ function MeetingEnded() {
   useEffect(() => {
     getMeetingStatus();
     markAttendance();
+    document.getElementById("rocketchat-iframe").style.display = "none";  
+    return () => {
+      document.getElementById("rocketchat-iframe").style.display = "block";  
+    }
   }, []);
 
   return (

@@ -37,10 +37,6 @@ export const routes =
             element:  <Login />,
         },
         {
-            path: routeDefinitions.SessionLimit,
-            element: <SessionLimit/>,
-        },
-        {
             path: routeDefinitions.FORGOT_PASSWORD,
             element: <ForgetPass/>,
         },
@@ -141,6 +137,10 @@ export const routes =
                 element:<DevScreen/>
             },
         ]
+    },
+    {
+        path: routeDefinitions.SessionLimit,
+        element: <SessionLimit/>,
     },
     
 ]

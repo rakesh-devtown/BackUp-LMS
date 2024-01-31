@@ -5,16 +5,19 @@ import { setHeader } from "../../utils/header";
 import { Button, notification } from "antd";
 import DevTree from "./DevTree";
 import { DevSideBarButton, DevSideBarButtonDownload, DevSideBarContainer, DevSideBarContent, DevSideBarExplorer, DevSideBarHeader, DevSideBarPadding, DevSideBarSVG } from "../../styles/dev.styles";
+import useLoadingStore from "../../store/loadingStore";
 
 function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
   const [treeData, setTreeData] = useState([]);
   // const dispatch = useDispatch();
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const [searchParams] = useSearchParams();
   const dayId = searchParams.get("dayId");
   const batchId = searchParams.get("batchId");
   const navigate = useNavigate();
   const downloadRepo = async () => {
     try {
+      setLoading(true);
       // dispatch(setLoadingTrue());
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const { data } = await serviceGet(
@@ -30,12 +33,14 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
 
       // toast.error("Something went wrong");
     } finally {
+      setLoading(false);
       // dispatch(setLoadingFalse());
     }
   };
 
   const fetchData = async () => {
     try {
+        setLoading(true);
       //   dispatch(setLoadingTrue());
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const { data, statusCode, message } = await serviceGet(
@@ -49,6 +54,7 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
+        setLoading(false);
       //   dispatch(setLoadingFalse());
     }
   };

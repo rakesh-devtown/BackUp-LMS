@@ -10,6 +10,7 @@ import {
   DevScreenImageOuterContainer,
   DevScreenOuterContainer,
 } from "../../styles/dev.styles";
+import useLoadingStore from "../../store/loadingStore";
 
 function DevScreen() {
   const [params] = useSearchParams();
@@ -18,7 +19,7 @@ function DevScreen() {
   const type = params.get("type");
   const url = params.get("url");
   const extension = params.get("extension");
-
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const [content, setContent] = useState("Loading");
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,6 +27,8 @@ function DevScreen() {
     const fetchData = async () => {
       try {
         // dispatch(setLoadingTrue());
+        setLoading(true);
+
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
         const {
           data: { fileContent },
@@ -67,6 +70,7 @@ function DevScreen() {
         // toast.error("Something Went Wrong");
         console.error("Error fetching data:", error);
       } finally {
+        setLoading(false);
         // dispatch(setLoadingFalse());
       }
     };

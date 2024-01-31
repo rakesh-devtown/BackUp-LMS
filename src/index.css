@@ -1,16 +1,16 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+html * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif !important ;
 }
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 a {
-     color:  black;
-     font-weight:  600;
-        text-decoration:  none;
-        margin: 1px;
+  color: black;
+  font-weight: 600;
+  text-decoration: none;
+  margin: 1px;
 }

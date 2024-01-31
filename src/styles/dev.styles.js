@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const DevAreaContainer = styled.div`
   display: flex;
-  background-color: rgb(30, 30, 30);
+  background-color: rgb(35, 35, 35);
 `;
 
 const DevAreaOutlet = styled.div`

@@ -13,6 +13,7 @@ import {
   ModalSaveButton,
   ModalTextArea,
 } from "../../styles/Modals/sharedModals.styles";
+import useLoadingStore from "../../store/loadingStore";
 
 function CertificateModal({ cert, type, setopen, about }) {
   const [startDate, setStartDate] = useState({ month: "", year: "" });
@@ -67,6 +68,8 @@ function CertificateModal({ cert, type, setopen, about }) {
       handleEdit(updateCertificate);
     }
   };
+  const setLoading = useLoadingStore((state) => state.setLoading);
+
 
   const handleSave = async (updateCertificate) => {
     // dispatch(setLoadingTrue());
@@ -83,6 +86,7 @@ function CertificateModal({ cert, type, setopen, about }) {
     setupdateCertificate(updatedCertificate);
 
     try {
+      setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const {
         success,
@@ -112,6 +116,8 @@ function CertificateModal({ cert, type, setopen, about }) {
 
       //   toast.error(error.response);
     } finally {
+      setLoading(false);
+
       //   dispatch(setLoadingFalse());
     }
   };
@@ -129,6 +135,7 @@ function CertificateModal({ cert, type, setopen, about }) {
     };
 
     try {
+      setLoading(true)
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const {
         success,
@@ -166,11 +173,14 @@ function CertificateModal({ cert, type, setopen, about }) {
       });
       //   toast.error(error.response);
     } finally {
+      setLoading(false);
       //   dispatch(setLoadingFalse());
     }
   };
   const deleteSubmission = async () => {
     try {
+      setLoading(true);
+
       //   dispatch(setLoadingTrue());
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const { data } = await serviceDelete(
@@ -186,6 +196,8 @@ function CertificateModal({ cert, type, setopen, about }) {
       });
       //   toast.error(error.message);
     } finally {
+      setLoading(false);
+      
       //   dispatch(setLoadingFalse());
     }
   };

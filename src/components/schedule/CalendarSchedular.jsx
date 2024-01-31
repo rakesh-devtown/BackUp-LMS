@@ -11,6 +11,7 @@ import MeetingModal from "../Meetings/MeetingModal";
 import useAuthStore from "../../store/authStore";
 import useBatchStore from "../../store/batchStore";
 import Title from "antd/es/typography/Title";
+import useLoadingStore from "../../store/loadingStore";
 
 const CalendarScheduler = ({ events }) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -45,6 +46,7 @@ const CalendarScheduler = ({ events }) => {
   const [sessions, setSessions] = useState([]);
   const [open, setopen] = useState(false);
   const [meetingData, setMeetingData] = useState({});
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const [openMeetingConfirmation, setOpenMeetingConfirmation] = useState(false);
   const getSessions = async () => {
     try {
@@ -53,6 +55,7 @@ const CalendarScheduler = ({ events }) => {
       const en = new Date(selectedDate + selectedDate.getTimezoneOffset());
       st.setUTCHours(0, 0, 0);
       en.setUTCHours(23, 59, 59);
+      setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const res = await serviceGet(
         `student/student-api/v1/upcommingSessions?start=${st.toISOString()}&end=${en.toISOString()}`
@@ -68,6 +71,8 @@ const CalendarScheduler = ({ events }) => {
       //   description: error.message,
       // });
       // dispatch(setLoadingFalse());
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {

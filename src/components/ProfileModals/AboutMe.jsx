@@ -13,6 +13,12 @@ import {
 import NewModal from "./NewModal";
 import ProfileModal from "./ProfileModal";
 import useWindowSize from "../../hooks/useWindowSixe";
+
+import blog from "../../assets/images/blog-svgrepo-com.svg";
+import leetcode from "../../assets/images/leetcode-svgrepo-com.svg";
+import codechef from "../../assets/images/codechef-svgrepo-com.svg";
+import codeforces from "../../assets/images/brand-codeforces-svgrepo-com.svg";
+
 import {
   AboutMeAddress,
   AboutMeContactContainer,
@@ -40,10 +46,11 @@ import {
 } from "../../styles/ProfileComponents/aboutme.styles";
 import { AboutMeMargin } from "../../styles/Modals/sharedModals.styles";
 import { AboutMeSectionDivider } from "../../styles/shared.styles";
+import useLoadingStore from "../../store/loadingStore";
 
 function AboutMe({ profile, about }) {
   const { width } = useWindowSize();
-
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const loadUser = useAuthStore((state) => state.loadUser);
   const [imageProfile, setImageProfile] = useState({
     firstName: profile?.firstName,
@@ -87,6 +94,7 @@ function AboutMe({ profile, about }) {
       }
       const type = "." + e.target.files[0].type.split("/")[1];
       //gets the url from AWS
+      setLoading(true)
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const { url } = await serviceGet(
         `student/student-api/v1/me/url?type=${type}&path=/profile-pictures`
@@ -104,6 +112,7 @@ function AboutMe({ profile, about }) {
 
       //make a PUT request now to change the image link of the URL which we got from AWS and new image link of AWS will be updated
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+
       const {
         success,
         data: { student },
@@ -136,6 +145,7 @@ function AboutMe({ profile, about }) {
       });
       //   toast.error("Error in updating profile picture");
     } finally {
+      setLoading(false)
       //   dispatch(setLoadingFalse());
     }
   };
@@ -150,6 +160,7 @@ function AboutMe({ profile, about }) {
     setHeader("auth", `bearer ${localStorage.getItem("token")}`);
     if (type === ".pdf") {
       try {
+        setLoading( true)
         const { url } = await serviceGet(
           `student/student-api/v1/me/url?type=${type}&path=/student-resume`
         );
@@ -198,6 +209,7 @@ function AboutMe({ profile, about }) {
         });
         // toast.error("Issue in uploading and updating the resume");
       } finally {
+        setLoading(false)
         // dispatch(setLoadingFalse());
       }
     } else {
@@ -217,9 +229,7 @@ function AboutMe({ profile, about }) {
   return (
     <AboutMeGridContainer>
       <AboutMeInnerContainer>
-        {
-        
-        (profile && profile.profileComplete) ? (
+        {profile && profile.profileComplete ? (
           <div>
             <Flex justify="space-between" align="center">
               {/* https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" */}
@@ -300,26 +310,28 @@ function AboutMe({ profile, about }) {
                     )}
                     {profile?.blogLink && (
                       <AboutMeLink href={profile.blogLink} target="_blank">
-                        <DeliveredProcedureOutlined size={28} />
+                        {/* <DeliveredProcedureOutlined size={28} /> */}
+                        <img src={blog} height="20px" width="20px" alt="" />
                       </AboutMeLink>
                     )}
                     {profile?.leetCode && (
                       <AboutMeLink href={profile.leetCode} target="_blank">
-                        <CodeFilled size={28} />
+                        <img src={leetcode} height="20px" width="20px" alt="" />
                       </AboutMeLink>
                     )}
                     {profile?.codeChef && (
                       <AboutMeLink href={profile.codeChef} target="_blank">
-                        <CodeFilled size={28} />
+                        <img src={codechef} height="20px" width="20px" alt="" />
                       </AboutMeLink>
                     )}
                     {profile?.codeForce && (
-                      <AboutMeLink
-                        href={profile.codeForce}
-                        target="_blank"
-                   
-                      >
-                        <CodeTwoTone size={28} />
+                      <AboutMeLink href={profile.codeForce} target="_blank">
+                        <img
+                          src={codeforces}
+                          height="20px"
+                          width="20px"
+                          alt=""
+                        />
                       </AboutMeLink>
                     )}
                   </AboutMeLinkWrapper>
@@ -410,26 +422,28 @@ function AboutMe({ profile, about }) {
                     )}
                     {profile?.blogLink && (
                       <AboutMeLink href={profile.blogLink} target="_blank">
-                        <DeliveredProcedureOutlined size={28} />
+                        {/* <DeliveredProcedureOutlined size={28} /> */}
+                        <img src={blog} height="20px" width="20px" alt="" />
                       </AboutMeLink>
                     )}
                     {profile?.leetCode && (
                       <AboutMeLink href={profile.leetCode} target="_blank">
-                        <CodeFilled size={28} />
+                        <img src={leetcode} height="20px" width="20px" alt="" />
                       </AboutMeLink>
                     )}
                     {profile?.codeChef && (
                       <AboutMeLink href={profile.codeChef} target="_blank">
-                        <CodeFilled size={28} />
+                        <img src={codechef} height="20px" width="20px" alt="" />
                       </AboutMeLink>
                     )}
                     {profile?.codeForce && (
-                      <AboutMeLink
-                        href={profile.codeForce}
-                        target="_blank"
-                        
-                      >
-                        <CodeTwoTone size={28} />
+                      <AboutMeLink href={profile.codeForce} target="_blank">
+                        <img
+                          src={codeforces}
+                          height="20px"
+                          width="20px"
+                          alt=""
+                        />
                       </AboutMeLink>
                     )}
                   </AboutMeLinkWrapper>
@@ -439,17 +453,17 @@ function AboutMe({ profile, about }) {
 
             <AboutMeSectionDivider />
           </div>
-        )
-        
-        }
+        )}
 
         {!profile?.profileComplete && open && (
           <Modal state={{ open }}>
-           <AboutModalContainer>
-           <CloseIcon size={23} onClick={() => setopen(false)} />
+            <AboutModalContainer>
+              <CloseIcon size={23} onClick={() => setopen(false)} />
 
-           <AboutModalText>Hello {profile?.firstName},</AboutModalText>
-           <AboutModalText marginTop="8px">Please fill the mandatory fields</AboutModalText>
+              <AboutModalText>Hello {profile?.firstName},</AboutModalText>
+              <AboutModalText marginTop="8px">
+                Please fill the mandatory fields
+              </AboutModalText>
               <NewModal about={about} text="Let's Continue" mainSub="Edit User">
                 <ProfileModal student={profile} />
               </NewModal>

@@ -31,7 +31,7 @@ const LoaderInnerContainer = styled.div`
 `;
 const LoaderOuterContainer = styled.div`
   background-color: #BEE3F8;
-  opacity: 0.3;
+  opacity: 0.9;
   display: flex;
   width: 100vw;
   height: 100vh;

@@ -21,6 +21,9 @@ import {
   LoginContainer,
   LoginLinkContainer,
   LoginLink,
+  StyledHr,
+  SignInText,
+  FlexContainer,
 } from "../../styles/LoginPage.styles.js";
 import Config from "../../config.js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -65,16 +68,13 @@ export default function Login() {
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
 
   return (
-    <Layout className="layout" >
-      <StyledLoginPage
-       
-      >
+    <Layout className="layout">
+      <StyledLoginPage>
         <StyledFormContainer>
           <StyledLoginForm>
             <StyledLogo
               src="https://www.student-platform.devtown.in/static/media/ICON.a874e4deea467c4d46a5055eb58c4e7b.svg" // Replace with the path to your image file
               alt="Devtown Logo" // Provide a brief description of the image for accessibility
-
             />
             <StyledHeading>Welcome back to</StyledHeading>
             <StyledDevTown>DevTown</StyledDevTown>
@@ -96,7 +96,7 @@ export default function Login() {
                   },
                 ]}
               >
-                <InputUsername placeholder="Username" />
+                <InputUsername placeholder="Email" />
               </Form.Item>
 
               <Form.Item
@@ -116,9 +116,11 @@ export default function Login() {
               </Form.Item>
 
               <Form.Item>
-                <Link to="/auth/forgot-password">
-                  <ForgotPassword> Forgot your password?</ForgotPassword>
-                </Link>
+                <div style={{ display: "flex", justifyContent: "end" }}>
+                  <Link to="/auth/forgot-password">
+                    <ForgotPassword> Forgot your password?</ForgotPassword>
+                  </Link>
+                </div>
               </Form.Item>
 
               <Form.Item>
@@ -131,31 +133,44 @@ export default function Login() {
                 >
                   Log in
                 </StyledButton>
+                <FlexContainer>
+
+
+                <StyledHr />
+                <SignInText>Or sign in with</SignInText>
+                <StyledHr />
+                </FlexContainer>
                 <LoginContainer>
-  <GoogleOAuthProvider clientId={googleClientId}>
-    <GoogleAuthLogin />
-  </GoogleOAuthProvider>
-  <LoginLinkContainer>
-    <LoginLink to="/auth/magic-login">
-      <img
-        width="25"
-        height="25"
-        src="https://img.icons8.com/ios/50/000000/fantasy.png"
-        alt="fantasy"
-      />
-    </LoginLink>
-    <p>Magic Link</p>
-  </LoginLinkContainer>
-</LoginContainer>
-             
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <GoogleOAuthProvider clientId={googleClientId}>
+                      <GoogleAuthLogin />
+                    </GoogleOAuthProvider>
+                    <p>Google</p>
+                  </div>
+                  <LoginLinkContainer>
+                    <LoginLink to="/auth/magic-login">
+                      <img
+                        width="30"
+                        height="30"
+                        color="blue"
+                        src="https://img.icons8.com/ios/50/000000/fantasy.png"
+                        alt="maginc Link icons"
+                      />
+                    </LoginLink>
+                    <p>Magic Link</p>
+                  </LoginLinkContainer>
+                </LoginContainer>
               </Form.Item>
             </Form>
           </StyledLoginForm>
         </StyledFormContainer>
-        <StyledImg
-          src="https://www.student-platform.devtown.in/static/media/Login_image.d23150f57543b9b841d955f9245b17ca.svg"
-          alt="Login"
-        />
       </StyledLoginPage>
     </Layout>
   );

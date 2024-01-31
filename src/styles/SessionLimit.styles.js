@@ -121,7 +121,7 @@ export const StyledButton = styled.button`
 position: absolute;
 top: 20px;
 left: 20px;
-padding: 6px 15px;
+padding: 10px 15px;
 border: 1px solid #012353;
 border-radius: 4px;
 display: inline-flex;

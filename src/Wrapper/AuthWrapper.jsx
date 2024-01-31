@@ -1,19 +1,44 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-// import img from "../../assets/images/Login_image.svg"
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const OutletContainer = styled.div`
+  width: 100%;
+  @media (min-width: 768px) {
+    width: 50%;
+  }
+  background: linear-gradient(to right, #5C258D, #4389A2);
+`;
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+const ImageContainer = styled.div`
+  display: none;
+  @media (min-width: 768px) {
+    display: block;
+    width: 50%;
+    height: 100vh;
+  }
+`;
 const AuthWrapper = (props) => {
   return (
     <>
-      <div className='w-full flex items-center' >
-        <div className='w-full  md:w-1/2 bg-gradient-to-r from-[#5C258D] to-[#4389A2]' >
-          {/* outlet basically lets us use children in nested routing */}
-          <Outlet />
-        </div>
-        <div className='hidden md:block w-2/3 h-screen' >
-          {/* <img src={img} alt="wrapper" className='w-full h-full' /> */}
-        </div>
-      </div>
-    </>
+    <Wrapper>
+      <OutletContainer>
+        <Outlet />
+      </OutletContainer>
+      <ImageContainer>
+      <StyledImage src="https://www.student-platform.devtown.in/static/media/Login_image.d23150f57543b9b841d955f9245b17ca.svg" alt="wrapper" />
+      </ImageContainer>
+    </Wrapper>
+  </>
   );
 }
 

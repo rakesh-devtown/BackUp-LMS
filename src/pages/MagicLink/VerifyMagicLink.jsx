@@ -4,7 +4,7 @@ import useAuthStore from '../../store/authStore';
 import useLoadingStore from '../../store/loadingStore';
 import { VerifyMagicLinkButton, VerifyMagicLinkContainer, VerifyMagicLinkText } from '../../styles/magicLink.styles';
 
-function VerifyMagicLink() {
+function  VerifyMagicLink() {
     const { token } = useParams();
 	// const dispatch = useDispatch();
 	const navigate = useNavigate();

@@ -23,9 +23,11 @@ import ProfileComponent from "../../components/ProfileModals/ProfileComponent";
 import useWindowSize from "../../hooks/useWindowSixe";
 import DevtownCertificates from "../../components/DevtownCertificates/DevtownCertificates";
 import { ProfileContainer, ProfileContent, ProfileHeader, ProfileInnerContainer, ProfileResumeLink, ProfileTitle } from "../../styles/profile.styles";
+import useLoadingStore from "../../store/loadingStore";
 const Profile = () => {
    // const user = useSelector(profileState);
   //  const dispatch = useDispatch();
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const {width} = useWindowSize();
    const [profile, setprofile] = useState({
      firstName: "",
@@ -41,6 +43,7 @@ const Profile = () => {
    });
    const getProfile = async () => {
     try {
+      setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
         const {
             success,
@@ -59,6 +62,8 @@ const Profile = () => {
             description: error.message,
         });
         return null;
+    } finally {
+      setLoading(false);
     }
 };
    //function which gets the student profile

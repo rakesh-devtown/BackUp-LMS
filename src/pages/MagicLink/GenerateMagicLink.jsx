@@ -79,7 +79,7 @@ function GenerateMagicLink() {
               </div>
             </MagicLinkFormInnerContainer>
             <MagicLinkSubmitButtonContainer>
-              <Button type="primary" onClick={handleSubmit}>
+              <Button style={{width:"100%"}} type="primary" onClick={handleSubmit}>
                 Send Magic Link
               </Button>
             </MagicLinkSubmitButtonContainer>

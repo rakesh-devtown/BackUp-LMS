@@ -1,8 +1,10 @@
-import { Form, Input, Button as AntButton } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { Form, Input, Button as AntButton } from "antd";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import useAuthStore from "../../store/authStore";
 import img from "../../assets/images/ICON.svg";
+import { StyledButton } from "../../styles/SessionLimit.styles";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +17,7 @@ const Container = styled.div`
 const FormContainer = styled.div`
   max-width: 500px;
   background-color: white;
-  padding: 10px;
+  padding: 100px 50px;
   border-radius: 10px;
   width: 100%;
 `;
@@ -28,7 +30,7 @@ const Image = styled.img`
 `;
 
 const Title = styled.h2`
-  margin-top: 24px;
+  margin-top: 40px;
   text-align: center;
   font-size: 24px;
   margin-bottom: 24px;
@@ -41,15 +43,21 @@ export default function ForgetPass() {
   const { forgotPassword } = useAuthStore();
 
   const onFinish = (values) => {
-    
-    if(forgotPassword(values  )) {
-      navigate('/auth');
+    if (forgotPassword(values)) {
+      navigate("/auth");
     }
     // forgotPassword(() => navigate('/auth'), values);
   };
-
+  const navigateToHomePage = () => {
+    navigate("/auth");
+  };
   return (
     <Container>
+      <StyledButton
+      onClick={navigateToHomePage}
+      >
+       <ArrowLeftOutlined/>  Back
+      </StyledButton>
       <FormContainer>
         <Image src={img} alt="Workflow" />
         <Title>Forgot Password ?</Title>
@@ -57,13 +65,13 @@ export default function ForgetPass() {
         <Form onFinish={onFinish}>
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
+            rules={[{ required: true, message: "Please input your email!" }]}
           >
             <Input placeholder="Email address" />
           </Form.Item>
 
           <Form.Item>
-            <AntButton type="primary" htmlType="submit">
+            <AntButton style={{width:"100%", fontWeight:"700"}} type="primary" htmlType="submit">
               Send Link
             </AntButton>
           </Form.Item>
