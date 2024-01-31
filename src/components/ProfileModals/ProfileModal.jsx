@@ -14,6 +14,7 @@ import {
   ModalSaveButton,
 } from "../../styles/Modals/sharedModals.styles";
 import { MarginContainer } from "../../styles/Certificates/certificates.styles";
+import useLoadingStore from "../../store/loadingStore";
 const ProfileModal = ({ student, setopen, about }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [updateProfile, setupdateProfile] = useState({
@@ -40,7 +41,7 @@ const ProfileModal = ({ student, setopen, about }) => {
     setSelectedFile(file);
     handlePdfUpload(file);
   };
-
+  const setLoading = useLoadingStore((state) => state.setLoading);
   //uploads the resume and updates the new resume in the backend which was added
   const handlePdfUpload = async (selectedFile) => {
     // dispatch(setLoadingTrue());
@@ -49,6 +50,8 @@ const ProfileModal = ({ student, setopen, about }) => {
 
     if (type === ".pdf") {
       try {
+        setLoading(true);
+
         const { url } = await serviceGet(
           `student/student-api/v1/me/url?type=${type}&path=/student-resume`
         );
@@ -61,7 +64,7 @@ const ProfileModal = ({ student, setopen, about }) => {
         });
 
         const pdfUrl = url.split("?")[0];
-
+        
         const {
           success,
           data: { student },
@@ -93,6 +96,7 @@ const ProfileModal = ({ student, setopen, about }) => {
         });
         // toast.error("Issue in uploading and updating the resume");
       } finally {
+        setLoading(false);
         // dispatch(setLoadingFalse());
       }
     } else {
@@ -108,6 +112,7 @@ const ProfileModal = ({ student, setopen, about }) => {
     e.preventDefault();
     // dispatch(setLoadingTrue());
     try {
+      setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const {
         success,
@@ -141,6 +146,7 @@ const ProfileModal = ({ student, setopen, about }) => {
       notification.error({ message: "Error in updating profile details" });
       //   toast.error("Error in updating profile details");
     } finally {
+      setLoading(false);
       //   dispatch(setLoadingFalse());
     }
   };

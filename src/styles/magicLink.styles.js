@@ -4,18 +4,19 @@ import styled from "styled-components";
 const MagicLinkContainer = styled.div`
   height: 100vh;
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   padding: 3rem 1rem;
-  max-width: 40rem;
+  
   margin: 0 auto;
 
 `;
 
 const BackButtonOuterContainer = styled.div`
-  max-width: 20rem;
+  max-width: 457px;
   background-color: white;
-  padding: 2.5rem;
+  padding: 5rem 1rem;
   border-radius: 0.5rem;
   width: 100%;
   display: flex;
@@ -24,6 +25,7 @@ const BackButtonOuterContainer = styled.div`
 `;
 const MagicLinkLogoOuterContainer = styled.div`
   text-align: center;
+
 `;
 
 const MagicLinkLogo = styled.img`
@@ -45,13 +47,13 @@ const MagicLinkDescription = styled.p`
   
 `;
 const MagicLinkBoldText = styled.span`
-  font-weight: bold;
+  font-weight: 700;
 `;
 const MagicLinkForm = styled.form`
   margin-top: 0,8rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 `;
 
 
@@ -64,8 +66,8 @@ const MagicLinkFormInnerContainer = styled.div`
 
 const MagicLinkSubmitButtonContainer = styled.div`
   display: flex;
-  text-align: center;
-  justify-content: center;
+
+  width: 100%;
 `;
 const VerifyMagicLinkContainer = styled.div`
   height: 100vh;

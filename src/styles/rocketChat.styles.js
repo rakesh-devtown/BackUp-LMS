@@ -4,6 +4,7 @@ const RocketChatContainer = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
+  background-color: white;
 `;
 
 const RocketChatButtonContainer = styled.div`
@@ -30,7 +31,7 @@ const RocketChatContent = styled.div`
   width: 100%;
   display: flex;
   justify-content: between;
-  align-items: center;
+  align-items: start;
 `;
 
 const RocketChatIframe = styled.iframe`

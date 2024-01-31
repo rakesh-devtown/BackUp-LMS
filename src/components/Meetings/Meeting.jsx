@@ -4,8 +4,10 @@ import useAuthStore from '../../store/authStore';
 import { servicePost } from '../../utils/api';
 import { setHeader } from '../../utils/header';
 import { notification } from 'antd';
+import useLoadingStore from '../../store/loadingStore';
 
 function Meeting() {
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
     const { id: meetingNumber } = useParams();
   const [signature, setsignature] = useState('')
@@ -17,6 +19,7 @@ function Meeting() {
   const pass = url.split('=')[1];
   const getSignature = async () => {
     try {
+      setLoading(true);
         setHeader("auth" , localStorage.getItem("token"));
       const { signature } = await servicePost(
         "student/generateSign",
@@ -33,10 +36,13 @@ function Meeting() {
         description: e.message,
       
       })
+    } finally {
+      setLoading(false);
     }
   };
   const markAttendance = async()=>{
     try {
+      setLoading(true);
         setHeader("auth" , localStorage.getItem("token"));
       const { message } = await servicePost(
         "student/student-api/v1/attendance",
@@ -54,12 +60,18 @@ function Meeting() {
         description: e.message,
       
       })
+    } finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
   getSignature();
   markAttendance();
+  document.getElementById("rocketchat-iframe").style.display = "none";  
+  return () => {
+    document.getElementById("rocketchat-iframe").style.display = "block";  
+  }
   }, [])
   
   return (

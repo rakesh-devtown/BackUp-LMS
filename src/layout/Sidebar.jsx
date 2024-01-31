@@ -19,7 +19,7 @@ import logout from "../assets/images/Logout.svg";
 import Logo from "../assets/images/devtown-vector.svg";
 import { StyledLayout } from "../styles/app.styles";
 import { FullScreenContent, StyledButton } from "../styles/shared.styles";
-import { Layout, Menu, Button, theme, notification } from "antd";
+import { Layout, Menu, Button, theme, notification, Modal } from "antd";
 import { routeDefinitions } from "../constants/routes";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar/Searchbar";
@@ -28,10 +28,19 @@ import authStore from "../store/authStore";
 import { setHeader } from "../utils/header";
 import useAuthStore from "../store/authStore";
 import useLoadingStore from "../store/loadingStore";
-import confirm from "antd/es/modal/confirm";
 import useWindowSize from "../hooks/useWindowSixe";
-import { LayoutActions, LayoutContainer, LayoutFullScreenContent, LayoutHamburger, LayoutHeader, LayoutLogoLink, LayoutMenu } from "../styles/layout.styles";
+import {
+  LayoutActions,
+  LayoutContainer,
+  LayoutFullScreenContent,
+  LayoutHamburger,
+  LayoutHeader,
+  LayoutLogoLink,
+  LayoutMenu,
+} from "../styles/layout.styles";
 const { Header, Sider, Content } = Layout;
+
+const { confirm } = Modal;
 const Sidebar = () => {
   const { width } = useWindowSize();
   const [open, setOpen] = useState(false);
@@ -95,13 +104,14 @@ const Sidebar = () => {
     confirm({
       title: "Do you Want to logout?",
       icon: <ExclamationCircleFilled />,
-
       onOk() {
         handleLogout();
       },
       onCancel() {
         console.log("Cancel");
       },
+      okText: "Yes",
+      cancelText: "No",
     });
   };
   const verifyAuthToken = async () => {
@@ -118,9 +128,9 @@ const Sidebar = () => {
   }, []);
   return (
     <StyledLayout>
-     <LayoutHeader collapsed={collapsed.toString()} width={width}>
+      <LayoutHeader collapsed={collapsed} width={width}>
         {width > 700 ? (
-         <LayoutLogoLink to="/programs">
+          <LayoutLogoLink to="/programs">
             <img src={Logo} alt="logo" />
           </LayoutLogoLink>
         ) : (
@@ -128,26 +138,23 @@ const Sidebar = () => {
             <BarsOutlined />
           </LayoutHamburger>
         )}
-        <SearchBar collapsed={collapsed.toString()} />
+        <SearchBar collapsed={collapsed} />
       </LayoutHeader>
-      <LayoutContainer >
+      <LayoutContainer>
         {width < 700 && open && (
           <Sider
-            
             collapsed={true}
             onCollapse={(value) => {
               setCollapsed(value);
             }}
-            style={{ position: "absolute", height: "100vh", zIndex: 100 ,}}
+            style={{ position: "absolute", height: "100vh", zIndex: 100 }}
           >
             <LayoutLogoLink to="/programs">
-            <img src={Logo} alt="logo" />
-          </LayoutLogoLink>
+              <img src={Logo} alt="logo" />
+            </LayoutLogoLink>
             <div className="demo-logo-vertical" />
 
-           <LayoutMenu>
-            Menu
-              </LayoutMenu>
+            <LayoutMenu>Menu</LayoutMenu>
 
             <Menu theme="dark" mode="inline">
               {menuItems.map((item) => (
@@ -157,13 +164,11 @@ const Sidebar = () => {
               ))}
             </Menu>
 
-            <LayoutActions>
-  Actions
-</LayoutActions>
+            <LayoutActions>Actions</LayoutActions>
 
             <Menu theme="dark" mode="inline">
               {/* ... */}
-              <Menu.Item key="1" icon={<QuestionCircleFilled />}>
+              {/* <Menu.Item key="1" icon={<QuestionCircleFilled />}>
                 <a
                   href="https://www.devtown.in/contact-us"
                   target="_blank"
@@ -171,7 +176,7 @@ const Sidebar = () => {
                 >
                   Contact Us
                 </a>
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item
                 key="2"
                 icon={<img src={logout} alt="logout" />}
@@ -185,16 +190,14 @@ const Sidebar = () => {
         {width >= 700 && (
           <Sider
             collapsible
-            collapsed={collapsed.toString()}
+            collapsed={collapsed}
             onCollapse={(value) => {
               setCollapsed(value);
             }}
           >
             <div className="demo-logo-vertical" />
 
-            <LayoutMenu>
-  Menu
-</LayoutMenu>
+            <LayoutMenu>Menu</LayoutMenu>
 
             <Menu theme="dark" mode="inline">
               {menuItems.map((item) => (
@@ -203,13 +206,9 @@ const Sidebar = () => {
                 </Menu.Item>
               ))}
             </Menu>
-
-            <LayoutActions>
-  Actions
-</LayoutActions>
-
+            <LayoutActions>Actions</LayoutActions>
             <Menu theme="dark" mode="inline">
-              <Menu.Item key="1" icon={<QuestionCircleFilled />}>
+              {/* <Menu.Item key="1" icon={<QuestionCircleFilled />}>
                 <a
                   href="https://www.devtown.in/contact-us"
                   target="_blank"
@@ -217,7 +216,7 @@ const Sidebar = () => {
                 >
                   Contact Us
                 </a>
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item
                 key="2"
                 icon={<img src={logout} alt="logout" />}
@@ -229,9 +228,9 @@ const Sidebar = () => {
           </Sider>
         )}
         <Layout>
-        <LayoutFullScreenContent location={location} width={width}>
-  <Outlet />
-</LayoutFullScreenContent>
+          <LayoutFullScreenContent location={location} width={width}>
+            <Outlet />
+          </LayoutFullScreenContent>
         </Layout>
       </LayoutContainer>
     </StyledLayout>

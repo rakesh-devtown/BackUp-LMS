@@ -15,11 +15,13 @@ import {
   PresentLabel,
 } from "../../styles/Modals/sharedModals.styles";
 import { MarginContainer } from "../../styles/Certificates/certificates.styles";
+import useLoadingStore from "../../store/loadingStore";
 
 function WorkModal({ workex, type, setopen, about }) {
   const [startDate, setStartDate] = useState({ month: "", year: "" });
   const [endDate, setEndDate] = useState({ month: "", year: "" });
   const [isChecked, setIsChecked] = useState(false);
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -92,6 +94,7 @@ function WorkModal({ workex, type, setopen, about }) {
     setupdateWork(updatedWork);
 
     try {
+      setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const {
         success,
@@ -120,6 +123,7 @@ function WorkModal({ workex, type, setopen, about }) {
       });
       //   toast.error(error.response);
     } finally {
+      setLoading(false);
       //   dispatch(setLoadingFalse());
     }
   };
@@ -138,6 +142,7 @@ function WorkModal({ workex, type, setopen, about }) {
     };
 
     try {
+      setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const {
         success,
@@ -176,12 +181,14 @@ function WorkModal({ workex, type, setopen, about }) {
       });
       //   toast.error(error.response);
     } finally {
+      setLoading(false);
       //   dispatch(setLoadingFalse());
     }
   };
 
   const deleteSubmission = async () => {
     try {
+      setLoading(true);
       //   dispatch(setLoadingTrue());
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const { data } = await serviceDelete(
@@ -197,6 +204,7 @@ function WorkModal({ workex, type, setopen, about }) {
       });
       //   toast.error(error.message);
     } finally {
+      setLoading(false);
       //   dispatch(setLoadingFalse());
     }
   };

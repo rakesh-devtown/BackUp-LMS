@@ -13,10 +13,12 @@ import {
   ModalSaveButton,
   ModalTextArea,
 } from "../../styles/Modals/sharedModals.styles";
+import useLoadingStore from "../../store/loadingStore";
 
 function ProjectModal({ proj, type, setopen, about }) {
   const [startDate, setStartDate] = useState({ month: "", year: "" });
   const [endDate, setEndDate] = useState({ month: "", year: "" });
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
   const handleStartDateMonthChange = (e) => {
     const value = e.target.value;
@@ -83,6 +85,7 @@ function ProjectModal({ proj, type, setopen, about }) {
     setupdateProject(updatedProject);
 
     try {
+      setLoading(true)
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const {
         success,
@@ -113,6 +116,8 @@ function ProjectModal({ proj, type, setopen, about }) {
 
       // toast.error(error.response);
     } finally {
+      setLoading(false);
+      
       // dispatch(setLoadingFalse());
     }
   };
@@ -131,6 +136,7 @@ function ProjectModal({ proj, type, setopen, about }) {
 
     try {
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+      setLoading(true);
       const {
         success,
         data: { projects },
@@ -167,12 +173,15 @@ function ProjectModal({ proj, type, setopen, about }) {
       });
       // toast.error(error.response);
     } finally {
+      setLoading(false);
       // dispatch(setLoadingFalse());
     }
   };
 
   const deleteSubmission = async () => {
     try {
+      setLoading(true);
+
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       // dispatch(setLoadingTrue());
       const { data } = await serviceDelete(
@@ -188,6 +197,7 @@ function ProjectModal({ proj, type, setopen, about }) {
       });
       // toast.error(error.message);
     } finally {
+      setLoading(false);
       // dispatch(setLoadingFalse());
     }
   };

@@ -13,6 +13,7 @@ import {
   ModalSaveButton,
 } from "../../styles/Modals/sharedModals.styles";
 import { MarginContainer } from "../../styles/Certificates/certificates.styles";
+import useLoadingStore from "../../store/loadingStore";
 
 function EducationModal({ educ, type, setopen, about }) {
   const [startDate, setStartDate] = useState({ month: "", year: "" });
@@ -50,6 +51,7 @@ function EducationModal({ educ, type, setopen, about }) {
       year: value,
     });
   };
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
   //state to save education details
   const [updateEducation, setupdateEducation] = useState({
@@ -85,6 +87,7 @@ function EducationModal({ educ, type, setopen, about }) {
     setupdateEducation(updatedEducation);
 
     try {
+      setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const {
         success,
@@ -112,6 +115,7 @@ function EducationModal({ educ, type, setopen, about }) {
       });
       // toast.error("Failed to add the Education");
     } finally {
+      setLoading(false);
       // dispatch(setLoadingFalse());
     }
   };

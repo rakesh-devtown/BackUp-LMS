@@ -8,8 +8,11 @@ const { Search } = Input;
 const SearchBar = ({ collapsed }) => {
   const name = useProgramStore((state) => state.name);
   const setName = useProgramStore((state) => state.setName);
-
+  const onHandleUserInput  = (e ) => {
+    setName(e.target.value);
+  }
   const onSearch = (value, _e, info) => {
+    console.log(value, _e, info);
     setName(value);
   };
   const location = useLocation();
@@ -18,9 +21,10 @@ const SearchBar = ({ collapsed }) => {
     <>
       {location.pathname === "/programs" && (
         <CourseSearch
-          placeholder="search course"
+          placeholder="Search Course"
+          onChange={onHandleUserInput}
           onSearch={onSearch}
-          collapsed={collapsed.toString()  }
+          collapsed={collapsed  }
         />
       )}
     </>

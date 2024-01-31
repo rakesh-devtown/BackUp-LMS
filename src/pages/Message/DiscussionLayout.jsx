@@ -10,15 +10,17 @@ import {
   SmallChatSideBarContainer,
 } from "../../styles/message.styles";
 import { MessageOuterContainer } from "../../styles/rocketChat.styles";
+import useLoadingStore from "../../store/loadingStore";
 
 const DiscussionLayout = () => {
   const { width } = useWindowSize();
   const [channel, setChannel] = useState("General");
   const [chats, setChats] = useState([]);
   const [isChatClicked, setIsChatClicked] = useState(false);
-
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const fetchData = async () => {
     try {
+      setLoading(true)
       //   dispatch(setLoadingTrue());
       const { data } = await serviceGet(
         "student/student-api/v1/batch/discussion"
@@ -33,16 +35,21 @@ const DiscussionLayout = () => {
     } catch (error) {
       console.error("Error:", error);
     } finally {
+      setLoading(false)
       //   dispatch(setLoadingFalse());
     }
   };
 
   useEffect(() => {
     fetchData();
+    document.getElementById("rocketchat-iframe").style.display = "none";  
+    return () => {
+      document.getElementById("rocketchat-iframe").style.display = "block";  
+    }
   }, []);
   return (
     <>
-      <MessageContainer>
+      <MessageContainer  >
         {width > 740 ? (
           <>
             <ChatSideBarOuterContainer>

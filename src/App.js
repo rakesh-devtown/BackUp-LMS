@@ -47,15 +47,16 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 );
 
 const App = () => {
+
   const loading = useLoadingStore((state) => state.loading);
   return (
     <>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       {loading && (
         <LoaderOuterContainer>
           <Loader />
         </LoaderOuterContainer>
       )}
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <RouterProvider router={router} />
       </GoogleOAuthProvider>
     </>

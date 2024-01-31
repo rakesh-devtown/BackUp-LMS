@@ -3,6 +3,7 @@ import { servicePost } from '../../utils/api';
 import { setHeader } from '../../utils/header';
 import { Button, Input, notification } from 'antd';
 import { CertFormButtonContainer, CertFormContainer, CertFormInput, CertFormTitle, CertFormTitleRequired, CertWarningContainer } from '../../styles/Certificates/certificates.styles';
+import useLoadingStore from '../../store/loadingStore';
 
 function CertUpdateRequestModal({ setopen, about ,setUpdateAllowed }) {
     const [updatedName, setUpdateName] = useState();
@@ -10,9 +11,11 @@ function CertUpdateRequestModal({ setopen, about ,setUpdateAllowed }) {
 		event.preventDefault();
 		handleRequest();
 	};
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
 	const handleRequest = async () => {
 		try {
+      setLoading(true)
             setHeader("auth", `bearer ${localStorage.getItem("token")}`);
 			const { success, message } = await servicePost(
 				`student/student-api/v1/certificate/update-request/`,
@@ -36,7 +39,9 @@ function CertUpdateRequestModal({ setopen, about ,setUpdateAllowed }) {
                 message : "An error occurred in creating certificate update request"
             })
 			// toast.error("An error occurred in creating certificate update request");
-		}
+		} finally {
+            setLoading(false)
+    }
 		setopen(false);
 		setUpdateAllowed(false)
 	};

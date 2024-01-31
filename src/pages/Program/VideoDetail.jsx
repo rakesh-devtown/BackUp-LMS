@@ -24,6 +24,8 @@ import {
   VideoDetailBackButton,
   VimeoContainer,
 } from "../../styles/videoDetail.styles";
+import useLoadingStore from "../../store/loadingStore";
+import axios from "axios";
 const { Title, Text } = Typography;
 
 const StyledVideoBox = styled.div`
@@ -183,11 +185,11 @@ const VideoDetail = () => {
   const user = useAuthStore((state) => state.user);
   const loadUser = useAuthStore((state) => state.loadUser);
   const [certificateData, setCertificateData] = useState({});
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const [certificates, setCertificates] = useState({});
   const [open, setOpen] = useState(false);
   const sections = useBatchStore((state) => state.sections);
   const setSection = useBatchStore((state) => state.setSection);
-
   const [ready, setReady] = useState(false);
   const [updateProfile, setupdateProfile] = useState({
     //state to store name and update after course completion
@@ -198,22 +200,26 @@ const VideoDetail = () => {
     state: { thumbnail },
   } = useLocation();
   let progress;
-
+  
   if (sections && sections.length > 0 && section) {
     progress = sections?.filter((e) => e._id === section._id)[0];
   }
   const isPresent = progress?.progress?.videos.includes(
     currentVideoDetails._id
-  );
+    );
+
 
   const handleSubmit = async (e) => {
+    
+    
     try {
+      setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const {
         success,
         data: { student },
         message,
-      } = await servicePut("student/student-api/v1/me/update", updateProfile);
+      } = await servicePut("student/student-api/v1/me/update", updateProfile ,   axios.defaults.headers.common);
 
       if (success) {
         setReady(true); // Update the ready state if the request was successful
@@ -226,7 +232,7 @@ const VideoDetail = () => {
           ...updateProfile,
         });
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
-
+        
         const { data, success, message } = await servicePost(
           `student/student-api/v1/video/progress`,
           {
@@ -251,6 +257,8 @@ const VideoDetail = () => {
       notification.error({
         message: "Error in updating profile details",
       });
+    } finally {
+        setLoading(false);
     }
   };
   async function handleGetCourseData() {
@@ -268,6 +276,7 @@ const VideoDetail = () => {
 
   const getCert = async () => {
     try {
+      setLoading(true)
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const { data, success, message } = await serviceGet(
         `student/student-api/v1/video/certificate?batchId=${currentBatch._id}`
@@ -279,9 +288,11 @@ const VideoDetail = () => {
         message: "Error",
         description: error.message,
       });
+    } finally {
+      setLoading(false)
     }
   };
-
+  
   // Mark video as watched
   const onWatched = async (e) => {
     const lastSection = sections[sections.length - 1];
@@ -289,6 +300,7 @@ const VideoDetail = () => {
 
     try {
       // check if course has been completed or not
+      setLoading( true)
       let cc = false;
       if (currentVideoDetails._id == lastVideo._id) {
         if (!lastSection.progress) {
@@ -316,6 +328,7 @@ const VideoDetail = () => {
 
       // if course is not completed or name is updated successfully and course is completed then update the progress
       else if (!cc || (cc && ready)) {
+
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
         const { data, success, message } = await servicePost(
           `student/student-api/v1/video/progress`,
@@ -347,6 +360,8 @@ const VideoDetail = () => {
         description: error.message,
       });
 
+    } finally {
+      setLoading(false)
     }
   };
   const handleGetVideo = useCallback(async () => {
@@ -377,7 +392,7 @@ const VideoDetail = () => {
         setCertificateData={setCertificateData}
       />
       <StyledVideoBox width={width}>
-        {width < 700 && (
+        {width < 1024 && (
           <VideoDetailBackButton
             width={width}
             type="primary"
