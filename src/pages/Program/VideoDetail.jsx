@@ -237,7 +237,7 @@ const VideoDetail = () => {
           `student/student-api/v1/video/progress`,
           {
             section: section._id,
-            batch: currentBatchId._id,
+            batch: currentBatch._id,
             video: currentVideoDetails._id,
             viewed: true,
             cc: true,
@@ -256,6 +256,7 @@ const VideoDetail = () => {
     } catch (error) {
       notification.error({
         message: "Error in updating profile details",
+        description: error.message,
       });
     } finally {
         setLoading(false);
