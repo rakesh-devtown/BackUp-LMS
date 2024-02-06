@@ -62,10 +62,12 @@ const LayoutActions = styled.p`
   justify-content: center;
 `;
 const LayoutFullScreenContent = styled(Content)`
-  margin: 0;
-  min-height: 280px;
-  padding: 24px;
-  height: 100%;
+display: flex;
+flex-direction: column;
+margin: 0;
+min-height: 280px;
+padding: 20px;
+width: 100%;
 overflow: auto;
 
   ${(props) =>

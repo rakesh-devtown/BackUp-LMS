@@ -68,9 +68,9 @@ function Meeting() {
   useEffect(() => {
   getSignature();
   markAttendance();
-  document.getElementById("rocketchat-iframe").style.display = "none";  
+  document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";  
   return () => {
-    document.getElementById("rocketchat-iframe").style.display = "block";  
+    document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";  
   }
   }, [])
   

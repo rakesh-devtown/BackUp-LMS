@@ -51,10 +51,13 @@ const CalendarScheduler = ({ events }) => {
   const getSessions = async () => {
     try {
       // dispatch(setLoadingTrue());
+
       const st = new Date(selectedDate + selectedDate.getTimezoneOffset());
       const en = new Date(selectedDate + selectedDate.getTimezoneOffset());
-      st.setUTCHours(0, 0, 0);
-      en.setUTCHours(23, 59, 59);
+
+
+      st.setHours(0,0,0) ;
+      en.setHours(23,59,59);
       setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const res = await serviceGet(

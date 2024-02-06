@@ -42,13 +42,13 @@ const DiscussionLayout = () => {
 
   useEffect(() => {
     fetchData();
-    document.getElementById("rocketchat-iframe").style.display = "none";  
-    return () => {
-      document.getElementById("rocketchat-iframe").style.display = "block";  
-    }
+    document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";  
+  return () => {
+    document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";  
+  }
   }, []);
   return (
-    <>
+    
       <MessageContainer  >
         {width > 740 ? (
           <>
@@ -80,7 +80,7 @@ const DiscussionLayout = () => {
           </>
         )}
       </MessageContainer>
-    </>
+
   );
 };
 export default DiscussionLayout;

@@ -147,7 +147,7 @@ const useAuthStore = create(
         const { visitorId } = await fp.get();
         const {
           success , 
-          data: { user, chatToken },
+          data: { user, chatToken  },
         } = await serviceGet(
           `auth/auth-api/v1/verifyAuthToken?u=student&token=${token}&signature=${visitorId}`
         );

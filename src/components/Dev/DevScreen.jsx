@@ -74,12 +74,14 @@ function DevScreen() {
         // dispatch(setLoadingFalse());
       }
     };
-    if (url) fetchData();
+    if (url)  { fetchData(); 
+      
+    } 
     else {
-      notification.error({
-        message: "Error",
-        description: "Something went wrong",
-      });
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      // });
       // toast.error("Something Went Wrong");
       navigate("/programs");
     }
@@ -99,7 +101,7 @@ function DevScreen() {
         <Editor
           theme="vs-dark"
           height="97vh"
-          //change default language
+        
           language={getLanguageByExtension(extension)}
           defaultLanguage="javascript"
           options={{ readOnly: true }}

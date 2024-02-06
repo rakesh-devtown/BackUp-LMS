@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useWindowSize from "../../hooks/useWindowSixe";
 import { ArrowLeftOutlined, BackwardFilled, LeftCircleFilled } from "@ant-design/icons";
 import { BackButton } from "../../styles/SessionLimit.styles";
@@ -14,7 +14,7 @@ function RocketChat({ channel, setIsChatClicked }) {
   };
 
   const chatToken = localStorage.getItem("chatToken");
-  React.useEffect(() => {
+  useEffect(() => {
     const iframe = iframeRef.current;
     const iframeWindow = iframe.contentWindow;
     window.addEventListener("message", function (e) {
@@ -29,6 +29,16 @@ function RocketChat({ channel, setIsChatClicked }) {
       }
     });
   }, [iframeRef]);
+
+  useEffect(() => {
+
+    document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";  
+    document.getElementById("rocketchat-iframe").style.zIndex = "-100";
+    return () => {
+      document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";  
+      document.getElementById("rocketchat-iframe").style.zIndex = "100";  
+    }
+  }, []);
   return (
 <RocketChatContainer>
   {width < 640 && (
@@ -44,7 +54,7 @@ function RocketChat({ channel, setIsChatClicked }) {
           ref={iframeRef}
           src={`https://codetown.in/channel/${channel}?layout=embedded`}
           frameborder="0"
-          height="100%"
+          height="95%"
           width="100%"
         ></iframe>
   </RocketChatContent>

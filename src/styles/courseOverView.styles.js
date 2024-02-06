@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const CourseOverViewStyledDiv = styled.div`
   padding-top: 2rem;
-  padding-left: ${(props) => (props.activeTab === "tab3" ? "1rem" : "3rem")};
+  padding-left: 1rem;
   position: relative;
 `;
 const CourseOverviewModelOuterDiv = styled.div`
@@ -11,13 +11,16 @@ const CourseOverviewModelOuterDiv = styled.div`
   display: flex;
   background-color: ""; // You might want to specify a color here
   height: 350px;
-  padding: 15px;
+  width:100%;
+
 `;
 
 const CourseOverviewModelInnerDiv = styled.div`
   position: absolute;
   top: -20px;
-  left: -24px;
+  left: 0px;
+  width:100%;
+
 `;
 
 const CourseOverviewBackButton = styled.button`
@@ -48,7 +51,7 @@ const CourseOverviewPanel = styled(Collapse.Panel)`
 const CourseOverviewItem = styled(List.Item)`
   display: flex;
   justify-content: space-between;
-  width: 30rem;
+  width: 100%;
 `;
 
 const CourseOverviewAttendanceStyledDiv = styled.div`
@@ -67,6 +70,8 @@ const CourseOverviewContainer = styled.div`
 const CourseOverviewWeekContainer = styled.div`
   marginBottom: 12px; // Add space between cards
   display: flex;
+  cursor: pointer;
+
 `;
 
 const CourseOverviewDayImage = styled.img`
@@ -121,6 +126,20 @@ const DayName = styled.p`
   font-weight: bold;
 `;
 
+const UpcomingPill = styled.div`
+  background-color: #628CDF;
+`;
+
+const LivePill = styled.div`
+  background-color: #10B981;
+`;
+
+const ExpiredPill = styled.div`
+  background-color: #9CA3AF;
+`;
+
+
+
 export {
   CourseOverviewItem,
   CourseOverviewPanel,
@@ -138,6 +157,9 @@ export {
   ResourceButtonPDF,
   ResourceText,
   NoResources,
-  DayName
+  DayName, 
+  UpcomingPill,
+  LivePill,
+  ExpiredPill
 
 };

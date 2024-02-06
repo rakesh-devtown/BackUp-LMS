@@ -3,13 +3,18 @@ import styled from "styled-components";
 
 const DevAreaContainer = styled.div`
   display: flex;
+  height: 100vh;
+  width: 100%;
+ 
   background-color: rgb(35, 35, 35);
+
 `;
 
 const DevAreaOutlet = styled.div`
-  height: 100vh;
+  height: 100%;
   padding-top: 4px;
-  width: 98%;
+
+  width: ${props => props.isSidebarOpen ? "calc(100% - 250px)" : "83%"}; 
 `;
 const DevScreenOuterContainer = styled.div`
   overflow: auto;

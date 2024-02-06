@@ -67,7 +67,7 @@ const StyledModal = styled(Modal)`
 const StyledCloseIcon = styled(CloseOutlined)`
   position: absolute;
   font-weight: 900;
-  top: -24px;
+  top: -45px;
   right: -32px;
   color: white;
 `;

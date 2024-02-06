@@ -21,6 +21,8 @@ import MeetingEnded from "../components/Meetings/MeetingEnded";
 import DownloadCertificate from "../components/DevtownCertificates/DownloadCertificate";
 import GenerateMagicLink from "../pages/MagicLink/GenerateMagicLink";
 import VerifyMagicLink from "../pages/MagicLink/VerifyMagicLink";
+import ResetPass from "../pages/Auth/ResetPass";
+import ComingSoon from "../components/ComingSoon";
 export const routes =
 [{
     
@@ -42,7 +44,7 @@ export const routes =
         },
         {
             path: routeDefinitions.RESET_PASSWORD,
-            element: <h1>reset password using token</h1>,
+            element: <ResetPass/>
         },
         {
             path: routeDefinitions.MagicLink,
@@ -103,7 +105,7 @@ export const routes =
             },
             {
                 path: routeDefinitions.Practice,
-                element: <h1>Coming soon</h1>,
+                element: <ComingSoon/>
             },
             {
                 path: routeDefinitions.Me,
