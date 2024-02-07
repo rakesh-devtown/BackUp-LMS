@@ -26,10 +26,6 @@ function DevSideBar({ isSidebarOpen, setIsSidebarOpen }) {
       const { url } = data;
       window.open(url);
     } catch (error) {
-      notification.error({
-        message: "Error",
-        description: error.message,
-      });
 
       // toast.error("Something went wrong");
     } finally {

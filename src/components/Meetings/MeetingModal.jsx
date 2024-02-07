@@ -5,6 +5,7 @@ import { servicePost } from "../../utils/api";
 import { setHeader } from "../../utils/header";
 import { useNavigate } from "react-router-dom";
 import useLoadingStore from "../../store/loadingStore";
+import axios from "axios";
 const MeetingModal = ({
   open,
   setopen,
@@ -30,6 +31,7 @@ const MeetingModal = ({
           meetingId: meetingNumber,
           user:email,
         },
+        axios.defaults.headers.common
       );
       setOpen(false);
     } catch (error) {

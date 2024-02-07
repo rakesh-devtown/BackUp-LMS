@@ -237,7 +237,7 @@ const VideoDetail = () => {
           `student/student-api/v1/video/progress`,
           {
             section: section._id,
-            batch: currentBatchId._id,
+            batch: currentBatch._id,
             video: currentVideoDetails._id,
             viewed: true,
             cc: true,
@@ -256,6 +256,7 @@ const VideoDetail = () => {
     } catch (error) {
       notification.error({
         message: "Error in updating profile details",
+        description: error.message,
       });
     } finally {
         setLoading(false);
@@ -264,9 +265,11 @@ const VideoDetail = () => {
   async function handleGetCourseData() {
     if (!currentBatchId) {
       navigate("/programs");
+      return ;
     }
 
     if (!currentBatch.course) {
+      navigate("/programs");
       return;
     }
     setCourse(currentBatch?.course[0]);
@@ -284,10 +287,7 @@ const VideoDetail = () => {
 
       setCertificates(data.certificates);
     } catch (error) {
-      notification.error({
-        message: "Error",
-        description: error.message,
-      });
+      
     } finally {
       setLoading(false)
     }
@@ -366,21 +366,29 @@ const VideoDetail = () => {
   };
   const handleGetVideo = useCallback(async () => {
     if (currentVideo._id) {
-      await getVideo(currentVideo._id);
+      try {
+        setLoading(true);
+        await getVideo(currentVideo._id);
+      } catch (error) {
+        
+      }finally {
+
+        setLoading(false);
+      }
     }
   }, [currentVideo._id, getVideo]);
 
-  useEffect(() => {
-    getCert();
-  }, [currentBatch._id]);
-  useEffect(() => {
-    handleGetVideo();
-  }, [handleGetVideo]);
-
+  
   useEffect(() => {
     handleGetCourseData();
   }, [currentBatch]);
-
+  useEffect(() => {
+    handleGetVideo();
+  }, [handleGetVideo]);
+  
+  useEffect(() => {
+    getCert();
+  }, [currentBatch._id]);
   return (
     <>
       <CertificateDropDown

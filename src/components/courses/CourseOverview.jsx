@@ -9,6 +9,7 @@ import {
   Drawer,
   notification,
   Modal,
+  Tag,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
@@ -47,13 +48,19 @@ import {
   CourseOverviewResourceContainer,
   CourseOverviewWeekContainer,
   DayName,
+  ExpiredPill,
+  LivePill,
   NoResources,
   ResourceButton,
   ResourceButtonPDF,
   ResourceItem,
   ResourceText,
+  UpcomingPill,
 } from "../../styles/courseOverView.styles";
 import { StyledCloseIcon, StyledModal } from "../../styles/shared.styles";
+import { setHeader } from "../../utils/header";
+import { serviceGet } from "../../utils/api";
+import useLoadingStore from "../../store/loadingStore";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { Item } = List;
@@ -73,11 +80,47 @@ export const formatDate = (dateString) => {
   } IST`;
   const dateStr = `${day}th ${monthName}, ${year}`;
 
-  return [time, dateStr];
+  return [time, dateStr , hours, minutes];
+};
+const addTime = (timeStr, hoursToAdd, minutesToAdd) => {
+  // Extract hours and minutes from the time string
+  const [time, period] = timeStr.split(' ');
+  let [hours, minutes] = time.split(':');
+
+  // Convert 12-hour time to 24-hour time
+  if (period === 'PM' && hours !== '12') hours = Number(hours) + 12;
+  if (period === 'AM' && hours === '12') hours = '00';
+
+  // Create a new Date object
+  const date = new Date();
+  date.setHours(hours);
+  date.setMinutes(minutes);
+
+  // Add the desired amount of time
+  date.setHours(date.getHours() + hoursToAdd);
+  date.setMinutes(date.getMinutes() + minutesToAdd);
+
+  // Format the new time back to a string
+  let newHours = date.getHours();
+  let newMinutes = date.getMinutes();
+
+  // Convert 24-hour time to 12-hour time
+  let newPeriod = 'AM';
+  if (newHours >= 12) {
+    newPeriod = 'PM';
+    if (newHours > 12) newHours -= 12;
+  } else if (newHours === 0) {
+    newHours = 12;
+  }
+
+  // Pad minutes with leading zeros if necessary
+  newMinutes = newMinutes.toString().padStart(2, '0');
+
+  // Return the new time string
+  return `${newHours}:${newMinutes} ${newPeriod} IST`;
 };
 
 const CourseOverview = ({ events }) => {
-  
   const [openMeetingConfirmation, setOpenMeetingConfirmation] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
@@ -93,6 +136,7 @@ const CourseOverview = ({ events }) => {
   const handleTabChange = (key) => {
     setActiveTab(key);
   };
+  const setLoading = useLoadingStore((state) => state.setLoading);
   const [dayId, setDayId] = useState("");
   const [resources, setResources] = useState([]);
   const { width } = useWindowSize();
@@ -148,6 +192,8 @@ const CourseOverview = ({ events }) => {
   // const handleBackClick = () => {
   //   navigate(-1);
   // };
+  const now = formatDate(new Date());
+
   const showDrawer = (day) => {
     setSelectedDay(day);
     setVisible(true);
@@ -164,6 +210,7 @@ const CourseOverview = ({ events }) => {
   async function handleGetCourseData() {
     if (!currentBatchId) {
       navigate("/programs");
+      return ;
     }
     // await getCurrentBatch(currentBatchId);
     if (
@@ -173,12 +220,48 @@ const CourseOverview = ({ events }) => {
     )
       setSyllabus(currentBatch?.syllabus[0]?.weeks);
   }
+  const [isCodeAvailable , setIsCodeAvailable] = useState(true); 
+
+  const handleNavigation  = async ( dayId, batchId) =>  {
+    try {
+      setLoading(true);
+      setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+      const { data, statusCode, message } = await serviceGet(
+        `student/student-api/v1/day/tree?id=${dayId}&batchId=${batchId}`
+      );
+      if(statusCode === 404 || !data.tree) {
+        setIsCodeAvailable(false);
+
+
+      }
+      else {
+        setIsCodeAvailable(true);
+
+        
+      }
+    } catch (error) {
+      
+    } finally {
+      setLoading(false);
+    }
+    
+
+  }
+  
+  useEffect(() => { 
+    if(dayId)
+      handleNavigation(dayId , currentBatch._id) ;
+
+  }, [dayId])
+
   useEffect(() => {
     handleGetCourseData();
   }, []);
   const handleCancel = () => {
     setModalVideoOpen(false);
   };
+
+  
   return (
     <CourseOverViewStyledDiv activeTab={activeTab}>
       <MeetingModal
@@ -190,12 +273,12 @@ const CourseOverview = ({ events }) => {
         open={openMeetingConfirmation}
         setOpen={setOpenMeetingConfirmation}
       />
-     <StyledModal
-  footer={null}
-  open={ModalVideoOpen}
-  onCancel={handleCancel}
-  closeIcon={<StyledCloseIcon />}
->
+      <StyledModal
+        footer={null}
+        open={ModalVideoOpen}
+        onCancel={handleCancel}
+        closeIcon={<StyledCloseIcon />}
+      >
         <CourseOverviewModelOuterDiv>
           <CourseOverviewModelInnerDiv>
             <YouTubeIframe VideoId={VideoID} />
@@ -205,50 +288,114 @@ const CourseOverview = ({ events }) => {
       <CourseOverviewContainer>
         <Link to="/programs">
           <CourseOverviewBackButton width={width} type="primary">
-            <ArrowLeftOutlined /> Back 
+            <ArrowLeftOutlined /> Back
           </CourseOverviewBackButton>
         </Link>
       </CourseOverviewContainer>
 
       <Title level={7}>{currentBatch?.name}</Title>
       <Title level={4}>Course Content</Title>
-        
+
       <Tabs activeKey={activeTab} onChange={handleTabChange}>
-        
         <TabPane tab="Overview" key="tab1">
           <div>
+
+
             
-            <StickyBox offsetTop={20} offsetBottom={20}>
+            <StickyBox style={{width:"100%"}} offsetTop={20} offsetBottom={20}>
+             
+             
               {syllabus?.map((weekData, weekIndex) => (
                 <Collapse
                   key={weekIndex}
-                  bordered={false} // Remove border from the Collapse panels
-                  expandIconPosition="right" // Move expand icon to the right
-                  style={{ width: "50%" }}
-                >
+                  bordered={false} 
+                  expandIconPosition="right" 
+                  style={{ width:width > 700 ?  "50%" : "100%" }}
+                > 
                   <CourseOverviewPanel header={weekData.name} key={weekIndex}>
-                    {weekData.days.map((dayData, dayIndex) => (
+                    {weekData.days.map((dayData, dayIndex) => {
+                      const convertToDate = (dateStr) => {
+                        const [day, month, year] = dateStr.split(' ');
+                        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                        const monthNumber = monthNames.indexOf(month) + 1;
+                        return new Date(`${year}-${monthNumber}-${day.slice(0, -2)}`);
+                      };
+                      
+                      let  pillText;
+                    dayData.sessions.map((session) => {
+                      const courseStartDateObj  =new Date( session?.meeting[0]?.startTime);
+                      const sessionStartDate = formatDate(courseStartDateObj)[1];
+                      const sessionTime = formatDate(courseStartDateObj)[0];
+                      
+                      // const currentDateObj = formatDate(new Date());
+                      // const currentTime = currentDateObj[0];
+                      // const currentDate = currentDateObj[1];
+
+
+                      const currentDateObj = new Date()
+
+                      if(courseStartDateObj > currentDateObj) {
+                        const timeDiff = Math.abs(courseStartDateObj - currentDateObj);
+                        const diffHours = timeDiff / (1000 * 60 * 60); // Convert milliseconds to hours
+                      
+                        if (diffHours <= 2) {
+                          pillText = "LIVE";
+                        } else {
+                          pillText = "UPCOMING";
+                        }
+                      } else if(courseStartDateObj < currentDateObj) {
+                        pillText = "EXPIRED";
+                      }
+                  
+                      })
+                      return (
                       <CourseOverviewWeekContainer
                         key={dayIndex}
                         title={dayData.name}
+                        onClick={() => {
+                          setDayId(dayData._id);
+                          onDayClick(
+                            dayData.name,
+                            dayData.sessions,
+                            dayData.resources
+                          );
+                        }}
                       >
-                        <List>
-                          <CourseOverviewItem>
-                          <DayName onClick={() => {
-  setDayId(dayData._id);
-  onDayClick(dayData.name, dayData.sessions, dayData.resources);
-}}>
-  {dayData.name}
-</DayName>
-
+                        <List style={{width:width <=700 ?   "100%" : "60%"}}>
+                          <CourseOverviewItem width={width}>
+                            <DayName
+                              
+                            >
+                             
+                              {dayData.name}
+                               
+                            </DayName>
+                                
                             <Space>
-                              <span>{formatDate(dayData.createdAt)}</span>
+                              
+                              <span> {pillText ==="EXPIRED" ? (
+                              <Tag  color="red" >
+                                {pillText}
+                              </Tag>
+
+                              ):pillText ==="UPCOMING"?  (
+                                <Tag  color="blue" >
+                                {pillText}
+                              </Tag>
+                              ) :(
+                                <Tag  color="green" >
+                                {pillText}
+                              </Tag>
+                              )
+                            
+                            
+                            }</span>
                             </Space>
                           </CourseOverviewItem>
                           <Item></Item>
                         </List>
                       </CourseOverviewWeekContainer>
-                    ))}
+                    ) })}
                   </CourseOverviewPanel>
                 </Collapse>
               ))}
@@ -322,15 +469,25 @@ const CourseOverview = ({ events }) => {
                       >
                         Join
                       </StyledButton>
-                      <StyledButton type="primary">
-                        <a
-                          target="_blank"
-                          href={`/tree?dayId=${dayId}&batchId=${currentBatch._id}`}
-                          rel="noreferrer"
+                      {
+                        isCodeAvailable && (
+
+                        <StyledButton type="primary"
+                        onClick={() => navigate(`/tree?dayId=${dayId}&batchId=${currentBatch._id}`)}
+                        // onClick={() => handleNavigation(dayId , currentBatch?._id)}
+                        
                         >
                           View Code
-                        </a>
-                      </StyledButton>
+                          {/* <a
+                            target="_blank"
+                            href={`/tree?dayId=${dayId}&batchId=${currentBatch._id}`}
+                            rel="noreferrer"
+                          >
+                            View Code
+                          </a> */}
+                        </StyledButton>
+                        )
+                      }
 
                       <StyledP> Topic : {className.topic}</StyledP>
 
@@ -397,7 +554,7 @@ const CourseOverview = ({ events }) => {
             </Drawer>
           </div>
         </TabPane>
-       
+
         <TabPane tab="Attendance" key="tab3">
           <div>
             <StickyBox offsetTop={20} offsetBottom={20}>

@@ -1,50 +1,73 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { Form, Input, Button, message } from "antd";
+import { EyeOutlined, EyeInvisibleOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { Form, Input, Button, message, notification } from "antd";
 import styled from "styled-components";
 import useAuthStore from "../../store/authStore";
+import img from "../../assets/images/ICON.svg";
+import { StyledButton } from "../../styles/SessionLimit.styles";
+
 const Container = styled.div`
+  height: 100vh;
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  padding: 12px;
+  padding: 3rem 1rem;
+  
+  margin: 0 auto;
+
 `;
 
 const Card = styled.div`
-  max-width: 400px;
-  padding: 10px;
+display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 420px;
+  padding  : 70px 0px 70px 0px ;
   background-color: white;
   border-radius: 8px;
+
   width: 100%;
+  
 `;
 
 const ResetPassTitle = styled.h2`
   text-align: center;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 900;
 `;
 
 export default function ResetPass() {
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
   const { token } = useParams();
-  const { resetPassword } = useAuthStore(); // Assuming you have a resetPassword action in your Zustand store
+  const { resetPassword } = useAuthStore(); 
 
   const handleSubmit = (values) => {
     if (values.password === values.confirmPassword) {
       resetPassword(values, token, () => navigate("/programs"));
     } else {
-      message.error("password mismatch");
+      notification.error({
+        message: "Password Mismatch",
+      })
     }
   };
-
+  const navigateToHomePage = () => {
+    navigate("/auth");
+  };
   return (
     <Container>
+       <StyledButton
+      onClick={navigateToHomePage}
+      >
+       <ArrowLeftOutlined/>  Back
+      </StyledButton>
       <Card>
+        <img src={img} alt="Logo " height="48" width="48" />
       <ResetPassTitle>Enter New Password !</ResetPassTitle>
-        <Form onFinish={handleSubmit}>
+        <Form style={{display:"flex" , flexDirection :"column" ,width:"100%", padding:"30px"}}   onFinish={handleSubmit}>
           <Form.Item name="password" rules={[{ required: true, message: 'Please input your new password!' }]}>
             <Input.Password
               placeholder="New Password"

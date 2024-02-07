@@ -4,18 +4,20 @@ import { Outlet } from "react-router-dom";
 import { DevAreaContainer, DevAreaOutlet } from "../../styles/dev.styles";
 
 function DevArea() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
+    <>
     <DevAreaContainer>
       <DevSideBar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
-      />
+        />
 
-      <DevAreaOutlet>
+      <DevAreaOutlet isSidebarOpen={isSidebarOpen}>
         <Outlet />
       </DevAreaOutlet>
     </DevAreaContainer>
+        </>
   );
 }
 

@@ -143,7 +143,7 @@ const Sidebar = () => {
       <LayoutContainer>
         {width < 700 && open && (
           <Sider
-            collapsed={true}
+            collapsed={false  }
             onCollapse={(value) => {
               setCollapsed(value);
             }}

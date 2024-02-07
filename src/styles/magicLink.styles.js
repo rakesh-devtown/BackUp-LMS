@@ -50,7 +50,7 @@ const MagicLinkBoldText = styled.span`
   font-weight: 700;
 `;
 const MagicLinkForm = styled.form`
-  margin-top: 0,8rem;
+  margin-top: 0.8rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;

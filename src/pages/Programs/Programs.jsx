@@ -159,7 +159,7 @@ const Programs = () => {
                   />
                 }
               >
-                <Progress percent={50} status="active" />
+                
                 <StyledProgramsDiv
                   
                 >
