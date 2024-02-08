@@ -27,6 +27,7 @@ import {
 } from "../../styles/LoginPage.styles.js";
 import Config from "../../config.js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Helmet } from "react-helmet";
 
 const googleClientId = Config.googleClientId; // Access the client ID from the config
 
@@ -69,6 +70,11 @@ export default function Login() {
 
   return (
     <Layout className="layout">
+      <Helmet>
+        <title>Learn-DevTown Login</title>
+        <meta name="Login" content="Login to learn.devtown.in" />
+        <link rel="canonical" href="https://www.learn.devtown.in/auth" />
+    </Helmet>
       <StyledLoginPage>
         <StyledFormContainer>
           <StyledLoginForm>

@@ -20,6 +20,7 @@ import useLoadingStore from "./store/loadingStore";
 import Loader from "./components/loader/Loader";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LoaderOuterContainer } from "./styles/loader.styles";
+import { Helmet } from "react-helmet";
 const { Header, Content, Sider } = Layout;
 //router
 const router = createBrowserRouter(routes);
@@ -47,16 +48,23 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 );
 
 const App = () => {
-
   const loading = useLoadingStore((state) => state.loading);
   return (
     <>
+      
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>DevTown </title>
+        <link rel="canonical" href="https://www.learn.devtown.in/" />
+        <meta name="description" content="Enhance your skills with Devtown's online industrial training and internship program. Explore AI and Full-Stack Web Dev for a brighter future. Join now" />
+        
+        </Helmet>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      {loading && (
-        <LoaderOuterContainer>
-          <Loader />
-        </LoaderOuterContainer>
-      )}
+        {loading && (
+          <LoaderOuterContainer>
+            <Loader />
+          </LoaderOuterContainer>
+        )}
         <RouterProvider router={router} />
       </GoogleOAuthProvider>
     </>

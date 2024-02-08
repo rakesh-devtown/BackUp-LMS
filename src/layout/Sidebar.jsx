@@ -114,18 +114,18 @@ const Sidebar = () => {
       cancelText: "No",
     });
   };
-  const verifyAuthToken = async () => {
-    setLoading(true);
-    await loadUser();
-    setLoading(false);
-    if (!isAuthenticated) {
-      navigate("/auth");
-    }
-  };
+  // const verifyAuthToken = async () => {
+  //   setLoading(true);
+  //   await loadUser();
+  //   setLoading(false);
+  //   if (!isAuthenticated) {
+  //     navigate("/auth");
+  //   }
+  // };
 
-  useEffect(() => {
-    verifyAuthToken();
-  }, []);
+  // useEffect(() => {
+  //   verifyAuthToken();
+  // }, []);
   return (
     <StyledLayout>
       <LayoutHeader collapsed={collapsed} width={width}>
