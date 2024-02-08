@@ -24,7 +24,6 @@ function MainWrapper(  { children }) {
         setLoading(false);
     }
   };
-
   useEffect(() => {
     verifyAuthToken();
   }, []);

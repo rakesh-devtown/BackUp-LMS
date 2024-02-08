@@ -64,8 +64,9 @@ export const GoogleAuthLogin = () => {
   }, [isGoogleAuthenticated, navigate]);
 
   return (
-    <GoogleLogin
-      type="icon"
+    <GoogleLogin 
+    width={350}
+
       onSuccess={onSignInSuccess}
       onFailure={onSignInFailure}
       cookiePolicy="single_host_origin"

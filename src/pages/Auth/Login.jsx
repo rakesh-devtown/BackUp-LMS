@@ -24,6 +24,7 @@ import {
   StyledHr,
   SignInText,
   FlexContainer,
+  BlueText,
 } from "../../styles/LoginPage.styles.js";
 import Config from "../../config.js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -34,6 +35,8 @@ const googleClientId = Config.googleClientId; // Access the client ID from the c
 export default function Login() {
   const { login, isAuthenticated, isGoogleAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+  const [isLoginPage , setIsLoginPage] = useState(true);
+
   const [loading, setLoading] = useState(false);
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
 
@@ -76,21 +79,66 @@ export default function Login() {
         <link rel="canonical" href="https://www.learn.devtown.in/auth" />
     </Helmet>
       <StyledLoginPage>
-        <StyledFormContainer>
-          <StyledLoginForm>
-            <StyledLogo
+        <StyledFormContainer     >
+          <div>
+            {/* <img src={} alt="" /> */}
+          Hello World 
+          </div>
+          <div>
+              <StyledLoginForm>
+            {/* <StyledLogo
               src="https://www.student-platform.devtown.in/static/media/ICON.a874e4deea467c4d46a5055eb58c4e7b.svg" // Replace with the path to your image file
               alt="Devtown Logo" // Provide a brief description of the image for accessibility
-            />
-            <StyledHeading>Welcome back to</StyledHeading>
-            <StyledDevTown>DevTown</StyledDevTown>
+            /> */}
+
+            <StyledHeading>Hi, Welcome to DevTown!</StyledHeading>
+            
             <Form name="login-form" onFinish={handleSubmit}>
               <Form.Item name="form-text">
                 <StyledP>
-                  Login to your account to get back to your learning.
+                  Create an account and start learning with us.
                 </StyledP>
               </Form.Item>
-              {/* Username input */}
+              <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      marginBottom: "1rem",
+              
+                    }}
+                  >
+                    <GoogleOAuthProvider clientId={googleClientId}>
+                      <GoogleAuthLogin />
+                    </GoogleOAuthProvider>
+       
+                  </div>
+                  <LoginContainer>
+  
+                    
+                    <LoginLinkContainer>
+                      <LoginLink to="/auth/magic-login">
+                        <img
+                          width="25"
+                          height="25"
+                          color="blue"
+                          src="https://img.icons8.com/ios/50/000000/fantasy.png"
+                          alt="maginc Link icons"
+                        /> 
+                      <p  style={{color:"#6B7280"}} >Magic Link</p>
+                      </LoginLink>
+                    </LoginLinkContainer>
+                  </LoginContainer>
+                    <FlexContainer>
+    
+    
+                    <StyledHr />
+                    <SignInText>Or sign in  with</SignInText>
+                    <StyledHr />
+                    </FlexContainer>
+         
 
               <Form.Item
                 name="email"
@@ -102,7 +150,8 @@ export default function Login() {
                   },
                 ]}
               >
-                <InputUsername placeholder="Email" />
+                Email Address
+                <InputUsername placeholder="examplemail@gmail.com" />
               </Form.Item>
 
               <Form.Item
@@ -118,17 +167,9 @@ export default function Login() {
                   },
                 ]}
               >
-                <StyledPassword placeholder="Password" type="password" />
+                Password
+                <StyledPassword placeholder="Min. 8 characters" type="password" />
               </Form.Item>
-
-              <Form.Item>
-                <div style={{ display: "flex", justifyContent: "end" }}>
-                  <Link to="/auth/forgot-password">
-                    <ForgotPassword> Forgot your password?</ForgotPassword>
-                  </Link>
-                </div>
-              </Form.Item>
-
               <Form.Item>
                 <StyledButton
                   type="primary"
@@ -139,43 +180,34 @@ export default function Login() {
                 >
                   Log in
                 </StyledButton>
-                <FlexContainer>
-
-
-                <StyledHr />
-                <SignInText>Or sign in with</SignInText>
-                <StyledHr />
-                </FlexContainer>
-                <LoginContainer>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <GoogleOAuthProvider clientId={googleClientId}>
-                      <GoogleAuthLogin />
-                    </GoogleOAuthProvider>
-                    <p>Google</p>
-                  </div>
-                  <LoginLinkContainer>
-                    <LoginLink to="/auth/magic-login">
-                      <img
-                        width="30"
-                        height="30"
-                        color="blue"
-                        src="https://img.icons8.com/ios/50/000000/fantasy.png"
-                        alt="maginc Link icons"
-                      />
-                    </LoginLink>
-                    <p>Magic Link</p>
-                  </LoginLinkContainer>
-                </LoginContainer>
               </Form.Item>
+              <Form.Item>
+                <div style={{ display: "flex", justifyContent: "center" , marginTop:"-40px"}}>
+                  <Link to="/auth/forgot-password">
+                  <BlueText>
+                    
+                  </BlueText>
+                  </Link>
+                </div>
+              </Form.Item>
+              <Form.Item>
+                <div style={{ display: "flex", justifyContent: "center" , marginTop:"-60px", color:"black"}}>
+                  <div>
+                    Don't  have an account?{" "}
+                   <BlueText>
+                    Create 
+                   </BlueText>
+                  </div>
+                </div>
+              </Form.Item>
+
             </Form>
           </StyledLoginForm>
+          </div>
+          
+          
+
+          
         </StyledFormContainer>
       </StyledLoginPage>
     </Layout>

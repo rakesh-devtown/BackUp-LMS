@@ -25,12 +25,8 @@ export const StyledLoginPage = styled.div`
   align-items: center;
   height: 100vh;
   width: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(89, 86, 139, 1) 0%,
-    rgba(76, 9, 121, 1) 8%,
-    rgba(0, 82, 255, 1) 100%
-  );
+  background-color: black;
+
 `;
 export const StyledImg = styled.img`
   @media (max-width: 1207px) {
@@ -39,27 +35,12 @@ export const StyledImg = styled.img`
 `;
 
 export const StyledFormContainer = styled.div`
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-bottom: 10rem;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  width: 80%;
+  color :white;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  display: flex;
-
-  //       @media (min-width:768px){
-  //         width:50%;
-  //       }
-  //       @media (min-width: 640px)
-  //      {
-  //          padding-left: 1.5rem;
-  //          padding-right: 1.5rem;
-  //     }
-  //     @media (max-width:1207px)
-  //    {
-  //  width :100%;}
 `;
 
 export const StyledLoginForm = styled.div`
@@ -68,6 +49,7 @@ export const StyledLoginForm = styled.div`
   border-radius: 0.5rem;
   max-width: 27rem;
   width: 100%;
+  color: black; 
 `;
 export const StyledHeading = styled.h1`
   margin-top: 1.5rem;
@@ -125,7 +107,7 @@ export const ForgotPassword = styled.p`
   color: #1677ff;
   text-align: right;
 
-  font-weight: 700;
+  font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.25rem;
 
@@ -147,34 +129,51 @@ export const CenteredButtonContainer = styled.div`
 
 export const LoginContainer = styled.div`
   display: flex;
-  justify-content: space-around;
+  align-items: center;
   margin-top: 10px;
+  width: 100%;
 `;
 
 export const LoginLinkContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 export const LoginLink = styled(Link)`
   border: 1px solid;
   border-color: #e3e4e7;
-  padding: 3px;
+  padding: 8px;
+  padding-right: 140px;
   display: flex;
   margin: auto;
+  width: 100%;
+  justify-content: space-between;  
   border-radius: 5px;
+
 `;
 export const StyledHr = styled.hr`
   flex: 1;
   border-top: 2px solid #E5E7EB;
+  
 `;
 export const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
   width: 100%;
+  margin-top: 1rem;
 `;
 export const SignInText = styled.p`
   text-align: center;
-  font-weight: 600;
+  font-weight: 500;
+  color: #6B7280;
+`;
+
+
+export const BlueText = styled.p`
+  color: #1677ff;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 1rem;
 `;

@@ -30,14 +30,12 @@ const ImageContainer = styled.div`
 const AuthWrapper = (props) => {
   return (
     <>
-    <Wrapper>
+    <Outlet/>
+    {/* <Wrapper>
       <OutletContainer>
         <Outlet />
       </OutletContainer>
-      <ImageContainer>
-      <StyledImage src="https://www.student-platform.devtown.in/static/media/Login_image.d23150f57543b9b841d955f9245b17ca.svg" alt="wrapper" />
-      </ImageContainer>
-    </Wrapper>
+    </Wrapper> */}
   </>
   );
 }
