@@ -78,6 +78,7 @@ const CalendarScheduler = ({ events }) => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     getSessions();
   }, [selectedDate]);
@@ -121,6 +122,7 @@ const CalendarScheduler = ({ events }) => {
                   setOpen={setOpenMeetingConfirmation}
                 />
                 <StyledCalendarCard key={i} title={`Title: ${session.topic}`}>
+                
                   <p>Description: {session.description}</p>
                   {/* <p>Instructor: {session.instructor}</p> */}
                   <Button

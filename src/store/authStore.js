@@ -57,6 +57,14 @@ const useAuthStore = create(
           setHeader("signature", visitorId);
           setHeader("auth", `bearer ${token}`);
           useAuthStore.getState().reset(token, chatToken, user);
+          set({
+            token,
+            chatToken,
+            user,
+            isAuthenticated: true,
+            isGoogleAuthenticated: false,
+          
+          })
         } else {
 
           notification.error({ message: "Login Error", description: message });
@@ -114,7 +122,7 @@ const useAuthStore = create(
           localStorage.setItem("token", token);
           setHeader("signature", visitorId);
           setHeader("auth", `bearer ${token}`);
-          set({ token, chatToken, user, isGoogleAuthenticated: true });
+          set({ token, chatToken, user, isGoogleAuthenticated: true, isAuthenticated : true });
         } else {
           // message.error(message, { duration: 4000 });
           if (message === "Too many active sessions") {

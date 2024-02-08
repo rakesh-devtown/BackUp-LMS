@@ -346,6 +346,7 @@ const CourseOverview = ({ events }) => {
                       } else if(courseStartDateObj < currentDateObj) {
                         pillText = "EXPIRED";
                       }
+                      
                   
                       })
                       return (
@@ -382,9 +383,13 @@ const CourseOverview = ({ events }) => {
                                 <Tag  color="blue" >
                                 {pillText}
                               </Tag>
-                              ) :(
+                              ) : pillText ==="LIVE" ? (
                                 <Tag  color="green" >
                                 {pillText}
+                              </Tag>
+                              ) : (
+                                <Tag  color="blue" >
+                                NO CLASS
                               </Tag>
                               )
                             
@@ -415,7 +420,7 @@ const CourseOverview = ({ events }) => {
                         src="https://global-uploads.webflow.com/60798d9b0b61160814b3d8c3/6214bfdec64863aa471aa0a0_fswd.png"
                         alt="fswd img"
                       />
-
+      
                       <StyledButton
                         type="primary"
                         onClick={() => {
