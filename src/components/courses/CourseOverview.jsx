@@ -13,28 +13,18 @@ import {
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
-import DropDown from "./DropDown";
 import StickyBox from "react-sticky-box";
-import courseData from "./dummydata";
 import { StyledButton, StyledP } from "../../styles/LoginPage.styles";
-import Test from "./Test";
 import AttendanceCalendar from "./AttendanceCalendar";
 import useBatchStore from "../../store/batchStore";
-import { set } from "date-fns";
 import MeetingModal from "../Meetings/MeetingModal";
 import {
   ArrowLeftOutlined,
-  CloseOutlined,
   FilePdfFilled,
-  LinkOutlined,
-  LinkedinFilled,
   PlayCircleFilled,
-  PlayCircleOutlined,
 } from "@ant-design/icons";
-import ModalVideo from "react-modal-video";
 import YouTubeIframe from "./YouTubeIframe";
 import { Link } from "react-router-dom";
-import { BackButton } from "../../styles/SessionLimit.styles";
 import useWindowSize from "../../hooks/useWindowSixe";
 import {
   CourseOverViewStyledDiv,
@@ -264,6 +254,7 @@ const CourseOverview = ({ events }) => {
   
   return (
     <CourseOverViewStyledDiv activeTab={activeTab}>
+      
       <MeetingModal
         meetingNumber={meetingData?.meetingNumber}
         name={meetingData?.topic}

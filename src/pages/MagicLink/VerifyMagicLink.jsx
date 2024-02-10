@@ -10,15 +10,18 @@ function  VerifyMagicLink() {
 	const navigate = useNavigate();
 	const [isDataLoaded, setIsDataLoaded] = useState(false);
     const verifyMagicLink = useAuthStore(state => state.verifyMagicLink);   
-	const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+	
+  const isGoogleAuthenticated = useAuthStore(state => state.isGoogleAuthenticated); 
+    const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 	const screenLimitReached =useAuthStore(state => state.screenLimitReached);  
     const setLoading = useLoadingStore(state => state.setLoading);  
 	useEffect(() => {
 		if (screenLimitReached) navigate("/session/limit");
 	}, [screenLimitReached, navigate]);
 	useEffect(() => {
-		if (isAuthenticated) navigate("/programs");
-	}, [isAuthenticated, navigate]);
+		if (isAuthenticated  || isGoogleAuthenticated) navigate("/programs");
+
+	}, [isAuthenticated, navigate ,isGoogleAuthenticated]);
 	useEffect(() => {
 		setLoading(true);
 		

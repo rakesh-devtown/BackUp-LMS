@@ -8,13 +8,14 @@ function MainWrapper(  { children }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const location = useLocation();
   const navigate = useNavigate();
+  const isGoogleAuthenticated= useAuthStore(state => state.isGoogleAuthenticated)
   const setLoading = useLoadingStore((state) => state.setLoading);
   const verifyAuthToken = async () => {
     try {
         
         setLoading(true);
         await loadUser();
-        if (!isAuthenticated) {
+        if (!isAuthenticated || !isGoogleAuthenticated) {
             navigate("/auth");
         }
     } catch (error) {
