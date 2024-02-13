@@ -102,7 +102,7 @@ function AttendanceCalendar() {
           <AttendanceTable data={data} />
         </div>
           
-          <ProgressBar  percent={chartData.percentage} />
+          <ProgressBar  percent={isNaN(chartData.percentage)? 0 :   chartData.percentage   } />
         </CourseOverviewAttendanceStyledDiv>
     </>
   );

@@ -120,6 +120,7 @@ const useAuthStore = create(
           const { firstName = "", lastName = "", email = "" } = user;
           // message.success(`Hey ${firstName} Welcome back`, { duration: 4000 });
           localStorage.setItem("token", token);
+          localStorage.setItem("chatToken", chatToken);
           setHeader("signature", visitorId);
           setHeader("auth", `bearer ${token}`);
           set({ token, chatToken, user, isGoogleAuthenticated: true, isAuthenticated : true });
@@ -150,18 +151,19 @@ const useAuthStore = create(
     },
     loadUser: async () => {
       try {
-        const token = localStorage.getItem("token");
+        const tokenn = localStorage.getItem("token");
         const fp = await FingerprintJS.load();
         const { visitorId } = await fp.get();
         const {
           success , 
-          data: { user, chatToken  },
+          data: { user, chatToken, token  },
         } = await serviceGet(
-          `auth/auth-api/v1/verifyAuthToken?u=student&token=${token}&signature=${visitorId}`
+          `auth/auth-api/v1/verifyAuthToken?u=student&token=${tokenn}&signature=${visitorId}`
         );
         if (user) {
           setHeader("auth", `bearer ${token}`);
           setHeader("signature", visitorId);
+          localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken)
           set({
             token,

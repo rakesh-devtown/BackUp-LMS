@@ -19,7 +19,7 @@ const useProgramStore = create(
                 
                 setHeader("auth", `bearer ${localStorage.getItem("token")}`);
 
-                const res = await serviceGet("student/student-api/v1/batch" , {}); 
+                const res = await serviceGet("student/student-api/v1/batch"); 
                 const {success,message, data: { batches } } = res ;
                 if(success) {
                     set({allBatches : batches});
@@ -29,10 +29,10 @@ const useProgramStore = create(
                     //   });
                 }
                 else {
-                    notification.error({
-                        message: "Error",
-                        description: message
-                    });
+                    // notification.error({
+                    //     message: "Error",
+                    //     description: message
+                    // });
                 }
 
             } catch (error) {

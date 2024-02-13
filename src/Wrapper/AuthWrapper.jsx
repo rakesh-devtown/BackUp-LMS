@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -28,6 +28,14 @@ const ImageContainer = styled.div`
   }
 `;
 const AuthWrapper = (props) => {
+
+  useEffect(() => {
+   
+    document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";  
+    return () => {
+      document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";  
+    }
+    }, [])
   return (
     <>
     <Wrapper>

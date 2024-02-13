@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore';
 import useLoadingStore from '../store/loadingStore';
 
@@ -10,32 +10,21 @@ function MainWrapper(  { children }) {
   const navigate = useNavigate();
   const isGoogleAuthenticated= useAuthStore(state => state.isGoogleAuthenticated)
   const setLoading = useLoadingStore((state) => state.setLoading);
-  const verifyAuthToken = async () => {
-    try {
-        
-        setLoading(true);
-        await loadUser();
-        if (!isAuthenticated || !isGoogleAuthenticated) {
-            navigate("/auth");
-        }
-    } catch (error) {
-        
-    }finally {
-
-        setLoading(false);
+  
+  
+    if (isAuthenticated  || isGoogleAuthenticated) {
+      return children;
+    } else {
+      return (
+        <Navigate
+          replace
+          to={{
+            pathname: "/auth",
+          }}
+        />
+      );
     }
-  };
-
-  useEffect(() => {
-    verifyAuthToken();
-  }, []);
-  return (
-    <>
-       {
-           children
-       }
-    </>
-  )
+  
 }
 
 export default MainWrapper

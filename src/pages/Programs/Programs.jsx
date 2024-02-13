@@ -39,7 +39,7 @@ const Programs = () => {
     setLoading(true);
      await getAllbatches();
      setLoading(false);
-  }, [getAllbatches, setLoading]);
+  }, [getAllbatches]);
 
 
   const handleGetBatches = useCallback( () => {

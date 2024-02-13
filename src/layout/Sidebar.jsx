@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   MenuFoldOutlined,
@@ -45,6 +45,7 @@ const Sidebar = () => {
   const { width } = useWindowSize();
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
+  const loading = useLoadingStore((state) => state.loading);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -95,6 +96,7 @@ const Sidebar = () => {
       label: <Link to={routeDefinitions.MESSAGE}>Message</Link>,
     },
   ];
+  const ref = useRef(null);
 
   const loadUser = useAuthStore((state) => state.loadUser);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -114,18 +116,24 @@ const Sidebar = () => {
       cancelText: "No",
     });
   };
-  // const verifyAuthToken = async () => {
-  //   setLoading(true);
-  //   await loadUser();
-  //   setLoading(false);
-  //   if (!isAuthenticated) {
-  //     navigate("/auth");
-  //   }
-  // };
+  const handleClickOutside = (e) => {
+    
 
-  // useEffect(() => {
-  //   verifyAuthToken();
-  // }, []);
+    if (e.target.parentNode.id === 'ham') {
+      return;
+    }
+
+    if (ref.current && !ref.current.contains(e.target)) {
+      setOpen(false);
+    }
+  };
+    useEffect(() => {
+      document.addEventListener('mousedown',handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown',handleClickOutside);
+    };
+    }, [])
+    console.log(open)
   return (
     <StyledLayout>
       <LayoutHeader collapsed={collapsed} width={width}>
@@ -134,15 +142,21 @@ const Sidebar = () => {
             <img src={Logo} alt="logo" />
           </LayoutLogoLink>
         ) : (
-          <LayoutHamburger onClick={() => setOpen(!open)}>
-            <BarsOutlined />
+          <LayoutHamburger  >
+            <BarsOutlined id="ham" onClick={() =>  {
+            
+            setOpen(prevopen => !prevopen)
+         
+            }}   />
           </LayoutHamburger>
         )}
         <SearchBar collapsed={collapsed} />
       </LayoutHeader>
       <LayoutContainer>
-        {width < 700 && open && (
+        {width < 700 && open && !loading && (
           <Sider
+          ref={ref}
+          id="sider"
             collapsed={false  }
             onCollapse={(value) => {
               setCollapsed(value);

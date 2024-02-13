@@ -21,6 +21,7 @@ import MeetingModal from "../Meetings/MeetingModal";
 import {
   ArrowLeftOutlined,
   FilePdfFilled,
+  FileZipFilled,
   PlayCircleFilled,
 } from "@ant-design/icons";
 import YouTubeIframe from "./YouTubeIframe";
@@ -158,12 +159,13 @@ const CourseOverview = ({ events }) => {
       return null;
     }
   }
-
+  console.log(resources);
   if (resources?.length !== 0) {
     if (resources?.length == 2) {
       for (var i = 0; i <= 1; i++) {
         if (resources[i].type == "url") {
           var youTubeUrl = resources[i].destinationUrl;
+          
         }
       }
     } else {
@@ -474,13 +476,7 @@ const CourseOverview = ({ events }) => {
                         
                         >
                           View Code
-                          {/* <a
-                            target="_blank"
-                            href={`/tree?dayId=${dayId}&batchId=${currentBatch._id}`}
-                            rel="noreferrer"
-                          >
-                            View Code
-                          </a> */}
+                         
                         </StyledButton>
                         )
                       }
@@ -523,7 +519,7 @@ const CourseOverview = ({ events }) => {
                                           : resource?.title.split(".")[0]}
                                       </ResourceText>
                                     </ResourceButtonPDF>
-                                  ) : (
+                                  ) : resource.type =="url"? (
                                     <ResourceButton
                                       onClick={() => setModalVideoOpen(true)}
                                     >
@@ -534,6 +530,19 @@ const CourseOverview = ({ events }) => {
                                           : resource?.title.split(".")[0]}
                                       </ResourceText>
                                     </ResourceButton>
+                                  ) :(
+                                    <ResourceButtonPDF
+                                      onClick={() =>
+                                        window.open(resource.destinationUrl)
+                                      }
+                                    >
+                                      <FileZipFilled />
+                                      <ResourceText>
+                                        {resource?.name
+                                          ? resource.name.split(".")[0]
+                                          : resource?.title.split(".")[0]}
+                                      </ResourceText>
+                                    </ResourceButtonPDF>
                                   )}
                                 </div>
                               </ResourceItem>
