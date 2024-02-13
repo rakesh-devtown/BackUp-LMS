@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { message } from "antd";
 import useAuthStore from "../../store/authStore.js"; // Adjust the path according to your project structure
 import { Link, useNavigate } from "react-router-dom";
-
+import "./login.css"
 import { GoogleAuthLogin } from "./GoogleAuthLogin";
 import { Layout, Form } from "antd";
 import {
@@ -70,7 +70,6 @@ export default function Login() {
       navigate("/programs");
     }
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
-
   return (
     <Layout className="layout">
       <Helmet>
@@ -78,19 +77,267 @@ export default function Login() {
         <meta name="Login" content="Login to learn.devtown.in" />
         <link rel="canonical" href="https://www.learn.devtown.in/auth" />
     </Helmet>
-      <StyledLoginPage>
+      
+      <div className="op">
+
+      
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+        <StyledLoginForm>
+          
+          <StyledHeading>Hi, Welcome to DevTown!</StyledHeading>
+          
+          <Form name="login-form" onFinish={handleSubmit}>
+            <Form.Item name="form-text">
+              <StyledP>
+                Create an account and start learning with us.
+              </StyledP>
+            </Form.Item>
+            <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    marginBottom: "1rem",
+            
+                  }}
+                >
+                  <GoogleOAuthProvider clientId={googleClientId}>
+                    <GoogleAuthLogin />
+                  </GoogleOAuthProvider>
+     
+                </div>
+                <LoginContainer>
+
+                  
+                  <LoginLinkContainer>
+                    <LoginLink to="/auth/magic-login">
+                      <img
+                        width="25"
+                        height="25"
+                        color="blue"
+                        src="https://img.icons8.com/ios/50/000000/fantasy.png"
+                        alt="maginc Link icons"
+                      /> 
+                    <p  style={{color:"#6B7280"}} >Magic Link</p>
+                    </LoginLink>
+                  </LoginLinkContainer>
+                </LoginContainer>
+                  <FlexContainer>
+  
+  
+                  <StyledHr />
+                  <SignInText>Or sign in  with</SignInText>
+                  <StyledHr />
+                  </FlexContainer>
+       
+
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  type: "email",
+                  required: true,
+                  message: "Please enter your email!",
+                },
+              ]}
+            >
+              Email Address
+              <InputUsername placeholder="examplemail@gmail.com" />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your password!",
+                },
+                {
+                  min: 1,
+                  message: "Password must be at least 8 characters long.",
+                },
+              ]}
+            >
+              Password
+              <StyledPassword placeholder="Min. 8 characters" type="password" />
+            </Form.Item>
+            <Form.Item>
+              <StyledButton
+                type="primary"
+                htmlType="submit"
+                className="login-button"
+                children="Login"
+                loading={loading}
+              >
+                Log in
+              </StyledButton>
+            </Form.Item>
+            <Form.Item>
+              <div style={{ display: "flex", justifyContent: "center" , marginTop:"-40px"}}>
+                <Link to="/auth/forgot-password">
+                <BlueText>
+                  
+                </BlueText>
+                </Link>
+              </div>
+            </Form.Item>
+            <Form.Item>
+              <div style={{ display: "flex", justifyContent: "center" , marginTop:"-60px", color:"black"}}>
+                <div>
+                  Don't  have an account?{" "}
+                 <BlueText>
+                  Create 
+                 </BlueText>
+                </div>
+              </div>
+            </Form.Item>
+
+          </Form>
+        </StyledLoginForm>
+        </div>
+        <div class="form-container sign-in">
+        <StyledLoginForm>
+          
+          <StyledHeading>Hi, Welcome to DevTown!</StyledHeading>
+          
+          <Form name="login-form" onFinish={handleSubmit}>
+            <Form.Item name="form-text">
+              <StyledP>
+                Create an account and start learning with us.
+              </StyledP>
+            </Form.Item>
+            <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    marginBottom: "1rem",
+            
+                  }}
+                >
+                  <GoogleOAuthProvider clientId={googleClientId}>
+                    <GoogleAuthLogin />
+                  </GoogleOAuthProvider>
+     
+                </div>
+                <LoginContainer>
+
+                  
+                  <LoginLinkContainer>
+                    <LoginLink to="/auth/magic-login">
+                      <img
+                        width="25"
+                        height="25"
+                        color="blue"
+                        src="https://img.icons8.com/ios/50/000000/fantasy.png"
+                        alt="maginc Link icons"
+                      /> 
+                    <p  style={{color:"#6B7280"}} >Magic Link</p>
+                    </LoginLink>
+                  </LoginLinkContainer>
+                </LoginContainer>
+                  <FlexContainer>
+  
+  
+                  <StyledHr />
+                  <SignInText>Or sign in  with</SignInText>
+                  <StyledHr />
+                  </FlexContainer>
+       
+
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  type: "email",
+                  required: true,
+                  message: "Please enter your email!",
+                },
+              ]}
+            >
+              Email Address
+              <InputUsername placeholder="examplemail@gmail.com" />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your password!",
+                },
+                {
+                  min: 1,
+                  message: "Password must be at least 8 characters long.",
+                },
+              ]}
+            >
+              Password
+              <StyledPassword placeholder="Min. 8 characters" type="password" />
+            </Form.Item>
+            <Form.Item>
+              <StyledButton
+                type="primary"
+                htmlType="submit"
+                className="login-button"
+                children="Login"
+                loading={loading}
+              >
+                Log in
+              </StyledButton>
+            </Form.Item>
+            <Form.Item>
+              <div style={{ display: "flex", justifyContent: "center" , marginTop:"-40px"}}>
+                <Link to="/auth/forgot-password">
+                <BlueText>
+                  
+                </BlueText>
+                </Link>
+              </div>
+            </Form.Item>
+            <Form.Item>
+              <div style={{ display: "flex", justifyContent: "center" , marginTop:"-60px", color:"black"}}>
+                <div>
+                  Don't  have an account?{" "}
+                 <BlueText>
+                  Create 
+                 </BlueText>
+                </div>
+              </div>
+            </Form.Item>
+
+          </Form>
+        </StyledLoginForm>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+      {/* <StyledLoginPage>
         <StyledFormContainer     >
           <div>
-            {/* <img src={} alt="" /> */}
           Hello World 
           </div>
           <div>
               <StyledLoginForm>
-            {/* <StyledLogo
-              src="https://www.student-platform.devtown.in/static/media/ICON.a874e4deea467c4d46a5055eb58c4e7b.svg" // Replace with the path to your image file
-              alt="Devtown Logo" // Provide a brief description of the image for accessibility
-            /> */}
-
+          
             <StyledHeading>Hi, Welcome to DevTown!</StyledHeading>
             
             <Form name="login-form" onFinish={handleSubmit}>
@@ -209,7 +456,7 @@ export default function Login() {
 
           
         </StyledFormContainer>
-      </StyledLoginPage>
+      </StyledLoginPage> */}
     </Layout>
   );
 }
