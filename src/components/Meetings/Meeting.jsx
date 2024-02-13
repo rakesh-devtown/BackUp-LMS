@@ -64,16 +64,22 @@ function Meeting() {
       setLoading(false);
     }
   }
-
   useEffect(() => {
-  getSignature();
-  markAttendance();
-  document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";  
-  return () => {
-    document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";  
-  }
-  }, [])
+    getSignature();
+    markAttendance();
+    let elements = document.getElementsByClassName("rocketchat-widget");
+    if (elements.length > 0) {
+      elements[0].style.display = "none";
+    }
   
+    return () => {
+      let elements = document.getElementsByClassName("rocketchat-widget");
+      if (elements.length > 0) {
+        elements[0].style.display = "block";
+      }
+    }
+  }, []);
+
   return (
     <>
     <iframe

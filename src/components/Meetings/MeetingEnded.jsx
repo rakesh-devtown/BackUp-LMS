@@ -57,11 +57,19 @@ function MeetingEnded() {
   useEffect(() => {
     getMeetingStatus();
     markAttendance();
-    document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";  
-  return () => {
-    document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";  
-  }
+    let elements = document.getElementsByClassName("rocketchat-widget");
+    if (elements.length > 0) {
+      elements[0].style.display = "none";
+    }
+  
+    return () => {
+      let elements = document.getElementsByClassName("rocketchat-widget");
+      if (elements.length > 0) {
+        elements[0].style.display = "block";
+      }
+    }
   }, []);
+
 
   return (
     <MeetingContainer>
