@@ -1,8 +1,15 @@
-html * {
+
+
+html *  {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif !important ;
+  font-family: "Poppins", sans-serif;
+  
+}
+input {
+  font-family: "Poppins", sans-serif;
+
 }
 ::-webkit-scrollbar {
   display: none;

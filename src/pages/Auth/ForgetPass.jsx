@@ -1,4 +1,4 @@
-import { Form, Input, Button as AntButton } from "antd";
+import { Form, Input, Button as AntButton, Flex } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useAuthStore from "../../store/authStore";
@@ -8,10 +8,9 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 12px 4px;
+  align-items: start ;
+  justify-content: start ;
+  
 `;
 
 const FormContainer = styled.div`
@@ -32,9 +31,9 @@ const Image = styled.img`
 const Title = styled.h2`
   margin-top: 40px;
   text-align: center;
-  font-size: 24px;
+  font-size: 40px;
   margin-bottom: 24px;
-  font-weight: 700;
+  font-weight: 900;
   color: #333;
 `;
 
@@ -53,26 +52,34 @@ export default function ForgetPass() {
   };
   return (
     <Container>
-      <StyledButton
-      onClick={navigateToHomePage}
-      >
-       <ArrowLeftOutlined/>  Back
-      </StyledButton>
-      <FormContainer>
-        <Image src={img} alt="Workflow" />
-        <Title>Forgot Password ?</Title>
+      
+      <FormContainer >
+        <Flex >
 
+        <Title >Forgot 
+          
+          </Title>
+          <Title>
+          Password ?
+
+          </Title>
+        </Flex>
+        <h5>
+          Don't Worry! We can help.
+        </h5>
         <Form onFinish={onFinish}>
+
           <Form.Item
             name="email"
             rules={[{ required: true, message: "Please input your email!" }]}
           >
-            <Input placeholder="Email address" />
+            Email Address
+            <Input placeholder="mailaddress@example.com" />
           </Form.Item>
 
           <Form.Item>
             <AntButton style={{width:"100%", fontWeight:"700"}} type="primary" htmlType="submit">
-              Send Link
+             Continue 
             </AntButton>
           </Form.Item>
         </Form>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Input from "antd/es/input/Input";
-import { Button } from "antd";
+import { Button, Form } from "antd";
 import { Link } from "react-router-dom";
 
 export const StyledLogo = styled.img`
@@ -43,14 +43,35 @@ export const StyledFormContainer = styled.div`
   align-items: center;
 `;
 
+
+
 export const StyledLoginForm = styled.div`
-  padding: 2.5rem;
+ 
   background-color: white;
-  border-radius: 0.5rem;
-  max-width: 27rem;
+  max-width: 500px;
   width: 100%;
   color: black; 
+  margin: auto;
+
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  transition: opacity 0.02s 0.4s; 
+  
+  
 `;
+
+export const StyledSignInForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  max-width: 500px;
+  min-width:350px;
+  width: 100%;
+  justify-content:start;
+  
+
+`;
+
 export const StyledHeading = styled.h1`
   margin-top: 1.5rem;
   font-weight: 900;
@@ -114,10 +135,20 @@ export const ForgotPassword = styled.p`
 
 `;
 export const StyledButton = styled(Button)`
-  height: 2.5em;
+  
   width: 100%;
+  padding:1.5rem 0rem 1.5rem 0rem;
+  display :flex;
+  justify-content:center;
+  align-items:center;
   margin-top: 0.3rem;
   margin-bottom: 1rem;
+  font-size :20px;
+  font-weight:700;
+  
+
+  
+
 `;
 export const CenteredButtonContainer = styled.div`
   display: flex;
@@ -130,31 +161,33 @@ export const CenteredButtonContainer = styled.div`
 export const LoginContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content:center;
   margin-top: 10px;
+  max-width:500px;
   width: 100%;
+
+  
 `;
 
-export const LoginLinkContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
+
 
 export const LoginLink = styled(Link)`
   border: 1px solid;
   border-color: #e3e4e7;
   padding: 8px;
-  padding-right: 140px;
+  width:100%;
+  
   display: flex;
-  margin: auto;
-  width: 100%;
-  justify-content: space-between;  
-  border-radius: 5px;
+  justify-content:center;
+  gap:5px;
+  
+ 
+  
 
 `;
 export const StyledHr = styled.hr`
   flex: 1;
-  border-top: 2px solid #E5E7EB;
+  border-top: 1px solid #E5E7EB;
   
 `;
 export const FlexContainer = styled.div`
@@ -167,13 +200,13 @@ export const FlexContainer = styled.div`
 export const SignInText = styled.p`
   text-align: center;
   font-weight: 500;
-  color: #6B7280;
+ 
 `;
 
 
 export const BlueText = styled.p`
   color: #1677ff;
   font-weight: 500;
-  text-align: center;
-  margin-top: 1rem;
+
+  
 `;
