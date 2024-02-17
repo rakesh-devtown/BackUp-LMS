@@ -12,6 +12,7 @@ import useLoadingStore from "../../store/loadingStore";
 import "./Programs.css";
 import useWindowSize from "../../hooks/useWindowSixe";
 import { ProgramsTitle, StyledCol, StyledProgramsDiv, StyledRow, StyledTabs } from "../../styles/programs.styles";
+import { Helmet } from "react-helmet";
 const { Title } = Typography;
 const { Search } = Input;
 const { Meta } = Card;
@@ -38,7 +39,7 @@ const Programs = () => {
     setLoading(true);
      await getAllbatches();
      setLoading(false);
-  }, [getAllbatches, setLoading]);
+  }, [getAllbatches]);
 
 
   const handleGetBatches = useCallback( () => {
@@ -97,6 +98,12 @@ const Programs = () => {
   if (!batch.length)
     return (
       <Layout>
+        <Helmet>
+          <title>Learn-DevTown Programs</title>
+          <meta name="Programs" content="My Programs" />
+          <link rel="canonical" href="https://www.learn.devtown.in/programs" />
+          
+        </Helmet>
         
         <ProgramsTitle >My Programs</ProgramsTitle>
 

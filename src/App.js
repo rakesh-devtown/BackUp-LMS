@@ -48,17 +48,33 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 );
 
 const App = () => {
+  const loadUser = useAuthStore((state) => state.loadUser);
   const loading = useLoadingStore((state) => state.loading);
+  const setLoading = useLoadingStore((state) => state.setLoading);
+  const verifyAuthToken = async () => {
+    try {
+      setLoading(true);
+      await loadUser();
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    verifyAuthToken();
+  }, []);
   return (
     <>
-      
       <Helmet>
         <meta charSet="utf-8" />
-        <title>DevTown </title>
+        <title>Learn-DevTown </title>
         <link rel="canonical" href="https://www.learn.devtown.in/" />
-        <meta name="description" content="Enhance your skills with Devtown's online industrial training and internship program. Explore AI and Full-Stack Web Dev for a brighter future. Join now" />
-        
-        </Helmet>
+        <meta
+          name="description"
+          content="Enhance your skills with Devtown's online industrial training and internship program. Explore AI and Full-Stack Web Dev for a brighter future. Join now"
+        />
+      </Helmet>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         {loading && (
           <LoaderOuterContainer>

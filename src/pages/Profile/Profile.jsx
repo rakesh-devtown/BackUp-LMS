@@ -24,6 +24,7 @@ import useWindowSize from "../../hooks/useWindowSixe";
 import DevtownCertificates from "../../components/DevtownCertificates/DevtownCertificates";
 import { ProfileContainer, ProfileContent, ProfileHeader, ProfileInnerContainer, ProfileResumeLink, ProfileTitle } from "../../styles/profile.styles";
 import useLoadingStore from "../../store/loadingStore";
+import { Helmet } from "react-helmet";
 const Profile = () => {
    // const user = useSelector(profileState);
   //  const dispatch = useDispatch();
@@ -113,7 +114,11 @@ const Profile = () => {
   return (
   
 <ProfileContainer>
-  
+    <Helmet>
+      <title>My Profile</title>
+      <meta name="My Profile" content="My Profile" />
+      <link rel="canonical" href="https://www.learn.devtown.in/me" />
+    </Helmet>
 <ProfileInnerContainer profile={profile} width={width}>
 <ProfileHeader>
 <ProfileTitle>

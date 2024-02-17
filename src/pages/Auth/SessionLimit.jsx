@@ -55,7 +55,7 @@ const SessionLimit = () => {
       );
       if (success) {
         clearSessions();
-        navigate("/programs");
+        navigate("/");
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
@@ -73,7 +73,7 @@ const SessionLimit = () => {
         } = await serviceGet(`student/student-api/v1/screen/${user?._id}`);
         setSessions(screenSessions);
       } else {
-        navigate("/programs");
+        navigate("/auth");
       }
     } catch (error) {
       notification.error({ message: error.message });

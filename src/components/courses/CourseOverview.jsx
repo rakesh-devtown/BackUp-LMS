@@ -13,28 +13,19 @@ import {
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
-import DropDown from "./DropDown";
 import StickyBox from "react-sticky-box";
-import courseData from "./dummydata";
 import { StyledButton, StyledP } from "../../styles/LoginPage.styles";
-import Test from "./Test";
 import AttendanceCalendar from "./AttendanceCalendar";
 import useBatchStore from "../../store/batchStore";
-import { set } from "date-fns";
 import MeetingModal from "../Meetings/MeetingModal";
 import {
   ArrowLeftOutlined,
-  CloseOutlined,
   FilePdfFilled,
-  LinkOutlined,
-  LinkedinFilled,
+  FileZipFilled,
   PlayCircleFilled,
-  PlayCircleOutlined,
 } from "@ant-design/icons";
-import ModalVideo from "react-modal-video";
 import YouTubeIframe from "./YouTubeIframe";
 import { Link } from "react-router-dom";
-import { BackButton } from "../../styles/SessionLimit.styles";
 import useWindowSize from "../../hooks/useWindowSixe";
 import {
   CourseOverViewStyledDiv,
@@ -168,12 +159,13 @@ const CourseOverview = ({ events }) => {
       return null;
     }
   }
-
+  console.log(resources);
   if (resources?.length !== 0) {
     if (resources?.length == 2) {
       for (var i = 0; i <= 1; i++) {
         if (resources[i].type == "url") {
           var youTubeUrl = resources[i].destinationUrl;
+          
         }
       }
     } else {
@@ -264,6 +256,7 @@ const CourseOverview = ({ events }) => {
   
   return (
     <CourseOverViewStyledDiv activeTab={activeTab}>
+      
       <MeetingModal
         meetingNumber={meetingData?.meetingNumber}
         name={meetingData?.topic}
@@ -483,13 +476,7 @@ const CourseOverview = ({ events }) => {
                         
                         >
                           View Code
-                          {/* <a
-                            target="_blank"
-                            href={`/tree?dayId=${dayId}&batchId=${currentBatch._id}`}
-                            rel="noreferrer"
-                          >
-                            View Code
-                          </a> */}
+                         
                         </StyledButton>
                         )
                       }
@@ -532,7 +519,7 @@ const CourseOverview = ({ events }) => {
                                           : resource?.title.split(".")[0]}
                                       </ResourceText>
                                     </ResourceButtonPDF>
-                                  ) : (
+                                  ) : resource.type =="url"? (
                                     <ResourceButton
                                       onClick={() => setModalVideoOpen(true)}
                                     >
@@ -543,6 +530,19 @@ const CourseOverview = ({ events }) => {
                                           : resource?.title.split(".")[0]}
                                       </ResourceText>
                                     </ResourceButton>
+                                  ) :(
+                                    <ResourceButtonPDF
+                                      onClick={() =>
+                                        window.open(resource.destinationUrl)
+                                      }
+                                    >
+                                      <FileZipFilled />
+                                      <ResourceText>
+                                        {resource?.name
+                                          ? resource.name.split(".")[0]
+                                          : resource?.title.split(".")[0]}
+                                      </ResourceText>
+                                    </ResourceButtonPDF>
                                   )}
                                 </div>
                               </ResourceItem>
