@@ -1,45 +1,46 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { EyeOutlined, EyeInvisibleOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { EyeOutlined, EyeInvisibleOutlined, ArrowLeftOutlined, CheckCircleFilled } from "@ant-design/icons";
 import { Form, Input, Button, message, notification } from "antd";
 import styled from "styled-components";
 import useAuthStore from "../../store/authStore";
 import img from "../../assets/images/ICON.svg";
-import { StyledButton } from "../../styles/SessionLimit.styles";
+import { StyledButton } from "../../styles/LoginPage.styles";
+import { StyledLabel } from "../../styles/LoginPage.styles";
+import { HaddingColored } from "../../styles/shared.styles";
+import loginUiStore from "../../store/loginUi.store";
 
 const Container = styled.div`
-  height: 100vh;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem 1rem;
+ display: flex;
   
-  margin: 0 auto;
+  justify-content: start;  
+  height: 100%;
+  position: relative;
+  align-items: center;
 
 `;
 
 const Card = styled.div`
-display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  max-width: 420px;
-  padding  : 70px 0px 70px 0px ;
+max-width: 500px;
   background-color: white;
-  border-radius: 8px;
-
+ 
+  border-radius: 10px;
   width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
   
 `;
 
 const ResetPassTitle = styled.h2`
-  text-align: center;
+  text-align: start;
   font-size: 24px;
   font-weight: 900;
+  margin-bottom: 5px;
 `;
 
 export default function ResetPass() {
+  const [updated , setUpdated] = useState(false);
+  const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
   const { token } = useParams();
@@ -59,137 +60,100 @@ export default function ResetPass() {
   };
   return (
     <Container>
-       <StyledButton
-      onClick={navigateToHomePage}
-      >
-       <ArrowLeftOutlined/>  Back
-      </StyledButton>
+      {
+        !updated? (
+
       <Card>
-        <img src={img} alt="Logo " height="48" width="48" />
-      <ResetPassTitle>Enter New Password !</ResetPassTitle>
-        <Form style={{display:"flex" , flexDirection :"column" ,width:"100%", padding:"30px"}}   onFinish={handleSubmit}>
+      <ResetPassTitle>
+        <HaddingColored>
+        Hi,  Welcome to DevTown! 
+        </HaddingColored>
+        </ResetPassTitle>
+      <ResetPassTitle style={{
+        fontSize:"16px",
+        fontWeight:"400",
+
+      
+      }} >
+          Create an Account and Start Learning with Us!
+      </ResetPassTitle>
+        <Form style={{display:"flex" , flexDirection :"column" ,width:"100%"}}   onFinish={handleSubmit}>
           <Form.Item name="password" rules={[{ required: true, message: 'Please input your new password!' }]}>
+            <StyledLabel>
+              Password 
+            </StyledLabel>
             <Input.Password
+            style={{
+              padding:"10px"
+            }}
+
               placeholder="New Password"
               iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
             />
           </Form.Item>
           <Form.Item name="confirmPassword" rules={[{ required: true, message: 'Please confirm your new password!' }]}>
+            <StyledLabel>
+              Confirm Password
+            </StyledLabel>
             <Input.Password
+             style={{
+              padding:"10px"
+            }}
               placeholder="Confirm New Password"
               iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Reset
-            </Button>
+            <StyledButton style={{
+              color:"white",
+            }} type="submit" children="reset"
+              onClick={() => {
+                setUpdated(true);
+              }}
+            >
+
+              Reset Password
+            </StyledButton>
           </Form.Item>
         </Form>
       </Card>
+        ) : 
+        <Card>
+          <div style={{
+            display:"flex",
+            justifyContent:"center",
+            alignItems:"center",
+            flexDirection:"column",
+            gap:"30px",
+            marginBottom:"30px",
+          }}>
+            <CheckCircleFilled style={{
+              color:"#52C41A",
+              fontSize:"100px",
+            }}  />
+            <h1 style={{
+              fontSize:"24px",
+              fontWeight:"500",
+              textAlign:"center",
+              width:'286px'
+            }}>
+              Password Successfully Updated
+            </h1>
+          </div>
+          <StyledButton
+          onClick={()=>{
+            setCurrentPage("signup");
+
+          }}
+            style={{
+              
+            }}
+          >
+            Back to login 
+          </StyledButton>
+        </Card>
+      }
+       
     </Container>
   );
 }
-// import { useNavigate, useParams } from "react-router-dom";
-// import auth from "./RouteProtection/auth";
-// import toast from "react-hot-toast";
-// import { useState } from "react";
-// import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-// import img from "../../assets/images/ICON.svg";
-// import InputTextbox from "../../components/InputTextbox/InputTextbox";
-// import Button from "../../components/Button/Button";
-
-// export default function ForgetPass() {
-//   const [showPass, setshowPass] = useState(false);//state used for managing if password needs to be show or not
-//   const navigate = useNavigate();
-//   const { token } = useParams(); //token is basically a unique digit number which is sent while the forgot password mail is sent within the url
-
-//   //submiting the form
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const form_data = new FormData(event.target);
-//     let values = {};
-//     form_data.forEach(function (value, key) {
-//       values[key] = value;
-//     });
-
-//     if (values.password === values.confirmPassword)
-//       auth.resetPassword(() => navigate("/"), values, token);
-//     else toast.error("password mismatch");
-//   };
-
-//   return (
-//     <>
-//       <div className="h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-//         <div className="max-w-md bg-white p-10 rounded-lg w-full space-y-8">
-//           <div>
-//             <img
-//               className="mx-auto h-12 w-auto"
-//               src={img}
-//               alt="Workflow"
-//             />
-//             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-//               Enter New Password !
-//             </h2>
-//           </div>
-//           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-//             <div className="rounded-md shadow-sm -space-y-px">
-//               <div className="mb-4">
-//                 <div className="flex items-center bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 border border-gray-300">
-//                   <InputTextbox
-//                     id="password"
-//                     name="password"
-//                     type={!showPass ? "password" : "text"}
-//                     autoComplete="current-password"
-//                     required
-//                     placeholder="New Password"
-//                   />
-//                   <div
-//                     className="cursor-pointer px-2"
-//                     onClick={() => {
-//                       setshowPass(!showPass);
-//                     }}
-//                   >
-//                     {showPass ? (
-//                       <AiOutlineEye size="1.4rem" />
-//                     ) : (
-//                       <AiOutlineEyeInvisible size="1.4rem" />
-//                     )}
-//                   </div>
-//                 </div>
-//               </div>
-//               <div>
-//                 <div className="flex items-center bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 border border-gray-300">
-//                   <InputTextbox
-//                     id="confirmPassword"
-//                     name="confirmPassword"
-//                     type={!showPass ? "password" : "text"}
-//                     autoComplete="current-password"
-//                     required
-//                     placeholder="Confirm New Password"
-//                   />
-//                   <div
-//                     className="cursor-pointer px-2"
-//                     onClick={() => {
-//                       setshowPass(!showPass);
-//                     }}
-//                   >
-//                     {showPass ? (
-//                       <AiOutlineEye size="1.4rem" />
-//                     ) : (
-//                       <AiOutlineEyeInvisible size="1.4rem" />
-//                     )}
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-
-//             <div>
-//               <Button type="submit" children="Reset" />
-//             </div>
-//           </form>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }

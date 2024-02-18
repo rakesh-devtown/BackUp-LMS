@@ -11,9 +11,7 @@ input {
   font-family: "Poppins", sans-serif;
 
 }
-::-webkit-scrollbar {
-  display: none;
-}
+
 
 a {
   color: black;

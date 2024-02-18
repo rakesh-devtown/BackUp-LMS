@@ -42,22 +42,22 @@ const CourseSearch = styled(Search)`
 `;
 
 export const ProgramsBackButton = styled.button`
-position: absolute;
-top: 20px;
-left: 20px;
-padding: 6px 15px;
-border: 1px solid #012353;
-border-radius: 4px;
-display: inline-flex;
-gap: 5px;
-color: black;
-font-size: 10px;
-font-weight: 600;
-line-height: 1.4;
-font-family: 'Manrope', sans-serif;
-display: flex;
-align-items: center;
-cursor: pointer;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 6px 15px;
+  border: 1px solid #012353;
+  border-radius: 4px;
+  display: inline-flex;
+  gap: 5px;
+  color: black;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+  font-family: 'Manrope', sans-serif;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const StyledModal = styled(Modal)`
@@ -72,11 +72,14 @@ const StyledCloseIcon = styled(CloseOutlined)`
   color: white;
 `;
 
+const HaddingColored = styled.h2`
+  color: #081735;
+`;
 
 export { PartialPresenceContainer ,
   Skill ,
   CourseSearch, 
   StyledModal,
   StyledCloseIcon,
-  
+  HaddingColored,
 };

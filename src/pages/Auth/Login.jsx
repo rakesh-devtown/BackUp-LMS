@@ -26,24 +26,30 @@ import {
   FlexContainer,
   BlueText,
   StyledSignInForm,
+  StyledLabel,
 } from "../../styles/LoginPage.styles.js";
 import ForgetPass from "./ForgetPass.jsx"
 import Config from "../../config.js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Helmet } from "react-helmet";
 import LoginCarousel from "../../components/ui/LoginCaraousel.jsx";
+import loginUiStore from "../../store/loginUi.store.js";
+import TermAndCondition from "../../components/ui/TermsNCondition.jsx";
+import OTP from "./OTP.jsx";
+import ResetPass from "./ResetPass.jsx";
 
 const googleClientId = Config.googleClientId; // Access the client ID from the config
 
 export default function Login() {
 
-  const [currentPage , setCurrentPage] = useState("sigfnup")
-
+  const [isConditionModalOpen, setIsConditionModalOpen] = useState(false);  
+  const [acceptTerms,setAcceptTerms ] = useState(false);  
+  const currentPage = loginUiStore((state) => state.currentPage); 
+  const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
 
   const { login, isAuthenticated, isGoogleAuthenticated } = useAuthStore();
   const navigate = useNavigate();
   const [isLoginPage, setIsLoginPage] = useState(true);
-
   const [loading, setLoading] = useState(false);
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
   
@@ -66,6 +72,8 @@ export default function Login() {
       setLoading(false);
     }
   };
+  console.log(setAcceptTerms);
+
 
   // navigate to main dashboard
   useEffect(() => {
@@ -145,7 +153,7 @@ export default function Login() {
                   </LoginContainer>
                   <FlexContainer>
                     <StyledHr />
-                    <SignInText>Or sign in with</SignInText>
+                    <SignInText>Or sign up with Email </SignInText>
                     <StyledHr />
                   </FlexContainer>
 
@@ -159,7 +167,10 @@ export default function Login() {
                       },
                     ]}
                   >
+                    <StyledLabel>
+
                     Email Address
+                    </StyledLabel>
                     <InputUsername placeholder="examplemail@gmail.com" />
                   </Form.Item>
 
@@ -176,7 +187,10 @@ export default function Login() {
                       },
                     ]}
                   >
+                    <StyledLabel>
+
                     Password
+                    </StyledLabel>
                     <StyledPassword
                       placeholder="Min. 8 characters"
                       type="password"
@@ -201,8 +215,8 @@ export default function Login() {
                         marginTop: "-40px",
                       }}
                     >
-                      <Link to="/auth/forgot-password">
-                        <BlueText>
+                      <Link  className="toggle" onClick={() => setCurrentPage("forget-password")}>
+                        <BlueText  >
                           Forget Password?
                         </BlueText>
                       </Link>
@@ -230,7 +244,8 @@ export default function Login() {
                 <StyledLoginForm currentPage={currentPage} className="sign-up-form">
                     {
                       currentPage === "signup"
-                      ?<StyledSignInForm className=""  name="login-form" onFinish={handleSubmit}>
+                      ?
+                      <StyledSignInForm className=""  name="login-form" onFinish={handleSubmit}>
                       <StyledHeading>Hi Welcome to DevTown!</StyledHeading>
                         <Form.Item name="form-text">
                           <StyledP>
@@ -256,7 +271,7 @@ export default function Login() {
                        
                         <FlexContainer>
                           <StyledHr />
-                          <SignInText>Or sign in with</SignInText>
+                          <SignInText>Or sign in with Email </SignInText>
                           <StyledHr />
                         </FlexContainer>
                         <Form.Item
@@ -269,7 +284,10 @@ export default function Login() {
                             },
                           ]}
                         >
+                           <StyledLabel>
+                      
                           Name
+                      </StyledLabel>
                           <InputUsername placeholder="Your Name" />
                         </Form.Item>
                         <Form.Item
@@ -282,7 +300,10 @@ export default function Login() {
                             },
                           ]}
                         >
+                           <StyledLabel>
+                      
                           Email Address
+                      </StyledLabel>
                           <InputUsername placeholder="examplemail@gmail.com" />
                         </Form.Item>
       
@@ -299,15 +320,29 @@ export default function Login() {
                             },
                           ]}
                         >
+                           <StyledLabel>
+                      
                           Password
+                      </StyledLabel>
                           <StyledPassword
                             placeholder="Min. 8 characters"
                             type="password"
                             />
                         </Form.Item>
                             <Form.Item>
-                              <Checkbox>
-                                I agree to the <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>
+                              <TermAndCondition isConditionModalOpen={isConditionModalOpen} setIsConditionModalOpen={setIsConditionModalOpen}  acceptTerms={acceptTerms} setAcceptTerms={setAcceptTerms}   />
+                              <Checkbox  >
+                                <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  gap:"5px",
+                                
+                                }}
+                                >
+
+                                I agree to the <BlueText onClick={() => setIsConditionModalOpen(true)}>Terms and Conditions</BlueText>   
+                                </div>
                               </Checkbox>
                             </Form.Item>
                         <Form.Item>
@@ -329,7 +364,7 @@ export default function Login() {
                               marginTop: "-40px",
                             }}
                           >
-                            <Link to="/auth/forgot-password">
+                            <Link className="" onClick={() => setCurrentPage("forget-password")}>
                               <BlueText>
                                 Forget Password?
                               </BlueText>
@@ -351,7 +386,8 @@ export default function Login() {
                           </div>
                         </Form.Item>
                       </StyledSignInForm> :
-                      <ForgetPass/>
+                      currentPage === "forget-password" &&
+                      <OTP/>
                     }
 
 

@@ -52,7 +52,7 @@ export const StyledLoginForm = styled.div`
   width: 100%;
   color: black; 
   margin: auto;
-
+  height: 100%;
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   transition: opacity 0.02s 0.4s; 
@@ -68,6 +68,7 @@ export const StyledSignInForm = styled(Form)`
   min-width:350px;
   width: 100%;
   justify-content:start;
+  margin-top: 4rem;
   
 
 `;
@@ -145,6 +146,12 @@ export const StyledButton = styled(Button)`
   margin-bottom: 1rem;
   font-size :20px;
   font-weight:700;
+   background: #0859DE;
+   color:white;
+   font-weight: 700;
+   font-size:18px;
+   
+;
   
 
   
@@ -209,4 +216,11 @@ export const BlueText = styled.p`
   font-weight: 500;
 
   
+`;
+
+
+
+export const StyledLabel = styled.p`
+  margin-bottom:7px;
+
 `;
