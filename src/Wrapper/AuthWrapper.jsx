@@ -29,14 +29,22 @@ const ImageContainer = styled.div`
 `;
 const AuthWrapper = (props) => {
   return (
-    <>
+    <div
+    style={{
+      minHeight: "100vh",
+      height: "100vh",
+
+      
+    }}
+
+    >
     <Outlet/>
     {/* <Wrapper>
       <OutletContainer>
         <Outlet />
       </OutletContainer>
     </Wrapper> */}
-  </>
+  </div>
   );
 }
 

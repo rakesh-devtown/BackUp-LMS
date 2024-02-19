@@ -4,8 +4,8 @@ import axios from 'axios';
 
 
 const SERVICE_URL = "https://j66d85vpbf.execute-api.ap-south-1.amazonaws.com"
-// const TEST_MODE = window.location.href.includes("localhost")? true : false;
- const TEST_MODE = false;
+const TEST_MODE = window.location.href.includes("localhost")? true : false;
+//  const TEST_MODE = false;
 if(TEST_MODE)  {
 notification.info({
     message: 'Test mode Active !!',

@@ -7,8 +7,12 @@ import { setHeader } from "../utils/header";
 const loginUiStore = create(
   devtools((set, get) => ({
     currentPage: "signup",
+    currentLeftPage: "signin",
     setCurrentPage: (page) => {
       set({ currentPage: page });
+    },
+    setCurrentLeftPage: (page) => {
+      set({ currentLeftPage: page });
     },
   }))
 );

@@ -1,114 +1,64 @@
 import React from 'react';
 import { Carousel } from 'antd';
+import styled from 'styled-components';
+const OuterDiv = styled.div``;
+
+const InnerDiv = styled.div`
+  height: 935px;
+  color: #fff;
+  text-align: center;
+  background-color: blue;
+  position: relative;
+`;
+
+const ContentDiv = styled.div`
+  position: absolute;
+  bottom: 10%;
+  left: 20%;
+`;
+
+const Heading1 = styled.h1``;
+
+const Heading4 = styled.h4``;
+
+
+const data = [
+  {
+    title:"Welcome to DevTown",
+    description:"Dive into a World of Seamless Learning With DevTown!",
+  },
+  {
+    title:"Welcome to DevTown",
+    description:"Dive into a World of Seamless Learning With DevTown!",
+  },
+  {
+    title:"Welcome to DevTown",
+    description:"Dive into a World of Seamless Learning With DevTown!",
+  }
+]
 
 const LoginCarousel = ( ) => (
   <Carousel autoplay
   
     autoplaySpeed={2000}
   >
-    <div style={{}}>
-      <div style={ {
-  height: "935px",
-  color: '#fff',
-  textAlign: 'center',
-  backgroundColor:"blue",
- 
-  position :"relative",
-  
-}}>
-        <div  style={{
-          position:"absolute",
-          bottom:"10%",
-          left:"20%"
-        }} >
+    {
+      data.map((e, i ) => (
 
-        <h1>
-          Welcome to DevTown 
-        </h1>
-        <h4>
-          Dive into a World of Seamless Learning With DevTown!
-        </h4>
-        </div>
+        <OuterDiv key={i}>
+          <InnerDiv>
+            <ContentDiv>
+              <Heading1>{e.title}</Heading1>
+              <Heading4> {e.description} </Heading4>
+            </ContentDiv>
+          </InnerDiv>
+        </OuterDiv>
+      ))
+    }
 
-      </div>
-    </div>
-    <div style={{}}>
-      <div style={ {
-  height: "935px",
-  color: '#fff',
-  textAlign: 'center',
-        backgroundColor:"blue",
-  position :"relative",
-  
-}}>
-        <div  style={{
-          position:"absolute",
-          bottom:"10%",
-          left:"20%"
-        }} >
 
-        <h1>
-          Welcome to DevTown 
-        </h1>
-        <h4>
-          Dive into a World of Seamless Learning With DevTown!
-        </h4>
-        </div>
 
-      </div>
-    </div>
-    <div style={{}}>
-      <div style={ {
-  height: "935px",
-  color: '#fff',
-  textAlign: 'center',
-  backgroundColor:"blue",
- 
-  position :"relative",
-  
-}}>
-        <div  style={{
-          position:"absolute",
-          bottom:"10%",
-          left:"20%"
-        }} >
 
-        <h1>
-          Welcome to DevTown 
-        </h1>
-        <h4>
-          Dive into a World of Seamless Learning With DevTown!
-        </h4>
-        </div>
-
-      </div>
-    </div>
-    <div style={{}}>
-      <div style={ {
-  height: "935px",
-  color: '#fff',
-  textAlign: 'center',
-  backgroundColor:"blue",
- 
-  position :"relative",
-  
-}}>
-        <div  style={{
-          position:"absolute",
-          bottom:"10%",
-          left:"20%"
-        }} >
-
-        <h1>
-          Welcome to DevTown 
-        </h1>
-        <h4>
-          Dive into a World of Seamless Learning With DevTown!
-        </h4>
-        </div>
-
-      </div>
-    </div>
   </Carousel>
 );
 export default LoginCarousel;

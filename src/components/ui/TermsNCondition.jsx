@@ -8,7 +8,6 @@ const TermAndCondition = (    { isConditionModalOpen ,setIsConditionModalOpen  ,
   const showModal = () => {
     setIsModalOpen(true);
   };
-  console.log(setAcceptTerms)
 
   const handleOk = () => {
     setAcceptTerms(true);

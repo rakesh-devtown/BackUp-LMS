@@ -1,14 +1,11 @@
-main {
+.main {
     width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
     overflow: hidden;
     background-color: black;
-    padding: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-
-
 }
 
 .box { 
@@ -34,7 +31,6 @@ main {
     width: 50%;
     top: 0;
     left: 0;
-    
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
