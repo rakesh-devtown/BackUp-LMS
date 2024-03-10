@@ -24,6 +24,7 @@ import VerifyMagicLink from "../pages/MagicLink/VerifyMagicLink";
 import ResetPass from "../pages/Auth/ResetPass";
 import ComingSoon from "../components/ComingSoon";
 import MainWrapper from "../Wrapper/MainWrapper";
+import DashBoard from "../pages/Dashboard/DashBoard";
 export const routes = [
   {
     path: routeDefinitions.AUTH,

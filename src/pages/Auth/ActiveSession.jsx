@@ -54,7 +54,7 @@ function ActiveSession() {
         setLoading(false);
       }
     };
-    console.log(user)
+    console.log(sessions)
     const fetchSessions = async () => {
       try {
         if (user && screenLimitReached) {
@@ -81,11 +81,15 @@ function ActiveSession() {
   return (
     <Container>
         <div>
-            <h1>
+            <h1 style={{
+              marginBottom:"20px"
+            }}>
                 Active Session Limit Reached
 
             </h1>
-            <p
+            <p style={{
+              marginBottom:"20px"
+            }}
               
             >
                 Sessions limit reached on DevTown. Please close another session before logging in.
@@ -147,9 +151,7 @@ function ActiveSession() {
                                 
                                 
                             }
-                            {/* {`${new Date(e?.lastLogin).getMonth() + 1}/${new Date(
-                              e?.lastLogin
-                            ).getDate()}/${new Date(e?.lastLogin).getFullYear()}`}{" "} */}
+                           
                           </LoginTime>
 
                                 

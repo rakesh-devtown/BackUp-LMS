@@ -71,6 +71,21 @@ export const Box=styled.div`
   margin-bottom: 1rem;
   border-radius: 10px;
   display: flex;
+  position: relative;
+  &:hover::after {
+    content: 'Logout';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+  }
 
 `;
 export const LoginTime=styled.p`

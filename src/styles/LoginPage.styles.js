@@ -135,7 +135,7 @@ export const StyledButton = styled(Button)`
   justify-content: center;
   align-items: center;
   margin-top: 0.3rem;
-  margin-bottom: 1rem;
+  margin-bottom: ${props => props.marginBottom ? props.marginBottom : '1'}rem;
   font-size: 20px;
   font-weight: 700;
   background: #0859de;
@@ -201,6 +201,7 @@ export const Container = styled.div`
   height: 100%;
   position: relative;
   align-items: center;
+
 `;
 
 export const ActiveSessionPara = styled.p`

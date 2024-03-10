@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Checkbox, Flex, message } from "antd";
+import { Checkbox, Flex, Modal, message } from "antd";
 import useAuthStore from "../../store/authStore.js"; // Adjust the path according to your project structure
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
@@ -31,7 +31,11 @@ import TermAndCondition from "../../components/ui/TermsNCondition.jsx";
 import OTP from "./OTP.jsx";
 import ResetPass from "./ResetPass.jsx";
 import ActiveSession from "./ActiveSession.jsx";
-import CarrersPathHero from "../../components/PersonalizedCareerPaths/CarrersPathHero.jsx";
+import WrapperCareersPath from "../../components/PersonalizedCareerPaths/WrapperCareersPath.jsx";
+import CareerPathHero from "../../components/PersonalizedCareerPaths/CarrerPathHero.jsx";
+import useWindowSize from "../../hooks/useWindowSixe.js";
+import LoginMobileView from "./LoginMobileView.jsx";
+import { CloseCircleFilled } from "@ant-design/icons";
 
 const googleClientId = Config.googleClientId; // Access the client ID from the config
 
@@ -44,10 +48,13 @@ export default function Login() {
   const setCurrentLeftPage = loginUiStore((state) => state.setCurrentLeftPage);
   const { login, isAuthenticated, isGoogleAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+
+  const isDesktopAuthModelOpen = loginUiStore((state) => state.isDesktopAuthModelOpen);
+  const setIsDesktopAuthModelOpen = loginUiStore((state) => state.setIsDesktopAuthModelOpen);
   const [isLoginPage, setIsLoginPage] = useState(true);
   const [loading, setLoading] = useState(false);
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
-
+  const {width} = useWindowSize()
   const handleSubmit = async (values) => {
     try {
       console.log("asdkbsjdfsbjk");
@@ -68,9 +75,6 @@ export default function Login() {
       setLoading(false);
     }
   };
-  // console.log(setAcceptTerms);
-
-  // navigate to main dashboard
   useEffect(() => {
     if (screenLimitReached) setCurrentLeftPage("sessionlimit");
   }, [screenLimitReached, navigate, setCurrentLeftPage]);
@@ -80,17 +84,57 @@ export default function Login() {
       navigate("/programs");
     }
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
+  const [signuptrue , setSignupTrue] = useState(false);
+  const toggleSignUp = () => {
+    setSignupTrue(!signuptrue);
+  }
   useEffect(() => {
     const toggle_button = document.querySelectorAll(".toggle");
     const main = document.querySelector(".main");
+      console.log(main);
+
     toggle_button.forEach((btn) => {
       btn.addEventListener("click", () => {
+        console.log(main)
         main.classList.toggle("sign-up-mode");
       });
     });
+
   }, []);
-  return (
-    <main className="main">
+  return   ( 
+    <Modal
+    closeIcon={<div 
+      onClick={() => {
+        setIsDesktopAuthModelOpen(false);
+      }}
+      style={{
+        color: "white",
+        position: "absolute",
+        top: "0",
+        right: "-70px",
+        padding:"20px",
+        backgroundColor: "blue",
+        
+      }}
+     >
+      <CloseCircleFilled/>
+    </div>}
+    open={isDesktopAuthModelOpen}
+    onClose={() => {
+      setIsDesktopAuthModelOpen(false);
+    }}
+    
+    footer={null}
+    centered
+    width={"100%"}
+    style={{
+      maxWidth: "1276px",
+      backgroundColor:"red"
+    }}
+    
+    >
+
+    <main className={`main ${signuptrue ? "sign-up-mode" : ""}`}> 
       <Helmet>
         <title>Learn-DevTown Login</title>
         <meta name="Login" content="Login to learn.devtown.in" />
@@ -196,9 +240,11 @@ export default function Login() {
                     >
                       <Link
                         className="toggle"
-                        onClick={() => setCurrentPage("forget-password")}
+                        onClick={() =>{
+                            toggleSignUp();
+                          setCurrentPage("forget-password")}}
                       >
-                        <BlueText>Forget Password?</BlueText>
+                        <BlueText    >Forget Password?</BlueText>
                       </Link>
                     </div>
                   </Form.Item>
@@ -213,7 +259,9 @@ export default function Login() {
                     >
                       <Flex justify="center" align="center">
                         Don't have an account?{" "}
-                        <BlueText className="toggle">Create</BlueText>
+                        <BlueText onClick={() =>  {
+                          toggleSignUp();
+                        }}   className="toggle">Create</BlueText>
                       </Flex>
                     </div>
                   </Form.Item>
@@ -221,7 +269,7 @@ export default function Login() {
               ) : currentLeftPage === "sessionlimit" ? (
                 <ActiveSession />
               ) : (
-                <h1>sjvndkjf</h1>
+                <h1>Hello </h1>
               )}
             </StyledLoginForm>
 
@@ -365,7 +413,9 @@ export default function Login() {
                     >
                       <Flex justify="center" align="center">
                         Already have a Account?{" "}
-                        <BlueText className="toggle">Login</BlueText>
+                        <BlueText onClick={() =>{
+                          toggleSignUp();
+                        }} className="toggle">Login</BlueText>
                       </Flex>
                     </div>
                   </Form.Item>
@@ -376,9 +426,13 @@ export default function Login() {
                 <ResetPass />
               ) : currentPage === "otp" ? (
                 <OTP />
-              ) : currentPage === "carrer-path" && (
-                <CarrersPathHero/>
-              )}
+              ) : currentPage === "carrer-path" ? (
+                <CareerPathHero/>
+              ): currentPage == "carrer-info"? (
+                <WrapperCareersPath/>) :(
+                  <h1>ddfdj</h1>
+                )
+              }
             </StyledLoginForm>
           </div>
           <div className="carousel">
@@ -387,5 +441,7 @@ export default function Login() {
         </div>
       </div>
     </main>
+    </Modal>
+
   );
 }

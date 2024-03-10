@@ -1,13 +1,22 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { serviceGet } from "../utils/api";
-import { notification } from "antd";
-import { setHeader } from "../utils/header";
 
 const loginUiStore = create(
   devtools((set, get) => ({
     currentPage: "signup",
     currentLeftPage: "signin",
+    isMobileAuthModelOpen: false,
+    mobileCurrentPage: "register",
+    isDesktopAuthModelOpen: false,
+    setIsDesktopAuthModelOpen: (page) => {
+      set({ isDesktopAuthModelOpen: page });
+    },
+    setMobileCurrentPage: (page) => {
+      set({ mobileCurrentPage: page });
+    },
+    setIsMobileAuthModelOpen: (isOpen) => {
+      set({ isMobileAuthModelOpen: isOpen });
+    },
     setCurrentPage: (page) => {
       set({ currentPage: page });
     },

@@ -1,6 +1,10 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import styled from "styled-components";
+import DashBoard from "../pages/Dashboard/DashBoard";
+import useWindowSize from "../hooks/useWindowSixe";
+import Login from "../pages/Auth/Login";
+import LoginMobileView from "../pages/Auth/LoginMobileView";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -13,7 +17,7 @@ const OutletContainer = styled.div`
   @media (min-width: 768px) {
     width: 50%;
   }
-  background: linear-gradient(to right, #5C258D, #4389A2);
+  background: linear-gradient(to right, #5c258d, #4389a2);
 `;
 const StyledImage = styled.img`
   width: 100%;
@@ -28,24 +32,20 @@ const ImageContainer = styled.div`
   }
 `;
 const AuthWrapper = (props) => {
+  const { width } = useWindowSize();
+
   return (
     <div
-    style={{
-      minHeight: "100vh",
-      height: "100vh",
-
-      
-    }}
-
+      style={{
+        minHeight: "100vh",
+        height: "100vh",
+        width: "100%",
+      }}
     >
-    <Outlet/>
-    {/* <Wrapper>
-      <OutletContainer>
-        <Outlet />
-      </OutletContainer>
-    </Wrapper> */}
-  </div>
+      <DashBoard />
+      {width > 900 ? <Login /> : <LoginMobileView />}
+    </div>
   );
-}
+};
 
 export default AuthWrapper;
