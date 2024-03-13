@@ -19,3 +19,6 @@ a {
   text-decoration: none;
   margin: 1px;
 }
+li  {
+  list-style: none;
+}

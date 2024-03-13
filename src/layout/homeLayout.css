@@ -1,0 +1,11 @@
+.sidebar {
+    display: none;
+    transition: all 0.3s ease;
+} 
+
+.sidbar-open { 
+    display: block;
+    width: 100%;
+    transition: all 0.3s ease;
+    background-color: red;
+}

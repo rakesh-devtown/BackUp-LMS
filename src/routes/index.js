@@ -25,6 +25,7 @@ import ResetPass from "../pages/Auth/ResetPass";
 import ComingSoon from "../components/ComingSoon";
 import MainWrapper from "../Wrapper/MainWrapper";
 import DashBoard from "../pages/Dashboard/DashBoard";
+import HomeLayout from "../layout/HomeLayout";
 export const routes = [
   {
     path: routeDefinitions.AUTH,
@@ -59,14 +60,12 @@ export const routes = [
   {
     path: routeDefinitions.INDEX,
     element: (
-      <MainWrapper>
-        <Sidebar />
-      </MainWrapper>
+      <HomeLayout/>
     ),
     children: [
       {
         path: routeDefinitions.INDEX,
-        element: <Programs />,
+        element: <h1>Home</h1>,
       },
       {
         path: routeDefinitions.PROGRAMS,
