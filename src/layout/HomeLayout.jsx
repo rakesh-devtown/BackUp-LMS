@@ -108,7 +108,7 @@ function HomeLayout() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-
+              zIndex:10,
               width: collapsed ? 68 : 200,
             }}
             type="primary"
@@ -128,6 +128,8 @@ function HomeLayout() {
               position: "absolute",
               left: 20,
               top: 120,
+              zIndex:10,
+
               borderRadius: "20px",
             }}
             width={200}
