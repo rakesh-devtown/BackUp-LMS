@@ -1,26 +1,20 @@
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
-  ClockCircleFilled,
   ClockCircleOutlined,
   HomeOutlined,
   LaptopOutlined,
-  LeftCircleFilled,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   NotificationOutlined,
   SecurityScanFilled,
   StarOutlined,
   UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
-import "./homeLayout.css"
+import "./homeLayout.css";
 import { Button, Layout, Menu, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Footer } from "antd/es/layout/layout";
 import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
 import SideBarDashBoard from "../components/Cards/SideBarDashBoard";
 import Header from "../components/LayoutComponents/Header";
 import SideAdsCompoents from "../components/LayoutComponents/SideAdsCompoents";
@@ -86,14 +80,15 @@ function HomeLayout() {
     if (width > 900) {
       setMobileSideBarOpen(false);
     }
-  }, [width])
+  }, [width]);
   return (
     <Layout
       style={{
         width: "100%",
         height: "100vh",
         position: "relative",
-        background:  isMobileSideBarOpen ? "rgba(0, 0, 0, 0.5)" : ""
+        background: isMobileSideBarOpen ? "rgba(0, 0, 0, 0.5)" : "",
+        
       }}
     >
       {width > 900 ? (
@@ -108,7 +103,7 @@ function HomeLayout() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              zIndex:10,
+              zIndex: 10,
               width: collapsed ? 68 : 200,
             }}
             type="primary"
@@ -128,7 +123,7 @@ function HomeLayout() {
               position: "absolute",
               left: 20,
               top: 120,
-              zIndex:10,
+              zIndex: 10,
 
               borderRadius: "20px",
             }}
@@ -168,80 +163,83 @@ function HomeLayout() {
           </Sider>
         </>
       ) : (
-         (
-          <div className={isMobileSideBarOpen ? "sidebar-open" : "sidebar"}>
-            <Button
-              icon={<ArrowLeftOutlined />}
-              style={{
-                position: "absolute",
-                top: 40,
-             
-                padding: "20px 30px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 1000,
-                width: 200,
-                borderRadius: "0 10px 10px 0",
-              }}
-              type="primary"
-              onClick={() => {
-                setMobileSideBarOpen(false);
-              }}
-            />
+        <div
+          className={
+            isMobileSideBarOpen
+              ? "sidebar-open sidebar-default"
+              : "sidebar sidebar-default"
+          }
+        >
+          <Button
+            icon={<ArrowLeftOutlined />}
+            style={{
+              position: "absolute",
+              top: 40,
 
-            <Sider
-              theme="light"
-              trigger={null}
+              padding: "20px 30px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 1000,
+              width: 200,
+              borderRadius: "0 10px 10px 0",
+            }}
+            type="primary"
+            onClick={() => {
+              setMobileSideBarOpen(false);
+            }}
+          />
+
+          <Sider
+            theme="light"
+            trigger={null}
+            style={{
+              background: colorBgContainer,
+              height: "",
+              position: "absolute",
+              zIndex: 1000,
+              top: 90,
+              borderRadius: "0 10px 10px 0",
+            }}
+            width={200}
+          >
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={["1"]}
               style={{
-                background: colorBgContainer,
-                height: "",
-                position:  "absolute",
-                zIndex: 1000,
-                top: 90,  
-                borderRadius: "0 10px 10px 0",
+                height: "100%",
+                borderRadius: "20px",
               }}
-              width={200}
-            >
+              items={items}
+            />
+            {width > 900 && (
               <Menu
                 mode="inline"
-                defaultSelectedKeys={["1"]}
                 style={{
                   height: "100%",
                   borderRadius: "20px",
                 }}
-                items={items}
-              />
-              {width > 900 && (
-                <Menu
-                  mode="inline"
+              >
+                <Menu.Item
                   style={{
+                    paddingInline: !collapsed && 0,
                     height: "100%",
                     borderRadius: "20px",
+                    paddingLeft: !collapsed && 0,
                   }}
+                  key="1"
+                  icon={collapsed ? <ClockCircleOutlined /> : null}
                 >
-                  <Menu.Item
-                    style={{
-                      paddingInline: !collapsed && 0,
-                      height: "100%",
-                      borderRadius: "20px",
-                      paddingLeft: !collapsed && 0,
-                    }}
-                    key="1"
-                    icon={collapsed ? <ClockCircleOutlined /> : null}
-                  >
-                    {collapsed ? null : <SideBarDashBoard />}
-                  </Menu.Item>
-                </Menu>
-              )}
-            </Sider>
-          </div>
-        )
+                  {collapsed ? null : <SideBarDashBoard />}
+                </Menu.Item>
+              </Menu>
+            )}
+          </Sider>
+        </div>
       )}
       <Layout
         style={{
-          background:  isMobileSideBarOpen ? "initial" : ""
-      
+          background: isMobileSideBarOpen ? "initial" : "",
         }}
       >
         <Header />

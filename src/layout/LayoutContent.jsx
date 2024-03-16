@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import LayoutTopAd from "../components/LayoutComponents/LayoutTopAd";
+import MainLayoutHero from "./MainLayoutHero";
+import useWindowSize from "../hooks/useWindowSixe";
+import PersonCarrerReadyCard from "../components/ui/PersonCarrerReadyCard";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -14,11 +17,20 @@ const LayoutContainer = styled.div`
   width: 70%;
   z-index: 0;
   background-color: #F4F7FE;
+  @media (max-width: 991px) {
+    width: 95%;
+  }
+  
 `;
 
 function LayoutContent() {
+  const width = useWindowSize().width;
   return <LayoutContainer>
-    {/* <LayoutTopAd/> */}
+    {
+      width > 900 && <LayoutTopAd/>
+    }
+    <MainLayoutHero/>
+    
     
   </LayoutContainer>;
 }

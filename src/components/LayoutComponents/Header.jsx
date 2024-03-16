@@ -87,7 +87,7 @@ function Header() {
     <div
       style={{
         position: "relative",
-        zIndex: "99",
+        zIndex: isMobileSideBarOpen ?  -10 : "99",
       }}
     >
       <StyledMotionDiv></StyledMotionDiv>
