@@ -21,15 +21,16 @@ import SideAdsCompoents from "../components/LayoutComponents/SideAdsCompoents";
 import LayoutContent from "./LayoutContent";
 import useWindowSize from "../hooks/useWindowSixe";
 import useLayoutUiStore from "../store/layoutUI";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const items = [
   {
-    key: "1",
+    key: "",
     icon: <HomeOutlined />,
     label: "DashBoard",
   },
   {
-    key: "2",
+    key: "lms",
     icon: <StarOutlined />,
     label: "LMS",
   },
@@ -65,6 +66,9 @@ const items = [
   },
 ];
 function HomeLayout() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const isMobileSideBarOpen = useLayoutUiStore(
     (state) => state.isMobileSideBarOpen
   );
@@ -135,6 +139,13 @@ function HomeLayout() {
               style={{
                 height: "100%",
                 borderRadius: "20px",
+              }}
+              selectable
+              onSelect={(item , key ) =>  {
+                console.log(item.key );
+                navigate( "/"   + item.key);  
+             
+
               }}
               items={items}
             />
@@ -245,10 +256,9 @@ function HomeLayout() {
         <Header />
       </Layout>
       <Content>
-        {" "}
-        <LayoutContent />{" "}
+        <Outlet/>
       </Content>
-      {width > 900 && <SideAdsCompoents />}
+      {width > 900  || (location.pathname === "/lms" && width > 900 ) && <SideAdsCompoents />}
     </Layout>
   );
 }

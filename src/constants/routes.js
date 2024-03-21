@@ -2,6 +2,7 @@ export const routeDefinitions = {
     INDEX: '', //to make this the entry point
     AUTH: 'auth',
     LOGIN:'login',
+    LMS:"lms",
     FORGOT_PASSWORD: 'forgot-password',
     RESET_PASSWORD: 'reset-password/:token',
     PROGRAMS: 'programs',

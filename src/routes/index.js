@@ -26,6 +26,8 @@ import ComingSoon from "../components/ComingSoon";
 import MainWrapper from "../Wrapper/MainWrapper";
 import DashBoard from "../pages/Dashboard/DashBoard";
 import HomeLayout from "../layout/HomeLayout";
+import LayoutContent from "../layout/LayoutContent";
+import Lms from "../pages/LMS/Lms";
 export const routes = [
   {
     path: routeDefinitions.AUTH,
@@ -65,11 +67,11 @@ export const routes = [
     children: [
       {
         path: routeDefinitions.INDEX,
-        element: <h1>Home</h1>,
+        element: <LayoutContent/>,
       },
       {
-        path: routeDefinitions.PROGRAMS,
-        element: <Programs />,
+        path: routeDefinitions.LMS,
+        element: <Lms />,
       },
       {
         path: routeDefinitions.PROGRAM,

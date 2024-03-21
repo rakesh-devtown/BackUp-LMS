@@ -77,6 +77,23 @@ overflow: auto;
       padding: 0px;
     `}
 `;
+export const LayoutOuterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100px;
+  width: 70%;
+  z-index: 0;
+  background-color: #F4F7FE;
+  @media (max-width: 991px) {
+    width: 95%;
+  }
+  
+`;
 
 export {
   LayoutHeader,
