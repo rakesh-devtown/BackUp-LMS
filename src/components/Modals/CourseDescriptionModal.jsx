@@ -6,23 +6,30 @@ import CourseLearningContent from "../Cards/CourseLearningContent";
 import WhatIsThisCourseFor from "../Cards/WhatIsThisCoursefor";
 import CourseRequirements from "../Cards/CourseRequirements";
 import CourseCertification from "../Cards/CourseCertification";
+import CourseInstructorCard from "../Cards/CourseInstructorCard";
+import MncCard from "../Cards/MncCard";
+import useWindowSize from "../../hooks/useWindowSixe";
+import useLmsUiStore from "../../store/lmsUiStore";
 const CourseDescriptionModal = () => {
+  const {width } = useWindowSize() ;
+  const isCourseDescriptionModalOpen = useLmsUiStore(state => state.isCourseDescriptionModalOpen);
+  const setCourseDescriptionModalOpen = useLmsUiStore(state => state.setCourseDescriptionModalOpen);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
-    setIsModalOpen(false);
+    setCourseDescriptionModalOpen(false);
   };
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setCourseDescriptionModalOpen(false);
   };
   return (
     <div>
       <Modal
         style={{}}
-        width="70%"
-        open={true}
+        width={  width < 900 ? "96%" :     "70%"}
+        open={isCourseDescriptionModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
@@ -43,8 +50,8 @@ const CourseDescriptionModal = () => {
               display: "flex",
               flexDirection: "column",
               gap: "20px",
-            marginTop: "20px",
-            marginBottom: "20px"
+              marginTop: "20px",
+              marginBottom: "20px",
             }}
           >
             <h1>Description</h1>
@@ -86,26 +93,27 @@ const CourseDescriptionModal = () => {
               exercitationem.
             </p>
           </div>
-          <div
-          
-          >
+          <div>
             <h1>What will you learn in this Course.</h1>
             <div>
-            <CourseLearningContent/>
-                
+              <CourseLearningContent />
             </div>
           </div>
           <div>
-            <WhatIsThisCourseFor/>
+            <WhatIsThisCourseFor />
           </div>
           <div>
-          <CourseRequirements/>
+            <CourseRequirements />
           </div>
           <div>
-            <CourseCertification/>
+            <CourseCertification />
           </div>
-          <div></div>
-          <div></div>
+          <div>
+            <MncCard/>
+          </div>
+          <div>
+            <CourseInstructorCard/>
+          </div>
         </div>
       </Modal>
     </div>

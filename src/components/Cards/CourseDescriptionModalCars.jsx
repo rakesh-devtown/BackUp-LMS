@@ -43,7 +43,8 @@ export default function CourseDescriptionModalCard() {
         </Div12>
       </Div3>
       <Div14>
-        <Div15>Go to Demo classroom</Div15>
+        <Div15>Go to Demo classroom</Div15> 
+        
         <Div16>
           <Img6
             loading="lazy"
@@ -64,11 +65,11 @@ export default function CourseDescriptionModalCard() {
 }
 
 const Div = styled.div`
+  display: flex;
   align-self: stretch;
   border-radius: 19px;
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.22);
   background-color: var(--Color-White-100, #fff);
-  display: flex;
   flex-direction: column;
   padding: 36px 22px;
   @media (max-width: 991px) {
@@ -183,6 +184,8 @@ const Div15 = styled.div`
   padding: 0 24px;
   @media (max-width: 991px) {
     padding: 0 20px;
+    width: 100%;
+    text-align: center;
   }
 `;
 
@@ -198,7 +201,8 @@ const Div16 = styled.div`
   line-height: 150%;
   padding: 14px 35px;
   @media (max-width: 991px) {
-    padding: 0 20px;
+    padding: 0 20px; 
+    display: none;
   }
 `;
 

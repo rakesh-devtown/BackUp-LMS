@@ -6,7 +6,7 @@ export default function CourseCard() {
   const url = useLocation();
   console.log(url.pathname);
   return (
-    <Div>
+    <Div     >
       {!(url.pathname === "/lms") ? <Div2>Recent enrolled course</Div2> : null}
       <Div3>
         <Div4>
