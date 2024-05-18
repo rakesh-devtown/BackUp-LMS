@@ -19,7 +19,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { serviceDelete, serviceGet } from "../../utils/api";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 import useLoadingStore from "../../store/loadingStore";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 const SessionLimit = () => {

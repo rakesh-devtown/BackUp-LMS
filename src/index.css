@@ -1,17 +1,12 @@
-
-
-html *  {
+html * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  
 }
 input {
   font-family: "Poppins", sans-serif;
-
 }
-
 
 a {
   color: black;
@@ -19,6 +14,33 @@ a {
   text-decoration: none;
   margin: 1px;
 }
-li  {
+
+li {
   list-style: none;
+}
+
+:root {
+  --primaryColor1: #1e6de8;
+  --secondaryColor: #294169;
+  --secondaryColor2: #162f57;
+  --whiteColor: #fff;
+  --darkColor1: #2a2a2a;
+  --lightDarkColor: #4e5566;
+}
+
+/* removing background from antd message component */
+.ant-message-top {
+  /* top: 30px !important; */
+  .ant-message-notice-content {
+    padding: 0 !important;
+  }
+}
+
+/* disabled antd menu options */
+.ant-menu-item-disabled {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.ant-drawer-content-wrapper {
+  height: 95vh !important;
 }

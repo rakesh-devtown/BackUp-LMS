@@ -28,19 +28,22 @@ import { Helmet } from "react-helmet";
 import LoginCarousel from "../../components/ui/LoginCaraousel.jsx";
 import loginUiStore from "../../store/loginUi.store.js";
 import TermAndCondition from "../../components/ui/TermsNCondition.jsx";
-import OTP from "./OTP.jsx";
-import ResetPass from "./ResetPass.jsx";
 import ActiveSession from "./ActiveSession.jsx";
 import WrapperCareersPath from "../../components/PersonalizedCareerPaths/WrapperCareersPath.jsx";
 import CareerPathHero from "../../components/PersonalizedCareerPaths/CarrerPathHero.jsx";
-import useWindowSize from "../../hooks/useWindowSixe.js";
+import useWindowSize from "../../hooks/useWindowSize.js";
 import LoginMobileView from "./LoginMobileView.jsx";
 import { CloseCircleFilled } from "@ant-design/icons";
+import styled from "styled-components";
+import OTPverify from "../../components/Forms/OTPverification.jsx";
+import ResetPassword from "../../components/Forms/ResetPassword.jsx";
+import SuccessBox from "../../components/Forms/Success.jsx";
 
 const googleClientId = Config.googleClientId; // Access the client ID from the config
 
 export default function Login() {
   const [isConditionModalOpen, setIsConditionModalOpen] = useState(false);
+  const [signuptrue, setSignupTrue] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const currentPage = loginUiStore((state) => state.currentPage);
   const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
@@ -54,10 +57,15 @@ export default function Login() {
   const [isLoginPage, setIsLoginPage] = useState(true);
   const [loading, setLoading] = useState(false);
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
-  const {width} = useWindowSize()
+  const { width } = useWindowSize()
+
+
+  const toggleSignUp = () => {
+    setSignupTrue(!signuptrue);
+  }
+
   const handleSubmit = async (values) => {
     try {
-      console.log("asdkbsjdfsbjk");
       setLoading(true);
       const { email, password } = values;
       console.log(email, password);
@@ -75,6 +83,8 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+
   useEffect(() => {
     if (screenLimitReached) setCurrentLeftPage("sessionlimit");
   }, [screenLimitReached, navigate, setCurrentLeftPage]);
@@ -84,14 +94,12 @@ export default function Login() {
       navigate("/programs");
     }
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
-  const [signuptrue , setSignupTrue] = useState(false);
-  const toggleSignUp = () => {
-    setSignupTrue(!signuptrue);
-  }
+
+
   useEffect(() => {
     const toggle_button = document.querySelectorAll(".toggle");
     const main = document.querySelector(".main");
-      console.log(main);
+    console.log(main);
 
     toggle_button.forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -101,347 +109,370 @@ export default function Login() {
     });
 
   }, []);
-  return   ( 
-    <Modal
-    closeIcon={<div 
-      onClick={() => {
+
+
+  return (
+    <StyledModal
+      closeIcon={<div
+        onClick={() => {
+          setIsDesktopAuthModelOpen(false);
+        }}
+        style={{
+          color: "white",
+          position: "absolute",
+          top: "0",
+          right: "-70px",
+          padding: "20px",
+          backgroundColor: "blue",
+        }}
+      >
+        <CloseCircleFilled />
+      </div>}
+      open={isDesktopAuthModelOpen}
+      onClose={() => {
         setIsDesktopAuthModelOpen(false);
       }}
-      style={{
-        color: "white",
-        position: "absolute",
-        top: "0",
-        right: "-70px",
-        padding:"20px",
-        backgroundColor: "blue",
-        
-      }}
-     >
-      <CloseCircleFilled/>
-    </div>}
-    open={isDesktopAuthModelOpen}
-    onClose={() => {
-      setIsDesktopAuthModelOpen(false);
-    }}
-    
-    footer={null}
-    centered
-    width={"100%"}
-    style={{
-      maxWidth: "1276px",
-      backgroundColor:"red"
-    }}
-    
+
+      footer={null}
+      centered
+      width={width >= 2000 ? "1226px" : (width > 1150 ? "920px" : "800px")}
     >
 
-    <main className={`main ${signuptrue ? "sign-up-mode" : ""}`}> 
-      <Helmet>
-        <title>Learn-DevTown Login</title>
-        <meta name="Login" content="Login to learn.devtown.in" />
-        <link rel="canonical" href="https://www.learn.devtown.in/auth" />
-      </Helmet>
-      <div className="box">
-        <div className="inner-box">
-          <div className="form-wrap">
-            {/* Login Form */}
-            <StyledLoginForm className="sign-in-form">
-              {currentLeftPage === "signin" ? (
-                <StyledSignInForm name="login-form" onFinish={handleSubmit}>
-                  <StyledHeading>Hey Buddy,</StyledHeading>
-                  <Form.Item name="form-text">
-                    <StyledP>
-                      Create an account and start learning with us!
-                    </StyledP>
-                  </Form.Item>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    <GoogleOAuthProvider clientId={googleClientId}>
-                      <GoogleAuthLogin />
-                    </GoogleOAuthProvider>
-                  </div>
-                  <LoginContainer>
-                    <LoginLink to="/auth/magic-login">
-                      <img
-                        width="25"
-                        height="25"
-                        color="blue"
-                        src="https://img.icons8.com/ios/50/000000/fantasy.png"
-                        alt="maginc Link icons"
+      <main className={`main ${signuptrue ? "sign-up-mode" : ""}`}>
+        <Helmet>
+          <title>Learn-DevTown Login</title>
+          <meta name="Login" content="Login to learn.devtown.in" />
+          <link rel="canonical" href="https://www.learn.devtown.in/auth" />
+        </Helmet>
+        <StyledBox width={width}>
+          <div className="inner-box">
+            <div className="form-wrap">
+              {/* Login Form */}
+              <StyledLoginForm className="sign-in-form">
+                {currentLeftPage === "signin" ? (
+                  <StyledSignInForm name="login-form" onFinish={handleSubmit}>
+                    <StyledHeading>Hey Buddy,</StyledHeading>
+                    <Form.Item name="form-text">
+                      <StyledP>
+                        Create an account and start learning with us!
+                      </StyledP>
+                    </Form.Item>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      <GoogleOAuthProvider clientId={googleClientId}>
+                        <GoogleAuthLogin />
+                      </GoogleOAuthProvider>
+                    </div>
+                    <LoginContainer>
+                      <LoginLink to="/auth/magic-login">
+                        <img
+                          width="25"
+                          height="25"
+                          color="blue"
+                          src="https://img.icons8.com/ios/50/000000/fantasy.png"
+                          alt="maginc Link icons"
+                        />
+                        <p style={{ color: "#6B7280" }}>
+                          Sign In with Magic Link{" "}
+                        </p>
+                      </LoginLink>
+                    </LoginContainer>
+                    <FlexContainer>
+                      <StyledHr />
+                      <SignInText>Or sign in with Email </SignInText>
+                      <StyledHr />
+                    </FlexContainer>
+
+                    <Form.Item
+                      name="email"
+                      rules={[
+                        {
+                          type: "email",
+                          required: true,
+                          message: "Please enter your email!",
+                        },
+                      ]}
+                    >
+                      <StyledLabel>Email Address</StyledLabel>
+                      <InputUsername placeholder="examplemail@gmail.com" />
+                    </Form.Item>
+
+                    <Form.Item
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter your password!",
+                        },
+                        {
+                          min: 1,
+                          message: "Password must be at least 8 characters long.",
+                        },
+                      ]}
+                    >
+                      <StyledLabel>Password</StyledLabel>
+                      <StyledPassword
+                        placeholder="Min. 8 characters"
+                        type="password"
                       />
-                      <p style={{ color: "#6B7280" }}>
-                        Sign In with Magic Link{" "}
-                      </p>
-                    </LoginLink>
-                  </LoginContainer>
-                  <FlexContainer>
-                    <StyledHr />
-                    <SignInText>Or sign up with Email </SignInText>
-                    <StyledHr />
-                  </FlexContainer>
-
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      {
-                        type: "email",
-                        required: true,
-                        message: "Please enter your email!",
-                      },
-                    ]}
-                  >
-                    <StyledLabel>Email Address</StyledLabel>
-                    <InputUsername placeholder="examplemail@gmail.com" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your password!",
-                      },
-                      {
-                        min: 1,
-                        message: "Password must be at least 8 characters long.",
-                      },
-                    ]}
-                  >
-                    <StyledLabel>Password</StyledLabel>
-                    <StyledPassword
-                      placeholder="Min. 8 characters"
-                      type="password"
-                    />
-                  </Form.Item>
-                  <Form.Item>
-                    <StyledButton
-                      type="primary"
-                      htmlType="submit"
-                      className="login-button"
-                      children="Login"
-                      loading={loading}
-                    >
-                      Login
-                    </StyledButton>
-                  </Form.Item>
-                  <Form.Item>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "-40px",
-                      }}
-                    >
-                      <Link
-                        className="toggle"
-                        onClick={() =>{
-                            toggleSignUp();
-                          setCurrentPage("forget-password")}}
+                    </Form.Item>
+                    <Form.Item>
+                      <StyledButton
+                        type="primary"
+                        htmlType="submit"
+                        className="login-button"
+                        children="Login"
+                        loading={loading}
                       >
-                        <BlueText    >Forget Password?</BlueText>
-                      </Link>
-                    </div>
-                  </Form.Item>
-                  <Form.Item>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "-60px",
-                        color: "black",
-                      }}
-                    >
-                      <Flex justify="center" align="center">
-                        Don't have an account?{" "}
-                        <BlueText onClick={() =>  {
-                          toggleSignUp();
-                        }}   className="toggle">Create</BlueText>
-                      </Flex>
-                    </div>
-                  </Form.Item>
-                </StyledSignInForm>
-              ) : currentLeftPage === "sessionlimit" ? (
-                <ActiveSession />
-              ) : (
-                <h1>Hello </h1>
-              )}
-            </StyledLoginForm>
-
-            {/* Register form  */}
-
-            <StyledLoginForm currentPage={currentPage} className="sign-up-form">
-              {currentPage === "signup" ? (
-                <StyledSignInForm className="" name="">
-                  <StyledHeading>Hi Welcome to DevTown!</StyledHeading>
-                  <Form.Item name="form-text">
-                    <StyledP>
-                      Create an account and start learning with us!
-                    </StyledP>
-                  </Form.Item>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    <GoogleOAuthProvider clientId={googleClientId}>
-                      <GoogleAuthLogin />
-                    </GoogleOAuthProvider>
-                  </div>
-
-                  <FlexContainer>
-                    <StyledHr />
-                    <SignInText>Or sign in with Email </SignInText>
-                    <StyledHr />
-                  </FlexContainer>
-                  <Form.Item
-                    name="name"
-                    rules={[
-                      {
-                        type: "text",
-                        required: true,
-                        message: "Please enter your Name!",
-                      },
-                    ]}
-                  >
-                    <StyledLabel>Name</StyledLabel>
-                    <InputUsername placeholder="Your Name" />
-                  </Form.Item>
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      {
-                        type: "email",
-                        required: true,
-                        message: "Please enter your email!",
-                      },
-                    ]}
-                  >
-                    <StyledLabel>Email Address</StyledLabel>
-                    <InputUsername placeholder="examplemail@gmail.com" />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your password!",
-                      },
-                      {
-                        min: 1,
-                        message: "Password must be at least 8 characters long.",
-                      },
-                    ]}
-                  >
-                    <StyledLabel>Password</StyledLabel>
-                    <StyledPassword
-                      placeholder="Min. 8 characters"
-                      type="password"
-                    />
-                  </Form.Item>
-                  <Form.Item>
-                    <TermAndCondition
-                      isConditionModalOpen={isConditionModalOpen}
-                      setIsConditionModalOpen={setIsConditionModalOpen}
-                      acceptTerms={acceptTerms}
-                      setAcceptTerms={setAcceptTerms}
-                    />
-                    <Checkbox>
+                        Login
+                      </StyledButton>
+                    </Form.Item>
+                    <Form.Item>
                       <div
                         style={{
                           display: "flex",
                           justifyContent: "center",
-                          gap: "5px",
+                          marginTop: "-40px",
                         }}
                       >
-                        I agree to the{" "}
-                        <BlueText onClick={() => setIsConditionModalOpen(true)}>
-                          Terms and Conditions
-                        </BlueText>
+                        <Link
+                          className="toggle"
+                          onClick={() => {
+                            toggleSignUp();
+                            setCurrentPage("forget-password")
+                          }}
+                        >
+                          <BlueText    >Forget Password?</BlueText>
+                        </Link>
                       </div>
-                    </Checkbox>
-                  </Form.Item>
-                  <Form.Item>
-                    <StyledButton
-                      type="primary"
-                      htmlType="submit"
-                      className="login-button"
-                      children="Login"
-                      loading={loading}
-                      onClick={() => {
-                        setCurrentPage("carrer-path")
-                      }}
-                    >
-                      Create
-                    </StyledButton>
-                  </Form.Item>
-                  <Form.Item>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: "-40px",
-                      }}
-                    >
-                      <Link
-                        className=""
-                        onClick={() => setCurrentPage("forget-password")}
+                    </Form.Item>
+                    <Form.Item>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginTop: "-60px",
+                          color: "black",
+                        }}
                       >
-                        <BlueText>Forget Password?</BlueText>
-                      </Link>
-                    </div>
-                  </Form.Item>
-                  <Form.Item>
+                        {/* toggle to sign up page */}
+                        {/* <Flex justify="center" align="center">
+                          Don't have an account?{" "}
+                          <BlueText onClick={() => {
+                            toggleSignUp();
+                          }} className="toggle">Create</BlueText>
+                        </Flex> */}
+                      </div>
+                    </Form.Item>
+                  </StyledSignInForm>
+                ) : currentLeftPage === "sessionlimit" ? (
+                  <ActiveSession />
+                ) : (
+                  <h1>Hello </h1>
+                )}
+              </StyledLoginForm>
+
+              {/* Register form  */}
+
+              <StyledLoginForm currentPage={currentPage} className="sign-up-form" width={width}>
+                {currentPage === "signup" ? (
+                  <StyledSignInForm className="" name="">
+                    <StyledHeading>Hi Welcome to DevTown!</StyledHeading>
+                    <Form.Item name="form-text">
+                      <StyledP>
+                        Create an account and start learning with us!
+                      </StyledP>
+                    </Form.Item>
                     <div
                       style={{
                         display: "flex",
+                        flexDirection: "column",
                         justifyContent: "center",
-                        marginTop: "-60px",
-                        color: "black",
+                        alignItems: "center",
+
+                        marginBottom: "1rem",
                       }}
                     >
-                      <Flex justify="center" align="center">
-                        Already have a Account?{" "}
-                        <BlueText onClick={() =>{
-                          toggleSignUp();
-                        }} className="toggle">Login</BlueText>
-                      </Flex>
+                      <GoogleOAuthProvider clientId={googleClientId}>
+                        <GoogleAuthLogin />
+                      </GoogleOAuthProvider>
                     </div>
-                  </Form.Item>
-                </StyledSignInForm>
-              ) : currentPage === "forget-password" ? (
-                <ForgetPass />
-              ) : currentPage === "reset-password" ? (
-                <ResetPass />
-              ) : currentPage === "otp" ? (
-                <OTP />
-              ) : currentPage === "carrer-path" ? (
-                <CareerPathHero/>
-              ): currentPage == "carrer-info"? (
-                <WrapperCareersPath/>) :(
-                  <h1>ddfdj</h1>
+
+                    <FlexContainer>
+                      <StyledHr />
+                      <SignInText>Or sign up with Email </SignInText>
+                      <StyledHr />
+                    </FlexContainer>
+                    <Form.Item
+                      name="name"
+                      rules={[
+                        {
+                          type: "text",
+                          required: true,
+                          message: "Please enter your Name!",
+                        },
+                      ]}
+                    >
+                      <StyledLabel>Name</StyledLabel>
+                      <InputUsername placeholder="Your Name" />
+                    </Form.Item>
+                    <Form.Item
+                      name="email"
+                      rules={[
+                        {
+                          type: "email",
+                          required: true,
+                          message: "Please enter your email!",
+                        },
+                      ]}
+                    >
+                      <StyledLabel>Email Address</StyledLabel>
+                      <InputUsername placeholder="examplemail@gmail.com" />
+                    </Form.Item>
+
+                    <Form.Item
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter your password!",
+                        },
+                        {
+                          min: 1,
+                          message: "Password must be at least 8 characters long.",
+                        },
+                      ]}
+                    >
+                      <StyledLabel>Password</StyledLabel>
+                      <StyledPassword
+                        placeholder="Min. 8 characters"
+                        type="password"
+                      />
+                    </Form.Item>
+                    <Form.Item>
+                      <TermAndCondition
+                        isConditionModalOpen={isConditionModalOpen}
+                        setIsConditionModalOpen={setIsConditionModalOpen}
+                        acceptTerms={acceptTerms}
+                        setAcceptTerms={setAcceptTerms}
+                      />
+                      <Checkbox>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          I agree to the{" "}
+                          <BlueText onClick={() => setIsConditionModalOpen(true)}>
+                            Terms and Conditions
+                          </BlueText>
+                        </div>
+                      </Checkbox>
+                    </Form.Item>
+                    <Form.Item>
+                      <StyledButton
+                        type="primary"
+                        htmlType="submit"
+                        className="login-button"
+                        children="Login"
+                        loading={loading}
+                        onClick={() => {
+                          setCurrentPage("carrer-path")
+                        }}
+                      >
+                        Create
+                      </StyledButton>
+                    </Form.Item>
+                    <Form.Item>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginTop: "-40px",
+                        }}
+                      >
+                      </div>
+                    </Form.Item>
+                    <Form.Item>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginTop: "-60px",
+                          color: "black",
+                        }}
+                      >
+                        <Flex justify="center" align="center">
+                          Already have a Account?{" "}
+                          <BlueText onClick={() => {
+                            toggleSignUp();
+                          }} className="toggle">Login</BlueText>
+                        </Flex>
+                      </div>
+                    </Form.Item>
+                  </StyledSignInForm>
+                ) : currentPage === "forget-password" ? (
+                  <ForgetPass toggleSignUp={toggleSignUp} />
+                ) : currentPage === "otp" ? (
+                  <OTPverify handleBack={toggleSignUp} handleNext={() => setCurrentPage("reset-password")} />
+                ) : currentPage === "reset-password" ? (
+                  <ResetPassword handleNext={() => setCurrentPage('success')} />
+                ) : currentPage === "success" ? (
+                  <SuccessBox handleNext={toggleSignUp} successMessage={"Password Successfully Update"} btnText={"Back to Login"} />
+                ) : currentPage === "carrer-path" ? (
+                  <CareerPathHero />
+                ) : currentPage == "carrer-info" ? (
+                  <WrapperCareersPath />) : (
+                  <h1>Something Wrong</h1>
                 )
-              }
-            </StyledLoginForm>
+                }
+              </StyledLoginForm>
+            </div>
+            <div className="carousel">
+              <LoginCarousel />
+            </div>
           </div>
-          <div className="carousel">
-            <LoginCarousel />
-          </div>
-        </div>
-      </div>
-    </main>
-    </Modal>
+        </StyledBox>
+      </main>
+    </StyledModal>
 
   );
 }
+
+const StyledModal = styled(Modal)`
+.ant-modal-content{
+  padding:0;
+}
+
+.ant-modal-wrap{
+  background: rgba(0, 0, 0, 0.6);
+} 
+
+.main {
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+`
+
+const StyledBox = styled.div`
+position: relative;
+width: 100%;
+/* max-height: 935px; */
+ height: ${props => props.width >= 2000 ? "935px" : "700px"};
+background-color: white;
+border-radius: 1.2rem;
+`

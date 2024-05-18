@@ -45,6 +45,7 @@ export const StyledFormContainer = styled.div`
 export const StyledLoginForm = styled.div`
   background-color: white;
   max-width: 500px;
+  padding: ${props => props.width > 1150 ? "0 37.5px" : "0 37.5px"};
   width: 100%;
   color: black;
   margin: auto;
@@ -61,11 +62,11 @@ export const StyledLoginForm = styled.div`
 export const StyledSignInForm = styled(Form)`
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  /* padding: 0 1rem; */
   max-width: 500px;
   min-width: 350px;
   width: 100%;
-  justify-content: start;
+  justify-content: center;
 `;
 
 export const StyledHeading = styled.h1`
@@ -77,16 +78,17 @@ export const StyledDevTown = styled.h1`
   font-weight: 900;
 `;
 export const StyledP = styled.p`
-  margin-top: 1.5rem;
-  margin: 0;
+  /* margin-top: 1.5rem;
   display: block;
   margin-block-start: 1em;
   margin-block-end: 1em;
   margin-inline-start: 0px;
-  margin-inline-end: 0px;
+  margin-inline-end: 0px; */
+  margin: 0;
+  margin-bottom: 16px;
   text-align: left;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 13.5px;
   line-height: 1.25rem;
 `;
 export const InputUsername = styled(Input)`
@@ -189,6 +191,7 @@ export const SignInText = styled.p`
 export const BlueText = styled.p`
   color: #0859de;
   font-weight: 500;
+  cursor: pointer;
 `;
 
 export const StyledLabel = styled.p`

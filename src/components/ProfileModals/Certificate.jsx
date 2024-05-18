@@ -1,8 +1,7 @@
-import React from "react";
 import NewModal from "./NewModal";
-import CertificateModal from "./CertificateModal";
 import { LinkOutlined } from "@ant-design/icons";
-import useWindowSize from "../../hooks/useWindowSixe";
+import CertificateModal from "./CertificateModal";
+import useWindowSize from "../../hooks/useWindowSize";
 import {
   CertificateContainer,
   CertificateDescription,
@@ -35,7 +34,7 @@ function Certificate({ cert, index, len, about }) {
                 <CertificateModal type="Edit" cert={cert} />
               </NewModal>
             </CertificateModalOuterContainer>
-           
+
           </CertificateContainer>
           <CertificateContainer>
             <CertificateOrganization>
@@ -67,7 +66,7 @@ function Certificate({ cert, index, len, about }) {
                 <CertificateModal type="Edit" cert={cert} />
               </NewModal>
             </CertificateModalOuterContainer>
-            
+
           </CertificateContainer>
           <CertificateContainer>
             <CertificateOrganization>

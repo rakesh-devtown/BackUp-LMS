@@ -27,16 +27,16 @@ import {
 import FormItem from "antd/es/form/FormItem";
 import MobileCodeMenu from "../../components/ui/MobileCodeMenu";
 import PhoneInput from "react-phone-number-input";
-import useWindowSize from "../../hooks/useWindowSixe.js";
+import useWindowSize from "../../hooks/useWindowSize.js";
 import loginUiStore from "../../store/loginUi.store.js";
 
 function DashBoard() {
   const [code, setCode] = useState();
   const { width } = useWindowSize();
-  const setIsMobileAuthModelOpen = loginUiStore((state) => state.setIsMobileAuthModelOpen); 
-  
+  const setIsMobileAuthModelOpen = loginUiStore((state) => state.setIsMobileAuthModelOpen);
+
   const setIsDesktopAuthModelOpen = loginUiStore((state) => state.setIsDesktopAuthModelOpen);
-  const isMobileAuthModelOpen = loginUiStore((state) => state.isMobileAuthModelOpen); 
+  const isMobileAuthModelOpen = loginUiStore((state) => state.isMobileAuthModelOpen);
   return (
     <main
       style={{
@@ -57,71 +57,71 @@ function DashBoard() {
           justifyContent: "space-between",
           alignItems: "center",
           width: "100%",
-          height:width <  900 ?  "104px"  : "70px",
+          height: width < 992 ? "104px" : "70px",
           backgroundColor: "#101A2E",
           padding: "9px 24px",
         }}
       >
         <img src={MainLogo} height={41} alt="" srcset="" />
         {
-          width < 900 ? (
+          width < 992 ? (
 
             <div>
               <MenuOutlined
 
-              onClick={()=>{
-                setIsMobileAuthModelOpen(!isMobileAuthModelOpen)
-              }}
+                onClick={() => {
+                  setIsMobileAuthModelOpen(!isMobileAuthModelOpen)
+                }}
                 style={{
                   scale: "2",
                   color: "white",
                 }}
               />
             </div>
-          ) : ( 
-           <div  style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                gap: "20px",
-           }}
-              >
-            <NavItem >
-              Home 
-            </NavItem>
-            <NavItem >
-              Courses 
-            </NavItem>
-            <NavItem >
-              Bytes 
-            </NavItem>
-            <NavItem >
-              SignIn 
-            </NavItem>
-            <Button 
-            
-              onClick={() => { 
-                setIsDesktopAuthModelOpen(true)
-              }}
-            style={{
-              backgroundColor:"inherit",
-              margin:"0px",
-              color:"white" ,
-              fontWeight:"700", 
-            }}  >
-              Login 
-            </Button>
-           </div>
+          ) : (
+            <div style={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              gap: "20px",
+            }}
+            >
+              <NavItem >
+                Home
+              </NavItem>
+              <NavItem >
+                Courses
+              </NavItem>
+              <NavItem >
+                Bytes
+              </NavItem>
+              <NavItem >
+                SignIn
+              </NavItem>
+              <Button
+
+                onClick={() => {
+                  setIsDesktopAuthModelOpen(true)
+                }}
+                style={{
+                  backgroundColor: "inherit",
+                  margin: "0px",
+                  color: "white",
+                  fontWeight: "700",
+                }}  >
+                Login
+              </Button>
+            </div>
           )
         }
       </nav>
       <section
         style={{
           display: "flex",
-          flexDirection: width > 900 ? "row" : "column",
+          flexDirection: width >= 992 ? "row" : "column",
           justifyContent: "center",
           alignItems: "center",
-          width: width > 900 ? "65%" : "100%",
+          width: width >= 992 ? "65%" : "100%",
           height: "100%",
         }}
       >
@@ -164,7 +164,7 @@ function DashBoard() {
         </HeroDiv>
         <ContactDiv
           style={{
-            width: width > 900 ? "500px" : "95%",
+            width: width >= 992 ? "500px" : "95%",
           }}
         >
           <h1>
@@ -236,7 +236,7 @@ function DashBoard() {
                   Apply Now
                 </StyledButton>
               </FormItem>
-              {width > 900 && (
+              {width >= 992 && (
                 <div
                   style={{
                     color: "#0859DE",
@@ -260,7 +260,7 @@ function DashBoard() {
                 </div>
               )}
             </div>
-                   
+
             <p
               style={{
                 display: "flex",
@@ -282,7 +282,7 @@ function DashBoard() {
           </Form>
         </ContactDiv>
       </section>
-      {width > 900 && (
+      {width >= 992 && (
         <section
           style={{
             marginTop: "64px",

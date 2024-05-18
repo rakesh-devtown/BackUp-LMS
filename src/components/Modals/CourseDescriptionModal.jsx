@@ -8,10 +8,10 @@ import CourseRequirements from "../Cards/CourseRequirements";
 import CourseCertification from "../Cards/CourseCertification";
 import CourseInstructorCard from "../Cards/CourseInstructorCard";
 import MncCard from "../Cards/MncCard";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 import useLmsUiStore from "../../store/lmsUiStore";
 const CourseDescriptionModal = () => {
-  const {width } = useWindowSize() ;
+  const { width } = useWindowSize();
   const isCourseDescriptionModalOpen = useLmsUiStore(state => state.isCourseDescriptionModalOpen);
   const setCourseDescriptionModalOpen = useLmsUiStore(state => state.setCourseDescriptionModalOpen);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +28,7 @@ const CourseDescriptionModal = () => {
     <div>
       <Modal
         style={{}}
-        width={  width < 900 ? "96%" :     "70%"}
+        width={width < 900 ? "96%" : "70%"}
         open={isCourseDescriptionModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -109,10 +109,10 @@ const CourseDescriptionModal = () => {
             <CourseCertification />
           </div>
           <div>
-            <MncCard/>
+            <MncCard />
           </div>
           <div>
-            <CourseInstructorCard/>
+            <CourseInstructorCard />
           </div>
         </div>
       </Modal>

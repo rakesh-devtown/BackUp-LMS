@@ -5,14 +5,14 @@ export default function SideBarDashBoardCard() {
   return (
     <Div>
       <Img
-        
+
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/a6d2bc1cf9cc288d2eec0114d8e448f401f0a6a257535ce0776deeb2a582a16d?"
       />
       <Div2>
         <span
-            style={{
-                fontSize : "14px"
-            }}
+          style={{
+            fontSize: "14px"
+          }}
         >Start your </span>Free Demo Course
       </Div2>
       <Div3>Go to course page</Div3>
@@ -21,7 +21,7 @@ export default function SideBarDashBoardCard() {
 }
 
 const Div = styled.div`
-    display:    flex;
+  display:flex;
   justify-content: start;
   border-radius: 12px;
   background-color: #1e6de8;

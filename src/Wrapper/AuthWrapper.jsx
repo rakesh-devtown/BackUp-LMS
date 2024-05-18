@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import DashBoard from "../pages/Dashboard/DashBoard";
-import useWindowSize from "../hooks/useWindowSixe";
+import useWindowSize from "../hooks/useWindowSize";
 import Login from "../pages/Auth/Login";
 import LoginMobileView from "../pages/Auth/LoginMobileView";
 
@@ -43,7 +43,7 @@ const AuthWrapper = (props) => {
       }}
     >
       <DashBoard />
-      {width > 900 ? <Login /> : <LoginMobileView />}
+      {width > 992 ? <Login /> : <LoginMobileView />}
     </div>
   );
 };

@@ -1,22 +1,28 @@
 import React from "react";
-import styled from "styled-components";
 import LayoutTopAd from "../components/LayoutComponents/LayoutTopAd";
 import MainLayoutHero from "./MainLayoutHero";
-import useWindowSize from "../hooks/useWindowSixe";
-import PersonCarrerReadyCard from "../components/ui/PersonCarrerReadyCard";
-import { LayoutOuterContainer } from "../styles/layout.styles";
+import useWindowSize from "../hooks/useWindowSize";
+import { theme, Layout } from "antd";
 
 
 function LayoutContent() {
   const width = useWindowSize().width;
-  return <LayoutOuterContainer>
-    {
-      width > 900 && <LayoutTopAd/>
-    }
-    <MainLayoutHero/>
-    
-    
-  </LayoutOuterContainer>;
+  const { Content, Sider } = Layout;
+  const { token: { colorBgContainer } } = theme.useToken();
+
+  return <Layout>
+    <Content>
+
+      {
+        width > 900 && <LayoutTopAd />
+      }
+      <MainLayoutHero />
+    </Content>
+    <Sider collapsed={width <= 900} collapsedWidth={0} style={{ background: colorBgContainer }} width={200} >
+      Sider Will Be here
+    </Sider>
+
+  </Layout>;
 }
 
 export default LayoutContent;

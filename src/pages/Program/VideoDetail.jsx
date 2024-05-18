@@ -18,7 +18,7 @@ import { serviceGet, servicePost, servicePut } from "../../utils/api";
 import { setHeader } from "../../utils/header";
 import CertificateDropDown from "../../components/courses/CertficateDropDown";
 import useAuthStore from "../../store/authStore";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 import {
   ThumbnailImage,
   VideoDetailBackButton,
@@ -200,18 +200,18 @@ const VideoDetail = () => {
     state: { thumbnail },
   } = useLocation();
   let progress;
-  
+
   if (sections && sections.length > 0 && section) {
     progress = sections?.filter((e) => e._id === section._id)[0];
   }
   const isPresent = progress?.progress?.videos.includes(
     currentVideoDetails._id
-    );
+  );
 
 
   const handleSubmit = async (e) => {
-    
-    
+
+
     try {
       setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
@@ -219,7 +219,7 @@ const VideoDetail = () => {
         success,
         data: { student },
         message,
-      } = await servicePut("student/student-api/v1/me/update", updateProfile ,   axios.defaults.headers.common);
+      } = await servicePut("student/student-api/v1/me/update", updateProfile, axios.defaults.headers.common);
 
       if (success) {
         setReady(true); // Update the ready state if the request was successful
@@ -232,7 +232,7 @@ const VideoDetail = () => {
           ...updateProfile,
         });
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
-        
+
         const { data, success, message } = await servicePost(
           `student/student-api/v1/video/progress`,
           {
@@ -259,13 +259,13 @@ const VideoDetail = () => {
         description: error.message,
       });
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
   async function handleGetCourseData() {
     if (!currentBatchId) {
       navigate("/programs");
-      return ;
+      return;
     }
 
     if (!currentBatch.course) {
@@ -287,12 +287,12 @@ const VideoDetail = () => {
 
       setCertificates(data.certificates);
     } catch (error) {
-      
+
     } finally {
       setLoading(false)
     }
   };
-  
+
   // Mark video as watched
   const onWatched = async (e) => {
     const lastSection = sections[sections.length - 1];
@@ -300,7 +300,7 @@ const VideoDetail = () => {
 
     try {
       // check if course has been completed or not
-      setLoading( true)
+      setLoading(true)
       let cc = false;
       if (currentVideoDetails._id == lastVideo._id) {
         if (!lastSection.progress) {
@@ -370,22 +370,22 @@ const VideoDetail = () => {
         setLoading(true);
         await getVideo(currentVideo._id);
       } catch (error) {
-        
-      }finally {
+
+      } finally {
 
         setLoading(false);
       }
     }
   }, [currentVideo._id, getVideo]);
 
-  
+
   useEffect(() => {
     handleGetCourseData();
   }, [currentBatch]);
   useEffect(() => {
     handleGetVideo();
   }, [handleGetVideo]);
-  
+
   useEffect(() => {
     getCert();
   }, [currentBatch._id]);
@@ -406,7 +406,7 @@ const VideoDetail = () => {
             type="primary"
             onClick={() => navigate("/programs")}
           >
-            <ArrowLeftOutlined /> Back 
+            <ArrowLeftOutlined /> Back
           </VideoDetailBackButton>
         )}
         <StyledLeft width={width}>
@@ -427,23 +427,23 @@ const VideoDetail = () => {
             {
               currentVideo.name && (
                 <>
-            {isPresent ? (
-              <Button
-              type="primary"
-              style={{ cursor: "not-allowed" }}
-              icon={<EyeOutlined />}
-              >
-                Marked as Watched
-              </Button>
-            ) : (
-              <Button onClick={onWatched} type="primary" icon={<EyeOutlined />}>
-                Mark as Watched
-              </Button>
-            )}
-            </>
-              ) 
+                  {isPresent ? (
+                    <Button
+                      type="primary"
+                      style={{ cursor: "not-allowed" }}
+                      icon={<EyeOutlined />}
+                    >
+                      Marked as Watched
+                    </Button>
+                  ) : (
+                    <Button onClick={onWatched} type="primary" icon={<EyeOutlined />}>
+                      Mark as Watched
+                    </Button>
+                  )}
+                </>
+              )
             }
-            
+
           </StyledVideoTitle>
 
           <VimeoContainer>

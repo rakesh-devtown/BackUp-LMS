@@ -3,9 +3,9 @@ import styled from "styled-components";
 import useLayoutUiStore from "../../store/layoutUI";
 
 export default function MultiStepFormJoinedWhatsapp() {
-    const currentMultiStepFormPage = useLayoutUiStore((state) => state.currentMultiStepFormPage);
+  const currentMultiStepFormPage = useLayoutUiStore((state) => state.currentMultiStepFormPage);
 
-  const setCurrentMultiStepFormPage = useLayoutUiStore((state) => state.setMultiStepFormPage);  return (
+  const setCurrentMultiStepFormPage = useLayoutUiStore((state) => state.setMultiStepFormPage); return (
     <Div>
       <Div2>
         <Img
@@ -61,11 +61,11 @@ export default function MultiStepFormJoinedWhatsapp() {
 
         >Joined Our WhatsApp Groups!</Div17>
         <Div18
-        
-            onClick={() => {
-                setCurrentMultiStepFormPage(currentMultiStepFormPage +1 );
-                
-            }}
+
+          onClick={() => {
+            setCurrentMultiStepFormPage(currentMultiStepFormPage + 1);
+
+          }}
         >Next</Div18>
       </Div16>
     </Div>

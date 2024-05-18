@@ -28,7 +28,7 @@ import authStore from "../store/authStore";
 import { setHeader } from "../utils/header";
 import useAuthStore from "../store/authStore";
 import useLoadingStore from "../store/loadingStore";
-import useWindowSize from "../hooks/useWindowSixe";
+import useWindowSize from "../hooks/useWindowSize";
 import {
   LayoutActions,
   LayoutContainer,
@@ -143,7 +143,7 @@ const Sidebar = () => {
       <LayoutContainer>
         {width < 700 && open && (
           <Sider
-            collapsed={false  }
+            collapsed={false}
             onCollapse={(value) => {
               setCollapsed(value);
             }}
