@@ -1,11 +1,13 @@
 import styled from 'styled-components'
 import MyCoursesCard from '../../components/Cards/MyCoursesCard'
+import useWindowSize from '../../hooks/useWindowSize'
 
 const MyCourses = () => {
 
+    const { width } = useWindowSize();
 
     return (
-        <StyledContainer>
+        <StyledContainer width={width}>
             <h4>Enrolled Courses</h4>
             <div className="list">
                 <MyCoursesCard />
@@ -17,7 +19,7 @@ const MyCourses = () => {
 }
 
 const StyledContainer = styled.section`
-    padding:24px;
+    padding:${props => props.width >= 768 ? "24px" : "16px"};
     font-family: "DM Sans";
     font-style: normal;
     line-height: normal;

@@ -69,15 +69,11 @@ export const routes = [
     children: [
       {
         path: routeDefinitions.INDEX,
-        element: <Lms />,
+        element: <MyCourses />,
       },
       {
         path: routeDefinitions.Courses,
         element: <MyCourses />,
-      },
-      {
-        path: 'lms',
-        element: <Lms />,
       },
       {
         path: routeDefinitions.Video,
@@ -90,6 +86,14 @@ export const routes = [
       {
         path: routeDefinitions.Profile,
         element: <MyResume />
+      },
+      {
+        path: 'lms',
+        element: <Lms />,
+      },
+      {
+        path: 'home',
+        element: <LayoutContent />,
       },
       // {
       //   path: routeDefinitions.PROGRAM,

@@ -86,18 +86,23 @@ const StyledCard = styled.div`
     //styling for the hidden div
     .hidden-card{
         display: none;
-        padding: 15px 0px;
+        padding: 14px 0px;
         flex-direction: column;
-        font-size: 16px;
-        font-weight: 500;
+
+        font-family: Inter;
+        font-size: 14.4px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 25.6px;
+        letter-spacing: -0.144px;
+
         background-color: ${props => props.bgColor ? props.bgColor : "#E7B11F"};
         color: white;
-        /* transition: all 2s; */
         .completed,.ongoing{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            padding: 6px 16px;
             transition: all 0.3s;
         }
         .completed{

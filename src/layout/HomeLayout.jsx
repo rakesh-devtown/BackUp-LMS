@@ -156,8 +156,7 @@ function HomeLayout() {
 
     const myBtnStyle = {
         backgroundColor: "var(--secondaryColor)",
-        position: 'absolute',
-        top: '-16px'
+        position: 'fixed',
     }
 
     const sideNavbarWidth = "200px"
@@ -166,13 +165,13 @@ function HomeLayout() {
         <Layout
             style={{
                 width: "100%",
-                background: isMobileSideBarOpen ? "rgba(0, 0, 0, 0.5)" : "#F4F7FE",
+                background: "#F4F7FE",
             }}
         >
-            <StyledHeader colorBgContainer={colorBgContainer}>
+            <StyledHeader width={width} colorBgContainer={colorBgContainer}>
                 <HeaderBar isMobileSideBarOpen={isMobileSideBarOpen} />
             </StyledHeader>
-            <StyledLayout >
+            <StyledLayout collapsed={collapsed} width={width} >
                 {width >= 992 ? (
                     <>
                         <Sider
@@ -235,10 +234,10 @@ function HomeLayout() {
 
                 {
                     width >= 992 ?
-                        <Content style={{ marginLeft: `calc(${collapsed ? "80px" : sideNavbarWidth} + 14px)` }}>
+                        <Content style={{ marginLeft: `calc(${collapsed ? "80px" : sideNavbarWidth} + 14px)`, paddingTop: "16px" }}>
                             <Outlet />
                         </Content> :
-                        <Content>
+                        <Content style={{ paddingTop: "16px" }}>
                             <Outlet />
                         </Content>
                 }
@@ -251,13 +250,13 @@ function HomeLayout() {
 
 
 const StyledLayout = styled(Layout)`
-padding: 18px 20px 15px 20px;
+padding: ${props => props.width >= 768 ? "18px 20px 15px 20px" : "18px 12px 15px 12px"};
 background: #F4F7FE;
 
 .ant-menu-item{
-    padding-left: 20px !important;
     font-size: 16px;
     margin: 12px 0;
+    /* padding-left: ${props => props.collapsed ? null : "20px !important"}; */
 } 
 .ant-menu-item-selected{
     border-radius: 0;

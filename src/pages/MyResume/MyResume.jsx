@@ -55,7 +55,8 @@ const MyResume = () => {
                     <Skills />
                 </ProfileContent>
 
-                <ConfirmDiv>
+                {/* not added in first release */}
+                {/* <ConfirmDiv>
                     <Checkbox onChange={() => setCheckbox(!checkbox)}>
                         <p>
                             I confirm that all details provided are correct and filled to the best of my knowledge. <span onClick={handleTermsAndCondition}>Terms & Conditions</span>
@@ -64,7 +65,7 @@ const MyResume = () => {
                 </ConfirmDiv>
                 <Button type='primary' size="large" style={myButtonStyle} >
                     Create My Resume
-                </Button>
+                </Button> */}
             </ProfileContainer>
         </>
 
