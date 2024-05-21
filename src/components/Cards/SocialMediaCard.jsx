@@ -1,12 +1,29 @@
-import { FacebookOutlined, LinkedinOutlined, WhatsAppOutlined } from '@ant-design/icons'
-import { Space } from 'antd'
+import { useState } from 'react'
 import styled from 'styled-components'
+import { Button, Space, message } from 'antd'
+import { FacebookOutlined, LinkedinOutlined, WhatsAppOutlined } from '@ant-design/icons'
 import instaIcon from '../../assets/images/instaIcon.svg'
+import { SuccessMessage } from '../../styles/messagePopup.styles'
 
 const SocialMediaCard = () => {
 
+    const [shareUrl, setShareUrl] = useState(window.location.href)
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const handleShare = async () => {
+        await navigator.clipboard.writeText(shareUrl);
+        messageApi.open({
+            key: 1,
+            content: <SuccessMessage>Copied URL</SuccessMessage>,
+            duration: 1,
+            className: "success-message"
+        });
+    }
+
     return (
         <StyledShare>
+            {/* succesful notification will be showed here */}
+            {contextHolder}
             <div className='socialMedia'>
                 <Space size={10} direction='vertical'>
                     <a className='whatsApp'><WhatsAppOutlined /></a>
@@ -25,6 +42,10 @@ const SocialMediaCard = () => {
                     <p>Facebook</p>
                 </Space>
             </div>
+            <CopyLink>
+                <p>{shareUrl}</p>
+                <Button type='primary' size='large' shape='round' onClick={handleShare} >Copy Link</Button>
+            </CopyLink>
         </StyledShare>
     )
 }
@@ -69,4 +90,21 @@ const StyledShare = styled.div`
     }
 }
 
+`
+
+const CopyLink = styled.div`
+display: flex;
+align-items: center;
+padding: 4px 4px 4px 16px;
+gap: 10px;
+border-radius: 40px;
+border: 1px solid #CBCBCB;
+background: #F9F9F9;
+p{
+flex-grow: 1;
+color: #0F0F0F;
+font-family: "DM Sans";
+font-size: 14px;
+font-weight: 400;
+}
 `

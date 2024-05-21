@@ -99,6 +99,7 @@ const StyledCard = styled.div`
         background-color: ${props => props.bgColor ? props.bgColor : "#E7B11F"};
         color: white;
         .completed,.ongoing{
+            font-size: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -124,7 +125,7 @@ const StyledCard = styled.div`
         display: flex;
     }
     .percentage-completion{
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 400;
     }
     .ant-progress-bg{

@@ -85,7 +85,7 @@ const AddCertification = () => {
                 </Form.Item>
             </InnerContainer>
             <Form.Item>
-                <Button type='primary' htmlType='submit' size='large'>Save</Button>
+                <Button type='primary' htmlType='submit' size='large'  >Save</Button>
             </Form.Item>
         </StyledForm>
     )

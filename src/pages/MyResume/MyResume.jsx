@@ -10,7 +10,7 @@ import Education from "../../components/Resume/Education/Education";
 import Skills from "../../components/Resume/Skills/Skills";
 import Project from "../../components/Resume/Project/Project";
 import Certifications from "../../components/Resume/Certifications/Certifications";
-import WorkExperience from "../../components/Resume/WorkPositionCard.jsx/WorkExperience";
+import WorkExperience from "../../components/Resume/WorkExperience/WorkExperience";
 
 
 const MyResume = () => {

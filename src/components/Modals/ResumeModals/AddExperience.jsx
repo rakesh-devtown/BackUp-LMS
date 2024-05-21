@@ -1,25 +1,39 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from 'antd'
+import { Button, Checkbox, Col, Form, Input, Row, Space } from 'antd'
 import CustomDatePicker from '../../DatePicker/CustomDatePicker'
-import { StyledForm, Title, InnerContainer, StyledDate } from '../../../styles/myResume.styles'
+import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn } from '../../../styles/myResume.styles'
 import TextArea from 'antd/es/input/TextArea'
+import useWindowSize from '../../../hooks/useWindowSize'
 
+
+const customizeRequiredMark = (label, { required }) => (
+    <>
+        {label}
+        {required ? <span style={{ color: "#1E6DE8" }}>*</span> : ""}
+    </>
+);
 
 const AddExperience = ({ value }) => {
 
-    const [state, setState] = useState(value)
-    const [checkbox1, setcheckbox1] = useState(value?.endDate.preset)
-    const [checkbox2, setcheckbox2] = useState(false)
+    const [state, setState] = useState(value);
+    const [checkbox1, setcheckbox1] = useState(value?.endDate.preset);
+    const [checkbox2, setcheckbox2] = useState(false);
+    const { width } = useWindowSize();
 
     const handleCheckbox1 = () => setcheckbox1(!checkbox1)
     const handleCheckbox2 = () => setcheckbox2(!checkbox2)
     const handleSubmit = (e) => {
         console.log(e)
     }
+    const handleDelete = () => console.log("delete");
 
     return (
-        <StyledForm name="basic" onFinish={handleSubmit} >
+        <StyledForm name="basic" onFinish={handleSubmit}
+            // initialValues={{
+            //     requiredMarkValue: requiredMark,
+            // }}
+            requiredMark={customizeRequiredMark}
+        >
             <Title>{value ? "Edit" : "Add"} Work Experience</Title>
             <InnerContainer>
 
@@ -79,7 +93,15 @@ const AddExperience = ({ value }) => {
                 </Form.Item>
             </InnerContainer>
             <Form.Item>
-                <Button type='primary' htmlType='submit' size='large'>Save</Button>
+                {
+                    value ? (
+                        <Space>
+                            <Button type='primary' htmlType='submit' size='large' style={{ width: "250px" }}>Update</Button>
+                            <Button type='primary' danger ghost size='large' style={{ width: "250px" }} onClick={handleDelete}>Delete</Button>
+                        </Space>
+                    ) :
+                        <SaveBtn width={width} type='primary' htmlType='submit' size='large'>Save</SaveBtn>
+                }
             </Form.Item>
         </StyledForm>
     )

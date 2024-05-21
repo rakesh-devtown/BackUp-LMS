@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Button, Checkbox, Col, Form, Input, InputNumber, Row, Upload } from 'antd'
+import { Button, Checkbox, Col, Form, Input, InputNumber, Row, Space, Upload } from 'antd'
 import CustomDatePicker from '../../DatePicker/CustomDatePicker'
 import { StyledForm, Title, InnerContainer, StyledDate } from '../../../styles/myResume.styles'
 import TextArea from 'antd/es/input/TextArea'
 import CountrySelect from '../../CountrySelect/CountrySelect'
-import { PlusOutlined } from '@ant-design/icons'
+import { EditOutlined, FileFilled, PlusOutlined } from '@ant-design/icons'
 
 const EditPersonalDetails = ({ value }) => {
 
-    const [upload, setUpload] = useState(true)
+    const [upload, setUpload] = useState(false)
 
 
     const handleSubmit = (e) => console.log(e);
@@ -117,14 +117,25 @@ const EditPersonalDetails = ({ value }) => {
                     valuePropName="fileList"
                     getValueFromEvent={normFile}
                 >
-                    {
-                        // upload &&
-                        <StyledUpload name="logo" action="/upload.do" listType="picture">
+                    {upload &&
+                        <StyledUpload name="logo" action="/upload.do" listType="picture" onChange={handleUpload}>
                             <Button icon={<PlusOutlined />} size='large' style={{ marginTop: "10px" }}>Upload</Button>
                         </StyledUpload>
                     }
                 </Form.Item>
-
+                {
+                    !upload &&
+                    <UploadedResume>
+                        <Space size={28}>
+                            <FileFilled style={{ color: "red" }} />
+                            <Space size={5} direction='vertical'>
+                                <h5>Sujith S</h5>
+                                <p>My Resume</p>
+                            </Space>
+                        </Space>
+                        <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleUpload} >Edit</Button>
+                    </UploadedResume>
+                }
 
             </InnerContainer>
             <Form.Item>
@@ -137,5 +148,23 @@ const EditPersonalDetails = ({ value }) => {
 const StyledUpload = styled(Upload)`
 display: flex;
 justify-content: center;
+`
+
+const UploadedResume = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "DM Sans";
+    h5{
+        color: #121212;
+    }
+    p{
+        color: #121212;        
+        font-size: 14px;
+        font-weight: 400;
+    }
+    input{
+        height: unset;
+    }
 `
 export default EditPersonalDetails
