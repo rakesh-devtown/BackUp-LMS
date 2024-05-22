@@ -72,6 +72,7 @@ const StyledDiv = styled.div`
     .input-box{
         position: relative;
         label{
+            font-family: "DM Sans";
             padding: 0 5px !important;
             position: absolute;
             /* color: #121826; */
@@ -80,7 +81,7 @@ const StyledDiv = styled.div`
             z-index: 5;
             background: white;
             left: 15px;
-            font-weight: 700;
+            font-weight: 600;
             padding: 0;
         }
         .ant-input-affix-wrapper{

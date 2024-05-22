@@ -26,7 +26,7 @@ const CertificationCard = ({ icon, }) => {
                     <p>Credential Id 4s65d4f54sdf545s4f543s54f64f</p>
                     <Button icon={<UploadOutlined />} iconPosition="end" shape='round' size='large'>Show Credential</Button>
                 </Space>
-                <Button type="text" danger icon={<EditOutlined />} size="large" >Edit</Button>
+                <Button type="text" danger icon={<EditOutlined />} size="large" className='edit-btn'>Edit</Button>
             </div>
         </Position>
     )

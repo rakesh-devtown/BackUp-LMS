@@ -4,7 +4,7 @@ html * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: "Poppins", sans-serif; */
+  font-family: "DM Sans";
 }
 input {
   /* font-family: "Poppins", sans-serif; */
@@ -31,11 +31,8 @@ li {
 }
 
 /* removing background from antd message component */
-.ant-message-top {
-  /* top: 30px !important; */
-  .ant-message-notice-content {
-    padding: 0 !important;
-  }
+.success-message .ant-message-notice-content {
+  background-color: #3fb34f !important;
 }
 
 /* disabled antd menu options */

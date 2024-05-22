@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Button, Checkbox, Col, Form, Input, InputNumber, Row, Upload } from 'antd'
-import CustomDatePicker from '../../DatePicker/CustomDatePicker'
-import { StyledForm, Title, InnerContainer, StyledDate } from '../../../styles/myResume.styles'
-import TextArea from 'antd/es/input/TextArea'
-import CountrySelect from '../../CountrySelect/CountrySelect'
-import { PlusOutlined } from '@ant-design/icons'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Button, Col, Form, Input, InputNumber, Row, Space, Upload } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
+import { EditOutlined, FileFilled, PlusOutlined } from '@ant-design/icons';
+import useWindowSize from '../../../hooks/useWindowSize'
+import { StyledForm, Title, InnerContainer, UpdateDelete } from '../../../styles/myResume.styles';
+import CountrySelect from '../../CountrySelect/CountrySelect';
+import customizeRequiredMark from '../../../utils/custom-form-functions';
 
 const EditPersonalDetails = ({ value }) => {
 
-    const [upload, setUpload] = useState(true)
+    const [upload, setUpload] = useState(false)
+    const { width } = useWindowSize();
 
-
+    const handleDelete = () => console.log("delete");
     const handleSubmit = (e) => console.log(e);
     const handleUpload = () => setUpload(!upload)
 
@@ -24,7 +26,7 @@ const EditPersonalDetails = ({ value }) => {
     };
 
     return (
-        <StyledForm name="basic" onFinish={handleSubmit} requiredMark={<PlusOutlined />} >
+        <StyledForm name="basic" onFinish={handleSubmit} requiredMark={customizeRequiredMark} >
             <Title>Personal Details</Title>
             <InnerContainer>
 
@@ -117,18 +119,32 @@ const EditPersonalDetails = ({ value }) => {
                     valuePropName="fileList"
                     getValueFromEvent={normFile}
                 >
-                    {
-                        // upload &&
-                        <StyledUpload name="logo" action="/upload.do" listType="picture">
+                    {upload &&
+                        <StyledUpload name="logo" action="/upload.do" listType="picture" onChange={handleUpload}>
                             <Button icon={<PlusOutlined />} size='large' style={{ marginTop: "10px" }}>Upload</Button>
                         </StyledUpload>
                     }
                 </Form.Item>
-
+                {
+                    !upload &&
+                    <UploadedResume>
+                        <Space size={28}>
+                            <FileFilled style={{ color: "red" }} />
+                            <Space size={5} direction='vertical'>
+                                <h5>Sujith S</h5>
+                                <p>My Resume</p>
+                            </Space>
+                        </Space>
+                        <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleUpload} >Edit</Button>
+                    </UploadedResume>
+                }
 
             </InnerContainer>
             <Form.Item>
-                <Button type='primary' htmlType='submit' size='large'>Save</Button>
+                <UpdateDelete width={width}>
+                    <Button type='primary' htmlType='submit' size='large'>Update</Button>
+                    <Button type='primary' danger ghost size='large' onClick={handleDelete}>Cancel</Button>
+                </UpdateDelete>
             </Form.Item>
         </StyledForm>
     )
@@ -137,5 +153,23 @@ const EditPersonalDetails = ({ value }) => {
 const StyledUpload = styled(Upload)`
 display: flex;
 justify-content: center;
+`
+
+const UploadedResume = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "DM Sans";
+    h5{
+        color: #121212;
+    }
+    p{
+        color: #121212;        
+        font-size: 14px;
+        font-weight: 400;
+    }
+    input{
+        height: unset;
+    }
 `
 export default EditPersonalDetails

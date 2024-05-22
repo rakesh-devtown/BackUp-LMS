@@ -33,7 +33,7 @@ const WorkPosition = () => {
                     <h5>UX Designer</h5>
                     <p>Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo.</p>
                 </Space>
-                <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleShowModal} >Edit</Button>
+                <Button type="text" danger icon={<EditOutlined />} size="large" className='edit-btn' onClick={handleShowModal} >Edit</Button>
 
             </div>
         </Position>

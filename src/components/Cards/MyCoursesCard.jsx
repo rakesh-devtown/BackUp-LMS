@@ -108,6 +108,9 @@ const Bottom = styled.div`
         i{
             padding: 5px;
         }
+        button{
+            font-family: 'DM Sans';
+        }
     }
     .details{
         display: flex;

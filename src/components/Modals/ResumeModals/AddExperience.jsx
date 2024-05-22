@@ -1,25 +1,29 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from 'antd'
-import CustomDatePicker from '../../DatePicker/CustomDatePicker'
-import { StyledForm, Title, InnerContainer, StyledDate } from '../../../styles/myResume.styles'
-import TextArea from 'antd/es/input/TextArea'
-
+import React, { useState } from 'react';
+import TextArea from 'antd/es/input/TextArea';
+import { Button, Checkbox, Col, Form, Input, Row, Space } from 'antd';
+import useWindowSize from '../../../hooks/useWindowSize';
+import CustomDatePicker from '../../DatePicker/CustomDatePicker';
+import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from '../../../styles/myResume.styles';
+import customizeRequiredMark from '../../../utils/custom-form-functions';
 
 const AddExperience = ({ value }) => {
 
-    const [state, setState] = useState(value)
-    const [checkbox1, setcheckbox1] = useState(value?.endDate.preset)
-    const [checkbox2, setcheckbox2] = useState(false)
+    const [state, setState] = useState(value);
+    const [checkbox1, setcheckbox1] = useState(value?.endDate.preset);
+    const [checkbox2, setcheckbox2] = useState(false);
+    const { width } = useWindowSize();
 
     const handleCheckbox1 = () => setcheckbox1(!checkbox1)
     const handleCheckbox2 = () => setcheckbox2(!checkbox2)
     const handleSubmit = (e) => {
         console.log(e)
     }
+    const handleDelete = () => console.log("delete");
 
     return (
-        <StyledForm name="basic" onFinish={handleSubmit} >
+        <StyledForm name="basic" onFinish={handleSubmit}
+            requiredMark={customizeRequiredMark}
+        >
             <Title>{value ? "Edit" : "Add"} Work Experience</Title>
             <InnerContainer>
 
@@ -79,12 +83,18 @@ const AddExperience = ({ value }) => {
                 </Form.Item>
             </InnerContainer>
             <Form.Item>
-                <Button type='primary' htmlType='submit' size='large'>Save</Button>
+                {
+                    value ? (
+                        <UpdateDelete width={width}>
+                            <Button type='primary' htmlType='submit' size='large'>Update</Button>
+                            <Button type='primary' danger ghost size='large' onClick={handleDelete}>Delete</Button>
+                        </UpdateDelete>
+                    ) :
+                        <SaveBtn width={width} type='primary' htmlType='submit' size='large'>Save</SaveBtn>
+                }
             </Form.Item>
         </StyledForm>
     )
 }
-
-
 
 export default AddExperience;

@@ -1,38 +1,6 @@
-import { Form } from "antd";
+import { Button, Form } from "antd";
 import styled from "styled-components";
 
-export const StyledHeader = styled.div`
-    display: flex;
-    justify-content: space-between;
-`
-
-export const StyledContainer = styled.div`
-    display:flex;
-    flex-direction: column;
-    gap: 24px;
-    width: 100%;
-    font-family: "DM Sans";
-    font-style: normal;
-   h4{
-       color: #384D6D;
-       font-size: 20px;
-       font-weight: 500;
-       line-height: 25px;
-       letter-spacing: 0.1px;
-   }
-   h5{
-       color: #1A2C47;
-       font-size: 20px;
-       font-weight: 700;
-       line-height: 25px; 
-       letter-spacing: 0.1px;
-   }
-   p{
-       font-size: 16px;
-       font-weight: 400;
-       color: #61738E;
-   }
-`
 
 export const DotStyle = styled.i`
     svg{
@@ -41,19 +9,6 @@ export const DotStyle = styled.i`
     height: 6px;
 }
 `
-
-
-export const StyledForm = styled(Form)`
-    font-family: "DM Sans";
-    font-style: normal;
-    line-height: normal;
-    font-size: 16px;
-    .ant-form-item{
-        margin: 0;
-        flex-grow: 1;
-    }
-`
-
 export const Title = styled.h5`
         color: #384D6D;
         font-size: 20px;
@@ -62,6 +17,48 @@ export const Title = styled.h5`
         letter-spacing: 0.1px;
 `
 
+export const StyledHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    button{
+        font-family: 'DM Sans';
+        font-weight: 500;
+    }
+`
+
+export const StyledContainer = styled.div`
+    display:flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    font-style: normal;
+    h4{
+        font-family: "DM Sans";
+        color: #384D6D;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 25px;
+        letter-spacing: 0.1px;
+    }
+    h5{
+       font-family: "DM Sans";
+       color: #1A2C47;
+       font-size: 20px;
+       font-weight: 700;
+       line-height: 25px; 
+       letter-spacing: 0.1px;
+    }
+    p{
+       font-family: "DM Sans";
+       font-size: 16px;
+       font-weight: 400;
+       color: #61738E;
+   }
+   .edit-btn{
+    font-family: 'DM Sans';
+    font-weight: 500;
+   }
+`
 
 export const InnerContainer = styled.div`
     max-height: 400px;
@@ -97,6 +94,22 @@ export const InnerContainer = styled.div`
     }
 }
 `
+
+// *form related css*****************
+export const StyledForm = styled(Form)`
+    font-family: "DM Sans";
+    font-style: normal;
+    line-height: normal;
+    font-size: 16px;
+    .ant-form-item{
+        margin: 0;
+        flex-grow: 1;
+    }
+    label,input{
+        font-family: 'DM Sans';
+    }
+`
+
 export const StyledDate = styled.div`
     h5{
         margin-bottom: 16px;
@@ -108,4 +121,21 @@ export const StyledDate = styled.div`
         margin-bottom: 20px;
     }
     
+`
+
+export const SaveBtn = styled(Button)`
+width: ${props => props.width >= 768 ? "250px" : "100%"}
+`
+
+export const UpdateDelete = styled.div`
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 24px;
+    button{
+        /* flex-grow: 1; */
+        flex-grow: ${props => props.width >= 768 ? null : 1};
+        width: ${props => props.width >= 768 ? "250px" : "100%"};
+    }
+
 `

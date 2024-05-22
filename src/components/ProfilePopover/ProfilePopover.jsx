@@ -22,10 +22,10 @@ const ProfilePopover = () => {
                     <i><SettingOutlined /></i>
                     <p>Settings & Privacy</p>
                 </Link>
-                <Link>
+                {/* <Link>
                     <i><QuestionCircleOutlined /></i>
                     <p>Help</p>
-                </Link>
+                </Link> */}
                 <Link className='logout'>
                     <i><MdLogout /></i>
                     <p>Logout</p>

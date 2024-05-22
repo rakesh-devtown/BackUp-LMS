@@ -113,6 +113,8 @@ function HomeLayout() {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const path = (location.pathname).substring(1);
+
     const isMobileSideBarOpen = useLayoutUiStore(
         (state) => state.isMobileSideBarOpen
     );
@@ -198,6 +200,7 @@ function HomeLayout() {
                             <Menu
                                 mode="inline"
                                 // defaultSelectedKeys={["courses"]}
+                                selectedKeys={[path]}
                                 style={antdMenuStyle}
                                 selectable
                                 onSelect={(item, key) => {

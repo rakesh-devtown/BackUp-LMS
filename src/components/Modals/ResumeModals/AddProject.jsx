@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from 'antd'
-import CustomDatePicker from '../../DatePicker/CustomDatePicker'
-import { StyledForm, Title, InnerContainer, StyledDate } from '../../../styles/myResume.styles'
-import TextArea from 'antd/es/input/TextArea'
+import React, { useState } from 'react';
+import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
+import CustomDatePicker from '../../DatePicker/CustomDatePicker';
+import useWindowSize from '../../../hooks/useWindowSize';
+import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from '../../../styles/myResume.styles';
+import TextArea from 'antd/es/input/TextArea';
+import customizeRequiredMark from '../../../utils/custom-form-functions';
 
 
-const AddProject = () => {
+const AddProject = ({ value }) => {
 
+    const [state, setState] = useState(value);
     const [checked, setChecked] = useState(false)
+    const { width } = useWindowSize();
 
+    const handleDelete = () => console.log("delete");
     const handleCheckbox = () => setChecked(!checked)
-
     const handleSubmit = (e) => {
         console.log(e)
     }
 
     return (
-        <StyledForm name="basic" onFinish={handleSubmit} >
+        <StyledForm name="basic" onFinish={handleSubmit} requiredMark={customizeRequiredMark}>
             <Title>Add Project</Title>
             <InnerContainer>
 
@@ -77,7 +80,15 @@ const AddProject = () => {
                 </Form.Item>
             </InnerContainer>
             <Form.Item>
-                <Button type='primary' htmlType='submit' size='large'>Save</Button>
+                {
+                    value ? (
+                        <UpdateDelete width={width}>
+                            <Button type='primary' htmlType='submit' size='large'>Update</Button>
+                            <Button type='primary' danger ghost size='large' onClick={handleDelete}>Delete</Button>
+                        </UpdateDelete>
+                    ) :
+                        <SaveBtn width={width} type='primary' htmlType='submit' size='large'>Save</SaveBtn>
+                }
             </Form.Item>
         </StyledForm>
     )

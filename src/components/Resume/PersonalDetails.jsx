@@ -17,7 +17,7 @@ const PersonalDetails = () => {
       {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"personalDetails"} />}
       <StyledHeader>
         <h4>Personal Details</h4>
-        <Button type="text" danger icon={<EditOutlined />} onClick={handleShowModal} >Edit</Button>
+        <Button type="text" danger icon={<EditOutlined />} onClick={handleShowModal} className='edit-btn' >Edit</Button>
       </StyledHeader>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>

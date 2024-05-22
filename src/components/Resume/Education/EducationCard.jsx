@@ -37,7 +37,7 @@ const EducationCard = () => {
                         <p>Mar 2022</p>
                     </Space>
                 </Space>
-                <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleShowModal} >Edit</Button>
+                <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleShowModal} className='edit-btn' >Edit</Button>
 
             </div>
         </Position>

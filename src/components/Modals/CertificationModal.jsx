@@ -1,12 +1,13 @@
+import { useState } from 'react';
 import { Space, message } from 'antd';
 import styled from 'styled-components';
 import certificate1 from '../../assets/images/certificate1.jpg'
 import logo from '../../assets/images/devtown-logo.svg'
 import useWindowSize from '../../hooks/useWindowSize';
 import { DownloadOutlined, SendOutlined } from '@ant-design/icons';
-import { useState } from 'react';
 import ShareModal from './ShareModal/ShareModal';
 import MainModalBox from './ModalsSecurityPage';
+import { SuccessMessage } from '../../styles/messagePopup.styles';
 
 const CertificateDownloadModal = () => {
 
@@ -18,23 +19,15 @@ const CertificateDownloadModal = () => {
     const handleClose = () => setShowShareModal(false);
 
     const shareModaltitle = "Share your certificates with friends and on social media!"
-    //customized css for message
-    const myStyle = {
-        padding: "10px",
-        borderRadius: "7px",
-        background: "#3FB34F",
-        color: "white",
-        fontSize: "16px",
-        width: "323px",
-        fontWeight: "500",
-    }
+
 
     const handleDownload = () => {
         //showing succcessful notification 
         messageApi.open({
             key: 1,
-            content: <div style={myStyle}>Certificate Downloaded Successfully</div>,
+            content: <SuccessMessage>Certificate Downloaded Successfully</SuccessMessage>,
             duration: 2,
+            className: "success-message",
         });
     }
 

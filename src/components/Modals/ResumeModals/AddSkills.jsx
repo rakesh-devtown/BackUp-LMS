@@ -1,8 +1,7 @@
-import { useState } from 'react'
-import styled from 'styled-components'
-import { Button, Form, Input } from 'antd'
-import { Title, InnerContainer } from '../../../styles/myResume.styles'
-import Skill from './Skill'
+import { useState } from 'react';
+import { Button } from 'antd';
+import { Title, InnerContainer } from '../../../styles/myResume.styles';
+import Skill from './Skill';
 
 const AddSkills = () => {
     const [skills, setSkills] = useState([])
