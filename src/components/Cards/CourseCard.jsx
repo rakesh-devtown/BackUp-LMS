@@ -17,7 +17,7 @@ export default function CourseCard() {
           <Div5>Full Stack Web Development</Div5>
         </Div4>
 
-        {!(url.pathname === "/lms") ? (
+        {!(url.pathname === "/courses") && !(url.pathname === "/") ? (
           <>
             <Div6>
               <Div7>Course Contents</Div7>

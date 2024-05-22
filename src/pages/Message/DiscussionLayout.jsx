@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 import { serviceGet } from "../../utils/api";
 import ChatSidebar from "./ChatSidebar";
 import RocketChat from "./RocketChat";
@@ -42,44 +42,44 @@ const DiscussionLayout = () => {
 
   useEffect(() => {
     fetchData();
-    document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";  
-  return () => {
-    document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";  
-  }
+    document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";
+    return () => {
+      document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";
+    }
   }, []);
   return (
-    
-      <MessageContainer  >
-        {width > 740 ? (
-          <>
-            <ChatSideBarOuterContainer>
-              <ChatSidebar channel={{ channel, setChannel }} chats={chats} />
-            </ChatSideBarOuterContainer>
+
+    <MessageContainer  >
+      {width > 740 ? (
+        <>
+          <ChatSideBarOuterContainer>
+            <ChatSidebar channel={{ channel, setChannel }} chats={chats} />
+          </ChatSideBarOuterContainer>
+          <RocketChatOuterContainer>
+            <RocketChat channel={channel} />
+          </RocketChatOuterContainer>
+        </>
+      ) : (
+        <>
+          {isChatClicked ? (
             <RocketChatOuterContainer>
-              <RocketChat channel={channel} />
+              <RocketChat
+                channel={channel}
+                setIsChatClicked={setIsChatClicked}
+              />
             </RocketChatOuterContainer>
-          </>
-        ) : (
-          <>
-            {isChatClicked ? (
-              <RocketChatOuterContainer>
-                <RocketChat
-                  channel={channel}
-                  setIsChatClicked={setIsChatClicked}
-                />
-              </RocketChatOuterContainer>
-            ) : (
-              <SmallChatSideBarContainer>
-                <ChatSidebar
-                  channel={{ channel, setChannel }}
-                  chats={chats}
-                  setIsChatClicked={setIsChatClicked}
-                />
-              </SmallChatSideBarContainer>
-            )}
-          </>
-        )}
-      </MessageContainer>
+          ) : (
+            <SmallChatSideBarContainer>
+              <ChatSidebar
+                channel={{ channel, setChannel }}
+                chats={chats}
+                setIsChatClicked={setIsChatClicked}
+              />
+            </SmallChatSideBarContainer>
+          )}
+        </>
+      )}
+    </MessageContainer>
 
   );
 };

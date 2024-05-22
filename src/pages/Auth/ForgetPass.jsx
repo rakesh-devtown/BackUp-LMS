@@ -40,7 +40,7 @@ const Title = styled.h2`
   font-weight: 900;
 `;
 
-export default function ForgetPass() {
+export default function ForgetPass({ toggleSignUp }) {
   const navigate = useNavigate();
   const { forgotPassword } = useAuthStore();
   const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
@@ -71,10 +71,10 @@ export default function ForgetPass() {
           <Form.Item
             name="email"
             rules={[{ required: true, message: "Please input your email!" }]}
-           
+
           >
             <StyledLabel>
-            Email Address
+              Email Address
             </StyledLabel>
             <Input
               style={{
@@ -88,7 +88,7 @@ export default function ForgetPass() {
           <Form.Item>
             <StyledButton
               onClick={() => {
-                setCurrentPage("reset-password");
+                setCurrentPage("otp");
               }}
               type="primary"
               htmlType="submit"
@@ -107,7 +107,7 @@ export default function ForgetPass() {
             <p>Remembered your password ? </p>
             <BlueText
               onClick={() => {
-                setCurrentPage("signup");
+                toggleSignUp()
               }}
             >
               Back to login

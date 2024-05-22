@@ -6,7 +6,7 @@ const loginUiStore = create(
     currentPage: "signup",
     currentLeftPage: "signin",
     isMobileAuthModelOpen: false,
-    mobileCurrentPage: "register",
+    mobileCurrentPage: "login",
     isDesktopAuthModelOpen: false,
     setIsDesktopAuthModelOpen: (page) => {
       set({ isDesktopAuthModelOpen: page });

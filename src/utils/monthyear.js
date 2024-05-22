@@ -1,5 +1,4 @@
 export const months = [
-    { label: 'Select month'},
     { label: 'January', value: '01' },
     { label: 'February', value: '02' },
     { label: 'March', value: '03' },
@@ -15,7 +14,6 @@ export const months = [
 ];
 
 export const years = [
-    { label: 'Select year'},
     { label: '2000', value: '2000' },
     { label: '2001', value: '2001' },
     { label: '2002', value: '2002' },

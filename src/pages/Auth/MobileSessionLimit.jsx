@@ -7,7 +7,7 @@ import {
 import { notification } from "antd";
 import { serviceDelete, serviceGet } from "../../utils/api";
 import useAuthStore from "../../store/authStore";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 import { useNavigate } from "react-router-dom";
 import useLoadingStore from "../../store/loadingStore";
 import loginUiStore from "../../store/loginUi.store";
@@ -79,29 +79,29 @@ function MobileSessionLimit() {
       setLoading(false);
     }
   };
-//   useEffect(() => {
-//     fetchSessions();
-//   }, [user, screenLimitReached]);
-//   const navigateToHomePage = () => {
-//     navigate("/auth");
-//   };
-const data = [
+  //   useEffect(() => {
+  //     fetchSessions();
+  //   }, [user, screenLimitReached]);
+  //   const navigateToHomePage = () => {
+  //     navigate("/auth");
+  //   };
+  const data = [
     {
-        _id: "1",
-        os: "Windows",
-        lastLogin: "2021-08-01T00:00:00.000Z"
+      _id: "1",
+      os: "Windows",
+      lastLogin: "2021-08-01T00:00:00.000Z"
     },
     {
-        _id: "2",
-        os: "Mac",
-        lastLogin: "2021-08-01T00:00:00.000Z"
+      _id: "2",
+      os: "Mac",
+      lastLogin: "2021-08-01T00:00:00.000Z"
     },
     {
-        _id: "3",
-        os: "Linux",
-        lastLogin: "2021-08-01T00:00:00.000Z"
+      _id: "3",
+      os: "Linux",
+      lastLogin: "2021-08-01T00:00:00.000Z"
     }
-]
+  ]
   return (
     <Container>
       <div>
@@ -174,7 +174,7 @@ const data = [
               </LoginTime>
             </Box>
           ))}
-    
+
           <StyledButton onClick={() => clearAllSession()}>
             Clear all Sessions
           </StyledButton>
@@ -184,7 +184,7 @@ const data = [
               marginTop: "20px",
             }}
             onClick={() => {
-                setMobileCurrentPage("register");
+              setMobileCurrentPage("register");
             }}
           >
             Having problem with login ?

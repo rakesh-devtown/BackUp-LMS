@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Space, Table, Tag } from "antd";
 import { getFormattedDate } from "../../utils/getFormattedDateObj";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 import { PartialPresenceContainer } from "../../styles/shared.styles";
 
 const AttendanceTable = ({ data }) => {
@@ -50,7 +50,7 @@ const AttendanceTable = ({ data }) => {
       render: (partialPresence, row) =>
         partialPresence && (
           <PartialPresenceContainer
-          
+
             data-tooltip-id="my-tooltip-inline"
             data-tooltip-content={
               row.duration < row.sessionDuration * 0.7

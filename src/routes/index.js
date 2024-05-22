@@ -21,13 +21,19 @@ import MeetingEnded from "../components/Meetings/MeetingEnded";
 import DownloadCertificate from "../components/DevtownCertificates/DownloadCertificate";
 import GenerateMagicLink from "../pages/MagicLink/GenerateMagicLink";
 import VerifyMagicLink from "../pages/MagicLink/VerifyMagicLink";
-import ResetPass from "../pages/Auth/ResetPass";
 import ComingSoon from "../components/ComingSoon";
 import MainWrapper from "../Wrapper/MainWrapper";
 import DashBoard from "../pages/Dashboard/DashBoard";
 import HomeLayout from "../layout/HomeLayout";
 import LayoutContent from "../layout/LayoutContent";
-import Lms from "../pages/LMS/Lms";
+import Lms from "../pages/Lms/Lms.jsx";
+import Settings from "../pages/Settings/Settings";
+import Video from "../pages/Video/VideoPage";
+import MyCertificate from "../pages/MyCertificate/MyCertificate.jsx";
+import HomeLayoutHeaderOnly from "../layout/HomeLayoutHeaderOnly.jsx";
+import ResetPassword from "../components/Forms/ResetPassword.jsx";
+import MyResume from "../pages/MyResume/MyResume.jsx";
+import MyCourses from "../pages/MyCourses/MyCourses.jsx";
 export const routes = [
   {
     path: routeDefinitions.AUTH,
@@ -38,16 +44,12 @@ export const routes = [
         element: <Login />,
       },
       {
-        path: routeDefinitions.AUTH,
-        element: <Login />,
-      },
-      {
         path: routeDefinitions.FORGOT_PASSWORD,
         element: <ForgetPass />,
       },
       {
         path: routeDefinitions.RESET_PASSWORD,
-        element: <ResetPass />,
+        element: <ResetPassword />,
       },
       {
         path: routeDefinitions.MagicLink,
@@ -62,91 +64,124 @@ export const routes = [
   {
     path: routeDefinitions.INDEX,
     element: (
-      <HomeLayout/>
+      <HomeLayout />
     ),
     children: [
       {
         path: routeDefinitions.INDEX,
-        element: <LayoutContent/>,
+        element: <MyCourses />,
       },
       {
-        path: routeDefinitions.LMS,
-        element: <Lms />,
-      },
-      {
-        path: routeDefinitions.PROGRAM,
-        element: <Outlet />,
-        children: [
-          {
-            path: routeDefinitions.INDEX,
-            element: <CourseOverview />,
-          },
-          {
-            path: routeDefinitions.Overview,
-            element: <CourseOverview />, //will be added
-          },
-          {
-            path: routeDefinitions.Assignments,
-            element: <h1>program assignments</h1>,
-          },
-          {
-            path: routeDefinitions.Attendance,
-            element: <h1>program attendance</h1>,
-          },
-        ],
-      },
-
-      {
-        path: routeDefinitions.Schedule,
-        element: <Cal events={events} />,
-      },
-      {
-        path: routeDefinitions.Meeting,
-        element: <Meeting />,
-      },
-      {
-        path: routeDefinitions.MeetingEnded,
-        element: <MeetingEnded />,
-      },
-      {
-        path: routeDefinitions.Practice,
-        element: <ComingSoon />,
-      },
-      {
-        path: routeDefinitions.Me,
-        element: <Profile />,
+        path: routeDefinitions.Courses,
+        element: <MyCourses />,
       },
       {
         path: routeDefinitions.Video,
-        element: <VideoDetail />,
+        element: <Video />
       },
       {
-        path: routeDefinitions.MESSAGE,
-        element: <DiscussionLayout />,
+        path: routeDefinitions.Certificate,
+        element: <MyCertificate />
       },
       {
-        path: routeDefinitions.Download,
-        element: <DownloadCertificate />,
+        path: routeDefinitions.Profile,
+        element: <MyResume />
       },
+      {
+        path: 'lms',
+        element: <Lms />,
+      },
+      {
+        path: 'home',
+        element: <LayoutContent />,
+      },
+      // {
+      //   path: routeDefinitions.PROGRAM,
+      //   element: <Outlet />,
+      //   children: [
+      //     {
+      //       path: routeDefinitions.INDEX,
+      //       element: <CourseOverview />,
+      //     },
+      //     {
+      //       path: routeDefinitions.Overview,
+      //       element: <CourseOverview />, //will be added
+      //     },
+      //     {
+      //       path: routeDefinitions.Assignments,
+      //       element: <h1>program assignments</h1>,
+      //     },
+      //     {
+      //       path: routeDefinitions.Attendance,
+      //       element: <h1>program attendance</h1>,
+      //     },
+      //   ],
+      // },
+
+      //     {
+      //       path: routeDefinitions.Schedule,
+      //       element: <Cal events={events} />,
+      //     },
+      //     {
+      //       path: routeDefinitions.Meeting,
+      //       element: <Meeting />,
+      //     },
+      //     {
+      //       path: routeDefinitions.MeetingEnded,
+      //       element: <MeetingEnded />,
+      //     },
+      //     {
+      //       path: routeDefinitions.Practice,
+      //       element: <ComingSoon />,
+      //     },
+      //     {
+      //       path: routeDefinitions.Me,
+      //       element: <Profile />,
+      //     },
+      //     {
+      //       path: routeDefinitions.Video,
+      //       element: <VideoDetail />,
+      //     },
+      //     {
+      //       path: routeDefinitions.MESSAGE,
+      //       element: <DiscussionLayout />,
+      //     },
+      //     {
+      //       path: routeDefinitions.Download,
+      //       element: <DownloadCertificate />,
+      //     },
     ],
   },
+  // {
+  //   path: routeDefinitions.Tree,
+  //   element: <DevArea />,
+  //   children: [
+  //     {
+  //       path: routeDefinitions.INDEX,
+  //       element: <IndexScreen />,
+  //     },
+
+  //     {
+  //       path: routeDefinitions.File,
+  //       element: <DevScreen />,
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: routeDefinitions.SessionLimit,
+  //   element: <SessionLimit />,
+  // },
+
   {
-    path: routeDefinitions.Tree,
-    element: <DevArea />,
+    path: routeDefinitions.INDEX,
+    element: (
+      <HomeLayoutHeaderOnly />
+    ),
     children: [
       {
-        path: routeDefinitions.INDEX,
-        element: <IndexScreen />,
-      },
-
-      {
-        path: routeDefinitions.File,
-        element: <DevScreen />,
-      },
-    ],
-  },
-  {
-    path: routeDefinitions.SessionLimit,
-    element: <SessionLimit />,
+        path: routeDefinitions.Settings,
+        element: <Settings />
+      }
+    ]
   },
 ];
