@@ -62,12 +62,12 @@ const StyledField = styled.div`
     }
     .text-red{
         color: #E22D4C;
+        font-weight: 500;
+        cursor: pointer;
     }
     .change{
         display: flex;
-        font-weight: 500;
         gap: 4px;
-        cursor: pointer;
         &::before{
             content: "";
             border-right:1px solid #C7CBCF;

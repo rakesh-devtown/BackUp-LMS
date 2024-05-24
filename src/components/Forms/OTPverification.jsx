@@ -32,15 +32,17 @@ const OTPverify = ({ handleBack, handleNext }) => {
     const handleFinish = (values) => {
         // The value will be array of string
         // Check the field if there is no value, or value is undefined/empty string
-        const { otp } = values;
-        if (!otp || otp.includes(undefined) || otp.includes(""))
+        // const { otp } = values;
+        // if (!otp || otp.includes(undefined) || otp.includes(""))
+
+        if (!otpValid)
             return form.setFields([
                 {
                     name: "otp",
                     errors: ["OTP is invalid."]
                 }
             ]);
-        console.log(`OTP: ${otp}`);
+        console.log(`OTP: ${values.otp}`);
         handleNext()
     };
 

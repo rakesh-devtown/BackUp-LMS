@@ -184,7 +184,7 @@ function MobileSessionLimit() {
               marginTop: "20px",
             }}
             onClick={() => {
-              setMobileCurrentPage("register");
+              setMobileCurrentPage("login");
             }}
           >
             Having problem with login ?

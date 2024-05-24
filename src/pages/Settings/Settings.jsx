@@ -26,17 +26,17 @@ const Settings = () => {
         {
             key: "2",
             label: "Sign in & Security",
-            icon: <MdLockOutline />
+            icon: <MdLockOutline size={20} />
         },
         // {
         //     key: "3",
         //     label: "Data Privacy",
-        //     icon: <MdOutlineSecurity />
+        //     icon: <MdOutlineSecurity size={20}/>
         // },
         // {
         //     key: '4',
         //     label: "Notification",
-        //     icon: <LuBellRing />
+        //     icon: <LuBellRing size={20}/>
         // },
     ]
 
@@ -109,11 +109,17 @@ padding: ${props => props.width >= 768 ? "24px 24px 40px 24px" : "24px 12px 21px
         font-size: 20px;
         font-style: normal;
         font-weight: 500;
-        line-height: 25px; /* 125% */
         letter-spacing: 0.1px;
+        background-color: #E6EBF3;
     }
     .ant-menu-item-active{
         color: #1677ff !important;
+    }
+    .ant-menu-item-selected{
+        border-radius: 0 4px 4px 0;
+        border-left: 1px solid blue;
+        display: flex;
+        align-items: center;
     }
 `
 

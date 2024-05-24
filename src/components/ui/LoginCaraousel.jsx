@@ -7,7 +7,7 @@ const OuterDiv = styled.div`
   z-index: 60;
 `;
 const InnerDiv = styled.div`
-  height: 935px;
+  height: 700px;
   color: #fff;
   text-align: center;
   position: relative;
@@ -17,7 +17,7 @@ const InnerDiv = styled.div`
 const ContentDiv = styled.div`
   position: absolute;
   bottom: 10%;
-  left: 20%;
+  left: 11%;
   z-index: 100;
 `;
 
@@ -42,28 +42,28 @@ const data = [
 
 
 const LoginCarousel = () => {
-  const [image , setImage] = React.useState(Shourya);
+  const [image, setImage] = React.useState(Shourya);
   useEffect(() => {
     const mainClass = document.querySelector(".main");
-    mainClass.classList.forEach((e) =>  {
+    mainClass.classList.forEach((e) => {
       console.log(e);
 
-       if(e=== "sign-up-mode") {
-          setImage(Ashish);
-       }else {
-          setImage(Shourya);
-       }
+      if (e === "sign-up-mode") {
+        setImage(Ashish);
+      } else {
+        setImage(Shourya);
+      }
     })
 
 
-  }, [image ])
+  }, [image])
   return (
     <div
       style={{
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
-
+        height: "100%",
         background:
           "radial-gradient(circle, rgba(55,70,116,1) 50%, rgba(0,0,0,1) 100%)",
         zIndex: -100,
@@ -80,7 +80,7 @@ const LoginCarousel = () => {
         }}
         alt=""
       />
-      <Carousel autoplay autoplaySpeed={2000}>
+      <Carousel autoplay autoplaySpeed={2000} style={{ height: "100%" }} >
         {data.map((e, i) => (
           <OuterDiv key={i}>
             <InnerDiv>

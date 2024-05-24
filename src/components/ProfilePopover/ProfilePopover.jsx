@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const ProfilePopover = () => {
     return (
         <StyledProfileOption>
-            <Profile>
+            <ProfileLink to={"/profile"} >
                 <img src={profilePic} alt="" width={37} height={37} />
                 <div className='box1'>
                     <div>
@@ -16,7 +16,7 @@ const ProfilePopover = () => {
                     <i><ArrowUpOutlined rotate={45} style={{ color: "white", fontSize: "1.5rem" }} /></i>
                 </div>
 
-            </Profile>
+            </ProfileLink>
             <Option>
                 <Link to={'/settings'}>
                     <i><SettingOutlined /></i>
@@ -45,7 +45,7 @@ font-family: "DM Sans";
 
 `
 
-const Profile = styled.div`
+const ProfileLink = styled(Link)`
     display: flex;
     gap: 8px;
     padding: 16px;
