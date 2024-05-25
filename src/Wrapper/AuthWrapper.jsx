@@ -19,7 +19,7 @@ const AuthWrapper = (props) => {
 
 const MainContainer = styled.div`
 min-height: 100vh;
-background-color: black;
+background-color: rgba(0, 0, 0, 0.88);
 width: 100%;
 `
 

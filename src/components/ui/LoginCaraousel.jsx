@@ -58,28 +58,14 @@ const LoginCarousel = () => {
 
   }, [image])
   return (
-    <div
-      style={{
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        width: "100%",
-        height: "100%",
-        background:
-          "radial-gradient(circle, rgba(55,70,116,1) 50%, rgba(0,0,0,1) 100%)",
-        zIndex: -100,
-      }}
+    <StyledContainer
     >
-      <img
-        src={image}
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          zIndex: 0,
-        }}
-        alt=""
-      />
+      <LinearGradientContainer>
+        <StyledImg
+          src={image}
+          alt="pic"
+        />
+      </LinearGradientContainer>
       <Carousel autoplay autoplaySpeed={2000} style={{ height: "100%" }} >
         {data.map((e, i) => (
           <OuterDiv key={i}>
@@ -92,7 +78,39 @@ const LoginCarousel = () => {
           </OuterDiv>
         ))}
       </Carousel>
-    </div>
+    </StyledContainer>
   );
 };
 export default LoginCarousel;
+
+const StyledImg = styled.img`
+          position: absolute;
+          // objectFit: cover;
+          z-index: 0;
+          width: 80%;
+          top: 20%;
+          left: 10%;
+`
+
+const StyledContainer = styled.div`
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+        background:
+        radial-gradient(50% 50% at 50% 50%, #374674 0%, #000 100%);
+        z-index: -100;
+        border-radius: 24px;
+        `
+
+const LinearGradientContainer = styled.div`
+&::after{
+  content: '';
+  position: absolute;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.03) 51%, rgb(0, 0, 0) 100%);
+bottom: 0;
+height: 100%;
+width: 100%;
+border-radius: 24px;
+}
+`
