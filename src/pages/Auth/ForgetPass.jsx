@@ -20,11 +20,15 @@ const Container = styled.div`
 const FormContainer = styled.div`
   max-width: 500px;
   background-color: white;
-
   border-radius: 10px;
   width: 100%;
   margin-top: auto;
   margin-bottom: auto;
+  label{
+    color: #081735 !important;
+    font-size: 16px !important;
+  }
+  
 `;
 
 const Image = styled.img`
@@ -40,15 +44,14 @@ const Title = styled.h2`
   font-weight: 900;
 `;
 
-export default function ForgetPass({ toggleSignUp }) {
+export default function ForgetPass({ toggleSignUp, nextPage }) {
   const navigate = useNavigate();
-  const { forgotPassword } = useAuthStore();
   const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
+
   const onFinish = (values) => {
-    if (forgotPassword(values)) {
-      navigate("/auth");
-    }
-    // forgotPassword(() => navigate('/auth'), values);
+    // setCurrentPage("otp");
+    console.log("run");
+    nextPage("otp")
   };
   const navigateToHomePage = () => {
     navigate("/auth");
@@ -63,19 +66,23 @@ export default function ForgetPass({ toggleSignUp }) {
         <h3
           style={{
             fontWeight: 800,
+            marginBottom: "15px",
           }}
         >
           Don't Worry! We can help.
         </h3>
-        <Form onFinish={onFinish}>
+        <Form onFinish={onFinish}
+          requiredMark="optional"
+          layout="vertical"
+        >
           <Form.Item
+            label="Email Address"
             name="email"
             rules={[{ required: true, message: "Please input your email!" }]}
-
           >
-            <StyledLabel>
+            {/* <StyledLabel>
               Email Address
-            </StyledLabel>
+            </StyledLabel> */}
             <Input
               style={{
                 padding: "10px",
@@ -87,9 +94,6 @@ export default function ForgetPass({ toggleSignUp }) {
 
           <Form.Item>
             <StyledButton
-              onClick={() => {
-                setCurrentPage("otp");
-              }}
               type="primary"
               htmlType="submit"
             >

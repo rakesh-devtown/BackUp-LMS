@@ -67,25 +67,20 @@ export const StyledSignInForm = styled(Form)`
   min-width: 350px;
   width: 100%;
   justify-content: center;
+  gap: ${props => props.width >= 992 ? "16.5px" : "22px"};
+  .ant-form-item{
+    margin-bottom: 0;
+  }
 `;
 
 export const StyledHeading = styled.h1`
-  margin-top: 1.5rem;
-  font-weight: 900;
+  font-weight: 900
 `;
 export const StyledDevTown = styled.h1`
   color: rgb(100 34 205);
   font-weight: 900;
 `;
 export const StyledP = styled.p`
-  /* margin-top: 1.5rem;
-  display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px; */
-  margin: 0;
-  margin-bottom: 16px;
   text-align: left;
   font-weight: 500;
   font-size: 13.5px;
@@ -157,7 +152,6 @@ export const LoginContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
   max-width: 500px;
   width: 100%;
 `;
@@ -181,7 +175,6 @@ export const FlexContainer = styled.div`
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  margin-top: 1rem;
 `;
 export const SignInText = styled.p`
   text-align: center;

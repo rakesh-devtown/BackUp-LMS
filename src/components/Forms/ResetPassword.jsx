@@ -10,9 +10,74 @@ import { StyledLabel } from "../../styles/LoginPage.styles";
 import { HaddingColored } from "../../styles/shared.styles";
 import loginUiStore from "../../store/loginUi.store";
 
+
+export default function ResetPassword({ handleNext }) {
+  const navigate = useNavigate();
+  const { token } = useParams();
+  const { resetPassword } = useAuthStore();
+
+  const handleSubmit = (values) => {
+    console.log(values);
+    if (values.password === values.confirmPassword) {
+      // resetPassword(values, token, () => navigate("/programs"));
+      console.log("running");
+      handleNext()
+    } else {
+      notification.error({
+        message: "Password Mismatch",
+      })
+    }
+  };
+
+  return (
+    <Container>
+      <Card>
+        <ResetPassTitle>
+          <HaddingColored>
+            Hi,  Welcome to DevTown!
+          </HaddingColored>
+        </ResetPassTitle>
+        <ResetPassTitle style={{
+          fontSize: "16px",
+          fontWeight: "400",
+          marginBottom: "14.6px",
+        }} >
+          Create an Account and Start Learning with Us!
+        </ResetPassTitle>
+        <Form onFinish={handleSubmit} requiredMark="optional" layout="vertical" >
+          <Form.Item label="Password" name="password" rules={[{ required: true, message: 'Please input your new password!' }]}>
+            <Input.Password
+              style={{
+                padding: "10px"
+              }}
+
+              placeholder="New Password"
+              iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
+            />
+          </Form.Item>
+          <Form.Item label="Confirm Password" name="confirmPassword" rules={[{ required: true, message: 'Please confirm your new password!' }]}>
+            <Input.Password
+              style={{
+                padding: "10px"
+              }}
+              placeholder="Confirm New Password"
+              iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
+            />
+          </Form.Item>
+          <Form.Item>
+            <StyledButton htmlType="submit" children="reset">
+              Reset Password
+            </StyledButton>
+          </Form.Item>
+        </Form>
+      </Card>
+
+    </Container>
+  );
+}
+
 const Container = styled.div`
- display: flex;
-  
+  display: flex;
   justify-content: start;  
   height: 100%;
   position: relative;
@@ -37,78 +102,3 @@ const ResetPassTitle = styled.h2`
   font-weight: 900;
   margin-bottom: 5px;
 `;
-
-export default function ResetPassword({ handleNext }) {
-  const [showPass, setShowPass] = useState(false);
-  const navigate = useNavigate();
-  const { token } = useParams();
-  const { resetPassword } = useAuthStore();
-
-  const handleSubmit = (values) => {
-    if (values.password === values.confirmPassword) {
-      resetPassword(values, token, () => navigate("/programs"));
-    } else {
-      notification.error({
-        message: "Password Mismatch",
-      })
-    }
-  };
-
-  return (
-    <Container>
-      <Card>
-        <ResetPassTitle>
-          <HaddingColored>
-            Hi,  Welcome to DevTown!
-          </HaddingColored>
-        </ResetPassTitle>
-        <ResetPassTitle style={{
-          fontSize: "16px",
-          fontWeight: "400",
-
-
-        }} >
-          Create an Account and Start Learning with Us!
-        </ResetPassTitle>
-        <Form style={{ display: "flex", flexDirection: "column", width: "100%" }} onFinish={handleSubmit}>
-          <Form.Item name="password" rules={[{ required: true, message: 'Please input your new password!' }]}>
-            <StyledLabel>
-              Password
-            </StyledLabel>
-            <Input.Password
-              style={{
-                padding: "10px"
-              }}
-
-              placeholder="New Password"
-              iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
-            />
-          </Form.Item>
-          <Form.Item name="confirmPassword" rules={[{ required: true, message: 'Please confirm your new password!' }]}>
-            <StyledLabel>
-              Confirm Password
-            </StyledLabel>
-            <Input.Password
-              style={{
-                padding: "10px"
-              }}
-              placeholder="Confirm New Password"
-              iconRender={(visible) => (visible ? <EyeOutlined /> : <EyeInvisibleOutlined />)}
-            />
-          </Form.Item>
-          <Form.Item>
-            <StyledButton style={{
-              color: "white",
-            }} type="submit" children="reset"
-              onClick={() => handleNext()}
-            >
-
-              Reset Password
-            </StyledButton>
-          </Form.Item>
-        </Form>
-      </Card>
-
-    </Container>
-  );
-}

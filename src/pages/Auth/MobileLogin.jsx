@@ -1,4 +1,8 @@
 import React from "react";
+import { Flex, Form, Space } from "antd";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleAuthLogin } from "./GoogleAuthLogin";
+import { Link } from "react-router-dom";
 import {
   BlueText,
   FlexContainer,
@@ -14,30 +18,29 @@ import {
   StyledPassword,
   StyledSignInForm,
 } from "../../styles/LoginPage.styles";
-import { Flex, Form } from "antd";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { GoogleAuthLogin } from "./GoogleAuthLogin";
-import { Link } from "react-router-dom";
 import loginUiStore from "../../store/loginUi.store";
+import useWindowSize from "../../hooks/useWindowSize";
 
 function MobileLogin() {
   const mobileCurrentPage = loginUiStore((state) => state.mobileCurrentPage);
   const setMobileCurrentPage = loginUiStore(
     (state) => state.setMobileCurrentPage
   );
+
+  const width = useWindowSize()
+
   return (
-    <StyledSignInForm name="login-form">
+    <StyledSignInForm width={width} name="login-form">
       <StyledHeading>Hey Buddy,</StyledHeading>
-      <Form.Item name="form-text">
-        <StyledP>Create an account and start learning with us!</StyledP>
-      </Form.Item>
+      {/* <Form.Item name="form-text"> */}
+      <StyledP>Create an account and start learning with us!</StyledP>
+      {/* </Form.Item> */}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: "1rem",
         }}
       >
         <GoogleOAuthProvider>
@@ -62,36 +65,39 @@ function MobileLogin() {
         <StyledHr />
       </FlexContainer>
 
-      <Form.Item
-        name="email"
-        rules={[
-          {
-            type: "email",
-            required: true,
-            message: "Please enter your email!",
-          },
-        ]}
-      >
-        <StyledLabel>Email Address</StyledLabel>
-        <InputUsername placeholder="examplemail@gmail.com" />
-      </Form.Item>
+      <Space size={10} direction="vertical">
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              type: "email",
+              required: true,
+              message: "Please enter your email!",
+            },
+          ]}
+        >
+          <StyledLabel>Email Address</StyledLabel>
+          <InputUsername placeholder="examplemail@gmail.com" />
+        </Form.Item>
 
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please enter your password!",
-          },
-          {
-            min: 1,
-            message: "Password must be at least 8 characters long.",
-          },
-        ]}
-      >
-        <StyledLabel>Password</StyledLabel>
-        <StyledPassword placeholder="Min. 8 characters" type="password" />
-      </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please enter your password!",
+            },
+            {
+              min: 1,
+              message: "Password must be at least 8 characters long.",
+            },
+          ]}
+        >
+          <StyledLabel>Password</StyledLabel>
+          <StyledPassword placeholder="Min. 8 characters" type="password" />
+        </Form.Item>
+      </Space>
+
       <Form.Item>
         <StyledButton
           type="primary"
@@ -104,13 +110,10 @@ function MobileLogin() {
         >
           Login
         </StyledButton>
-      </Form.Item>
-      <Form.Item>
         <div
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "-40px",
           }}
         >
           <Link onClick={() => setMobileCurrentPage("forget-password")}>
@@ -118,29 +121,25 @@ function MobileLogin() {
           </Link>
         </div>
       </Form.Item>
-      <Form.Item>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "-60px",
-            color: "black",
-          }}
-        >
-          {/* create new account............. */}
-          {/* <Flex justify="center" align="center">
-            Don't have an account?{" "}
-            <BlueText
+      {/* <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          color: "black",
+        }}
+      >
+        <Flex justify="center" align="center">
+          Don't have an account?{" "}
+          <BlueText
 
-              onClick={() => {
-                setMobileCurrentPage("register");
-              }}
-            >
-              Create
-            </BlueText>
-          </Flex> */}
-        </div>
-      </Form.Item>
+            onClick={() => {
+              setMobileCurrentPage("register");
+            }}
+          >
+            Create
+          </BlueText>
+        </Flex>
+      </div> */}
     </StyledSignInForm>
   );
 }

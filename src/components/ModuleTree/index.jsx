@@ -58,7 +58,7 @@ const StyledTree = styled.div`
     .level-1{
         padding: 0;
         position: relative;
-border-bottom: 2px solid #EFEFEF;
+        border-bottom: 2px solid #EFEFEF;
 
         &>.ant-tree-switcher{
             position: absolute;
@@ -100,13 +100,10 @@ border-bottom: 2px solid #EFEFEF;
         }
         
         &~.ant-tree-treenode-selected{
-            background-color: #294169;
-            .ant-tree-node-selected {
-                background-color: #294169 !important;
-        i,p{
-         color: white;
-        }
-        }
+            background-color: #294169 !important;
+            i,p{
+                color: white;
+            }
         }
     }
 
