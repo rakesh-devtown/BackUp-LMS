@@ -424,6 +424,7 @@ const StyledBox = styled.div`
 position: relative;
 width:${props => props.width >= 2000 ? "1226px" : (props.width > 1000 ? "957px" : "800px")};
  height: 100vh;
+ max-height: 720px;
 background-color: white;
 border-radius: 30px;
 `

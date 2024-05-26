@@ -6,7 +6,7 @@ import useWindowSize from "../../hooks/useWindowSize";
 import userPic from "../../assets/images/userPic.jpeg"
 import shareIcon from "../../assets/images/shareIcon.png"
 import ShareModal from "../Modals/ShareModal/ShareModal";
-import { PlusOutlined } from "@ant-design/icons";
+import { CameraOutlined, PlusOutlined } from "@ant-design/icons";
 import ResumeModals from "../Modals/ResumeModals";
 
 const ProfileHeader = () => {
@@ -15,18 +15,14 @@ const ProfileHeader = () => {
     const [addSocialMedia, setAddSocialMedia] = useState(false);
     const { width } = useWindowSize();
 
-
-
-    const progressBarStyle = {
-        backgroundImage: `url(${userPic})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        borderRadius: "50%",
-    }
-
     const handleShareModal = () => setShareModal(!shareModal)
     const handleAddSocialMedia = () => setAddSocialMedia(!addSocialMedia)
+
+    const cameraIcon = {
+        color: "#aea7a7",
+        fontSize: "1rem",
+        marginTop: "4px",
+    }
 
     return (
         <Profile width={width}>
@@ -34,8 +30,13 @@ const ProfileHeader = () => {
             <ShareModal showShareModal={shareModal} handleClose={handleShareModal} title={"Share my profile"} />
 
             <div className="profile-top">
-                <Progress type="circle" percent={75} showInfo={false} strokeColor="#05B260" style={progressBarStyle}>
-                </Progress>
+                <ProfilePic userPic={userPic}>
+                    <Progress type="circle" percent={75} showInfo={false} strokeColor="#05B260">
+                    </Progress>
+                    <div className="upload">
+                        <CameraOutlined style={cameraIcon} />
+                    </div>
+                </ProfilePic>
 
                 {/* for responsiveness showing in mobile */}
                 <div className="hide-in-lptp">
@@ -145,4 +146,34 @@ const StyledMediaCard = styled(Space)`
     }
 `
 
+const ProfilePic = styled.div`
+        position:relative;
+        background-image: ${props => `url(${props.userPic})`};
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 50%;
+        overflow:hidden;
+        height:120px;
+        width:120px;
+        cursor: pointer;
+        .ant-progress {
+            position:relative;
+            z-index:10;
+        }
+        .upload{
+            display:none;
+            position: absolute;
+            left:0;
+            bottom:0;
+            background-color: rgb(0,0,0,0.5);
+            width:100%;
+            height:28%;
+            text-align:center;
+        }
+        &:hover .upload{
+            display:inline-block;
+            /* bottom:0; */
+        }
+`
 export default ProfileHeader

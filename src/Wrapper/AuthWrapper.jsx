@@ -21,6 +21,8 @@ const MainContainer = styled.div`
 min-height: 100vh;
 background-color: rgba(0, 0, 0, 0.88);
 width: 100%;
+display: grid;
+place-items: center;
 `
 
 export default AuthWrapper;

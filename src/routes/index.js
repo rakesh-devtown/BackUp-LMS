@@ -34,6 +34,7 @@ import HomeLayoutHeaderOnly from "../layout/HomeLayoutHeaderOnly.jsx";
 import ResetPassword from "../components/Forms/ResetPassword.jsx";
 import MyResume from "../pages/MyResume/MyResume.jsx";
 import MyCourses from "../pages/MyCourses/MyCourses.jsx";
+import Module from "../pages/Module/Module.jsx";
 export const routes = [
   {
     path: routeDefinitions.AUTH,
@@ -88,12 +89,12 @@ export const routes = [
         element: <MyResume />
       },
       {
-        path: 'lms',
-        element: <Lms />,
-      },
-      {
         path: 'home',
         element: <LayoutContent />,
+      },
+      {
+        path: 'module',
+        element: <Module />
       },
       // {
       //   path: routeDefinitions.PROGRAM,
