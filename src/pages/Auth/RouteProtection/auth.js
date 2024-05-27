@@ -78,7 +78,7 @@ class Auth {
     async generateMagicLink(values) {
         try {
             setHeader("auth", `bearer ${localStorage.getItem("token")}`);
-            const res = await servicePost('auth/auth-api/v1/generate-magic-Link?type=student', { ...values, callbackUrl:"https://www.student-platform.devtown.in"})
+            const res = await servicePost('auth/auth/v1/generate-magic-link?type=student', { ...values, callbackUrl:"https://www.student-platform.devtown.in"})
             const { success, message } = res
             if (success != false) {
                 notification.success({
