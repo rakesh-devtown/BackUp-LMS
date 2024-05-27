@@ -66,12 +66,10 @@ export default function Login() {
     try {
       setLoading(true);
       const { email, password } = values;
-      console.log(email, password);
       const response = await login({
         email: email.toLowerCase(),
         password,
       });
-      setCurrentPage("session-limit")
 
     } catch (error) {
       message.error(

@@ -48,7 +48,22 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 );
 
 const App = () => {
+  const loadUser = useAuthStore((state) => state.loadUser);
   const loading = useLoadingStore((state) => state.loading);
+  const setLoading = useLoadingStore((state) => state.setLoading);
+  const verifyAuthToken = async () => {
+    try {
+      setLoading(true);
+      await loadUser();
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    verifyAuthToken();
+  }, []);
   return (
     <>
       
