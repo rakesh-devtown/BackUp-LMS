@@ -3,8 +3,8 @@ import { notification } from 'antd';
 import axios from 'axios';
 
 
-const SERVICE_URL = "https://j66d85vpbf.execute-api.ap-south-1.amazonaws.com"
-// const SERVICE_URL = "https://5f1iot5725.execute-api.ap-south-1.amazonaws.com";
+// const SERVICE_URL = "https://j66d85vpbf.execute-api.ap-south-1.amazonaws.com"
+const SERVICE_URL = "https://5f1iot5725.execute-api.ap-south-1.amazonaws.com";
 // const TEST_MODE = window.location.href.includes("localhost")? true : false;
  const TEST_MODE = true;
 if(TEST_MODE)  {

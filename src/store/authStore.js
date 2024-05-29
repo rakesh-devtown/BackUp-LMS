@@ -36,7 +36,6 @@ const useAuthStore = create(
           signature: visitorId,
           platform: value
         }, );
-        console.log(user);
         const {
           data: { user, token, chatToken },
           message,
@@ -289,6 +288,13 @@ const useAuthStore = create(
               setHeader('signature', visitorId);
               // Set the header
               setHeader('auth', `bearer ${token}`);
+              set({
+                token,
+                chatToken,
+                user,
+                isAuthenticated: true,
+                isGoogleAuthenticated: true,
+              });
               return {
                   token,
                   chatToken,

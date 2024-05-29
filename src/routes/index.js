@@ -36,6 +36,14 @@ import MyResume from "../pages/MyResume/MyResume.jsx";
 import MyCourses from "../pages/MyCourses/MyCourses.jsx";
 export const routes = [
   {
+    path: "auth/magic-login",
+    element: <GenerateMagicLink />,
+  },
+  {
+    path: "verify-magic-link/:token",
+    element: <VerifyMagicLink />,
+  },
+  {
     path: routeDefinitions.AUTH,
     element: <AuthWrapper />,
     children: [

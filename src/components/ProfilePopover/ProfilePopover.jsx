@@ -2,8 +2,11 @@ import styled from 'styled-components'
 import profilePic from '../../assets/images/profilePic.png'
 import { ArrowUpOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons'
 import { MdLogout } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuthStore from '../../store/authStore';
 const ProfilePopover = () => {
+    const { logout } = useAuthStore();
+
     return (
         <StyledProfileOption>
             <ProfileLink to={"/profile"} >
@@ -26,7 +29,7 @@ const ProfilePopover = () => {
                     <i><QuestionCircleOutlined /></i>
                     <p>Help</p>
                 </Link> */}
-                <Link className='logout'>
+                <Link onClick={() => logout()} className='logout'>
                     <i><MdLogout /></i>
                     <p>Logout</p>
                 </Link>

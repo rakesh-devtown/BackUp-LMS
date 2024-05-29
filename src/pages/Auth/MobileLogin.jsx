@@ -1,8 +1,8 @@
-import React from "react";
-import { Flex, Form, Space } from "antd";
+import React, { useEffect, useState } from "react";
+import { Flex, Form, Space, message } from "antd";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleAuthLogin } from "./GoogleAuthLogin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   BlueText,
   FlexContainer,
@@ -20,17 +20,52 @@ import {
 } from "../../styles/LoginPage.styles";
 import loginUiStore from "../../store/loginUi.store";
 import useWindowSize from "../../hooks/useWindowSize";
+import useAuthStore from "../../store/authStore";
 
 function MobileLogin() {
   const mobileCurrentPage = loginUiStore((state) => state.mobileCurrentPage);
+  const [loading, setLoading] = useState(false);
+  const { login, isAuthenticated, isGoogleAuthenticated } = useAuthStore();
+  const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
+  const navigate = useNavigate();
   const setMobileCurrentPage = loginUiStore(
     (state) => state.setMobileCurrentPage
   );
 
   const width = useWindowSize()
 
+  const handleSubmit = async (values) => {
+    try {
+      setLoading(true);
+      const { email, password } = values;
+      const response = await login({
+        email: email.toLowerCase(),
+        password,
+      });
+
+    } catch (error) {
+      message.error(
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : "Something went wrong"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (screenLimitReached) setMobileCurrentPage("session-limit");
+  }, [screenLimitReached, navigate, setMobileCurrentPage]);
+
+  useEffect(() => {
+    if (isAuthenticated || isGoogleAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, isGoogleAuthenticated, navigate]);
+
   return (
-    <StyledSignInForm width={width} name="login-form">
+    <StyledSignInForm width={width} name="login-form" onFinish={handleSubmit}>
       <StyledHeading>Hey Buddy,</StyledHeading>
       {/* <Form.Item name="form-text"> */}
       <StyledP>Create an account and start learning with us!</StyledP>
@@ -66,6 +101,7 @@ function MobileLogin() {
       </FlexContainer>
 
       <Space size={10} direction="vertical">
+        <StyledLabel>Email Address</StyledLabel>
         <Form.Item
           name="email"
           rules={[
@@ -76,10 +112,10 @@ function MobileLogin() {
             },
           ]}
         >
-          <StyledLabel>Email Address</StyledLabel>
           <InputUsername placeholder="examplemail@gmail.com" />
         </Form.Item>
 
+        <StyledLabel>Password</StyledLabel>
         <Form.Item
           name="password"
           rules={[
@@ -93,7 +129,6 @@ function MobileLogin() {
             },
           ]}
         >
-          <StyledLabel>Password</StyledLabel>
           <StyledPassword placeholder="Min. 8 characters" type="password" />
         </Form.Item>
       </Space>
@@ -104,9 +139,6 @@ function MobileLogin() {
           htmlType="submit"
           className="login-button"
           children="Login"
-          onClick={() => {
-            setMobileCurrentPage("session-limit");
-          }}
         >
           Login
         </StyledButton>

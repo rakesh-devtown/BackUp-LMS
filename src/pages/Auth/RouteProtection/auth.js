@@ -12,7 +12,7 @@ class Auth {
 //forgot password code
     async forgotPassword(callBack, values) {
         try {
-            const res = await servicePost('auth/auth-api/v1/forgot-password?type=student', { ...values, callbackUrl:"https://www.student-platform.devtown.in" })
+            const res = await servicePost('auth/auth-api/v1/forgot-password', { ...values, callbackUrl:"https://www.student-platform.devtown.in" })
             const { success, message } = res
             if (success != false) {
                 notification.success({
@@ -42,7 +42,7 @@ class Auth {
             callBack();
         else
             try {
-                const res = await servicePost(`auth/auth-api/v1/reset-password?type=student&token=${token}`, { ...values })
+                const res = await servicePost(`auth/auth-api/v1/reset-password?&token=${token}`, { ...values })
                 const { success, message } = res
                 if (success) {
                     callBack();
@@ -78,7 +78,7 @@ class Auth {
     async generateMagicLink(values) {
         try {
             setHeader("auth", `bearer ${localStorage.getItem("token")}`);
-            const res = await servicePost('auth/auth/v1/generate-magic-link?type=student', { ...values, callbackUrl:"https://www.student-platform.devtown.in"})
+            const res = await servicePost('auth/auth/v1/generate-magic-link', { ...values, callbackUrl:"https://www.student-platform.devtown.in"})
             const { success, message } = res
             if (success != false) {
                 notification.success({
