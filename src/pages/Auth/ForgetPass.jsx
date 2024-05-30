@@ -47,11 +47,14 @@ const Title = styled.h2`
 export default function ForgetPass({ toggleSignUp, nextPage }) {
   const navigate = useNavigate();
   const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
+  const { forgotPassword } = useAuthStore();
 
   const onFinish = (values) => {
-    // setCurrentPage("otp");
-    console.log("run");
-    nextPage("otp")
+    // if(forgotPassword(values)) {
+    //   navigate()
+    // }
+    setCurrentPage("reset-password");
+    nextPage("reset-password")
   };
   const navigateToHomePage = () => {
     navigate("/auth");

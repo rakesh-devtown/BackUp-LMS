@@ -55,12 +55,11 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
-  const { width } = useWindowSize()
-
+  const { width } = useWindowSize();
 
   const toggleSignUp = () => {
     setSignupTrue(!signuptrue);
-  }
+  };
 
   const handleSubmit = async (values) => {
     try {
@@ -70,7 +69,6 @@ export default function Login() {
         email: email.toLowerCase(),
         password,
       });
-
     } catch (error) {
       message.error(
         error.response && error.response.data && error.response.data.message
@@ -81,7 +79,6 @@ export default function Login() {
       setLoading(false);
     }
   };
-
 
   useEffect(() => {
     if (screenLimitReached) setCurrentLeftPage("sessionlimit");
@@ -94,7 +91,6 @@ export default function Login() {
     }
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
 
-
   useEffect(() => {
     const toggle_button = document.querySelectorAll(".toggle");
     const main = document.querySelector(".main");
@@ -102,14 +98,13 @@ export default function Login() {
 
     toggle_button.forEach((btn) => {
       btn.addEventListener("click", () => {
-        console.log(main)
+        console.log(main);
         main.classList.toggle("sign-up-mode");
       });
     });
-
   }, []);
 
-
+  console.log(currentPage);
   return (
     <main className={`main ${signuptrue ? "sign-up-mode" : ""}`}>
       <Helmet>
@@ -122,7 +117,13 @@ export default function Login() {
           {/* Login Form */}
           <StyledLoginForm className="sign-in-form">
             {currentLeftPage === "signin" ? (
-              <StyledSignInForm name="login-form" onFinish={handleSubmit} width={width} requiredMark="optional" layout="vertical" >
+              <StyledSignInForm
+                name="login-form"
+                onFinish={handleSubmit}
+                width={width}
+                requiredMark="optional"
+                layout="vertical"
+              >
                 <Space size={5} direction="vertical">
                   <StyledHeading>Hey Buddy,</StyledHeading>
                   <StyledP>
@@ -150,9 +151,7 @@ export default function Login() {
                       src="https://img.icons8.com/ios/50/000000/fantasy.png"
                       alt="maginc Link icons"
                     />
-                    <p style={{ color: "#6B7280" }}>
-                      Sign In with Magic Link{" "}
-                    </p>
+                    <p style={{ color: "#6B7280" }}>Sign In with Magic Link </p>
                   </LoginLink>
                 </LoginContainer>
                 <FlexContainer>
@@ -219,10 +218,10 @@ export default function Login() {
                       className="toggle"
                       onClick={() => {
                         toggleSignUp();
-                        setCurrentPage("forget-password")
+                        setCurrentPage("forget-password");
                       }}
                     >
-                      <BlueText    >Forget Password?</BlueText>
+                      <BlueText>Forget Password?</BlueText>
                     </Link>
                   </div>
                 </Form.Item>
@@ -251,7 +250,11 @@ export default function Login() {
 
           {/* Register form  */}
 
-          <StyledLoginForm currentPage={currentPage} className="sign-up-form" width={width}>
+          <StyledLoginForm
+            currentPage={currentPage}
+            className="sign-up-form"
+            width={width}
+          >
             {currentPage === "signup" ? (
               <StyledSignInForm className="" name="">
                 <StyledHeading>Hi Welcome to DevTown!</StyledHeading>
@@ -356,7 +359,7 @@ export default function Login() {
                     children="Login"
                     loading={loading}
                     onClick={() => {
-                      setCurrentPage("carrer-path")
+                      setCurrentPage("carrer-path");
                     }}
                   >
                     Create
@@ -369,8 +372,7 @@ export default function Login() {
                       justifyContent: "center",
                       marginTop: "-40px",
                     }}
-                  >
-                  </div>
+                  ></div>
                 </Form.Item>
                 <Form.Item>
                   <div
@@ -383,30 +385,45 @@ export default function Login() {
                   >
                     <Flex justify="center" align="center">
                       Already have a Account?{" "}
-                      <BlueText onClick={() => {
-                        toggleSignUp();
-                      }} className="toggle">Login</BlueText>
+                      <BlueText
+                        onClick={() => {
+                          toggleSignUp();
+                        }}
+                        className="toggle"
+                      >
+                        Login
+                      </BlueText>
                     </Flex>
                   </div>
                 </Form.Item>
               </StyledSignInForm>
             ) : currentPage === "forget-password" ? (
-              <ForgetPass toggleSignUp={toggleSignUp} nextPage={() => setCurrentPage('otp')} />
+              <ForgetPass
+                toggleSignUp={toggleSignUp}
+                nextPage={() => setCurrentPage("reset-password")}
+              />
             ) : currentPage === "otp" ? (
-              <OTPverify handleBack={toggleSignUp} handleNext={() => setCurrentPage("reset-password")} />
+              <OTPverify
+                handleBack={toggleSignUp}
+                handleNext={() => setCurrentPage("reset-password")}
+              />
             ) : currentPage === "reset-password" ? (
-              <ResetPassword handleNext={() => setCurrentPage('success')} />
+              <ResetPassword handleNext={() => setCurrentPage("success")} />
             ) : currentPage === "success" ? (
-              <SuccessBox handleNext={toggleSignUp} successMessage={"Password Successfully Update"} btnText={"Back to Login"} />
+              <SuccessBox
+                handleNext={toggleSignUp}
+                successMessage={"Password Successfully Update"}
+                btnText={"Back to Login"}
+              />
             ) : currentPage === "session-limit" ? (
               <SessionLimit />
             ) : currentPage === "carrer-path" ? (
               <CareerPathHero />
             ) : currentPage == "carrer-info" ? (
-              <WrapperCareersPath />) : (
+              <WrapperCareersPath />
+            ) : (
               <h1>Something Wrong</h1>
-            )
-            }
+            )}
           </StyledLoginForm>
         </div>
         <div className="carousel">
@@ -414,14 +431,14 @@ export default function Login() {
         </div>
       </StyledBox>
     </main>
-
   );
 }
 
 const StyledBox = styled.div`
-position: relative;
-width:${props => props.width >= 2000 ? "1226px" : (props.width > 1000 ? "957px" : "800px")};
- height: 100vh;
-background-color: white;
-border-radius: 30px;
-`
+  position: relative;
+  width: ${(props) =>
+    props.width >= 2000 ? "1226px" : props.width > 1000 ? "957px" : "800px"};
+  height: 100vh;
+  background-color: white;
+  border-radius: 30px;
+`;
