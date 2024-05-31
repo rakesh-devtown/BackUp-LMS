@@ -104,7 +104,6 @@ export default function Login() {
     });
   }, []);
 
-  console.log(currentPage);
   return (
     <main className={`main ${signuptrue ? "sign-up-mode" : ""}`}>
       <Helmet>
@@ -256,7 +255,7 @@ export default function Login() {
             width={width}
           >
             {currentPage === "signup" ? (
-              <StyledSignInForm className="" name="">
+              <StyledRegisterForm className="" name="">
                 <StyledHeading>Hi Welcome to DevTown!</StyledHeading>
                 <Form.Item name="form-text">
                   <StyledP>
@@ -396,7 +395,7 @@ export default function Login() {
                     </Flex>
                   </div>
                 </Form.Item>
-              </StyledSignInForm>
+              </StyledRegisterForm>
             ) : currentPage === "forget-password" ? (
               <ForgetPass
                 toggleSignUp={toggleSignUp}
@@ -435,10 +434,18 @@ export default function Login() {
 }
 
 const StyledBox = styled.div`
+  height: 95vh;
+  max-height: 720px;
+  overflow-y: scroll;
+  scrollbar-width: none;
   position: relative;
   width: ${(props) =>
     props.width >= 2000 ? "1226px" : props.width > 1000 ? "957px" : "800px"};
-  height: 100vh;
+  /* height: 100%; */
   background-color: white;
   border-radius: 30px;
+`;
+
+const StyledRegisterForm = styled(StyledLoginForm)`
+  display: none;
 `;

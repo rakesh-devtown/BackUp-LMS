@@ -20,6 +20,7 @@ export const Title = styled.h5`
 export const StyledHeader = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     button{
         font-family: 'DM Sans';
         font-weight: 500;
@@ -29,7 +30,7 @@ export const StyledHeader = styled.div`
 export const StyledContainer = styled.div`
     display:flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 21px;
     width: 100%;
     font-style: normal;
     h4{
@@ -138,4 +139,21 @@ export const UpdateDelete = styled.div`
         width: ${props => props.width >= 768 ? "250px" : "100%"};
     }
 
+`
+
+//card related css.....................
+export const CardContainer = styled.div`
+padding: 8px 40px;
+display: flex;
+flex-direction: ${props => props.width >= 768 ? 'row' : 'column'} ;
+gap: ${props => props.width >= 768 ? "32px" : "8px"};
+align-items: ${props => props.width >= 768 ? 'center' : 'flex-start'};
+`
+export const CardInner = styled.div`
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    gap: ${props => props.width >= 768 ? '30px' : '8px'};
+    flex-direction: ${props => props.width >= 768 ? 'row' : 'column'} ;
+    align-items: ${props => props.width >= 768 ? 'center' : 'flex-start'};
 `

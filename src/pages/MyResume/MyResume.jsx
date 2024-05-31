@@ -86,6 +86,7 @@ const ProfileContainer = styled.section`
     background: var(--Color-White-100, #FFF);
     font-style: normal;
     line-height: normal;
+    border-radius: 16px;
 `
 const ResumeHeader = styled.div`
     display: flex;
