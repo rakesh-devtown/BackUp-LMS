@@ -1,6 +1,6 @@
 import { Button, Typography, notification } from 'antd';
 import { Link } from 'react-router-dom';
-import { AppleFilled, WindowsFilled , LinuxOutlined} from '@ant-design/icons';
+import { AppleFilled, WindowsFilled , LinuxOutlined, AndroidFilled, LaptopOutlined} from '@ant-design/icons';
 import styled from 'styled-components';
 import useWindowSize from '../../../hooks/useWindowSize';
 import { StyledParagraph, StyledTitle, StyledModalContent } from '../../../styles/settings.styles';
@@ -52,7 +52,11 @@ const DeviceLogged = ({ handleCancel }) => {
                     sessions.map((session, index) => {
                         return (
                             <Card key={index} width={width} className='card1'>
-                                <div><i>{session.os === 'Win32' ? <WindowsFilled /> : <LinuxOutlined/>}</i> <p>{session.os}</p></div>
+                                <div><i>{(session.os === 'Win32' || session.os==='Window') ? <WindowsFilled /> : 
+                                         (session.os === 'Android' || session.os==='Linux armv81') ? <AndroidFilled/> :
+                                         (session.os === 'Darwin' || session.os.match(/mac/gi)) ? <AppleFilled/> : 
+                                         session.os === 'Linux' ? <LinuxOutlined/>
+                                         : <LaptopOutlined/>}</i> <p>{session.os}</p></div>
                                 <p>{session.loginTime}</p>
                                 <div className={`hidden hidden-card1`}>Logout</div>
                             </Card>
