@@ -44,6 +44,10 @@ export const routes = [
     element: <VerifyMagicLink />,
   },
   {
+	  path: "reset-password/:token",
+    element: <ResetPassword />,
+  },
+  {
     path: routeDefinitions.AUTH,
     element: <AuthWrapper />,
     children: [
