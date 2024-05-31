@@ -64,11 +64,21 @@ export const GoogleAuthLogin = () => {
   }, [isGoogleAuthenticated, navigate]);
 
   return (
-    <GoogleLogin
-      type="icon"
+    <GoogleLogin 
+      render={(renderProps) => (
+        <button
+          onClick={renderProps.onClick}
+          disabled={renderProps.disabled}
+          className="google-login-button"
+        >
+          Sign in with Google
+        </button>
+      )}
+      width="100%"
       onSuccess={onSignInSuccess}
       onFailure={onSignInFailure}
       cookiePolicy="single_host_origin"
+      isS
     />
   );
 };

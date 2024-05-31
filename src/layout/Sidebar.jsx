@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   MenuFoldOutlined,
@@ -28,7 +28,7 @@ import authStore from "../store/authStore";
 import { setHeader } from "../utils/header";
 import useAuthStore from "../store/authStore";
 import useLoadingStore from "../store/loadingStore";
-import useWindowSize from "../hooks/useWindowSixe";
+import useWindowSize from "../hooks/useWindowSize";
 import {
   LayoutActions,
   LayoutContainer,
@@ -45,7 +45,6 @@ const Sidebar = () => {
   const { width } = useWindowSize();
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
-  const loading = useLoadingStore((state) => state.loading);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -96,7 +95,6 @@ const Sidebar = () => {
       label: <Link to={routeDefinitions.MESSAGE}>Message</Link>,
     },
   ];
-  const ref = useRef(null);
 
   const loadUser = useAuthStore((state) => state.loadUser);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -116,24 +114,18 @@ const Sidebar = () => {
       cancelText: "No",
     });
   };
-  const handleClickOutside = (e) => {
-    
+  // const verifyAuthToken = async () => {
+  //   setLoading(true);
+  //   await loadUser();
+  //   setLoading(false);
+  //   if (!isAuthenticated) {
+  //     navigate("/auth");
+  //   }
+  // };
 
-    if (e.target.parentNode.id === 'ham') {
-      return;
-    }
-
-    if (ref.current && !ref.current.contains(e.target)) {
-      setOpen(false);
-    }
-  };
-    useEffect(() => {
-      document.addEventListener('mousedown',handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown',handleClickOutside);
-    };
-    }, [])
-    console.log(open)
+  // useEffect(() => {
+  //   verifyAuthToken();
+  // }, []);
   return (
     <StyledLayout>
       <LayoutHeader collapsed={collapsed} width={width}>
@@ -142,22 +134,16 @@ const Sidebar = () => {
             <img src={Logo} alt="logo" />
           </LayoutLogoLink>
         ) : (
-          <LayoutHamburger  >
-            <BarsOutlined id="ham" onClick={() =>  {
-            
-            setOpen(prevopen => !prevopen)
-         
-            }}   />
+          <LayoutHamburger onClick={() => setOpen(!open)}>
+            <BarsOutlined />
           </LayoutHamburger>
         )}
         <SearchBar collapsed={collapsed} />
       </LayoutHeader>
       <LayoutContainer>
-        {width < 700 && open && !loading && (
+        {width < 700 && open && (
           <Sider
-          ref={ref}
-          id="sider"
-            collapsed={false  }
+            collapsed={false}
             onCollapse={(value) => {
               setCollapsed(value);
             }}

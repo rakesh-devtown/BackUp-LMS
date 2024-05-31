@@ -66,15 +66,14 @@ const App = () => {
   }, []);
   return (
     <>
+      
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Learn-DevTown </title>
+        <title>DevTown </title>
         <link rel="canonical" href="https://www.learn.devtown.in/" />
-        <meta
-          name="description"
-          content="Enhance your skills with Devtown's online industrial training and internship program. Explore AI and Full-Stack Web Dev for a brighter future. Join now"
-        />
-      </Helmet>
+        <meta name="description" content="Enhance your skills with Devtown's online industrial training and internship program. Explore AI and Full-Stack Web Dev for a brighter future. Join now" />
+        
+        </Helmet>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         {loading && (
           <LoaderOuterContainer>

@@ -14,7 +14,7 @@ const DevAreaOutlet = styled.div`
   height: 100%;
   padding-top: 4px;
 
-  width: ${props => props.isSidebarOpen  && props.width < 1000 ? "calc(100% - 250px)" : props.width < 1000 ?  "83%" : "100%"}; 
+  width: ${props => props.isSidebarOpen ? "calc(100% - 250px)" : "83%"}; 
 `;
 const DevScreenOuterContainer = styled.div`
   overflow: auto;

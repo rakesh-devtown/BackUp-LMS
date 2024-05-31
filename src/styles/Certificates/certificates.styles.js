@@ -11,7 +11,7 @@ const CertificateTitle = styled.p`
   font-size: 0.9em;
   font-weight: 600;
   margin-top: 10px;
-  margin-bottom: ;
+  /* margin-bottom: ; */
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,16 +107,16 @@ export {
   CertificatePeriod,
   CertificateDescription,
   CertificateSeparator,
-    CertificateDot,
-    OrganizationContainer,
-    LinkContainer ,
-    CertificateModalOuterContainer ,
-    MarginContainer,
-    CertWarningContainer,
-    CertFormContainer,
-    CertFormTitle,
-    CertFormTitleRequired,
-    CertFormInput,
-    CertFormButtonContainer
+  CertificateDot,
+  OrganizationContainer,
+  LinkContainer,
+  CertificateModalOuterContainer,
+  MarginContainer,
+  CertWarningContainer,
+  CertFormContainer,
+  CertFormTitle,
+  CertFormTitleRequired,
+  CertFormInput,
+  CertFormButtonContainer
 
 };

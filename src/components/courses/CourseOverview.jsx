@@ -13,20 +13,29 @@ import {
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
+import DropDown from "./DropDown";
 import StickyBox from "react-sticky-box";
+import courseData from "./dummydata";
 import { StyledButton, StyledP } from "../../styles/LoginPage.styles";
+import Test from "./Test";
 import AttendanceCalendar from "./AttendanceCalendar";
 import useBatchStore from "../../store/batchStore";
+import { set } from "date-fns";
 import MeetingModal from "../Meetings/MeetingModal";
 import {
   ArrowLeftOutlined,
+  CloseOutlined,
   FilePdfFilled,
-  FileZipFilled,
+  LinkOutlined,
+  LinkedinFilled,
   PlayCircleFilled,
+  PlayCircleOutlined,
 } from "@ant-design/icons";
+import ModalVideo from "react-modal-video";
 import YouTubeIframe from "./YouTubeIframe";
 import { Link } from "react-router-dom";
-import useWindowSize from "../../hooks/useWindowSixe";
+import { BackButton } from "../../styles/SessionLimit.styles";
+import useWindowSize from "../../hooks/useWindowSize";
 import {
   CourseOverViewStyledDiv,
   CourseOverviewBackButton,
@@ -66,12 +75,11 @@ export const formatDate = (dateString) => {
   const monthName = date.toLocaleString("en-US", { month: "short" });
   const day = date.getDate();
   const year = date.getFullYear();
-  const time = `${hours}:${minutes.toString().padStart(2, "0")} ${
-    hours >= 12 ? "PM" : "AM"
-  } IST`;
+  const time = `${hours}:${minutes.toString().padStart(2, "0")} ${hours >= 12 ? "PM" : "AM"
+    } IST`;
   const dateStr = `${day}th ${monthName}, ${year}`;
 
-  return [time, dateStr , hours, minutes];
+  return [time, dateStr, hours, minutes];
 };
 const addTime = (timeStr, hoursToAdd, minutesToAdd) => {
   // Extract hours and minutes from the time string
@@ -159,13 +167,12 @@ const CourseOverview = ({ events }) => {
       return null;
     }
   }
-  console.log(resources);
+
   if (resources?.length !== 0) {
     if (resources?.length == 2) {
       for (var i = 0; i <= 1; i++) {
         if (resources[i].type == "url") {
           var youTubeUrl = resources[i].destinationUrl;
-          
         }
       }
     } else {
@@ -202,7 +209,7 @@ const CourseOverview = ({ events }) => {
   async function handleGetCourseData() {
     if (!currentBatchId) {
       navigate("/programs");
-      return ;
+      return;
     }
     // await getCurrentBatch(currentBatchId);
     if (
@@ -212,16 +219,16 @@ const CourseOverview = ({ events }) => {
     )
       setSyllabus(currentBatch?.syllabus[0]?.weeks);
   }
-  const [isCodeAvailable , setIsCodeAvailable] = useState(true); 
+  const [isCodeAvailable, setIsCodeAvailable] = useState(true);
 
-  const handleNavigation  = async ( dayId, batchId) =>  {
+  const handleNavigation = async (dayId, batchId) => {
     try {
       setLoading(true);
       setHeader("auth", `bearer ${localStorage.getItem("token")}`);
       const { data, statusCode, message } = await serviceGet(
         `student/student-api/v1/day/tree?id=${dayId}&batchId=${batchId}`
       );
-      if(statusCode === 404 || !data.tree) {
+      if (statusCode === 404 || !data.tree) {
         setIsCodeAvailable(false);
 
 
@@ -229,20 +236,20 @@ const CourseOverview = ({ events }) => {
       else {
         setIsCodeAvailable(true);
 
-        
+
       }
     } catch (error) {
-      
+
     } finally {
       setLoading(false);
     }
-    
+
 
   }
-  
-  useEffect(() => { 
-    if(dayId)
-      handleNavigation(dayId , currentBatch._id) ;
+
+  useEffect(() => {
+    if (dayId)
+      handleNavigation(dayId, currentBatch._id);
 
   }, [dayId])
 
@@ -253,10 +260,9 @@ const CourseOverview = ({ events }) => {
     setModalVideoOpen(false);
   };
 
-  
+
   return (
     <CourseOverViewStyledDiv activeTab={activeTab}>
-      
       <MeetingModal
         meetingNumber={meetingData?.meetingNumber}
         name={meetingData?.topic}
@@ -294,17 +300,17 @@ const CourseOverview = ({ events }) => {
           <div>
 
 
-            
-            <StickyBox style={{width:"100%"}} offsetTop={20} offsetBottom={20}>
-             
-             
+
+            <StickyBox style={{ width: "100%" }} offsetTop={20} offsetBottom={20}>
+
+
               {syllabus?.map((weekData, weekIndex) => (
                 <Collapse
                   key={weekIndex}
-                  bordered={false} 
-                  expandIconPosition="right" 
-                  style={{ width:width > 700 ?  "50%" : "100%" }}
-                > 
+                  bordered={false}
+                  expandIconPosition="right"
+                  style={{ width: width > 700 ? "50%" : "100%" }}
+                >
                   <CourseOverviewPanel header={weekData.name} key={weekIndex}>
                     {weekData.days.map((dayData, dayIndex) => {
                       const convertToDate = (dateStr) => {
@@ -313,87 +319,88 @@ const CourseOverview = ({ events }) => {
                         const monthNumber = monthNames.indexOf(month) + 1;
                         return new Date(`${year}-${monthNumber}-${day.slice(0, -2)}`);
                       };
-                      
-                      let  pillText;
-                    dayData.sessions.map((session) => {
-                      const courseStartDateObj  =new Date( session?.meeting[0]?.startTime);
-                      const sessionStartDate = formatDate(courseStartDateObj)[1];
-                      const sessionTime = formatDate(courseStartDateObj)[0];
-                      
-                      // const currentDateObj = formatDate(new Date());
-                      // const currentTime = currentDateObj[0];
-                      // const currentDate = currentDateObj[1];
+
+                      let pillText;
+                      dayData.sessions.map((session) => {
+                        const courseStartDateObj = new Date(session?.meeting[0]?.startTime);
+                        const sessionStartDate = formatDate(courseStartDateObj)[1];
+                        const sessionTime = formatDate(courseStartDateObj)[0];
+
+                        // const currentDateObj = formatDate(new Date());
+                        // const currentTime = currentDateObj[0];
+                        // const currentDate = currentDateObj[1];
 
 
-                      const currentDateObj = new Date()
+                        const currentDateObj = new Date()
 
-                      if(courseStartDateObj > currentDateObj) {
-                        const timeDiff = Math.abs(courseStartDateObj - currentDateObj);
-                        const diffHours = timeDiff / (1000 * 60 * 60); // Convert milliseconds to hours
-                      
-                        if (diffHours <= 2) {
-                          pillText = "LIVE";
-                        } else {
-                          pillText = "UPCOMING";
+                        if (courseStartDateObj > currentDateObj) {
+                          const timeDiff = Math.abs(courseStartDateObj - currentDateObj);
+                          const diffHours = timeDiff / (1000 * 60 * 60); // Convert milliseconds to hours
+
+                          if (diffHours <= 2) {
+                            pillText = "LIVE";
+                          } else {
+                            pillText = "UPCOMING";
+                          }
+                        } else if (courseStartDateObj < currentDateObj) {
+                          pillText = "EXPIRED";
                         }
-                      } else if(courseStartDateObj < currentDateObj) {
-                        pillText = "EXPIRED";
-                      }
-                      
-                  
+
+
                       })
                       return (
-                      <CourseOverviewWeekContainer
-                        key={dayIndex}
-                        title={dayData.name}
-                        onClick={() => {
-                          setDayId(dayData._id);
-                          onDayClick(
-                            dayData.name,
-                            dayData.sessions,
-                            dayData.resources
-                          );
-                        }}
-                      >
-                        <List style={{width:width <=700 ?   "100%" : "60%"}}>
-                          <CourseOverviewItem width={width}>
-                            <DayName
-                              
-                            >
-                             
-                              {dayData.name}
-                               
-                            </DayName>
-                                
-                            <Space>
-                              
-                              <span> {pillText ==="EXPIRED" ? (
-                              <Tag  color="red" >
-                                {pillText}
-                              </Tag>
+                        <CourseOverviewWeekContainer
+                          key={dayIndex}
+                          title={dayData.name}
+                          onClick={() => {
+                            setDayId(dayData._id);
+                            onDayClick(
+                              dayData.name,
+                              dayData.sessions,
+                              dayData.resources
+                            );
+                          }}
+                        >
+                          <List style={{ width: width <= 700 ? "100%" : "60%" }}>
+                            <CourseOverviewItem width={width}>
+                              <DayName
 
-                              ):pillText ==="UPCOMING"?  (
-                                <Tag  color="blue" >
-                                {pillText}
-                              </Tag>
-                              ) : pillText ==="LIVE" ? (
-                                <Tag  color="green" >
-                                {pillText}
-                              </Tag>
-                              ) : (
-                                <Tag  color="blue" >
-                                NO CLASS
-                              </Tag>
-                              )
-                            
-                            
-                            }</span>
-                            </Space>
-                          </CourseOverviewItem>
-                          <Item></Item>
-                        </List>
-                      </CourseOverviewWeekContainer>
-                    ) })}
+                              >
+
+                                {dayData.name}
+
+                              </DayName>
+
+                              <Space>
+
+                                <span> {pillText === "EXPIRED" ? (
+                                  <Tag color="red" >
+                                    {pillText}
+                                  </Tag>
+
+                                ) : pillText === "UPCOMING" ? (
+                                  <Tag color="blue" >
+                                    {pillText}
+                                  </Tag>
+                                ) : pillText === "LIVE" ? (
+                                  <Tag color="green" >
+                                    {pillText}
+                                  </Tag>
+                                ) : (
+                                  <Tag color="blue" >
+                                    NO CLASS
+                                  </Tag>
+                                )
+
+
+                                }</span>
+                              </Space>
+                            </CourseOverviewItem>
+                            <Item></Item>
+                          </List>
+                        </CourseOverviewWeekContainer>
+                      )
+                    })}
                   </CourseOverviewPanel>
                 </Collapse>
               ))}
@@ -413,7 +420,7 @@ const CourseOverview = ({ events }) => {
                         src="https://global-uploads.webflow.com/60798d9b0b61160814b3d8c3/6214bfdec64863aa471aa0a0_fswd.png"
                         alt="fswd img"
                       />
-      
+
                       <StyledButton
                         type="primary"
                         onClick={() => {
@@ -457,10 +464,9 @@ const CourseOverview = ({ events }) => {
                               message: "Meeting has Expired",
                             });
                         }}
-                        className={`bg-[#6422CD] hover:bg-[#6422CD] text-white font-bold font-dm-sans py-2 w-full rounded-lg ${
-                          getSessionStatus(className?.meeting[0]?.startTime)
+                        className={`bg-[#6422CD] hover:bg-[#6422CD] text-white font-bold font-dm-sans py-2 w-full rounded-lg ${getSessionStatus(className?.meeting[0]?.startTime)
                             .buttonClass
-                        }`}
+                          }`}
                         disabled={getSessionStatus(
                           className?.meeting[0]?.startTime
                         ).buttonClass.includes("cursor-not-allowed")}
@@ -470,14 +476,20 @@ const CourseOverview = ({ events }) => {
                       {
                         isCodeAvailable && (
 
-                        <StyledButton type="primary"
-                        onClick={() => navigate(`/tree?dayId=${dayId}&batchId=${currentBatch._id}`)}
-                        // onClick={() => handleNavigation(dayId , currentBatch?._id)}
-                        
-                        >
-                          View Code
-                         
-                        </StyledButton>
+                          <StyledButton type="primary"
+                            onClick={() => navigate(`/tree?dayId=${dayId}&batchId=${currentBatch._id}`)}
+                          // onClick={() => handleNavigation(dayId , currentBatch?._id)}
+
+                          >
+                            View Code
+                            {/* <a
+                            target="_blank"
+                            href={`/tree?dayId=${dayId}&batchId=${currentBatch._id}`}
+                            rel="noreferrer"
+                          >
+                            View Code
+                          </a> */}
+                          </StyledButton>
                         )
                       }
 
@@ -519,7 +531,7 @@ const CourseOverview = ({ events }) => {
                                           : resource?.title.split(".")[0]}
                                       </ResourceText>
                                     </ResourceButtonPDF>
-                                  ) : resource.type =="url"? (
+                                  ) : (
                                     <ResourceButton
                                       onClick={() => setModalVideoOpen(true)}
                                     >
@@ -530,19 +542,6 @@ const CourseOverview = ({ events }) => {
                                           : resource?.title.split(".")[0]}
                                       </ResourceText>
                                     </ResourceButton>
-                                  ) :(
-                                    <ResourceButtonPDF
-                                      onClick={() =>
-                                        window.open(resource.destinationUrl)
-                                      }
-                                    >
-                                      <FileZipFilled />
-                                      <ResourceText>
-                                        {resource?.name
-                                          ? resource.name.split(".")[0]
-                                          : resource?.title.split(".")[0]}
-                                      </ResourceText>
-                                    </ResourceButtonPDF>
                                   )}
                                 </div>
                               </ResourceItem>

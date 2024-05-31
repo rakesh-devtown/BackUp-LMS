@@ -71,14 +71,24 @@ export const Box=styled.div`
   margin-bottom: 1rem;
   border-radius: 10px;
   display: flex;
+  position: relative;
+  &:hover::after {
+    content: 'Logout';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+  }
 
 `;
-export const LoginTime=styled.div`
-color: #595a5c;
-  font-size: 1rem;
-  font-weight: normal;
-  font-family: 'Manrope', sans-serif;
-  line-height: 1.4;
+export const LoginTime=styled.p`
 `;
 export const ClearButton = styled.button`
    padding: 6px 6px;
@@ -170,12 +180,13 @@ export const StyledClearButton = styled(Button)`
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
-  font-family: 'Manrope', sans-serif;
 `;
 export const SessionLimitContainers = styled.div`
   display: flex;
-  gap: 5px;
+  gap: 12px;
+  justify-content: space-between;
   align-items: center;
+
 `;
 
 export const OsColor = styled.div`

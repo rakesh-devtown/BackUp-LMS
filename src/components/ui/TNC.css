@@ -1,0 +1,26 @@
+.terms {
+    height: 408px;
+    overflow-y: scroll;
+    min-width: 70%;
+    margin-top:10px ;
+  }
+  
+  .terms::-webkit-scrollbar {
+    width: 10px;
+    
+  }
+  
+  .terms::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .terms::-webkit-scrollbar-thumb {
+    height: 30px;
+    background: #0859DE;
+    border-radius: 10px;
+  }
+  
+  .terms::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

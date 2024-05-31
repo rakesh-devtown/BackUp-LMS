@@ -10,9 +10,8 @@ import useBatchStore from "../../store/batchStore";
 import useAuthStore from "../../store/authStore";
 import useLoadingStore from "../../store/loadingStore";
 import "./Programs.css";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 import { ProgramsTitle, StyledCol, StyledProgramsDiv, StyledRow, StyledTabs } from "../../styles/programs.styles";
-import { Helmet } from "react-helmet";
 const { Title } = Typography;
 const { Search } = Input;
 const { Meta } = Card;
@@ -25,24 +24,24 @@ const arr = [
 ];
 
 const Programs = () => {
-  const {width} = useWindowSize();
+  const { width } = useWindowSize();
   const [type, setType] = useState("all");
-  const [batch, setBatches] = useState([]); 
+  const [batch, setBatches] = useState([]);
   const navigate = useNavigate();
   const name = useProgramStore(state => state.name);
   const getCurrentBatch = useBatchStore((state) => state.getCurrentBatch);
-  const allBatches = useProgramStore(state  => state.allBatches)
+  const allBatches = useProgramStore(state => state.allBatches)
   const getAllbatches = useProgramStore.getState().getAllbatches;
   const setCurrentBatchId = useBatchStore(state => state.setCurrentBatchId);
   const setLoading = useLoadingStore(state => state.setLoading);
   const handleGetAllBatches = useCallback(async () => {
     setLoading(true);
-     await getAllbatches();
-     setLoading(false);
-  }, [getAllbatches]);
+    await getAllbatches();
+    setLoading(false);
+  }, [getAllbatches, setLoading]);
 
 
-  const handleGetBatches = useCallback( () => {
+  const handleGetBatches = useCallback(() => {
     if (type === "all") {
       if (name === "") setBatches(allBatches);
       else
@@ -73,14 +72,14 @@ const Programs = () => {
   }, [allBatches, name, type]
   )
 
-  const handleNavigate = async  ( id  ,courseType  , course) =>  {
-    setCurrentBatchId(id); 
+  const handleNavigate = async (id, courseType, course) => {
+    setCurrentBatchId(id);
     setLoading(true);
 
-    await getCurrentBatch(id); 
-    
-    
-    navigate(`${courseType=== "classroom" ? "/program" : "/video"}` , {state:{thumbnail : course.image}})
+    await getCurrentBatch(id);
+
+
+    navigate(`${courseType === "classroom" ? "/program" : "/video"}`, { state: { thumbnail: course.image } })
     setLoading(false);
 
   }
@@ -88,7 +87,7 @@ const Programs = () => {
 
     handleGetBatches();
 
-  }, [type, handleGetBatches, name ,allBatches]);
+  }, [type, handleGetBatches, name, allBatches]);
   useEffect(() => {
 
     handleGetAllBatches();
@@ -98,13 +97,7 @@ const Programs = () => {
   if (!batch.length)
     return (
       <Layout>
-        <Helmet>
-          <title>Learn-DevTown Programs</title>
-          <meta name="Programs" content="My Programs" />
-          <link rel="canonical" href="https://www.learn.devtown.in/programs" />
-          
-        </Helmet>
-        
+
         <ProgramsTitle >My Programs</ProgramsTitle>
 
         <StyledTabs
@@ -133,27 +126,27 @@ const Programs = () => {
 
   return (
     <Layout>
-    <ProgramsTitle>My Programs</ProgramsTitle>
+      <ProgramsTitle>My Programs</ProgramsTitle>
 
       <StyledTabs
         onChange={(key) => {
           setType(key);
         }}
         type="card"
-       
+
       >
         {arr.map((item, i) => (
           <Tabs.TabPane tab={item.name} key={item.type} />
         ))}
       </StyledTabs>
       <Space direction="vertical">
-      <StyledRow gutter={24}>
+        <StyledRow gutter={24}>
           {batch.map((batch, idx) => (
             <StyledCol key={batch._id} width={width}>
               <Card
                 hoverable
                 style={{
-                  width: "100%", 
+                  width: "100%",
 
                 }}
                 cover={
@@ -166,13 +159,13 @@ const Programs = () => {
                   />
                 }
               >
-                    
+
                 <StyledProgramsDiv
-                  
+
                 >
-                  
+
                   <Meta className="meta" title={batch?.name} description={batch?.course?.name} />
-                    <Button onClick={()=> handleNavigate(batch._id , batch?.course?.courseType , batch?.course) } type="primary"> Continue</Button>
+                  <Button onClick={() => handleNavigate(batch._id, batch?.course?.courseType, batch?.course)} type="primary"> Continue</Button>
                 </StyledProgramsDiv>
               </Card>
             </StyledCol>

@@ -77,6 +77,24 @@ overflow: auto;
       padding: 0px;
     `}
 `;
+export const LayoutOuterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  padding: 0 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100px;
+  width: 70%;
+  z-index: 0;
+  background-color: #F4F7FE;
+  @media (max-width: 991px) {
+    width: 95%;
+  }
+  
+`;
 
 export {
   LayoutHeader,
@@ -88,3 +106,20 @@ export {
   LayoutActions,
   LayoutFullScreenContent,
 };
+
+
+//header styled component
+
+export const StyledHeader = styled(Header)`
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        background-color: ${props => props.colorBgContainer};
+        padding: ${props => props.width >= 768 ? "20px 24px" : "20px 12px"};
+        /* margin-bottom: 16px; */
+        height: unset;
+        z-index: 10;
+` 

@@ -23,7 +23,7 @@ import { serviceGet } from "../../utils/api.js";
 import useBatchStore from "../../store/batchStore.js";
 import { setHeader } from "../../utils/header.js";
 import useLoadingStore from "../../store/loadingStore.js";
-import useWindowSize from "../../hooks/useWindowSixe.js";
+import useWindowSize from "../../hooks/useWindowSize.js";
 import { CourseOverviewAttendanceStyledDiv } from "../../styles/courseOverView.styles.js";
 
 function AttendanceCalendar() {
@@ -31,7 +31,7 @@ function AttendanceCalendar() {
   const currentBatchId = useBatchStore((state) => state.currentBatchId);
   const [chartData, setChartData] = useState({});
   const setLoading = useLoadingStore((state) => state.setLoading);
-  const {width} = useWindowSize()
+  const { width } = useWindowSize()
   const handleGetAttendance = async () => {
     try {
       setLoading(true)
@@ -55,8 +55,8 @@ function AttendanceCalendar() {
                 date: new Date(s.date),
                 attendance:
                   !s?.attendance ||
-                  s?.attendance?.duration / 60 < s?.sessionDuration * 0.7 ||
-                  s?.attendance?.duration < thresholdToAttendance
+                    s?.attendance?.duration / 60 < s?.sessionDuration * 0.7 ||
+                    s?.attendance?.duration < thresholdToAttendance
                     ? false
                     : true,
                 sessionDuration: s?.sessionDuration,
@@ -73,7 +73,7 @@ function AttendanceCalendar() {
         message: "Error",
         description: error.message,
       });
-    } finally{
+    } finally {
       setLoading(false)
     }
   };
@@ -95,15 +95,15 @@ function AttendanceCalendar() {
   }, []);
   return (
     <>
-    
+
       <Title level={4}>Attendence</Title>
       <CourseOverviewAttendanceStyledDiv width={width}>
         <div >
           <AttendanceTable data={data} />
         </div>
-          
-          <ProgressBar  percent={isNaN(chartData.percentage)? 0 :   chartData.percentage   } />
-        </CourseOverviewAttendanceStyledDiv>
+
+        <ProgressBar percent={chartData.percentage} />
+      </CourseOverviewAttendanceStyledDiv>
     </>
   );
 }
