@@ -18,8 +18,8 @@ const CourseOverviewModelOuterDiv = styled.div`
 const CourseOverviewModelInnerDiv = styled.div`
   position: absolute;
   top: -20px;
-  left: -24px;
-  width:101%;
+  left: 0px;
+  width:100%;
 
 `;
 

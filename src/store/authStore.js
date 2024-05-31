@@ -29,14 +29,13 @@ const useAuthStore = create(
     login: async (values) => {
       try {
         const fp = await FingerprintJS.load();
-        const { visitorId } = await fp.get();
+        const { visitorId, components: { platform: { value } } } = await fp.get();
         
-        
-        const res = await servicePost("auth/auth-api/v1/login?type=student", {
+        const res = await servicePost("auth/auth/v1/login", {
           ...values,
           signature: visitorId,
+          platform: value
         }, );
-        
         const {
           data: { user, token, chatToken },
           message,
@@ -48,7 +47,7 @@ const useAuthStore = create(
           })
           notification.success({
             message: "Login Success",
-            description: `Hey ${user.firstName} Welcome back`,
+            description: `Hey ${user.name} Welcome back`,
           });
 
           // message.success(`Hey ${user.firstName} Welcome back`, { duration: 4000 });
@@ -106,10 +105,10 @@ const useAuthStore = create(
     googleLogin: async (credential) => {
       try {
         const fp = await FingerprintJS.load();
-        const { visitorId } = await fp.get();
+        const { visitorId, components: { platform: { value } } } = await fp.get();
         const res = await servicePost(
-          "auth/auth-api/v1/login/google?type=student",
-          { credential: credential, signature: visitorId }
+          "auth/auth/v1/google/login",
+          { credential: credential, signature: visitorId, platform: value }
         );
         const {
           data: { user, token, chatToken },
@@ -153,12 +152,13 @@ const useAuthStore = create(
       try {
         const tokenn = localStorage.getItem("token");
         const fp = await FingerprintJS.load();
-        const { visitorId } = await fp.get();
+        const { visitorId, components } = await fp.get();
+        // TODO: Change verify magic link to verify auth token url
         const {
           success , 
           data: { user, chatToken, token  },
         } = await serviceGet(
-          `auth/auth-api/v1/verifyAuthToken?u=student&token=${tokenn}&signature=${visitorId}`
+          `auth/auth/v1/verify-auth-token?token=${tokenn}&signature=${visitorId}&platform=${components.platform.value}`
         );
         if (user) {
           setHeader("auth", `bearer ${token}`);
@@ -272,7 +272,7 @@ const useAuthStore = create(
           const fp = await FingerprintJS.load();
           const { visitorId , components } = await fp.get();
           
-          const res = await servicePost(`auth/auth-api/v1/verify-magic-link?type=student&token=${VerificationToken}`, {  signature: visitorId , platform : components.platform.value});
+          const res = await servicePost(`auth/auth/v1/verify-magic-link?token=${VerificationToken}`, {  signature: visitorId , platform : components.platform.value});
           const { data: { user, token, chatToken }, message, success } = res;
           setIsDataLoaded(message)
        
@@ -283,12 +283,18 @@ const useAuthStore = create(
                   description: message,
               });
               
-            
               // Store token
               localStorage.setItem('token', token);
               setHeader('signature', visitorId);
               // Set the header
               setHeader('auth', `bearer ${token}`);
+              set({
+                token,
+                chatToken,
+                user,
+                isAuthenticated: true,
+                isGoogleAuthenticated: true,
+              });
               return {
                   token,
                   chatToken,

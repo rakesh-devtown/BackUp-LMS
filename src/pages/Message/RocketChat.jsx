@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 import { ArrowLeftOutlined, BackwardFilled, LeftCircleFilled } from "@ant-design/icons";
 import { BackButton } from "../../styles/SessionLimit.styles";
 import { Button } from "antd";
@@ -32,24 +32,24 @@ function RocketChat({ channel, setIsChatClicked }) {
 
   useEffect(() => {
 
-    document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";  
+    document.getElementsByClassName("rocketchat-widget")[0].style.display = "none";
     document.getElementById("rocketchat-iframe").style.zIndex = "-100";
     return () => {
-      document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";  
-      document.getElementById("rocketchat-iframe").style.zIndex = "100";  
+      document.getElementsByClassName("rocketchat-widget")[0].style.display = "block";
+      document.getElementById("rocketchat-iframe").style.zIndex = "100";
     }
   }, []);
   return (
-<RocketChatContainer>
-  {width < 640 && (
-    <RocketChatButtonContainer>
-      <RocketChatButton onClick={goBack}>
-        <ArrowLeftOutlined  />
-      </RocketChatButton>
-    </RocketChatButtonContainer>
-  )}
-  <RocketChatContent>
-  <iframe
+    <RocketChatContainer>
+      {width < 640 && (
+        <RocketChatButtonContainer>
+          <RocketChatButton onClick={goBack}>
+            <ArrowLeftOutlined />
+          </RocketChatButton>
+        </RocketChatButtonContainer>
+      )}
+      <RocketChatContent>
+        <iframe
           title="Discussion"
           ref={iframeRef}
           src={`https://codetown.in/channel/${channel}?layout=embedded`}
@@ -57,8 +57,8 @@ function RocketChat({ channel, setIsChatClicked }) {
           height="95%"
           width="100%"
         ></iframe>
-  </RocketChatContent>
-</RocketChatContainer>
+      </RocketChatContent>
+    </RocketChatContainer>
   );
 }
 

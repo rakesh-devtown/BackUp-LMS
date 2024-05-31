@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import NewModal from "./NewModal";
 import ProfileModal from "./ProfileModal";
-import useWindowSize from "../../hooks/useWindowSixe";
+import useWindowSize from "../../hooks/useWindowSize";
 
 import blog from "../../assets/images/blog-svgrepo-com.svg";
 import leetcode from "../../assets/images/leetcode-svgrepo-com.svg";
@@ -160,7 +160,7 @@ function AboutMe({ profile, about }) {
     setHeader("auth", `bearer ${localStorage.getItem("token")}`);
     if (type === ".pdf") {
       try {
-        setLoading( true)
+        setLoading(true)
         const { url } = await serviceGet(
           `student/student-api/v1/me/url?type=${type}&path=/student-resume`
         );

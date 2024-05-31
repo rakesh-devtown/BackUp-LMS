@@ -19,12 +19,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { serviceDelete, serviceGet } from "../../utils/api";
-import useWindowSize from "../../hooks/useWindowSixe";  
+import useWindowSize from "../../hooks/useWindowSize";
 import useLoadingStore from "../../store/loadingStore";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+
+
 const SessionLimit = () => {
   const [sessions, setSessions] = useState([]); // Now useState is defined
-  const {width} = useWindowSize();
+  const { width } = useWindowSize();
   const user = useAuthStore((state) => state.user);
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
   const clearSessions = useAuthStore((state) => state.clearSessions);
@@ -55,7 +57,7 @@ const SessionLimit = () => {
       );
       if (success) {
         clearSessions();
-        navigate("/");
+        navigate("/programs");
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
@@ -68,17 +70,16 @@ const SessionLimit = () => {
       if (user && screenLimitReached) {
         setLoading(true);
         const {
-
           data: { screenSessions },
         } = await serviceGet(`student/student-api/v1/screen/${user?._id}`);
         setSessions(screenSessions);
       } else {
-        navigate("/auth");
+        navigate("/programs");
       }
     } catch (error) {
       notification.error({ message: error.message });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -90,10 +91,8 @@ const SessionLimit = () => {
 
   return (
     <SessionLimitContainer>
-      <StyledButton
-      onClick={navigateToHomePage}
-      >
-         <ArrowLeftOutlined/> Back
+      <StyledButton onClick={navigateToHomePage}>
+        <ArrowLeftOutlined /> Back
       </StyledButton>
 
       <CardContainer>
@@ -102,11 +101,10 @@ const SessionLimit = () => {
           You have reached your limit of 2 active sessions on DevTown. Please
           end another session before logging in.
         </Description>
-        {sessions.map((e  , idx) => (
-          <Box key={idx} >
-
-            <SessionLimitContainers >
-              <div >
+        {sessions.map((e, idx) => (
+          <Box key={idx}>
+            <SessionLimitContainers>
+              <div>
                 {e?.os?.includes("Windows") ? (
                   <img
                     width="48"
@@ -144,30 +142,22 @@ const SessionLimit = () => {
                   />
                 )}
               </div>
-              <LoginTime >
+              <LoginTime>
                 {" "}
                 {`${new Date(e?.lastLogin).getMonth() + 1}/${new Date(
                   e?.lastLogin
                 ).getDate()}/${new Date(e?.lastLogin).getFullYear()}`}{" "}
               </LoginTime>
             </SessionLimitContainers>
-            <OsColor>
-  { width > 500 && e?.os }
-</OsColor>
-            <StyledClearButton
-              onClick={() => clearSession(e._id)}
-              
-            >
+            <OsColor>{width > 500 && e?.os}</OsColor>
+            <StyledClearButton onClick={() => clearSession(e._id)}>
               {" "}
               Logout{" "}
             </StyledClearButton>
           </Box>
         ))}
 
-        <ClearAllButton
-     
-          onClick={() => clearAllSession()}
-        >
+        <ClearAllButton onClick={() => clearAllSession()}>
           {" "}
           Clear all Sessions
         </ClearAllButton>
