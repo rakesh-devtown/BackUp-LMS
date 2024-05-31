@@ -119,7 +119,7 @@ const SessionLimit = () => {
                     src="https://img.icons8.com/ios-filled/50/mac-os.png"
                     alt="mac-os"
                   />
-                ) : e?.os?.includes("Android") ? (
+                ) : (e?.os?.includes("Android") || e?.os?.includes("Linux armv81")) ? (
                   <img
                     width="48"
                     height="48"
