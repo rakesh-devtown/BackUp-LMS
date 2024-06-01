@@ -67,14 +67,17 @@ export const StyledSignInForm = styled(Form)`
   min-width: 350px;
   width: 100%;
   justify-content: center;
+  padding: 30px 0;
   gap: ${props => props.width >= 992 ? "16.5px" : "22px"};
   .ant-form-item{
     margin-bottom: 0;
   }
 `;
 
+
 export const StyledHeading = styled.h1`
-  font-weight: 900
+  font-weight: 900;
+  margin-top: 30px;
 `;
 export const StyledDevTown = styled.h1`
   color: rgb(100 34 205);
