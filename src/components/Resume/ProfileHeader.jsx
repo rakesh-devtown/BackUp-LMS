@@ -191,7 +191,7 @@ const ProfilePic = styled.div`
   cursor: pointer;
   .ant-progress {
     position: relative;
-    z-index: 10;
+    z-index: 5;
   }
   .upload {
     display: none;
