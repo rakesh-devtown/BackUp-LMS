@@ -4,6 +4,7 @@ import { serviceGet, servicePost } from "../utils/api";
 import { deleteHeader, setHeader } from "../utils/header";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { devtools } from "zustand/middleware";
+import { useNavigate } from "react-router-dom";
 
 const useAuthStore = create(
   devtools((set) => ({
@@ -134,6 +135,7 @@ const useAuthStore = create(
               isAuthenticated: false,
               screenLimitReached: true,
             });
+            
           } else {
             set({
               token: null,
@@ -182,12 +184,13 @@ const useAuthStore = create(
             localStorage.setItem("token", token);
             setHeader("auth", `bearer ${token}`);
             set({
-              token,
+              token:'',
               chatToken,
               user,
               isAuthenticated: false,
               screenLimitReached: true,
             });
+           
           } else {
             set({
               token: null,

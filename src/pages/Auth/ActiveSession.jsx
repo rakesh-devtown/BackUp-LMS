@@ -25,16 +25,14 @@ function ActiveSession() {
   const clearSession = async (sessionId) => {
     try {
       setLoading(true);
-      alert(sessionId);
-      
+     
       const { success, message } = await serviceDelete(
         `student/student/v1/screen?screenSessionId=${sessionId}`
       );
 
       if (success) {
         clearSessions();
-        loadUser();
-        navigate("/");
+        window.location.reload();
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
