@@ -39,8 +39,7 @@ function MobileSessionLimit() {
 
       if (success) {
         clearSessions();
-        loadUser();
-        navigate("/");
+        window.location.reload();
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
