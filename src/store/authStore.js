@@ -156,6 +156,9 @@ const useAuthStore = create(
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
         // TODO: Change verify magic link to verify auth token url
+        if(tokenn === null) {
+          return false;
+        }
         const {
           data: { user, token, chatToken },
           message,
