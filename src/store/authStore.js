@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { message, notification } from "antd";
-import { serviceGet, servicePost } from "../utils/api";
+import { serviceDelete, serviceGet, servicePost } from "../utils/api";
 import { deleteHeader, setHeader } from "../utils/header";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { devtools } from "zustand/middleware";
@@ -216,16 +216,36 @@ const useAuthStore = create(
         return false;
       }
     },
-    logout: () => {
-      localStorage.removeItem("token");
-      deleteHeader("auth");
-      set({
-        token: null,
-        chatToken: null,
-        user: null,
-        isAuthenticated: false,
-        isGoogleAuthenticated: false,
-      });
+    logout: async() => {
+      try{
+        const fp = await FingerprintJS.load();
+        const { visitorId, components } = await fp.get();
+        const { success, message } = await serviceDelete(
+          `student/student/v1/screen?signature=${visitorId}`
+        );
+  
+        localStorage.removeItem("token");
+        deleteHeader("auth");
+        set({
+          token: null,
+          chatToken: null,
+          user: null,
+          isAuthenticated: false,
+          isGoogleAuthenticated: false,
+        });
+      }catch(err)
+      {
+        deleteHeader("auth");
+        set({
+          token: null,
+          chatToken: null,
+          user: null,
+          isAuthenticated: false,
+          isGoogleAuthenticated: false,
+        });
+        return false;
+      }
+
     },
     clearSessions: () => {
       set({
