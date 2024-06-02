@@ -34,6 +34,7 @@ import HomeLayoutHeaderOnly from "../layout/HomeLayoutHeaderOnly.jsx";
 import ResetPassword from "../components/Forms/ResetPassword.jsx";
 import MyResume from "../pages/MyResume/MyResume.jsx";
 import MyCourses from "../pages/MyCourses/MyCourses.jsx";
+import LoginMainPage from "../pages/Auth/LoginMainPage.jsx"
 export const routes = [
   {
     path: "auth/magic-login",
@@ -53,7 +54,7 @@ export const routes = [
     children: [
       {
         path: routeDefinitions.INDEX,
-        element: <Login />,
+        element: <LoginMainPage />,
       },
       {
         path: routeDefinitions.FORGOT_PASSWORD,

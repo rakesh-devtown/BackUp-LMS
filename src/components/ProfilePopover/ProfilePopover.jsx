@@ -1,20 +1,21 @@
 import styled from 'styled-components'
-import profilePic from '../../assets/images/profilePic.png'
+import profilePic from '../../assets/images/profilePic.jpg'
 import { ArrowUpOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons'
 import { MdLogout } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 const ProfilePopover = () => {
     const { logout } = useAuthStore();
+    const user = useAuthStore((state) => state.user);
 
     return (
         <StyledProfileOption>
             <ProfileLink to={"/profile"} >
-                <img src={profilePic} alt="" width={37} height={37} />
+                <img src={user?.profileImage || profilePic} alt="" width={37} height={37} />
                 <div className='box1'>
                     <div>
-                        <p className='name'>Sujith</p>
-                        <p className='email'>sujithsenkumar@gmail.com</p>
+                        <p className='name'>{user?.name}</p>
+                        <p className='email'>{user?.email}</p>
                     </div>
                     <i><ArrowUpOutlined rotate={45} style={{ color: "white", fontSize: "1.5rem" }} /></i>
                 </div>

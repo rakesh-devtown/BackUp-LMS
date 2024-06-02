@@ -4,6 +4,7 @@ import Field from "./Field";
 import profileLogo from "../../../assets/images/profile_logo.svg"
 import { StyledSettingsContent } from "../../../styles/settings.styles";
 import MainModalBox from "../../../components/Modals/ModalsSecurityPage";
+import useAuthStore from "../../../store/authStore";
 
 
 const SignInAndSecurity = () => {
@@ -12,6 +13,8 @@ const SignInAndSecurity = () => {
     // const [changePhoneModal, setChangePhoneModal] = useState(false)
     // const [changePsdModal, setChangePsdModal] = useState(false)
     // const [deviceModal, setDeviceModal] = useState(false)
+
+    const user = useAuthStore((state) => state.user);
 
     //mock data
     const profileDetails = {
@@ -27,9 +30,9 @@ const SignInAndSecurity = () => {
                 <h3>Sign in & Security</h3>
             </div>
             <Fields>
-                <Field keyNumber={1} title={"My Name"} value={profileDetails.name} change={true} />
-                <Field keyNumber={2} title={"Email Address"} value={profileDetails.email} />
-                <Field keyNumber={3} title={"Phone Number"} value={profileDetails.phone} change={true} />
+                <Field keyNumber={1} title={"My Name"} value={user?.name} change={true} />
+                <Field keyNumber={2} title={"Email Address"} value={user?.email} />
+                <Field keyNumber={3} title={"Phone Number"} value={user?.mobileNumber} change={true} />
                 <Field keyNumber={4} title={"Change Password"} change={true} />
                 <Field keyNumber={5} title={"Device Logged"} view={true} />
             </Fields>

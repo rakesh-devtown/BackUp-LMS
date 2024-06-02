@@ -33,12 +33,12 @@ function MobileSessionLimit() {
     try {
       setLoading(true);
       const { success, message } = await serviceDelete(
-        `student/student-api/v1/screen?screenSessionId=${sessionId}`
+        `student/student/v1/screen?screenSessionId=${sessionId}`
       );
 
       if (success) {
         clearSessions();
-        navigate("/programs");
+        navigate("/");
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
@@ -50,11 +50,11 @@ function MobileSessionLimit() {
     try {
       setLoading(true);
       const { success, message } = await serviceDelete(
-        `student/student-api/v1/screen?studentId=${user._id}`
+        `student/student/v1/screen?studentId=${user.id}`
       );
       if (success) {
         clearSessions();
-        navigate("/programs");
+        navigate("/");
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
@@ -62,15 +62,15 @@ function MobileSessionLimit() {
       setLoading(false);
     }
   };
-  console.log(sessions);
+ // console.log(sessions);
   const fetchSessions = async () => {
     try {
       if (user && screenLimitReached) {
         setLoading(true);
         const {
-          data: { screenSessions },
-        } = await serviceGet(`student/student-api/v1/screen/${user?._id}`);
-        setSessions(screenSessions);
+          data
+        } = await serviceGet(`student/student/v1/screen/${user?.id}`);
+        setSessions(data);
       } else {
       }
     } catch (error) {
@@ -79,29 +79,30 @@ function MobileSessionLimit() {
       setLoading(false);
     }
   };
-  //   useEffect(() => {
-  //     fetchSessions();
-  //   }, [user, screenLimitReached]);
+    useEffect(() => {
+      fetchSessions();
+    }, [user, screenLimitReached]);
+
   //   const navigateToHomePage = () => {
   //     navigate("/auth");
   //   };
-  const data = [
-    {
-      _id: "1",
-      os: "Windows",
-      lastLogin: "2021-08-01T00:00:00.000Z"
-    },
-    {
-      _id: "2",
-      os: "Mac",
-      lastLogin: "2021-08-01T00:00:00.000Z"
-    },
-    {
-      _id: "3",
-      os: "Linux",
-      lastLogin: "2021-08-01T00:00:00.000Z"
-    }
-  ]
+  // const data = [
+  //   {
+  //     _id: "1",
+  //     os: "Windows",
+  //     lastLogin: "2021-08-01T00:00:00.000Z"
+  //   },
+  //   {
+  //     _id: "2",
+  //     os: "Mac",
+  //     lastLogin: "2021-08-01T00:00:00.000Z"
+  //   },
+  //   {
+  //     _id: "3",
+  //     os: "Linux",
+  //     lastLogin: "2021-08-01T00:00:00.000Z"
+  //   }
+  // ]
   return (
     <Container>
       <div>
@@ -121,8 +122,8 @@ function MobileSessionLimit() {
           logging in.
         </p>
         <div>
-          {data.map((e, index) => (
-            <Box key={index} onClick={() => clearSession(e._id)}>
+          {sessions.map((e, index) => (
+            <Box key={index} onClick={() => clearSession(e.id)}>
               <SessionLimitContainers>
                 <div>
                   {e?.os?.includes("Windows") ? (

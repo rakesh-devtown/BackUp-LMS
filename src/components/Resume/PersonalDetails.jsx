@@ -4,11 +4,13 @@ import { EditOutlined } from "@ant-design/icons"
 import styled from "styled-components"
 import { StyledContainer, StyledHeader } from "../../styles/myResume.styles"
 import ResumeModals from "../Modals/ResumeModals"
+import useAuthStore from "../../store/authStore"
 
 const PersonalDetails = () => {
 
 
   const [showModal, setShowModal] = useState(false);
+  const user = useAuthStore((state) => state.user);
 
   const handleShowModal = () => setShowModal(!showModal)
 
@@ -25,7 +27,7 @@ const PersonalDetails = () => {
           <Col span={12}>
             <div>
               <h4>Name</h4>
-              <p>Sujith S</p>
+              <p>{user?.name}</p>
             </div>
           </Col>
           <Col span={12}>
@@ -53,7 +55,7 @@ const PersonalDetails = () => {
           <Col span={24}>
             <div>
               <h4>Email</h4>
-              <p>rakeshmagar0@gmail.com</p>
+              <p>{user?.email}</p>
             </div>
           </Col>
         </Row>

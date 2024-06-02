@@ -25,7 +25,7 @@ function ActiveSession() {
     try {
       setLoading(true);
       const { success, message } = await serviceDelete(
-        `student/student-api/v1/screen?screenSessionId=${sessionId}`
+        `student/student/v1/screen?screenSessionId=${sessionId}`
       );
 
       if (success) {
@@ -42,7 +42,7 @@ function ActiveSession() {
     try {
       setLoading(true);
       const { success, message } = await serviceDelete(
-        `student/student-api/v1/screen?studentId=${user._id}`
+        `student/student/v1/screen?studentId=${user.id}`
       );
       if (success) {
         clearSessions();
@@ -59,22 +59,25 @@ function ActiveSession() {
     try {
       if (user && screenLimitReached) {
         setLoading(true);
-        const {
-
-          data: { screenSessions },
-        } = await serviceGet(`student/student-api/v1/screen/${user?._id}`);
-        setSessions(screenSessions);
+        const {data} = await serviceGet(`student/student/v1/screen/${user?.id}`);
+        console.log(data)
+        setSessions(data);
       } else {
+    
       }
     } catch (error) {
+      console.log(error)
       notification.error({ message: error.message });
     } finally {
       setLoading(false)
     }
   };
+
   useEffect(() => {
+    console.log("useEffect")
     fetchSessions();
-  }, [user, screenLimitReached]);
+    }, []);
+
   const navigateToHomePage = () => {
     navigate("/auth");
   };
@@ -98,7 +101,7 @@ function ActiveSession() {
           {
             sessions.map((e, index) => (
               <Box key={index}
-                onClick={() => clearSession(e._id)}
+                onClick={() => clearSession(e.id)}
               >
                 <SessionLimitContainers>
                   <div>

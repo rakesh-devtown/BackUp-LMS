@@ -41,7 +41,7 @@ const Settings = () => {
     ]
 
     const myStyle = {
-        width: width >= 768 ? "300px" : "100%",
+        width: width < 768 ?  "100%" : "300px",
         borderRadius: "18px",
         background: "#FFF",
         padding: "24px",
@@ -89,7 +89,11 @@ const Settings = () => {
 export const MainContainer = styled.div`
 padding: ${props => props.width >= 768 ? "24px 24px 40px 24px" : "24px 12px 21px 12px"};
     /* padding: 124px 24px 40px 24px; */
+<<<<<<< HEAD
     background: #DEEAFF;
+=======
+    /* background: #DEEAFF; */
+>>>>>>> master
     min-height:  100%;
     font-family: DM Sans;
     .ant-row{

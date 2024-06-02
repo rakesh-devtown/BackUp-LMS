@@ -11,10 +11,12 @@ import Skills from "../../components/Resume/Skills/Skills";
 import Project from "../../components/Resume/Project/Project";
 import Certifications from "../../components/Resume/Certifications/Certifications";
 import WorkExperience from "../../components/Resume/WorkExperience/WorkExperience";
+import useAuthStore from "../../store/authStore";
 
 
 const MyResume = () => {
     const [checkbox, setCheckbox] = useState(false);
+    const user = useAuthStore((state) => state.user);
     const { width } = useWindowSize();
 
     const handleTermsAndCondition = (e) => {
@@ -84,6 +86,7 @@ const ProfileContainer = styled.section`
     background: var(--Color-White-100, #FFF);
     font-style: normal;
     line-height: normal;
+    border-radius: 16px;
 `
 const ResumeHeader = styled.div`
     display: flex;

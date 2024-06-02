@@ -2,15 +2,17 @@ import { Popover } from "antd";
 import styled from "styled-components";
 import { BellOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import ProfilePhoto from "../../assets/images/profilePic.png";
+import ProfilePhoto from "../../assets/images/profilePic.jpg";
 import MainLogo from "../../assets/images/Big Logo.jpg";
 import useWindowSize from "../../hooks/useWindowSize";
 import useLayoutUiStore from "../../store/layoutUI";
 import ProfilePopover from "../ProfilePopover/ProfilePopover";
+import useAuthStore from "../../store/authStore";
 
 
 function HeaderBar() {
   const { width } = useWindowSize();
+  const user = useAuthStore((state) => state.user);
   const isMobileSideBarOpen = useLayoutUiStore((state) => state.isMobileSideBarOpen);
   const setMobileSideBarOpen = useLayoutUiStore((state) => state.setMobileSideBarOpen);
   const navigate = useNavigate()
@@ -71,7 +73,7 @@ function HeaderBar() {
 
         {/* popover on hovering profile icon */}
         <Popover content={<ProfilePopover />} placement="bottomLeft" overlayStyle={myPopoverlayStyle} mouseLeaveDelay={0.3} >
-          <img src={ProfilePhoto} alt="" width={37} height={37} />
+          <img src={user?.profileImage || ProfilePhoto} alt="" width={37} height={37} />
         </Popover>
 
       </StyledSearchBox>

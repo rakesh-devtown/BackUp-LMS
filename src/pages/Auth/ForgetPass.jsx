@@ -52,10 +52,8 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
   const onFinish = (values) => {
     const { email } = values;
     if(forgotPassword(values)) {
-      
+      navigateToHomePage();
     }
-    // setCurrentPage("reset-password");
-    // nextPage("reset-password")
   };
   const navigateToHomePage = () => {
     navigate("/auth");
