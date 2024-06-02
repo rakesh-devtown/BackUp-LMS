@@ -117,7 +117,7 @@ export const StyledHeader = styled(Header)`
         width: 100%;
         display: flex;
         align-items: center;
-        background-color: #F4F7FE;
+        background-color: ${props => props.colorBgContainer};
         padding: ${props => props.width >= 768 ? "20px 24px" : "20px 12px"};
         /* margin-bottom: 16px; */
         height: unset;

@@ -4,7 +4,7 @@ import { EditOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import collegeLogo from '../../../assets/images/collegeLogo.png'
 import { GoDotFill } from 'react-icons/go';
-import { CardContainer, CardInner, DotStyle } from '../../../styles/myResume.styles';
+import { DotStyle } from '../../../styles/myResume.styles';
 import { useState } from 'react';
 import ResumeModals from '../../Modals/ResumeModals';
 
@@ -18,12 +18,12 @@ const EducationCard = () => {
 
 
     return (
-        <CardContainer width={width}>
+        <Position width={width}>
             {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"education"} value={{}} />}
             <div>
                 <img src={collegeLogo} alt="logo" />
             </div>
-            <CardInner width={width}>
+            <div className="inner-container">
                 <Space size={2} direction="vertical">
                     <h5>Rathinam College of Arts and Science</h5>
                     <Space size={[6, 0]} align='start' wrap>
@@ -39,9 +39,27 @@ const EducationCard = () => {
                 </Space>
                 <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleShowModal} className='edit-btn' >Edit</Button>
 
-            </CardInner>
-        </CardContainer>
+            </div>
+        </Position>
     )
 }
+
+const Position = styled.div`
+display: flex;
+padding: ${props => props.width >= 768 ? '8px 40px' : '8px 16px'};
+flex-direction: ${props => props.width >= 768 ? 'row' : 'column'} ;
+gap: ${props => props.width >= 768 ? "32px" : "8px"};
+align-items: ${props => props.width >= 768 ? 'center' : 'flex-start'};
+
+.inner-container{
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    gap: ${props => props.width >= 768 ? '30px' : '8px'};
+    flex-direction: ${props => props.width >= 768 ? 'row' : 'column'} ;
+    align-items: ${props => props.width >= 768 ? 'center' : 'flex-start'};
+
+}
+`
 
 export default EducationCard;

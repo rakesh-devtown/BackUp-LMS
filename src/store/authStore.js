@@ -220,7 +220,7 @@ const useAuthStore = create(
       try {
         
         const res = await servicePost(
-          "auth/auth-api/v1/forgot-password?type=student",
+          "auth/auth/v1/forgot-password",
           { ...values, callbackUrl: "https://www.student-platform.devtown.in" }
         );
         const { success, message } = res;
@@ -242,8 +242,8 @@ const useAuthStore = create(
       if (token != null) {
         try {
           const res = await servicePost(
-            `auth/auth-api/v1/reset-password?type=student&token=${token}`,
-            { ...values }
+            `auth/auth/v1/reset-password?token=${token}`,
+            { password: values }
           );
           const { success, message } = res;
           if (success) {
