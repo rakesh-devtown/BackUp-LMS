@@ -4,10 +4,23 @@ import { ArrowUpOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-d
 import { MdLogout } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
+import useLoadingStore from '../../store/loadingStore';
 const ProfilePopover = () => {
     const { logout } = useAuthStore();
     const user = useAuthStore((state) => state.user);
+    const loading = useLoadingStore((state) => state.loading);
+    const setLoading = useLoadingStore((state) => state.setLoading);
 
+    const logoutHandler=()=>{
+        try{
+            setLoading(true);
+            logout();
+        }catch(err){
+
+        }finally{
+            setLoading(false);
+        }
+    }
     return (
         <StyledProfileOption>
             <ProfileLink to={"/profile"} >
@@ -30,7 +43,7 @@ const ProfilePopover = () => {
                     <i><QuestionCircleOutlined /></i>
                     <p>Help</p>
                 </Link> */}
-                <Link onClick={() => logout()} className='logout'>
+                <Link onClick={logoutHandler} className='logout'>
                     <i><MdLogout /></i>
                     <p>Logout</p>
                 </Link>
