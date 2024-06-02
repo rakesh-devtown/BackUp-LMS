@@ -7,6 +7,7 @@ import Profile from "../pages/Profile/Profile";
 import Programs from "../pages/Programs/Programs";
 import VideoDetail from "../pages/Program/VideoDetail";
 import events from "../components/schedule/dummydata";
+import Login from "../pages/Auth/Login";
 import SessionLimit from "../pages/Auth/SessionLimit";
 import { ProtectedRoute } from "../pages/Auth/RouteProtection/protectedRoute";
 import AuthWrapper from "../Wrapper/AuthWrapper";
@@ -33,10 +34,20 @@ import HomeLayoutHeaderOnly from "../layout/HomeLayoutHeaderOnly.jsx";
 import ResetPassword from "../components/Forms/ResetPassword.jsx";
 import MyResume from "../pages/MyResume/MyResume.jsx";
 import MyCourses from "../pages/MyCourses/MyCourses.jsx";
-import LoginMainPage from "../pages/Auth/LoginMainPage.jsx";
-
-
+import LoginMainPage from "../pages/Auth/LoginMainPage.jsx"
 export const routes = [
+  {
+    path: "auth/magic-login",
+    element: <GenerateMagicLink />,
+  },
+  {
+    path: "verify-magic-link/:token",
+    element: <VerifyMagicLink />,
+  },
+  {
+	  path: "reset-password/:token",
+    element: <ResetPassword />,
+  },
   {
     path: routeDefinitions.AUTH,
     element: <AuthWrapper />,
@@ -44,6 +55,14 @@ export const routes = [
       {
         path: routeDefinitions.INDEX,
         element: <LoginMainPage />,
+      },
+      {
+        path: routeDefinitions.FORGOT_PASSWORD,
+        element: <ForgetPass />,
+      },
+      {
+        path: routeDefinitions.RESET_PASSWORD,
+        element: <ResetPassword />,
       },
       {
         path: routeDefinitions.MagicLink,
@@ -81,14 +100,14 @@ export const routes = [
         path: routeDefinitions.Profile,
         element: <MyResume />
       },
-      // {
-      //   path: 'lms',
-      //   element: <Lms />,
-      // },
-      // {
-      //   path: 'home',
-      //   element: <LayoutContent />,
-      // },
+      {
+        path: 'lms',
+        element: <Lms />,
+      },
+      {
+        path: 'home',
+        element: <LayoutContent />,
+      },
       // {
       //   path: routeDefinitions.PROGRAM,
       //   element: <Outlet />,

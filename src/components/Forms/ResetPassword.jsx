@@ -16,12 +16,10 @@ export default function ResetPassword({ handleNext }) {
   const { token } = useParams();
   const { resetPassword } = useAuthStore();
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
     if (values.password === values.confirmPassword) {
-      // resetPassword(values, token, () => navigate("/programs"));
-      console.log("running");
-      handleNext()
+      resetPassword(values.password, token);
+      navigate("/");
     } else {
       notification.error({
         message: "Password Mismatch",
@@ -65,7 +63,7 @@ export default function ResetPassword({ handleNext }) {
             />
           </Form.Item>
           <Form.Item>
-            <StyledButton htmlType="submit" children="reset">
+            <StyledButton type="primary" htmlType="submit" children="reset">
               Reset Password
             </StyledButton>
           </Form.Item>

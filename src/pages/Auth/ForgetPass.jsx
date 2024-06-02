@@ -50,11 +50,10 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
   const { forgotPassword } = useAuthStore();
 
   const onFinish = (values) => {
-    // if(forgotPassword(values)) {
-    //   navigate()
-    // }
-    setCurrentPage("reset-password");
-    nextPage("reset-password")
+    const { email } = values;
+    if(forgotPassword(values)) {
+      navigateToHomePage();
+    }
   };
   const navigateToHomePage = () => {
     navigate("/auth");
