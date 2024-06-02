@@ -12,7 +12,7 @@ const AuthWrapper = (props) => {
 
   return (
     <MainContainer>
-      {width >= 992 ? <Login /> : <LoginMobileView />}
+      <Outlet/>
     </MainContainer>
   );
 };
