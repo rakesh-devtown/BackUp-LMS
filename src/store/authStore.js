@@ -4,6 +4,7 @@ import { serviceGet, servicePost } from "../utils/api";
 import { deleteHeader, setHeader } from "../utils/header";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { devtools } from "zustand/middleware";
+import { useNavigate } from "react-router-dom";
 
 const useAuthStore = create(
   devtools((set) => ({
@@ -134,6 +135,7 @@ const useAuthStore = create(
               isAuthenticated: false,
               screenLimitReached: true,
             });
+            
           } else {
             set({
               token: null,
@@ -154,13 +156,17 @@ const useAuthStore = create(
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
         // TODO: Change verify magic link to verify auth token url
+        if(tokenn === null) {
+          return false;
+        }
         const {
-          success , 
-          data: { user, chatToken, token  },
+          data: { user, token, chatToken },
+          message,
+          success,
         } = await serviceGet(
           `auth/auth/v1/verify-auth-token?token=${tokenn}&signature=${visitorId}&platform=${components.platform.value}`
         );
-        if (user) {
+        if (success) {
           setHeader("auth", `bearer ${token}`);
           setHeader("signature", visitorId);
           localStorage.setItem("token", token);
@@ -176,15 +182,27 @@ const useAuthStore = create(
 
         } else {
           deleteHeader("auth");
-          set({
-            token: null,
-            chatToken: null,
-            user: null,
-            isAuthenticated: false,
-            isGoogleAuthenticated: false,
-          });
-          return success;
-          
+          notification.error({ message: "Login Error", description: message });
+          if (message === "Too many active sessions") {
+            localStorage.setItem("token", token);
+            setHeader("auth", `bearer ${token}`);
+            set({
+              token:'',
+              chatToken,
+              user,
+              isAuthenticated: false,
+              screenLimitReached: true,
+            });
+           
+          } else {
+            set({
+              token: null,
+              chatToken: null,
+              user: null,
+              isAuthenticated: false,
+            });
+          }
+  
         }
       } catch (error) {
         deleteHeader("auth");

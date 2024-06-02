@@ -20,17 +20,19 @@ function ActiveSession() {
   const setLoading = useLoadingStore((state) => state.setLoading);
   const currentLeftPage = loginUiStore((state) => state.currentLeftPage);
   const setCurrentLeftPage = loginUiStore((state) => state.setCurrentLeftPage);
+  const loadUser = useAuthStore((state) => state.loadUser);
   const navigate = useNavigate();
   const clearSession = async (sessionId) => {
     try {
       setLoading(true);
+     
       const { success, message } = await serviceDelete(
         `student/student/v1/screen?screenSessionId=${sessionId}`
       );
 
       if (success) {
         clearSessions();
-        navigate("/programs");
+        window.location.reload();
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
@@ -46,7 +48,8 @@ function ActiveSession() {
       );
       if (success) {
         clearSessions();
-        navigate("/programs");
+        loadUser();
+        navigate("/");
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });

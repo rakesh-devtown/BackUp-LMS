@@ -26,10 +26,14 @@ function VerifyMagicLink() {
   useEffect(() => {
     setLoading(true);
 
-    verifyMagicLink({ token: token, setIsDataLoaded: setIsDataLoaded });
+    if(token!=null)
+    {
+        console.log("loading")
+        verifyMagicLink({ token: token, setIsDataLoaded: setIsDataLoaded });
+    }
 
     setLoading(false);
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     if (isDataLoaded === "The link you are using is invalid!") {
