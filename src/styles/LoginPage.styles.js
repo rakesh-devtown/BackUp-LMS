@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Input from "antd/es/input/Input";
 import { Button, Form } from "antd";
-import { Button, Form } from "antd";
 import { Link } from "react-router-dom";
 
 export const StyledLogo = styled.img`

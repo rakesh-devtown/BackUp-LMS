@@ -139,3 +139,21 @@ export const UpdateDelete = styled.div`
     }
 
 `
+
+
+//card related css.....................
+export const CardContainer = styled.div`
+padding: 8px 40px;
+display: flex;
+flex-direction: ${props => props.width >= 768 ? 'row' : 'column'} ;
+gap: ${props => props.width >= 768 ? "32px" : "8px"};
+align-items: ${props => props.width >= 768 ? 'center' : 'flex-start'};
+`
+export const CardInner = styled.div`
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    gap: ${props => props.width >= 768 ? '30px' : '8px'};
+    flex-direction: ${props => props.width >= 768 ? 'row' : 'column'} ;
+    align-items: ${props => props.width >= 768 ? 'center' : 'flex-start'};
+`
