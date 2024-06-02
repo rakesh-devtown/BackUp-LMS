@@ -37,14 +37,6 @@ import MyCourses from "../pages/MyCourses/MyCourses.jsx";
 import LoginMainPage from "../pages/Auth/LoginMainPage.jsx"
 export const routes = [
   {
-    path: "auth/magic-login",
-    element: <GenerateMagicLink />,
-  },
-  {
-    path: "verify-magic-link/:token",
-    element: <VerifyMagicLink />,
-  },
-  {
 	  path: "reset-password/:token",
     element: <ResetPassword />,
   },
