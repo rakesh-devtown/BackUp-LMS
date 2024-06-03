@@ -29,6 +29,8 @@ function MobileSessionLimit() {
   const setMobileCurrentPage = loginUiStore((state) => state.setMobileCurrentPage);
   const setCurrentLeftPage = loginUiStore((state) => state.setCurrentLeftPage);
   const loadUser = useAuthStore((state) => state.loadUser);
+  const registerUserSession = useAuthStore((state) => state.registerUserSession);
+
   const navigate = useNavigate();
   const clearSession = async (sessionId) => {
     try {
@@ -39,7 +41,8 @@ function MobileSessionLimit() {
 
       if (success) {
         clearSessions();
-        window.location.reload();
+        registerUserSession();
+        navigate("/");
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
@@ -55,7 +58,7 @@ function MobileSessionLimit() {
       );
       if (success) {
         clearSessions();
-        loadUser();
+        registerUserSession();
         navigate("/");
       }
     } catch (error) {
