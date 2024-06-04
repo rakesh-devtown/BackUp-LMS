@@ -6,9 +6,12 @@ import { InputOTP } from "antd-input-otp";
 import { BlueText, StyledButton } from "../../styles/LoginPage.styles";
 import { ArrowLeftOutlined, EditFilled } from "@ant-design/icons";
 import styled from "styled-components";
+import useAuthStore from "../../store/authStore";
+import loginUiStore from "../../store/loginUi.store";
 
 const OTPverify = ({ handleBack, handleNext }) => {
-
+    const currentUserEmail = loginUiStore((state) => state.currentUserEmail);
+    const { otpVerify } = useAuthStore();
     const [otpValid, setOtpValid] = useState(false);
     const [timer, setTimer] = useState(60)
 
@@ -29,21 +32,26 @@ const OTPverify = ({ handleBack, handleNext }) => {
     }, form);
 
 
-    const handleFinish = (values) => {
+    const handleFinish = async (values) => {
         // The value will be array of string
         // Check the field if there is no value, or value is undefined/empty string
         // const { otp } = values;
         // if (!otp || otp.includes(undefined) || otp.includes(""))
 
-        if (!otpValid)
+        const otp = parseInt(values.otp.reduce((acc, num) => acc + num.toString(), ""));
+
+        if (!otpValid) {
             return form.setFields([
                 {
                     name: "otp",
                     errors: ["OTP is invalid."]
                 }
             ]);
-        console.log(`OTP: ${values.otp}`);
-        handleNext()
+        }
+       
+        if (await otpVerify(otp)) {
+             handleNext()
+        }
     };
 
     useEffect(() => {
@@ -82,7 +90,7 @@ const OTPverify = ({ handleBack, handleNext }) => {
                     fontWeight: "800",
 
                 }}>
-                    ayush@devtown.in <EditFilled />
+                    {currentUserEmail} <EditFilled />
                 </span>
             </p>
             <BlueText

@@ -8,6 +8,7 @@ const loginUiStore = create(
     isMobileAuthModelOpen: false,
     mobileCurrentPage: "login",
     isDesktopAuthModelOpen: false,
+    currentUserEmail: null,
     setIsDesktopAuthModelOpen: (page) => {
       set({ isDesktopAuthModelOpen: page });
     },
@@ -23,6 +24,9 @@ const loginUiStore = create(
     setCurrentLeftPage: (page) => {
       set({ currentLeftPage: page });
     },
+    setCurrentUserEmail: (email) => {
+      set({ currentUserEmail: email });
+    }
   }))
 );
 
