@@ -40,7 +40,6 @@ const data = [
   },
 ];
 
-
 const LoginCarousel = () => {
   const [image, setImage] = React.useState(Shourya);
   useEffect(() => {
@@ -53,20 +52,14 @@ const LoginCarousel = () => {
       } else {
         setImage(Shourya);
       }
-    })
-
-
-  }, [image])
+    });
+  }, [image]);
   return (
-    <StyledContainer
-    >
+    <StyledContainer>
       <LinearGradientContainer>
-        <StyledImg
-          src={image}
-          alt="pic"
-        />
+        <StyledImg src={image} alt="pic" />
       </LinearGradientContainer>
-      <Carousel autoplay autoplaySpeed={2000} style={{ height: "100%" }} >
+      <Carousel autoplay autoplaySpeed={2000}>
         {data.map((e, i) => (
           <OuterDiv key={i}>
             <InnerDiv>
@@ -84,33 +77,36 @@ const LoginCarousel = () => {
 export default LoginCarousel;
 
 const StyledImg = styled.img`
-          position: absolute;
-          // objectFit: cover;
-          z-index: 0;
-          width: 80%;
-          top: 20%;
-          left: 10%;
-`
+  position: absolute;
+  // objectFit: cover;
+  z-index: 0;
+  width: 80%;
+  top: 20%;
+  left: 10%;
+`;
 
 const StyledContainer = styled.div`
-        background-size: cover;
-        background-position: center;
-        width: 100%;
-        height: 100%;
-        background:
-        radial-gradient(50% 50% at 50% 50%, #374674 0%, #000 100%);
-        z-index: -100;
-        border-radius: 24px;
-        `
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(50% 50% at 50% 50%, #374674 0%, #000 100%);
+  z-index: -100;
+  border-radius: 24px;
+`;
 
 const LinearGradientContainer = styled.div`
-&::after{
-  content: '';
-  position: absolute;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.03) 51%, rgb(0, 0, 0) 100%);
-bottom: 0;
-height: 100%;
-width: 100%;
-border-radius: 24px;
-}
-`
+  &::after {
+    content: "";
+    position: absolute;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.03) 51%,
+      rgb(0, 0, 0) 100%
+    );
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 24px;
+  }
+`;

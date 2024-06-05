@@ -20,6 +20,7 @@ export const Title = styled.h5`
 export const StyledHeader = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     button{
         font-family: 'DM Sans';
         font-weight: 500;
@@ -29,7 +30,7 @@ export const StyledHeader = styled.div`
 export const StyledContainer = styled.div`
     display:flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 21px;
     width: 100%;
     font-style: normal;
     h4{
@@ -139,7 +140,6 @@ export const UpdateDelete = styled.div`
     }
 
 `
-
 
 //card related css.....................
 export const CardContainer = styled.div`
