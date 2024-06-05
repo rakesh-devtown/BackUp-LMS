@@ -6,21 +6,20 @@ import useWindowSize from "../hooks/useWindowSize";
 import Login from "../pages/Auth/Login";
 import LoginMobileView from "../pages/Auth/LoginMobileView";
 
-
 const AuthWrapper = (props) => {
   const { width } = useWindowSize();
 
-  return (
-    <MainContainer>
-      <Outlet/>
-    </MainContainer>
-  );
+  // return <Wrapper>{width >= 992 ? <Login /> : <LoginMobileView />}</Wrapper>;
+  return <Wrapper><Outlet/></Wrapper>;
 };
 
-const MainContainer = styled.div`
-min-height: 100vh;
-background-color: rgba(0, 0, 0, 0.88);
-width: 100%;
-`
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, 0.88);
+`;
 
 export default AuthWrapper;
