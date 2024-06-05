@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 const useAuthStore = create(
   devtools((set) => ({
-    token: localStorage.getItem("token")? (localStorage.getItem("token")) : null ,
-    chatToken: localStorage.getItem("chatToken")? (localStorage.getItem("chatToken")) : null,
+    token: localStorage.getItem("token") ? (localStorage.getItem("token")) : null,
+    chatToken: localStorage.getItem("chatToken") ? (localStorage.getItem("chatToken")) : null,
     isAuthenticated: false,
     isGoogleAuthenticated: false,
     user: null,
@@ -31,12 +31,12 @@ const useAuthStore = create(
       try {
         const fp = await FingerprintJS.load();
         const { visitorId, components: { platform: { value } } } = await fp.get();
-        
+
         const res = await servicePost("auth/auth/v1/login", {
           ...values,
           signature: visitorId,
           platform: value
-        }, );
+        },);
         const {
           data: { user, token, chatToken },
           message,
@@ -63,7 +63,7 @@ const useAuthStore = create(
             user,
             isAuthenticated: true,
             isGoogleAuthenticated: false,
-          
+
           })
         } else {
 
@@ -123,7 +123,7 @@ const useAuthStore = create(
           localStorage.setItem("chatToken", chatToken);
           setHeader("signature", visitorId);
           setHeader("auth", `bearer ${token}`);
-          set({ token, chatToken, user, isGoogleAuthenticated: true, isAuthenticated : true });
+          set({ token, chatToken, user, isGoogleAuthenticated: true, isAuthenticated: true });
         } else {
           // message.error(message, { duration: 4000 });
           if (message === "Too many active sessions") {
@@ -135,7 +135,7 @@ const useAuthStore = create(
               isAuthenticated: false,
               screenLimitReached: true,
             });
-            
+
           } else {
             set({
               token: null,
@@ -156,7 +156,7 @@ const useAuthStore = create(
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
         // TODO: Change verify magic link to verify auth token url
-        if(tokenn === null) {
+        if (tokenn === null) {
           return false;
         }
         const {
@@ -178,7 +178,7 @@ const useAuthStore = create(
             isAuthenticated: true,
             isGoogleAuthenticated: true,
           });
-          return success; 
+          return success;
 
         } else {
           deleteHeader("auth");
@@ -187,12 +187,12 @@ const useAuthStore = create(
             localStorage.setItem("token", token);
             setHeader("auth", `bearer ${token}`);
             set({
-              token:'',
+              token: '',
               chatToken,
               user,
               isAuthenticated: false,
               screenLimitReached: true,
-          });   
+            });
           } else {
             localStorage.removeItem("token");
             deleteHeader("auth");
@@ -203,7 +203,7 @@ const useAuthStore = create(
               isAuthenticated: false,
             });
           }
-  
+
         }
       } catch (error) {
         deleteHeader("auth");
@@ -223,7 +223,7 @@ const useAuthStore = create(
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
         // TODO: Change verify magic link to verify auth token url
-        if(tokenn === null) {
+        if (tokenn === null) {
           return false;
         }
         const {
@@ -245,7 +245,7 @@ const useAuthStore = create(
             isAuthenticated: true,
             isGoogleAuthenticated: true,
           });
-          return success; 
+          return success;
 
         } else {
           deleteHeader("auth");
@@ -254,12 +254,12 @@ const useAuthStore = create(
             localStorage.setItem("token", token);
             setHeader("auth", `bearer ${token}`);
             set({
-              token:'',
+              token: '',
               chatToken,
               user,
               isAuthenticated: false,
               screenLimitReached: true,
-          });   
+            });
           } else {
             localStorage.removeItem("token");
             deleteHeader("auth");
@@ -270,7 +270,7 @@ const useAuthStore = create(
               isAuthenticated: false,
             });
           }
-  
+
         }
       } catch (error) {
         deleteHeader("auth");
@@ -284,14 +284,14 @@ const useAuthStore = create(
         return false;
       }
     },
-    logout: async() => {
-      try{
+    logout: async () => {
+      try {
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
         const { success, message } = await serviceDelete(
           `student/student/v1/screen?signature=${visitorId}`
         );
-  
+
         localStorage.removeItem("token");
         deleteHeader("auth");
         set({
@@ -301,8 +301,7 @@ const useAuthStore = create(
           isAuthenticated: false,
           isGoogleAuthenticated: false,
         });
-      }catch(err)
-      {
+      } catch (err) {
         deleteHeader("auth");
         set({
           token: null,
@@ -324,13 +323,13 @@ const useAuthStore = create(
     },
     async forgotPassword(values) {
       try {
-        
+
         const res = await servicePost(
           "auth/auth/v1/forgot-password",
           { ...values, callbackUrl: "https://www.student-platform.devtown.in" }
         );
         const { success, message } = res;
-        notification.success({ message: "Success", description: message });   
+        notification.success({ message: "Success", description: message });
         return true;
 
         if (success != false) {
@@ -339,6 +338,29 @@ const useAuthStore = create(
           notification.error({ message: "Error", description: message });
         }
       } catch (error) {
+        notification.error({ message: "Error", description: error.message });
+      }
+    },
+
+    async otpVerify(otp) {
+      try {
+
+        const res = await servicePost(
+          "auth/auth/v1/verify-otp",
+          { otp }
+        );
+        const { success, message, data } = res;
+
+        if (success) {
+          notification.success({ message: "Success", description: message });
+          localStorage.setItem('token', data.token);
+          return true;
+        } else {
+          notification.error({ message: "Error", description: message });
+          return false;
+        }
+      } catch (error) {
+        return false;
         notification.error({ message: "Error", description: error.message });
       }
     },
@@ -361,10 +383,10 @@ const useAuthStore = create(
             const [err] = res.data.errors;
             return err.param === "token"
               ? notification.error({
-                  message: "Error",
-                  description:
-                    "Your invite has expired !! Reset password via Forget Password link",
-                })
+                message: "Error",
+                description:
+                  "Your invite has expired !! Reset password via Forget Password link",
+              })
               : notification.error({ message: "Error", description: "Error" });
           }
         } catch (error) {
@@ -372,74 +394,74 @@ const useAuthStore = create(
         }
       }
     },
-    async verifyMagicLink({token , setIsDataLoaded}) {
-      const VerificationToken =token;
+    async verifyMagicLink({ token, setIsDataLoaded }) {
+      const VerificationToken = token;
       try {
-          const fp = await FingerprintJS.load();
-          const { visitorId , components } = await fp.get();
-          
-          const res = await servicePost(`auth/auth/v1/verify-magic-link?token=${VerificationToken}`, {  signature: visitorId , platform : components.platform.value});
-          const { data: { user, token, chatToken }, message, success } = res;
-          setIsDataLoaded(message)
-       
-          if (success) {
-              const { firstName = '', lastName = '', email = '' } = user;
-              notification.success({
-                  message: 'Success',
-                  description: message,
-              });
-              
-              // Store token
-              localStorage.setItem('token', token);
-              setHeader('signature', visitorId);
-              // Set the header
-              setHeader('auth', `bearer ${token}`);
-              set({
-                token,
-                chatToken,
-                user,
-                isAuthenticated: true,
-                isGoogleAuthenticated: true,
-              });
-              return {
-                  token,
-                  chatToken,
-                  user: { ...user },
-                  isAuthenticated: true
-              };
-          }
-          notification.error({
-              message: 'Error',
-              description: message,
+        const fp = await FingerprintJS.load();
+        const { visitorId, components } = await fp.get();
+
+        const res = await servicePost(`auth/auth/v1/verify-magic-link?token=${VerificationToken}`, { signature: visitorId, platform: components.platform.value });
+        const { data: { user, token, chatToken }, message, success } = res;
+        setIsDataLoaded(message)
+
+        if (success) {
+          const { firstName = '', lastName = '', email = '' } = user;
+          notification.success({
+            message: 'Success',
+            description: message,
           });
-          if(message==='Too many active sessions'){
-              localStorage.setItem('token', token);
-  
-              setHeader('auth', `bearer ${token}`);
-              return {
-                  token,
-                  chatToken,
-                  user: { ...user },
-                  isAuthenticated: false,
-                  screenLimitReached: true
-              };
-          }
-          
+
+          // Store token
+          localStorage.setItem('token', token);
+          setHeader('signature', visitorId);
+          // Set the header
+          setHeader('auth', `bearer ${token}`);
+          set({
+            token,
+            chatToken,
+            user,
+            isAuthenticated: true,
+            isGoogleAuthenticated: true,
+          });
           return {
-              token: null,
-              chatToken: null,
-              user: null,
-              isAuthenticated: false
+            token,
+            chatToken,
+            user: { ...user },
+            isAuthenticated: true
           };
+        }
+        notification.error({
+          message: 'Error',
+          description: message,
+        });
+        if (message === 'Too many active sessions') {
+          localStorage.setItem('token', token);
+
+          setHeader('auth', `bearer ${token}`);
+          return {
+            token,
+            chatToken,
+            user: { ...user },
+            isAuthenticated: false,
+            screenLimitReached: true
+          };
+        }
+
+        return {
+          token: null,
+          chatToken: null,
+          user: null,
+          isAuthenticated: false
+        };
       } catch (error) {
-          deleteHeader('auth');
-          deleteHeader();
-          return {
-              token: null,
-              chatToken: null,
-              user: null,
-              isAuthenticated: false
-          };
+        deleteHeader('auth');
+        deleteHeader();
+        return {
+          token: null,
+          chatToken: null,
+          user: null,
+          isAuthenticated: false
+        };
       }
 
 

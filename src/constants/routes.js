@@ -22,7 +22,7 @@ export const routeDefinitions = {
     Download: 'download/:certId',
     MagicLink: 'magic-login',
     VerifyMaginLink: 'verify-magic-link/:token',
-
+    VerifyOTP: 'verify-otp',
     Video: 'video',
     Courses: 'courses',
     Discussion: 'discussion',

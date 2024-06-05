@@ -13,11 +13,12 @@ import loginUiStore from "../../store/loginUi.store";
 
 export default function ResetPassword({ handleNext }) {
   const navigate = useNavigate();
-  const { token } = useParams();
+  // const { token } = useParams();
   const { resetPassword } = useAuthStore();
 
   const handleSubmit = async (values) => {
     if (values.password === values.confirmPassword) {
+      const token = localStorage.getItem('token');
       resetPassword(values.password, token);
       navigate("/");
     } else {
