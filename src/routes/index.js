@@ -7,7 +7,6 @@ import Profile from "../pages/Profile/Profile";
 import Programs from "../pages/Programs/Programs";
 import VideoDetail from "../pages/Program/VideoDetail";
 import events from "../components/schedule/dummydata";
-import Login from "../pages/Auth/Login";
 import SessionLimit from "../pages/Auth/SessionLimit";
 import { ProtectedRoute } from "../pages/Auth/RouteProtection/protectedRoute";
 import AuthWrapper from "../Wrapper/AuthWrapper";
@@ -38,24 +37,12 @@ import LoginMainPage from "../pages/Auth/LoginMainPage.jsx"
 import OTPverify from "../components/Forms/OTPverification.jsx";
 export const routes = [
   {
-	  path: "reset-password/:token",
-    element: <ResetPassword />,
-  },
-  {
     path: routeDefinitions.AUTH,
     element: <AuthWrapper />,
     children: [
       {
         path: routeDefinitions.INDEX,
         element: <LoginMainPage />,
-      },
-      {
-        path: routeDefinitions.FORGOT_PASSWORD,
-        element: <ForgetPass />,
-      },
-      {
-        path: routeDefinitions.RESET_PASSWORD,
-        element: <ResetPassword />,
       },
       {
         path: routeDefinitions.MagicLink,
@@ -73,9 +60,7 @@ export const routes = [
   },
   {
     path: routeDefinitions.INDEX,
-    element: (
-      <HomeLayout />
-    ),
+    element: <HomeLayout />,
     children: [
       {
         path: routeDefinitions.INDEX,
@@ -87,24 +72,24 @@ export const routes = [
       },
       {
         path: routeDefinitions.Video,
-        element: <Video />
+        element: <Video />,
       },
       {
         path: routeDefinitions.Certificate,
-        element: <MyCertificate />
+        element: <MyCertificate />,
       },
       {
         path: routeDefinitions.Profile,
-        element: <MyResume />
+        element: <MyResume />,
       },
-      {
-        path: 'lms',
-        element: <Lms />,
-      },
-      {
-        path: 'home',
-        element: <LayoutContent />,
-      },
+      // {
+      //   path: 'lms',
+      //   element: <Lms />,
+      // },
+      // {
+      //   path: 'home',
+      //   element: <LayoutContent />,
+      // },
       // {
       //   path: routeDefinitions.PROGRAM,
       //   element: <Outlet />,
@@ -184,14 +169,12 @@ export const routes = [
 
   {
     path: routeDefinitions.INDEX,
-    element: (
-      <HomeLayoutHeaderOnly />
-    ),
+    element: <HomeLayoutHeaderOnly />,
     children: [
       {
         path: routeDefinitions.Settings,
-        element: <Settings />
-      }
-    ]
+        element: <Settings />,
+      },
+    ],
   },
 ];
