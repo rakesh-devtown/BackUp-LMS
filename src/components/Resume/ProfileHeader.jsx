@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Button, Progress, Space } from "antd";
 import SocialMediaCardSmall from "../Cards/SocialMediaCardSmall";
@@ -13,6 +13,7 @@ import useAuthStore from "../../store/authStore";
 const ProfileHeader = () => {
 
   const [shareModal, setShareModal] = useState(false);
+  const inputFile = useRef(null) 
   const [addSocialMedia, setAddSocialMedia] = useState(false);
   const { width } = useWindowSize();
   const user = useAuthStore((state) => state.user);
@@ -27,6 +28,16 @@ const ProfileHeader = () => {
     marginTop: "4px",
   };
 
+  const onFileUploadClick= () => {
+    // `current` points to the mounted file input element
+    console.log("function click")
+    inputFile.current.click();
+  };
+
+  const handleFileChange=(event)=>{
+    const fileUploaded = event.target.files[0]; 
+    console.log(fileUploaded)
+  }
   return (
     <Profile width={width}>
       {addSocialMedia && (
@@ -43,6 +54,7 @@ const ProfileHeader = () => {
 
       <div className="profile-top">
         <ProfilePic userPic={userPic}>
+          <button onClick={onFileUploadClick} style={{zIndex:999,backgroundColor:'transparent',border:0,width:'100%',height:'100%',cursor:'pointer'}}>
           <Progress
             type="circle"
             percent={75}
@@ -50,8 +62,15 @@ const ProfileHeader = () => {
             strokeColor="#05B260"
           ></Progress>
           <div className="upload">
-            <CameraOutlined style={cameraIcon} />
+              <CameraOutlined style={cameraIcon} />
           </div>
+          <input 
+              ref={inputFile}
+              onChange={handleFileChange}
+              type="file" 
+              style={{display:'none'}}
+            />
+          </button>
         </ProfilePic>
 
         {/* for responsiveness showing in mobile */}
