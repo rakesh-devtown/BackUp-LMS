@@ -124,7 +124,7 @@ function HomeLayout() {
     (state) => state.setMobileSideBarOpen
   );
   const { width } = useWindowSize();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

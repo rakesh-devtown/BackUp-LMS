@@ -21,6 +21,9 @@ import {
 import loginUiStore from "../../store/loginUi.store";
 import useWindowSize from "../../hooks/useWindowSize";
 import useAuthStore from "../../store/authStore";
+import Config from "../../config.js";
+
+const googleClientId = Config.googleClientId; // Access the client ID from the config
 
 function MobileLogin() {
   const mobileCurrentPage = loginUiStore((state) => state.mobileCurrentPage);
@@ -32,7 +35,7 @@ function MobileLogin() {
     (state) => state.setMobileCurrentPage
   );
 
-  const width = useWindowSize()
+  const width = useWindowSize();
 
   const handleSubmit = async (values) => {
     try {
@@ -42,7 +45,6 @@ function MobileLogin() {
         email: email.toLowerCase(),
         password,
       });
-
     } catch (error) {
       message.error(
         error.response && error.response.data && error.response.data.message
@@ -78,7 +80,7 @@ function MobileLogin() {
           alignItems: "center",
         }}
       >
-        <GoogleOAuthProvider>
+        <GoogleOAuthProvider clientId={googleClientId}>
           <GoogleAuthLogin />
         </GoogleOAuthProvider>
       </div>

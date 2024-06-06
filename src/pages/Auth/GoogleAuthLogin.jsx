@@ -60,11 +60,11 @@ export const GoogleAuthLogin = () => {
   });
 
   useEffect(() => {
-    if (isGoogleAuthenticated) navigate("/programs");
+    if (isGoogleAuthenticated) navigate("/");
   }, [isGoogleAuthenticated, navigate]);
 
   return (
-    <GoogleLogin 
+    <GoogleLogin
       render={(renderProps) => (
         <button
           onClick={renderProps.onClick}
@@ -78,7 +78,6 @@ export const GoogleAuthLogin = () => {
       onSuccess={onSignInSuccess}
       onFailure={onSignInFailure}
       cookiePolicy="single_host_origin"
-      isS
     />
   );
 };

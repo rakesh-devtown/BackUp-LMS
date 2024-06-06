@@ -190,10 +190,7 @@ export default function Login() {
                     ]}
                   >
                     {/* <StyledLabel>Password</StyledLabel> */}
-                    <StyledPassword
-                      placeholder="Min. 8 characters"
-                      type="password"
-                    />
+                    <StyledPassword placeholder="password" type="password" />
                   </Form.Item>
                 </Space>
 
@@ -243,7 +240,7 @@ export default function Login() {
             ) : currentLeftPage === "sessionlimit" ? (
               <ActiveSession />
             ) : (
-              <h1>Hello </h1>
+              <h1>Something Went Wrong</h1>
             )}
           </StyledLoginForm>
 
