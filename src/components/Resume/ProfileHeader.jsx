@@ -11,13 +11,11 @@ import ResumeModals from "../Modals/ResumeModals";
 import useAuthStore from "../../store/authStore";
 
 const ProfileHeader = () => {
-
   const [shareModal, setShareModal] = useState(false);
   const inputFile = useRef(null) 
   const [addSocialMedia, setAddSocialMedia] = useState(false);
   const { width } = useWindowSize();
   const user = useAuthStore((state) => state.user);
-
 
   const handleShareModal = () => setShareModal(!shareModal);
   const handleAddSocialMedia = () => setAddSocialMedia(!addSocialMedia);
@@ -77,12 +75,13 @@ const ProfileHeader = () => {
         <div className="hide-in-lptp">
           <Space className="name" size={15}>
             {user?.name}
-            <img
+            {/* share profile button mobile view*/}
+            {/* <img
               src={shareIcon}
               alt="icon"
               className="share-icon"
               onClick={handleShareModal}
-            />
+            /> */}
           </Space>
           <div className="field"> UX Designer</div>
         </div>
@@ -91,13 +90,14 @@ const ProfileHeader = () => {
         <div className="hide-in-mobile">
           <div className="name-card">
             <Space className="name" size={15}>
-            {user?.name}
-              <img
+              {user?.name}
+              {/* share profile button laptop view*/}
+              {/* <img
                 src={shareIcon}
                 alt="icon"
                 className="share-icon"
                 onClick={handleShareModal}
-              />
+              /> */}
             </Space>
             <StyledMediaCard>
               {/* social media link of the user */}
@@ -207,6 +207,7 @@ const ProfilePic = styled.div`
   overflow: hidden;
   height: 120px;
   width: 120px;
+  flex-shrink: 0;
   cursor: pointer;
   .ant-progress {
     position: relative;
