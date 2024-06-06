@@ -113,6 +113,7 @@ function MobileLogin() {
               message: "Please enter your email!",
             },
           ]}
+          normalize={(value) => value.trim()}
         >
           <InputUsername placeholder="examplemail@gmail.com" />
         </Form.Item>

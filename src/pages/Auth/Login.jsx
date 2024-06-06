@@ -170,6 +170,7 @@ export default function Login() {
                         message: "Please enter your email!",
                       },
                     ]}
+                    normalize={(value) => value.trim()}
                   >
                     {/* <StyledLabel>Email Address</StyledLabel> */}
                     <InputUsername placeholder="examplemail@gmail.com" />
