@@ -170,6 +170,7 @@ export default function Login() {
                         message: "Please enter your email!",
                       },
                     ]}
+                    normalize={(value) => value.trim()}
                   >
                     {/* <StyledLabel>Email Address</StyledLabel> */}
                     <InputUsername placeholder="examplemail@gmail.com" />
@@ -190,10 +191,7 @@ export default function Login() {
                     ]}
                   >
                     {/* <StyledLabel>Password</StyledLabel> */}
-                    <StyledPassword
-                      placeholder="Min. 8 characters"
-                      type="password"
-                    />
+                    <StyledPassword placeholder="password" type="password" />
                   </Form.Item>
                 </Space>
 
@@ -243,7 +241,7 @@ export default function Login() {
             ) : currentLeftPage === "sessionlimit" ? (
               <ActiveSession />
             ) : (
-              <h1>Hello </h1>
+              <h1>Something Went Wrong</h1>
             )}
           </StyledLoginForm>
 

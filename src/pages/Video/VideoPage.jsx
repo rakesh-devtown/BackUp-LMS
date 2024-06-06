@@ -154,6 +154,9 @@ const StyledButtonBox = styled.div`
     border: none;
     cursor: pointer;
   }
+  .btn {
+    border-bottom: 3px solid white;
+  }
   .btn:focus,
   .btn:hover {
     border-bottom: 3px solid #0859de;
