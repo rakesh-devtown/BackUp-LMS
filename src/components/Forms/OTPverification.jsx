@@ -49,7 +49,7 @@ const OTPverify = ({ handleBack, handleNext }) => {
             ]);
         }
        
-        if (await otpVerify(otp)) {
+        if (await otpVerify(otp,currentUserEmail)) {
              handleNext()
         }
     };

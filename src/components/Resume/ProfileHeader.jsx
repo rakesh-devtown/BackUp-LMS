@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
-import { Button, Progress, Space } from "antd";
+import { Button, Progress, Space, notification } from "antd";
 import SocialMediaCardSmall from "../Cards/SocialMediaCardSmall";
 import useWindowSize from "../../hooks/useWindowSize";
 import userPic from "../../assets/images/profilePic.jpg";
@@ -9,6 +9,8 @@ import ShareModal from "../Modals/ShareModal/ShareModal";
 import { CameraOutlined, PlusOutlined } from "@ant-design/icons";
 import ResumeModals from "../Modals/ResumeModals";
 import useAuthStore from "../../store/authStore";
+import { serviceGet } from "../../utils/api";
+import axios from "axios";
 
 const ProfileHeader = () => {
   const [shareModal, setShareModal] = useState(false);
@@ -16,6 +18,7 @@ const ProfileHeader = () => {
   const [addSocialMedia, setAddSocialMedia] = useState(false);
   const { width } = useWindowSize();
   const user = useAuthStore((state) => state.user);
+  const setProfileImage = useAuthStore((state) => state.setProfileImage);
 
   const handleShareModal = () => setShareModal(!shareModal);
   const handleAddSocialMedia = () => setAddSocialMedia(!addSocialMedia);
@@ -32,9 +35,36 @@ const ProfileHeader = () => {
     inputFile.current.click();
   };
 
-  const handleFileChange=(event)=>{
-    const fileUploaded = event.target.files[0]; 
-    console.log(fileUploaded)
+  const handleFileChange=async(event)=>{
+    try{
+      const file = event.target.files[0];
+      if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg')
+      {
+        return notification.error({ message: "Error", description: "Please select valid Image" });
+      }
+      const extension = file.type.split('/')[1];
+      const {data} = await serviceGet(`student/student/v1/me/url?type=.${extension}&path=/profile-pictures`);
+      const url = data.url;
+      const key = url.split('?')[0];
+      console.log(key)
+      const res = await fetch(url, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': file.type
+        }
+      })
+      if(res.ok)
+      {
+        setProfileImage(key,user);
+        // await axios.post(`https://api.acegrad.com/student/student/v1/me/profile-picture`,{key});
+        notification.success({ message: "Success", description: "Profile Picture Updated" });
+      }
+    }catch(err)
+    {
+      console.log(err)
+    }
+    
   }
   return (
     <Profile width={width}>
@@ -51,7 +81,7 @@ const ProfileHeader = () => {
       />
 
       <div className="profile-top">
-        <ProfilePic userPic={userPic}>
+        <ProfilePic userPic={user?.profileImg || userPic}>
           <button onClick={onFileUploadClick} style={{zIndex:999,backgroundColor:'transparent',border:0,width:'100%',height:'100%',cursor:'pointer'}}>
           <Progress
             type="circle"
@@ -70,7 +100,6 @@ const ProfileHeader = () => {
             />
           </button>
         </ProfilePic>
-
         {/* for responsiveness showing in mobile */}
         <div className="hide-in-lptp">
           <Space className="name" size={15}>

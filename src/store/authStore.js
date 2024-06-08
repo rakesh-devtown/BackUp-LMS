@@ -27,6 +27,20 @@ const useAuthStore = create(
       });
     },
 
+    setProfileImage: async (file,user) => {
+      try{
+          set({
+            user:{
+              ...user,
+              profileImg: file
+            }
+          })
+      }catch(err)
+      {
+
+      }
+    },
+
     login: async (values) => {
       try {
         const fp = await FingerprintJS.load();
@@ -342,12 +356,12 @@ const useAuthStore = create(
       }
     },
 
-    async otpVerify(otp) {
+    async otpVerify(otp,email) {
       try {
 
         const res = await servicePost(
           "auth/auth/v1/verify-otp",
-          { otp }
+          { otp, email }
         );
         const { success, message, data } = res;
 
