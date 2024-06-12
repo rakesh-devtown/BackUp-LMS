@@ -1,5 +1,6 @@
 import { notification } from "antd";
 import axios from "axios";
+import useAuthStore from "../store/authStore";
 
 // const SERVICE_URL = "https://j66d85vpbf.execute-api.ap-south-1.amazonaws.com"
 const SERVICE_URL = "https://5f1iot5725.execute-api.ap-south-1.amazonaws.com";
@@ -37,8 +38,16 @@ export const servicePost = async (path, payload, headers = null) => {
       .then(function (response) {
         resolve(response.data);
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         reject(error);
+        if(error.response.status===403){
+          notification.error({
+            message: "Error",
+            description: "Session Expired",
+          });
+          await useAuthStore.getState().logout();
+        }
+
       });
   });
 };
@@ -64,8 +73,15 @@ export const serviceGet = async (path, headers) => {
         // }
         resolve(response.data);
       })
-      .catch(function (error) {
+      .catch(async function (error) {
         reject(error);
+        if(error.response.status===403){
+          notification.error({
+            message: "Error",
+            description: "Session Expired",
+          });
+          await useAuthStore.getState().logout();
+        }
       });
   });
 };

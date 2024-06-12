@@ -73,7 +73,7 @@ function HeaderBar() {
 
         {/* popover on hovering profile icon */}
         <Popover content={<ProfilePopover />} placement="bottomLeft" overlayStyle={myPopoverlayStyle} mouseLeaveDelay={0.3} >
-          <img src={user?.profileImage || ProfilePhoto} alt="" width={37} height={37} />
+          <img src={user?.profilePic || ProfilePhoto} alt="" width={37} height={37} />
         </Popover>
 
       </StyledSearchBox>

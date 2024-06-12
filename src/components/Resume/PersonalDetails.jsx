@@ -1,18 +1,36 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Col, Row, Space } from "antd"
 import { EditOutlined } from "@ant-design/icons"
 import styled from "styled-components"
 import { StyledContainer, StyledHeader } from "../../styles/myResume.styles"
 import ResumeModals from "../Modals/ResumeModals"
 import useAuthStore from "../../store/authStore"
+import useResumeStore from "../../store/resumeStore"
 
 const PersonalDetails = () => {
 
-
+  const { fetchPersonalDetails } = useResumeStore();
+  const personalDetails = useResumeStore((state) => state.personalDetails);
   const [showModal, setShowModal] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const [loading, setLoading] = useState(false);
 
   const handleShowModal = () => setShowModal(!showModal)
+
+  const fetchPersonalDetailsOfResume = async () => {
+    try {
+      setLoading(true);
+      await fetchPersonalDetails();
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // useEffect(()=>{
+  //   fetchPersonalDetailsOfResume();
+  // },[])
 
   return (
     <StyledContainer>

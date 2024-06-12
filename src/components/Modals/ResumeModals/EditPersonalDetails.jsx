@@ -1,29 +1,81 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Col, Form, Input, InputNumber, Row, Space, Upload } from 'antd';
+import { Button, Col, Form, Input, InputNumber, Row, Space, Spin, Upload, notification } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { EditOutlined, FileFilled, PlusOutlined } from '@ant-design/icons';
 import useWindowSize from '../../../hooks/useWindowSize'
 import { StyledForm, Title, InnerContainer, UpdateDelete } from '../../../styles/myResume.styles';
 import CountrySelect from '../../CountrySelect/CountrySelect';
 import customizeRequiredMark from '../../../utils/custom-form-functions';
+import { serviceGet } from '../../../utils/api';
+import { set } from 'date-fns';
 
 const EditPersonalDetails = ({ value }) => {
 
-    const [upload, setUpload] = useState(false)
+    const [upload, setUpload] = useState(true)
     const { width } = useWindowSize();
+    const inputFile = useRef();
+    const [loading, setLoading] = useState(false);
 
     const handleDelete = () => console.log("delete");
-    const handleSubmit = (e) => console.log(e);
-    const handleUpload = () => setUpload(!upload)
-
-    const normFile = (e) => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
+    const handleSubmit = (e) => {
+        const data = {
+            name:e.firstName + ' '+ e.lastName,
+            whatsappNo:e.whatsApp,
+            location:e.location,
+            contactNo:e.contact,
+            email:e.email,
+            aboutMe:e.aboutMe,
+            resumeUrl:resume?.url
         }
-        return e?.fileList;
+        console.log(data);
+    }
+    const handleUpload = () => setUpload(!upload)
+    const [resume,setResume] = useState(null);
+
+    const onFileUploadClick= () => {
+        inputFile.current.click();
     };
+    const handleUploadResume=async(e)=>{
+      try{
+        setLoading(true)
+        const file = e.target.files[0];
+        console.log(file)
+        if(file.type !== 'application/pdf' && file.type !== 'application/doc' && file.type !== 'application/docx')
+        {
+              return notification.error({ message: "Error", description: "Please select valid file" });
+        }
+            const extension = file.type.split('/')[1];
+            const {data} = await serviceGet(`student/student/v1/me/url?type=.${extension}&path=/resume`);
+            const url = data.url;
+            const key = url.split('?')[0];
+            console.log(key)
+            const res = await fetch(url, {
+              method: 'PUT',
+              body: file,
+              headers: {
+                'Content-Type': file.type
+              }
+            })
+              if(res.ok)
+              {
+                  setResume({
+                      url: key,
+                      name: file.name
+                  });
+                  setUpload(false);
+              }
+              else{
+                    setUpload(true);
+                    notification.error({ message: "Error", description: "Error in uploading file" });
+              }
+      }catch(err){
+        console.log(err);
+      }finally{
+        setLoading(false);
+      }
+    }
+
 
     return (
         <StyledForm name="basic" onFinish={handleSubmit} requiredMark={customizeRequiredMark} >
@@ -113,29 +165,30 @@ const EditPersonalDetails = ({ value }) => {
                 {/* resume upload */}
                 {/* <Form.Item> */}
                 {/* <FileFilled /> */}
-                <Form.Item
-                    name="resume"
-                    label="My Resume"
-                    valuePropName="fileList"
-                    getValueFromEvent={normFile}
-                >
+                <div>
+                    <h4>Upload Resume</h4>
                     {upload &&
-                        <StyledUpload name="logo" action="/upload.do" listType="picture" onChange={handleUpload}>
-                            <Button icon={<PlusOutlined />} size='large' style={{ marginTop: "10px" }}>Upload</Button>
-                        </StyledUpload>
+                            <Button icon={<PlusOutlined />} size='large' style={{ marginTop: "10px", opacity:loading ? 0.5 : 1 }} type='button' onClick={onFileUploadClick}>Upload</Button>
                     }
-                </Form.Item>
+                    {loading && <Spin/>}
+                    <input 
+                        ref={inputFile}
+                        onChange={handleUploadResume}
+                        type="file" 
+                        style={{display:'none'}}
+                    />
+                </div>
                 {
                     !upload &&
                     <UploadedResume>
                         <Space size={28}>
                             <FileFilled style={{ color: "red" }} />
                             <Space size={5} direction='vertical'>
-                                <h5>Sujith S</h5>
+                                <h5><a target='_blank' href={resume?.url}>{resume?.name}</a></h5>
                                 <p>My Resume</p>
                             </Space>
                         </Space>
-                        <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleUpload} >Edit</Button>
+                        <Button type="text" danger icon={<EditOutlined />} size="large" onClick={onFileUploadClick} >Edit</Button>
                     </UploadedResume>
                 }
 

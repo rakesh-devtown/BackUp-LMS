@@ -29,15 +29,20 @@ const useAuthStore = create(
 
     setProfileImage: async (file,user) => {
       try{
+        const response = await servicePost(`student/student/v1/me/update-photo?uId=${user.id}`, 
+          {
+            profilePic: file
+          },);
           set({
-            user:{
+            user: {
               ...user,
-              profileImg: file
+              profilePic: file
             }
           })
+        notification.success({ message: "Success", description: "Profile Picture Updated" });
       }catch(err)
       {
-
+        notification.error({ message: "Error", description: err.message });
       }
     },
 
@@ -345,14 +350,9 @@ const useAuthStore = create(
         const { success, message } = res;
         notification.success({ message: "Success", description: message });
         return true;
-
-        if (success != false) {
-          notification.success({ message: "Success", description: message });
-        } else {
-          notification.error({ message: "Error", description: message });
-        }
       } catch (error) {
         notification.error({ message: "Error", description: error.message });
+        return false;
       }
     },
 

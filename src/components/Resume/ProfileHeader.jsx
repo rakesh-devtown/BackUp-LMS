@@ -30,8 +30,6 @@ const ProfileHeader = () => {
   };
 
   const onFileUploadClick= () => {
-    // `current` points to the mounted file input element
-    console.log("function click")
     inputFile.current.click();
   };
 
@@ -57,8 +55,6 @@ const ProfileHeader = () => {
       if(res.ok)
       {
         setProfileImage(key,user);
-        // await axios.post(`https://api.acegrad.com/student/student/v1/me/profile-picture`,{key});
-        notification.success({ message: "Success", description: "Profile Picture Updated" });
       }
     }catch(err)
     {
@@ -81,7 +77,7 @@ const ProfileHeader = () => {
       />
 
       <div className="profile-top">
-        <ProfilePic userPic={user?.profileImg || userPic}>
+        <ProfilePic userPic={user?.profilePic || userPic}>
           <button onClick={onFileUploadClick} style={{zIndex:999,backgroundColor:'transparent',border:0,width:'100%',height:'100%',cursor:'pointer'}}>
           <Progress
             type="circle"

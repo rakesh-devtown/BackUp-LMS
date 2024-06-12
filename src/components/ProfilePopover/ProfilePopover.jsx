@@ -24,7 +24,7 @@ const ProfilePopover = () => {
     return (
         <StyledProfileOption>
             <ProfileLink to={"/profile"} >
-                <img src={user?.profileImage || profilePic} alt="" width={37} height={37} />
+                <img src={user?.profilePic || profilePic} alt="" width={37} height={37} />
                 <div className='box1'>
                     <div>
                         <p className='name'>{user?.name}</p>
