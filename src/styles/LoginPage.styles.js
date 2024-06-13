@@ -167,7 +167,7 @@ export const LoginLink = styled(Link)`
   border-radius: 4.865px;
   border: 0.608px solid #d8dae5;
   gap: 10px;
-  padding: 10px;
+  padding: 7px;
   color: #081735;
   font-size: 13.5px;
   font-weight: 500;
