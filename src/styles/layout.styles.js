@@ -133,3 +133,29 @@ export const StyledContainer = styled.section`
   /* min-height: calc(100vh - 160px); */
   padding-bottom: 50px;
 `;
+
+export const FullContentLayout = styled(Content)`
+  padding: ${(props) => (props.width >= 768 ? "16px 24px" : "16px 12px")};
+  background-color: transparent;
+  /* .ant-layout-sider-children {
+    height: unset;
+    padding: ${(props) => (props.width >= 992 ? "0 0 100px 0" : "0")};
+  }
+
+  .shaded-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 50;
+    height: 100vh;
+    width: 100%;
+    background: rgb(0, 0, 0, 0.6);
+  } */
+`;
+
+export const MainContentLayout = styled(Content)`
+  border-radius: 16px;
+  border: 1px solid #e9eaf0;
+  background: var(--Color-White-100, #fff);
+  padding: 20px;
+`;

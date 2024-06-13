@@ -45,7 +45,7 @@ export const StyledFormContainer = styled.div`
 export const StyledLoginForm = styled.div`
   background-color: white;
   max-width: 500px;
-  padding: ${props => props.width > 1150 ? "0 37.5px" : "0 37.5px"};
+  padding: ${(props) => (props.width > 1150 ? "0 37.5px" : "0 37.5px")};
   width: 100%;
   color: black;
   margin: auto;
@@ -68,12 +68,11 @@ export const StyledSignInForm = styled(Form)`
   width: 100%;
   justify-content: center;
   padding: 30px 0;
-  gap: ${props => props.width >= 992 ? "16.5px" : "22px"};
-  .ant-form-item{
+  gap: ${(props) => (props.width >= 992 ? "16.5px" : "22px")};
+  .ant-form-item {
     margin-bottom: 0;
   }
 `;
-
 
 export const StyledHeading = styled.h1`
   font-weight: 900;
@@ -135,7 +134,8 @@ export const StyledButton = styled(Button)`
   justify-content: center;
   align-items: center;
   margin-top: 0.3rem;
-  margin-bottom: ${props => props.marginBottom ? props.marginBottom : '1'}rem;
+  margin-bottom: ${(props) =>
+    props.marginBottom ? props.marginBottom : "1"}rem;
   font-size: 20px;
   font-weight: 700;
   background: #0859de;
@@ -160,14 +160,17 @@ export const LoginContainer = styled.div`
 `;
 
 export const LoginLink = styled(Link)`
-  border: 1px solid;
-  border-color: #e3e4e7;
-  padding: 8px;
-  width: 100%;
-
   display: flex;
   justify-content: center;
-  gap: 5px;
+  align-items: center;
+  width: 100%;
+  border-radius: 4.865px;
+  border: 0.608px solid #d8dae5;
+  gap: 10px;
+  padding: 10px;
+  color: #081735;
+  font-size: 13.5px;
+  font-weight: 500;
 `;
 export const StyledHr = styled.hr`
   flex: 1;
@@ -200,7 +203,6 @@ export const Container = styled.div`
   height: 100%;
   position: relative;
   align-items: center;
-
 `;
 
 export const ActiveSessionPara = styled.p`
@@ -213,10 +215,9 @@ export const ActiveSessionPara = styled.p`
 `;
 
 export const CarrersHadding = styled.h1`
-font-size: 23px;
-font-weight: 400;
-line-height: 30px;
-letter-spacing: 0em;
-text-align: center;
-
-`;  
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: 0em;
+  text-align: center;
+`;

@@ -150,7 +150,7 @@ export default function Login() {
                       src="https://img.icons8.com/ios/50/000000/fantasy.png"
                       alt="maginc Link icons"
                     />
-                    <p style={{ color: "#6B7280" }}>Sign In with Magic Link </p>
+                    <p>Sign In with Magic Link </p>
                   </LoginLink>
                 </LoginContainer>
                 <FlexContainer>
