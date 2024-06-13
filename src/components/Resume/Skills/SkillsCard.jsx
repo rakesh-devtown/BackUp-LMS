@@ -15,7 +15,7 @@ const SkillsCard = ({ skills }) => {
 
     return (
         <CardContainer width={width}>
-            {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"skills"} value={["java", "css", "python"]} />}
+            {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"skills"} value={skills} />}
 
             {
                 skills?.length > 0 &&

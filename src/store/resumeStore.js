@@ -1,10 +1,13 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { serviceGet, servicePost } from "../utils/api";
+import { serviceGet, servicePost, servicePut } from "../utils/api";
 import { notification } from "antd";
+import useAuthStore from "./authStore";
 
 const useResumeStore = create(
     devtools((set, get) => ({
+        resumeId:null,
+        loading: false,
         personalDetails:{},
         education:[],
         experience:[],
@@ -12,6 +15,7 @@ const useResumeStore = create(
         projects:[],
         certifications:[],
         socialLinks:{},
+        role:null,
 
         resetResume: () => {
             set({
@@ -24,9 +28,15 @@ const useResumeStore = create(
             })
         },
 
+        setLoading: (loading) => {
+            set({loading});
+        },
+
         fetchResume: async() => {
             try{
-                const res = await serviceGet("resume");
+                set({loading:true});
+                const userId = useAuthStore.getState().user.id;
+                const res = await serviceGet(`student/student/v1/resume/?id=${userId}`);
                 const {
                     data: { resume },
                     message,
@@ -34,14 +44,17 @@ const useResumeStore = create(
                   } = res;
 
                 if(success){
-                    const { personalDetails, education, experience, skills, projects, certifications } = resume;
+                    const { personalDetails, education, experience, Skills, projects, certifications, socialLinks, role} = resume;
                     set({
+                        resumeId:resume.id,
                         personalDetails,
                         education,
                         experience,
-                        skills,
+                        skills:Skills,
                         projects,
                         certifications,
+                        socialLinks,
+                        role
                     });
                 }
                 else{
@@ -56,12 +69,15 @@ const useResumeStore = create(
                     message: "Error",
                     description: err.message,
                 })
+            }finally{
+                set({loading:false});
             }
         },
 
         fetchPersonalDetails: async() => {
             try{
-                const res = await servicePost("resume/personalDetails");
+                const res = await servicePost(``);
+                console.log(res);
                 const {
                     data: { user },
                     message,
@@ -79,6 +95,7 @@ const useResumeStore = create(
                 }
             }catch(err)
             {
+                console.log(err);
                 notification.error({
                     message: "Error",
                     description: err.message,
@@ -87,7 +104,9 @@ const useResumeStore = create(
         },
         updatePersonalDetails: async(personalDetails) => {
             try{
-                const res = await servicePost("resume/personalDetails",personalDetails);
+                set({loading:true});
+                const userId = useAuthStore.getState().user.id;
+                const res = await servicePost(`student/student/v1/resume/personal-details/edit?id=${userId}`,personalDetails);
                 const {
                     data: { user },
                     message,
@@ -113,6 +132,8 @@ const useResumeStore = create(
                     message: "Error",
                     description: err.message,
                 })
+            }finally{
+                set({loading:false});
             }
         },
 
@@ -146,6 +167,39 @@ const useResumeStore = create(
                 })
             }
         },
+        updateSkills: async(skills,prevSkills) => {
+            try{
+                set({loading:true});
+                const res = await servicePost("student/student/v1/resume/skills",skills);
+                const {
+                    data: { user },
+                    message,
+                    success,
+                  } = res;
+
+                if(success){
+                    set({skills:[...prevSkills,skills]});
+                    notification.success({
+                        message: "Success",
+                        description: "Skills Updated",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        }
 
     }))
 )

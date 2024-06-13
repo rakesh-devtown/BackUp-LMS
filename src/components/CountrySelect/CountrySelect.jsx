@@ -1,17 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import styled from "styled-components";
 
-const CountrySelect = () => {
+const CountrySelect = ({onSelect}) => {
     const [selected, setSelected] = useState("IN");
 
-    console.log(selected);
+    const decodeCountryCode = (code) => {
+        switch (code) {
+            case "US":
+                return "United States";
+            case "GB":
+                return "United Kingdom";
+            case "DE":
+                return "Germany";
+            case "FR":
+                return "France";
+            case "NG":
+                return "Nigeria";
+            case "ES":
+                return "Spain";
+            case "IN":
+                return "India";
+            default:
+                return "India";
+        }
+    }
 
     return (
 
         <StyledReactFlagsSelect
             selected={selected}
-            onSelect={(code) => setSelected(code)}
+            onSelect={(code) => onSelect(decodeCountryCode(code))}
             showSelectedLabel={false}
             showOptionLabel={false}
             fullWidth={false}

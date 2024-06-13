@@ -11,9 +11,11 @@ import ResumeModals from "../Modals/ResumeModals";
 import useAuthStore from "../../store/authStore";
 import { serviceGet } from "../../utils/api";
 import axios from "axios";
+import useResumeStore from "../../store/resumeStore";
 
 const ProfileHeader = () => {
   const [shareModal, setShareModal] = useState(false);
+  const personalDetails = useResumeStore((state) => state.personalDetails);
   const inputFile = useRef(null) 
   const [addSocialMedia, setAddSocialMedia] = useState(false);
   const { width } = useWindowSize();
@@ -132,13 +134,12 @@ const ProfileHeader = () => {
               </Button>
             </StyledMediaCard>
           </div>
-          <div className="field"> UX Designer</div>
+          <div className="field">{personalDetails?.role}</div>
         </div>
         <div className="text">
-          Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo.
+          {
+            personalDetails?.aboutMe
+          }
         </div>
         <div className="hide-in-lptp card-bottom">
           <StyledMediaCard>

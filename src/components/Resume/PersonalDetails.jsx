@@ -9,7 +9,6 @@ import useResumeStore from "../../store/resumeStore"
 
 const PersonalDetails = () => {
 
-  const { fetchPersonalDetails } = useResumeStore();
   const personalDetails = useResumeStore((state) => state.personalDetails);
   const [showModal, setShowModal] = useState(false);
   const user = useAuthStore((state) => state.user);
@@ -17,16 +16,16 @@ const PersonalDetails = () => {
 
   const handleShowModal = () => setShowModal(!showModal)
 
-  const fetchPersonalDetailsOfResume = async () => {
-    try {
-      setLoading(true);
-      await fetchPersonalDetails();
-    } catch (err) {
-      console.log(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+  // const fetchPersonalDetailsOfResume = async () => {
+  //   try {
+  //     setLoading(true);
+  //     await fetchPersonalDetails();
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
   // useEffect(()=>{
   //   fetchPersonalDetailsOfResume();
@@ -45,13 +44,13 @@ const PersonalDetails = () => {
           <Col span={12}>
             <div>
               <h4>Name</h4>
-              <p>{user?.name}</p>
+              <p>{personalDetails?.name}</p>
             </div>
           </Col>
           <Col span={12}>
             <div>
               <h4>Location</h4>
-              <p>Bangalore, India</p>
+              <p>{personalDetails?.location}</p>
             </div>
           </Col>
         </Row>
@@ -59,13 +58,13 @@ const PersonalDetails = () => {
           <Col span={12}>
             <div>
               <h4>Whats App Number</h4>
-              <p>7662871815</p>
+              <p>{personalDetails?.whatsappNo}</p>
             </div>
           </Col>
           <Col span={12}>
             <div>
               <h4>Contact Number</h4>
-              <p>7002175147</p>
+              <p>{personalDetails?.contactNo}</p>
             </div>
           </Col>
         </Row>
@@ -73,7 +72,7 @@ const PersonalDetails = () => {
           <Col span={24}>
             <div>
               <h4>Email</h4>
-              <p>{user?.email}</p>
+              <p>{personalDetails?.email}</p>
             </div>
           </Col>
         </Row>

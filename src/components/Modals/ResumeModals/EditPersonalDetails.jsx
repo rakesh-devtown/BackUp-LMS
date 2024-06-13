@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Col, Form, Input, InputNumber, Row, Space, Spin, Upload, notification } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
@@ -9,26 +9,43 @@ import CountrySelect from '../../CountrySelect/CountrySelect';
 import customizeRequiredMark from '../../../utils/custom-form-functions';
 import { serviceGet } from '../../../utils/api';
 import { set } from 'date-fns';
+import useResumeStore from '../../../store/resumeStore';
 
-const EditPersonalDetails = ({ value }) => {
+const EditPersonalDetails = ({ value , handleCancel}) => {
 
+    const personalDetails = useResumeStore((state) => state.personalDetails);
     const [upload, setUpload] = useState(true)
     const { width } = useWindowSize();
     const inputFile = useRef();
     const [loading, setLoading] = useState(false);
+    const {updatePersonalDetails} = useResumeStore();
+    const [country, setCountry] = useState('In');
 
     const handleDelete = () => console.log("delete");
-    const handleSubmit = (e) => {
-        const data = {
-            name:e.firstName + ' '+ e.lastName,
-            whatsappNo:e.whatsApp,
-            location:e.location,
-            contactNo:e.contact,
-            email:e.email,
-            aboutMe:e.aboutMe,
-            resumeUrl:resume?.url
+    const handleSubmit = async(e) => {
+        try{
+            const data = {
+                name:e.firstName + ' '+ e.lastName,
+                whatsappNo:e.whatsApp,
+                location:e.location,
+                contactNo:e.contact,
+                email:e.email,
+                aboutMe:e.aboutMe,
+                resumeUrl:resume?.url
+            }
+
+            if(!data.name || !data.whatsappNo || !data.location || !data.contactNo || !data.email || !data.aboutMe || !data.resumeUrl)
+            {
+                return notification.error({ message: "Error", description: "Please fill all the fields" });
+            }
+
+            const res = await updatePersonalDetails(data);
+        }catch(err){
+            console.log(err);
+        }finally{
+            handleCancel();
         }
-        console.log(data);
+        
     }
     const handleUpload = () => setUpload(!upload)
     const [resume,setResume] = useState(null);
@@ -77,6 +94,16 @@ const EditPersonalDetails = ({ value }) => {
     }
 
 
+    useEffect(()=>{
+        if(personalDetails?.resumeUrl){
+            setResume({
+                url:personalDetails.resumeUrl,
+                name:'My Resume'
+            });
+            setUpload(false);
+        }
+    },[personalDetails])
+
     return (
         <StyledForm name="basic" onFinish={handleSubmit} requiredMark={customizeRequiredMark} >
             <Title>Personal Details</Title>
@@ -85,10 +112,11 @@ const EditPersonalDetails = ({ value }) => {
                 <Row gutter={[15, 15]}>
                     <Col span={24} sm={12}>
                         <Form.Item label="First Name" name="firstName"
+                            initialValue={personalDetails?.name ? String(personalDetails?.name).split(' ')[0] : null}
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your Role!',
+                                    message: 'Please input your First Name!',
                                 },
                             ]}
                         >
@@ -97,6 +125,7 @@ const EditPersonalDetails = ({ value }) => {
                     </Col>
                     <Col span={24} sm={12}>
                         <Form.Item label="Last Name" name="lastName"
+                            initialValue={personalDetails?.name ? String(personalDetails?.name).split(' ')[1] : null}
                             rules={[
                                 {
                                     required: true,
@@ -112,6 +141,7 @@ const EditPersonalDetails = ({ value }) => {
                 <Row gutter={[15, 15]}>
                     <Col span={24} sm={12}>
                         <Form.Item label="Whats App Number" name="whatsApp"
+                            initialValue={personalDetails?.whatsappNo}
                             rules={[
                                 {
                                     required: true,
@@ -124,6 +154,7 @@ const EditPersonalDetails = ({ value }) => {
                     </Col>
                     <Col span={24} sm={12}>
                         <Form.Item label="Contact Number" name="contact"
+                            initialValue={personalDetails?.contactNo}
                             rules={[
                                 {
                                     required: true,
@@ -137,6 +168,7 @@ const EditPersonalDetails = ({ value }) => {
                 </Row>
 
                 <Form.Item label="Email Address" name="email"
+                    initialValue={personalDetails?.email}
                     rules={[
                         {
                             required: true,
@@ -151,12 +183,14 @@ const EditPersonalDetails = ({ value }) => {
                 <Form.Item
                     name="location"
                     label="Location"
+                    initialValue={personalDetails?.location}
                     rules={[{ required: true, message: 'Please type your Location!' }]}
                 >
-                    <Input addonBefore={<CountrySelect />} />
+                    <Input value={country}  addonBefore={<CountrySelect  onSelect={setCountry} selected={country}/>} />
                 </Form.Item>
 
                 <Form.Item label={"About Me"} name={"aboutMe"}
+                    initialValue={personalDetails?.aboutMe}
                     rules={[{ required: true, message: 'Please write about yourself!' }]}
                 >
                     <TextArea rows={5} />
