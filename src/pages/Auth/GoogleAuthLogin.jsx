@@ -74,10 +74,11 @@ export const GoogleAuthLogin = () => {
           Sign in with Google
         </button>
       )}
-      width="100%"
+      width={10000}
       onSuccess={onSignInSuccess}
       onFailure={onSignInFailure}
       cookiePolicy="single_host_origin"
+      shape="rectangular"
     />
   );
 };
