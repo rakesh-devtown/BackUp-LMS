@@ -15,7 +15,7 @@ const AddSkills = ({handleCancel,value}) => {
         try{
             if(userSkills.length === 0) return notification.error({message:"Please add some skills"})
                 const data = {
-                    name:userSkills[0],
+                    name:userSkills,
                     resumeId:resumeId
                 }
                 await updateSkills(data,skills);

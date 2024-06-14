@@ -172,16 +172,50 @@ const useResumeStore = create(
                 set({loading:true});
                 const res = await servicePost("student/student/v1/resume/skills",skills);
                 const {
-                    data: { user },
+                    data,
                     message,
                     success,
                   } = res;
 
                 if(success){
-                    set({skills:[...prevSkills,skills]});
+                    set({skills:[...prevSkills]});
                     notification.success({
                         message: "Success",
                         description: "Skills Updated",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        updateSocialLinks: async(socialLinks) => {
+            try{
+                const userId = useAuthStore.getState().user.id;
+                set({loading:true});
+                const res = await servicePost(`student/student/v1/resume/social-links/edit?id=${userId}`,socialLinks);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
+
+                if(success){
+                    set({socialLinks:socialLinks});
+                    notification.success({
+                        message: "Success",
+                        description: "Social Links Updated",
                     })
                 }
                 else{

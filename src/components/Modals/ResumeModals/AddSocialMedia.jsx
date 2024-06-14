@@ -12,6 +12,7 @@ import Website from '../../../assets/images/socialMediaLogo/Website.png';
 import Medium from '../../../assets/images/socialMediaLogo/Medium.png';
 import Dribble from '../../../assets/images/socialMediaLogo/Dribble.png';
 import useWindowSize from '../../../hooks/useWindowSize';
+import useResumeStore from '../../../store/resumeStore';
 
 
 const mockData = [
@@ -50,18 +51,26 @@ const mockData = [
 ]
 
 
-const AddSocialMedia = () => {
+const AddSocialMedia = ({handleCancel}) => {
 
     const [values, setValues] = useState({});
     const [form] = Form.useForm();
+    const { updateSocialLinks } = useResumeStore();
+    const socialLinks = useResumeStore(state => state.socialLinks);
     const { width } = useWindowSize();
 
     Form.useWatch((val) => {
         setValues(val)
     }, form);
 
-    const handleSubmit = (e) => {
-        console.log(e);
+    const handleSubmit = async(e) => {
+        try{
+            await updateSocialLinks(values);
+        }catch(err){
+            console.log(err);
+        }finally{
+            handleCancel();
+        }
     }
     const handleRemove = (field) => {
         form.resetFields([field])
@@ -76,7 +85,9 @@ const AddSocialMedia = () => {
                         mockData.map((e, id) => (
                             <StyledCard>
                                 <img src={e.img} alt='icon' />
-                                <Form.Item label={e.name} name={e.name}
+                                <Form.Item 
+                                initialValue={e.name==='LinkedIn'?socialLinks?.linkedIn:socialLinks?.[String(e.name).toLowerCase()]}
+                                label={e.name} name={e.name==='LinkedIn'?'linkedIn':String(e.name).toLowerCase()}
                                     rules={[
                                         {
                                             type: 'url',
