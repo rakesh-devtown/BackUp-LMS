@@ -126,16 +126,6 @@ const StyledLayout = styled(Layout)`
     height: unset;
     padding: ${(props) => (props.width >= 992 ? "0 0 100px 0" : "0")};
   }
-
-  .shaded-background {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 50;
-    height: 100vh;
-    width: 100%;
-    background: rgb(0, 0, 0, 0.6);
-  }
 `;
 
 const StyledButtonBox = styled.div`
