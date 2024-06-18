@@ -51,9 +51,11 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
   );
   const { forgotPassword } = useAuthStore();
 
-  const onFinish = (values) => {
+  const onFinish = async(values) => {
     const { email } = values;
-    if (forgotPassword(values)) {
+    const response = await forgotPassword(email);
+    console.log(response);
+    if (!response) {
       setCurrentUserEmail(email);
       setCurrentPage("otp");
     }

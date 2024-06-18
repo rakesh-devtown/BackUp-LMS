@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
-import { Button, Progress, Space } from "antd";
+import { Button, Progress, Space, notification } from "antd";
 import SocialMediaCardSmall from "../Cards/SocialMediaCardSmall";
 import useWindowSize from "../../hooks/useWindowSize";
 import userPic from "../../assets/images/profilePic.jpg";
@@ -9,12 +9,18 @@ import ShareModal from "../Modals/ShareModal/ShareModal";
 import { CameraOutlined, PlusOutlined } from "@ant-design/icons";
 import ResumeModals from "../Modals/ResumeModals";
 import useAuthStore from "../../store/authStore";
+import { serviceGet } from "../../utils/api";
+import axios from "axios";
+import useResumeStore from "../../store/resumeStore";
 
 const ProfileHeader = () => {
   const [shareModal, setShareModal] = useState(false);
+  const personalDetails = useResumeStore((state) => state.personalDetails);
+  const inputFile = useRef(null) 
   const [addSocialMedia, setAddSocialMedia] = useState(false);
   const { width } = useWindowSize();
   const user = useAuthStore((state) => state.user);
+  const setProfileImage = useAuthStore((state) => state.setProfileImage);
 
   const handleShareModal = () => setShareModal(!shareModal);
   const handleAddSocialMedia = () => setAddSocialMedia(!addSocialMedia);
@@ -25,6 +31,39 @@ const ProfileHeader = () => {
     marginTop: "4px",
   };
 
+  const onFileUploadClick= () => {
+    inputFile.current.click();
+  };
+
+  const handleFileChange=async(event)=>{
+    try{
+      const file = event.target.files[0];
+      if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/jpg')
+      {
+        return notification.error({ message: "Error", description: "Please select valid Image" });
+      }
+      const extension = file.type.split('/')[1];
+      const {data} = await serviceGet(`student/student/v1/me/url?type=.${extension}&path=/profile-pictures`);
+      const url = data.url;
+      const key = url.split('?')[0];
+      console.log(key)
+      const res = await fetch(url, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': file.type
+        }
+      })
+      if(res.ok)
+      {
+        setProfileImage(key,user);
+      }
+    }catch(err)
+    {
+      console.log(err)
+    }
+    
+  }
   return (
     <Profile width={width}>
       {addSocialMedia && (
@@ -40,7 +79,8 @@ const ProfileHeader = () => {
       />
 
       <div className="profile-top">
-        <ProfilePic userPic={userPic}>
+        <ProfilePic userPic={user?.profilePic || userPic}>
+          <button onClick={onFileUploadClick} style={{zIndex:999,backgroundColor:'transparent',border:0,width:'100%',height:'100%',cursor:'pointer'}}>
           <Progress
             type="circle"
             percent={75}
@@ -48,10 +88,16 @@ const ProfileHeader = () => {
             strokeColor="#05B260"
           ></Progress>
           <div className="upload">
-            <CameraOutlined style={cameraIcon} />
+              <CameraOutlined style={cameraIcon} />
           </div>
+          <input 
+              ref={inputFile}
+              onChange={handleFileChange}
+              type="file" 
+              style={{display:'none'}}
+            />
+          </button>
         </ProfilePic>
-
         {/* for responsiveness showing in mobile */}
         <div className="hide-in-lptp">
           <Space className="name" size={15}>
@@ -88,13 +134,12 @@ const ProfileHeader = () => {
               </Button>
             </StyledMediaCard>
           </div>
-          <div className="field"> UX Designer</div>
+          <div className="field">{personalDetails?.role}</div>
         </div>
         <div className="text">
-          Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo.
+          {
+            personalDetails?.aboutMe
+          }
         </div>
         <div className="hide-in-lptp card-bottom">
           <StyledMediaCard>

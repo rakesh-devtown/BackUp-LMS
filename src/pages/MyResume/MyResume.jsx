@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { Button, Checkbox } from "antd";
+import { Button, Checkbox, Spin } from "antd";
 import useWindowSize from "../../hooks/useWindowSize";
 import Profile_logo from "../../assets/images/profile_logo.svg";
 import ProfileHeader from "../../components/Resume/ProfileHeader";
@@ -12,12 +12,16 @@ import Project from "../../components/Resume/Project/Project";
 import Certifications from "../../components/Resume/Certifications/Certifications";
 import WorkExperience from "../../components/Resume/WorkExperience/WorkExperience";
 import useAuthStore from "../../store/authStore";
+import useResumeStore from "../../store/resumeStore";
 
 
 const MyResume = () => {
     const [checkbox, setCheckbox] = useState(false);
     const user = useAuthStore((state) => state.user);
     const { width } = useWindowSize();
+
+    const {fetchResume} = useResumeStore();
+    const loading  = useResumeStore((state) => state.loading);
 
     const handleTermsAndCondition = (e) => {
         e.preventDefault();
@@ -27,6 +31,10 @@ const MyResume = () => {
     const myButtonStyle = {
         width: width >= 768 ? "785px" : null,
     }
+
+    useEffect(()=>{
+        fetchResume();
+    },[])
 
     return (
         <>
@@ -55,6 +63,9 @@ const MyResume = () => {
                     <Certifications />
                     <hr className="line" />
                     <Skills />
+                    {loading && <div style={{position:"fixed",height:'30vh' ,justifyContent:'center',zIndex:999, width:'100%',display:'flex',alignItems:'center'}}>
+                         <Spin size="large"/>
+                    </div>}
                 </ProfileContent>
 
                 {/* not added in first release */}
@@ -101,6 +112,7 @@ const ResumeHeader = styled.div`
 `
 const ProfileContent = styled.div`
     display: flex;
+    position: relative;
     padding: ${props => props.width >= 768 ? "24px" : "5px"};
     flex-direction: column;
     align-items: center;

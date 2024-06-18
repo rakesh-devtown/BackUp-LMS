@@ -4,17 +4,21 @@ import { FaMedium } from "react-icons/fa6";
 import { SiLeetcode } from "react-icons/si";
 import { TbWorldWww } from "react-icons/tb";
 import { BehanceOutlined, GithubOutlined } from "@ant-design/icons";
+import useResumeStore from "../../store/resumeStore";
 
 const SocialMediaCardSmall = () => {
+
+    const socialLinks = useResumeStore(state => state.socialLinks);
+
     return (
         <StyledContainer>
-            <i className="linkedin" ><FaLinkedinIn /></i>
-            <i className="github"><GithubOutlined /></i>
-            <i className="leetcode"><SiLeetcode /></i>
-            <i className="www"><TbWorldWww /></i>
-            <i className="behance"><BehanceOutlined /></i>
-            <i className="reddit"><FaRedditAlien /></i>
-            <i className="medium"><FaMedium /></i>
+            {socialLinks?.linkedIn && <i className="linkedin" ><FaLinkedinIn /></i>}
+            {socialLinks?.github && <i className="github"><GithubOutlined /></i>}
+            {socialLinks?.leetcode && <i className="leetcode"><SiLeetcode /></i>}
+            {socialLinks?.website && <i className="www"><TbWorldWww /></i>}
+            { socialLinks?.behance && <i className="behance"><BehanceOutlined /></i>}
+            {socialLinks?.reddit && <i className="reddit"><FaRedditAlien /></i>}
+            {socialLinks?.medium && <i className="medium"><FaMedium /></i>}
 
         </StyledContainer>
     )
