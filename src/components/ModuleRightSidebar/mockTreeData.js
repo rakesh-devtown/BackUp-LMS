@@ -31,63 +31,63 @@ export const treeData = [
       },
     ],
   },
-  {
-    title: "Assignments",
-    key: "1",
-    className: "level-1",
-    children: [
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-0",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-2",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"hard"} />,
-        key: "1-3",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"medium"} />,
-        key: "1-4",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-5",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-6",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-7",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-8",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-9",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-10",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-11",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-12",
-      },
-      {
-        title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
-        key: "1-13",
-      },
-    ],
-  },
+  // {
+  //   title: "Assignments",
+  //   key: "1",
+  //   className: "level-1",
+  //   children: [
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-0",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-2",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"hard"} />,
+  //       key: "1-3",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"medium"} />,
+  //       key: "1-4",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-5",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-6",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-7",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-8",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-9",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-10",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-11",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-12",
+  //     },
+  //     {
+  //       title: <AssignmentNode topic={"Topic 1"} difficulty={"easy"} />,
+  //       key: "1-13",
+  //     },
+  //   ],
+  // },
 ];

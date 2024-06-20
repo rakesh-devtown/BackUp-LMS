@@ -125,8 +125,7 @@ const ProfileHeader = () => {
               onClick={handleShareModal}
             /> */}
           </Space>
-          {/* <div className="field">{personalDetails?.role}</div> */}
-          <div className="field"> UX Designer</div>
+          <div className="field">{personalDetails?.role}</div>
         </div>
       </div>
       <Space direction="vertical profile-content">
@@ -150,13 +149,9 @@ const ProfileHeader = () => {
               </Button>
             </StyledMediaCard>
           </div>
-          {/* <div className="field">{personalDetails?.role}</div> */}
-          <div className="field">Ux Designer</div>
+          <div className="field">{personalDetails?.role}</div>
         </div>
-        {/* <div className="text">{personalDetails?.aboutMe}</div> */}
-        <div className="text">
-          somstdcsbk kcsd kchksd cnknc ch ckns kdh khd,
-        </div>
+        <div className="text">{personalDetails?.aboutMe}</div>
         <div className="hide-in-lptp card-bottom">
           <StyledMediaCard socialLink={personalDetails?.socialLink}>
             <SocialMediaCardSmall />

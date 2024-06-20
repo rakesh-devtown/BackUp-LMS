@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button, FloatButton, Layout, Tree, theme } from "antd";
 import {
@@ -19,6 +19,7 @@ import { treeData } from "./mockData";
 const Module = () => {
   const [selectedKey, setSelectedKey] = useState([]);
   const { width } = useWindowSize();
+  const navigate = useNavigate();
   const { Content, Sider } = Layout;
   const {
     token: { colorBgContainer },
@@ -26,6 +27,7 @@ const Module = () => {
 
   //function for tree nodes
   const onSelect = (selectedKeys, info) => {
+    // navigate("/video");
     console.log("selected", selectedKeys, info);
     setSelectedKey(selectedKeys);
   };
@@ -44,7 +46,8 @@ const Module = () => {
     scrollbarWidth: "none",
   };
 
-  const rightSidebarWidth = width >= 992 ? "60px" : "0";
+  // const rightSidebarWidth = width >= 992 ? "60px" : "0";
+  const rightSidebarWidth = 0;
 
   return (
     <Layout>
@@ -55,7 +58,8 @@ const Module = () => {
       </Helmet>
       <Content style={{ background: "#F4F7FE" }}>
         <MainContainer width={width} rightSidebarWidth={rightSidebarWidth}>
-          {width < 992 && (
+          {/* sidebar in mobile view */}
+          {/* {width < 992 && (
             <FloatButton.Group
               trigger="click"
               type="primary"
@@ -67,9 +71,9 @@ const Module = () => {
             >
               <RightSiderMenu />
             </FloatButton.Group>
-          )}
+          )} */}
           <ModuleTop>
-            <Link>
+            <Link to={"/"}>
               <Button type="link" className="back-btn">
                 {" "}
                 <ArrowLeftOutlined /> Back{" "}
@@ -77,12 +81,17 @@ const Module = () => {
             </Link>
             <h1>Full Stack Web Development Industrial Training program</h1>
             <FolderDetailsCard />
-            <CousreProgress />
+            {/* <CousreProgress /> */}
+            <Link to={"/video"}>
+              <Button type="primary" size="large" danger>
+                Start Learning
+              </Button>
+            </Link>
           </ModuleTop>
           <ModuleBody>
-            <h4>Modules will over in this course:</h4>
+            <h4>Explore Modules for Learning</h4>
             <Tree
-              // multiple
+              multiple
               expandedKeys={selectedKey}
               blockNode
               onSelect={onSelect}
@@ -96,7 +105,7 @@ const Module = () => {
       </Content>
 
       {/* right sidebar to show modules */}
-      {width >= 992 && (
+      {/* {width >= 992 && (
         <Sider
           collapsedWidth="0"
           width={rightSidebarWidth}
@@ -104,7 +113,7 @@ const Module = () => {
         >
           <RightSiderMenu />
         </Sider>
-      )}
+      )} */}
     </Layout>
   );
 };

@@ -98,6 +98,7 @@ function HeaderBar() {
             alt=""
             width={37}
             height={37}
+            className="profile-pic"
           />
         </Popover>
       </StyledSearchBox>
@@ -147,4 +148,8 @@ const StyledSearchBox = styled.div`
   /* gap: 10px; */
   align-items: center;
   position: relative;
+  .profile-pic {
+    border-radius: 50%;
+    overflow: hidden;
+  }
 `;

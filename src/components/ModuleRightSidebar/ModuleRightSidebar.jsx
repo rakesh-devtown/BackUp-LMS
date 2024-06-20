@@ -10,11 +10,11 @@ const mockData = [
     key: "1",
     children: <ModuleTree />,
   },
-  {
-    label: <h5 className="tab-title">Bookmarks</h5>,
-    key: "2",
-    children: <BookmarkTree />,
-  },
+  // {
+  //   label: <h5 className="tab-title">Bookmarks</h5>,
+  //   key: "2",
+  //   children: <BookmarkTree />,
+  // },
 ];
 
 const ModuleRightSidebar = () => {
@@ -58,7 +58,8 @@ const StyledTabs = styled(Tabs)`
     .ant-tabs-tab,
     .ant-tabs-tab-active {
       margin: 0 !important;
-      width: 50%;
+      width: 100%;
+      /* width: 50%; */
       justify-content: center;
     }
     .ant-tabs-tab-active {

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const MyCoursesCard = ({ resume }) => {
   const { width } = useWindowSize();
+
   return (
     <StyledCard width={width}>
       <Top width={width}>
@@ -31,14 +32,11 @@ const MyCoursesCard = ({ resume }) => {
           </DashboardButton>
         </Space>
       </Top>
-      <Button
-        type="primary"
-        size="large"
-        danger
-        style={{ float: "right", padding: "0 10px" }}
-      >
-        {resume ? "Resume Learning" : "Start Learning"}
-      </Button>
+      <Link to="/video">
+        <CustomButton type="primary" size="large" danger screenWidth={width}>
+          {resume ? "Resume Learning" : "Start Learning"}
+        </CustomButton>
+      </Link>
       {/* <LastActivityCard leftPadding={true} /> */}
     </StyledCard>
   );
@@ -110,6 +108,11 @@ const DashboardButton = styled(Link)`
     background-color: #aad9c7;
     color: #224848;
   }
+`;
+
+const CustomButton = styled(Button)`
+  padding: "0 10px";
+  margin-left: ${(props) => (props.screenWidth >= 768 ? "69px" : null)};
 `;
 
 export default MyCoursesCard;

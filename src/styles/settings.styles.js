@@ -39,7 +39,7 @@ export const StyledTitle = styled.h2`
   margin: 0;
   color: #081735;
   font-family: Poppins;
-  font-size: 32px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
