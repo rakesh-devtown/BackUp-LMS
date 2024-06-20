@@ -13,7 +13,7 @@ import {
 import useWindowSize from "../../hooks/useWindowSize";
 import RightSiderMenu from "../../components/RightSiderMenu/RightSiderMenu";
 import FolderDetailsCard from "../../components/Cards/video/FolderDetailsCard";
-import CousreProgress from "../../components/Cards/module/CousreProgress";
+import CousreProgress from "../../components/Cards/module/CourseProgress";
 import { treeData } from "./mockData";
 
 const Module = () => {
@@ -132,7 +132,7 @@ const ModuleTop = styled.div`
   h1 {
     color: #1d2026;
     font-family: "DM Sans";
-    font-size: 24px;
+    font-size: 26px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;

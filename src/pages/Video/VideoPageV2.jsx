@@ -20,7 +20,7 @@ import {
   MainContentLayout,
 } from "../../styles/layout.styles";
 import ModuleRightSidebar from "../../components/ModuleRightSidebar/ModuleRightSidebar";
-import AskDoubtModal from "../../components/AskDoubts/AskDoubtModal";
+import DoubtModal from "../../components/AskDoubts/DoubtModal";
 
 const VideoV2 = () => {
   const { width } = useWindowSize();
@@ -53,10 +53,9 @@ const VideoV2 = () => {
     scrollbarWidth: "none",
   };
 
-  const rightSidebarWidth = width > 1200 || width < 992 ? "300px" : "250px";
+  const rightSidebarWidth = width > 1200 || width < 992 ? "300px" : "270px";
 
   useEffect(() => {
-    console.log(width);
     if (width >= 992) {
       setCollapsed(false);
     }
@@ -86,8 +85,9 @@ const VideoV2 = () => {
           centered
           onCancel={() => setIsModalOpen(false)}
           maskClosable
+          width={900}
         >
-          <AskDoubtModal />
+          <DoubtModal />
         </StyledModal>
         <MainContainer
           width={width}
@@ -222,15 +222,21 @@ const MainContainer = styled(MainContentLayout)`
   margin-right: ${(props) =>
     props.collapsed || props.width < 992
       ? null
-      : `calc(${props.rightSidebarWidth} + 14px)`};
+      : `calc(${props.rightSidebarWidth} + 8px)`};
   padding: 0;
 `;
 
 const StyledModal = styled(Modal)`
   border-radius: 16px;
+  border: 1px solid white;
   overflow: hidden;
+  width: 900px;
   .ant-modal-content {
     padding: 0;
+    overflow-y: scroll;
+    height: 653px;
+    max-height: 100vh;
+    scrollbar-width: none;
   }
 `;
 

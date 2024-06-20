@@ -130,6 +130,7 @@ export const ForgotPassword = styled.p`
 export const StyledButton = styled(Button)`
   width: 100%;
   padding: 1.5rem 0rem 1.5rem 0rem;
+  height: 56px;
   display: flex;
   justify-content: center;
   align-items: center;

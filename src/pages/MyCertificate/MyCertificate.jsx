@@ -124,7 +124,7 @@ const StyledTabs = styled.section`
 
   .title {
     font-family: Inter;
-    font-size: 32px;
+    font-size: 26px;
     font-style: normal;
     font-weight: 600;
     line-height: 40px;

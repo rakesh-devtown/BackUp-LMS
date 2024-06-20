@@ -12,13 +12,13 @@ const SocialMediaCardSmall = () => {
 
     return (
         <StyledContainer>
-            {socialLinks?.linkedIn && <i className="linkedin" ><FaLinkedinIn /></i>}
-            {socialLinks?.github && <i className="github"><GithubOutlined /></i>}
-            {socialLinks?.leetcode && <i className="leetcode"><SiLeetcode /></i>}
-            {socialLinks?.website && <i className="www"><TbWorldWww /></i>}
-            { socialLinks?.behance && <i className="behance"><BehanceOutlined /></i>}
-            {socialLinks?.reddit && <i className="reddit"><FaRedditAlien /></i>}
-            {socialLinks?.medium && <i className="medium"><FaMedium /></i>}
+            {socialLinks?.linkedIn && <a href={socialLinks?.linkedIn} className="linkedin" ><FaLinkedinIn /></a>}
+            {socialLinks?.github && <a href={socialLinks?.github} className="github"><GithubOutlined /></a>}
+            {socialLinks?.leetcode && <a href={socialLinks?.leetcode} className="leetcode"><SiLeetcode /></a>}
+            {socialLinks?.website && <a href={socialLinks?.website} className="www"><TbWorldWww /></a>}
+            { socialLinks?.behance && <a href={socialLinks?.behance} className="behance"><BehanceOutlined /></a>}
+            {socialLinks?.reddit && <a href={socialLinks?.reddit} className="reddit"><FaRedditAlien /></a>}
+            {socialLinks?.medium && <a href={socialLinks?.medium} className="medium"><FaMedium /></a>}
 
         </StyledContainer>
     )
@@ -28,7 +28,7 @@ const StyledContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
-    i{
+    a{
         display: grid;
         place-items: center;
         color: white;
