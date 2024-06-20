@@ -10,8 +10,8 @@ const MyCourses = () => {
     <StyledContainerVariant width={width}>
       <h4>Enrolled Courses</h4>
       <div className="list">
-        <MyCoursesCard />
-        <MyCoursesCard />
+        <MyCoursesCard resume={false} />
+        <MyCoursesCard resume={true} />
       </div>
     </StyledContainerVariant>
   );
@@ -20,7 +20,7 @@ const MyCourses = () => {
 const StyledContainerVariant = styled(StyledContainer)`
   h4 {
     color: var(--darkColor1);
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 500;
     margin-bottom: 26px;
   }

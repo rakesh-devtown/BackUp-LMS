@@ -60,12 +60,12 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Box = styled.div`
-  height: 4rem;
+  height: 56px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem;
+  padding: 0 2rem;
   border: 1px solid #ccc;
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -79,7 +79,8 @@ export const Box = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    height: 56px;
     background-color: red;
     color: white;
     display: flex;

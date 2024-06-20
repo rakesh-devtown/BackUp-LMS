@@ -109,7 +109,7 @@ export const MainContainer = styled.div`
   .ant-menu-item-group-title {
     color: #384d6d;
     font-family: "DM Sans";
-    font-size: 36px;
+    font-size: 28px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -117,7 +117,7 @@ export const MainContainer = styled.div`
   }
   .ant-menu-item {
     font-family: "DM Sans";
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 500;
     letter-spacing: 0.1px;
@@ -136,7 +136,7 @@ export const MainContainer = styled.div`
 
 const GoBack = styled.div`
   color: #0859de;
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 24px;
   cursor: pointer;
   &:active {

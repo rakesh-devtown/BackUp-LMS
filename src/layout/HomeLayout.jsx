@@ -146,8 +146,7 @@ function HomeLayout() {
     left: "20px",
     top: "136px",
     borderRadius: "8px",
-    border: "0.25px solid #A1A9BA",
-    // background: "white",
+    background: "white",
     boxShadow: "0px 0px 9px 0px rgba(0, 0, 0, 0.09)",
     scrollbarWidth: "none",
   };

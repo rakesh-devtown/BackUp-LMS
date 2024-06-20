@@ -1,21 +1,23 @@
 import { Tabs } from "antd";
 import React from "react";
 import styled from "styled-components";
+import AskDoubtTab from "./AskDoubtTab";
+import PreviousDoubtTab from "./PreviousDoubts";
 
 const items = [
   {
     key: "1",
     label: <p className="tab-btn">Ask a Doubt</p>,
-    children: "tab content 1",
+    children: <AskDoubtTab />,
   },
   {
     key: "2",
     label: <p className="tab-btn">Previous Doubts</p>,
-    children: "tab content 2",
+    children: <PreviousDoubtTab />,
   },
 ];
 
-const AskDoubtModal = () => {
+const DoubtModal = () => {
   return (
     <StyledContainer>
       <Tabs
@@ -37,6 +39,8 @@ const StyledContainer = styled.div`
     font-weight: 400;
     line-height: normal;
     padding: 16px 20px;
+    width: 148px;
+    text-align: center;
   }
   .ant-tabs-tab {
     padding: 0;
@@ -47,4 +51,4 @@ const StyledContainer = styled.div`
   }
 `;
 
-export default AskDoubtModal;
+export default DoubtModal;

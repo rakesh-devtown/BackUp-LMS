@@ -14,62 +14,72 @@ import WorkExperience from "../../components/Resume/WorkExperience/WorkExperienc
 import useAuthStore from "../../store/authStore";
 import useResumeStore from "../../store/resumeStore";
 
-
 const MyResume = () => {
-    const [checkbox, setCheckbox] = useState(false);
-    const user = useAuthStore((state) => state.user);
-    const { width } = useWindowSize();
+  const [checkbox, setCheckbox] = useState(false);
+  const user = useAuthStore((state) => state.user);
+  const { width } = useWindowSize();
 
-    const {fetchResume} = useResumeStore();
-    const loading  = useResumeStore((state) => state.loading);
+  const { fetchResume } = useResumeStore();
+  const loading = useResumeStore((state) => state.loading);
 
-    const handleTermsAndCondition = (e) => {
-        e.preventDefault();
-        console.log("Terms");
-    }
+  const handleTermsAndCondition = (e) => {
+    e.preventDefault();
+    console.log("Terms");
+  };
 
-    const myButtonStyle = {
-        width: width >= 768 ? "785px" : null,
-    }
+  const myButtonStyle = {
+    width: width >= 768 ? "785px" : null,
+  };
 
-    useEffect(()=>{
-        fetchResume();
-    },[])
+  useEffect(() => {
+    fetchResume();
+  }, []);
 
-    return (
-        <>
-            <Helmet>
-                <title>My Profile</title>
-                <meta name="My Profile" content="My Profile" />
-                <link rel="canonical" href="https://www.learn.devtown.in/me" />
-            </Helmet>
-            <ProfileContainer>
+  return (
+    <>
+      <Helmet>
+        <title>My Profile</title>
+        <meta name="My Profile" content="My Profile" />
+        <link rel="canonical" href="https://www.learn.devtown.in/me" />
+      </Helmet>
+      <ProfileContainer>
+        <ResumeHeader>
+          <img src={Profile_logo} alt="icon" />
+          <h3>My Profile</h3>
+        </ResumeHeader>
+        <ProfileContent width={width}>
+          <ProfileHeader />
+          <hr className="line" />
+          <PersonalDetails />
+          <hr className="line" />
+          <WorkExperience />
+          <hr className="line" />
+          <Education />
+          <hr className="line" />
+          <Project />
+          <hr className="line" />
+          <Certifications />
+          <hr className="line" />
+          <Skills />
+          {loading && (
+            <div
+              style={{
+                position: "fixed",
+                height: "30vh",
+                justifyContent: "center",
+                zIndex: 999,
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          )}
+        </ProfileContent>
 
-                <ResumeHeader>
-                    <img src={Profile_logo} alt="icon" />
-                    <h3>My Resume</h3>
-                </ResumeHeader>
-                <ProfileContent width={width}>
-                    <ProfileHeader />
-                    <hr className="line" />
-                    <PersonalDetails />
-                    <hr className="line" />
-                    <WorkExperience />
-                    <hr className="line" />
-                    <Education />
-                    <hr className="line" />
-                    <Project />
-                    <hr className="line" />
-                    <Certifications />
-                    <hr className="line" />
-                    <Skills />
-                    {loading && <div style={{position:"fixed",height:'30vh' ,justifyContent:'center',zIndex:999, width:'100%',display:'flex',alignItems:'center'}}>
-                         <Spin size="large"/>
-                    </div>}
-                </ProfileContent>
-
-                {/* not added in first release */}
-                {/* <ConfirmDiv>
+        {/* not added in first release */}
+        {/* <ConfirmDiv>
                     <Checkbox onChange={() => setCheckbox(!checkbox)}>
                         <p>
                             I confirm that all details provided are correct and filled to the best of my knowledge. <span onClick={handleTermsAndCondition}>Terms & Conditions</span>
@@ -79,63 +89,64 @@ const MyResume = () => {
                 <Button type='primary' size="large" style={myButtonStyle} >
                     Create My Resume
                 </Button> */}
-            </ProfileContainer>
-        </>
-
-    )
-}
+      </ProfileContainer>
+    </>
+  );
+};
 
 const ProfileContainer = styled.section`
-    display: flex;
-    padding: ${props => props.width >= 768 ? "20px" : "25px"};
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    flex: 1 0 0;
-    border-left: 1px solid #E9EAF0;
-    background: var(--Color-White-100, #FFF);
-    font-style: normal;
-    line-height: normal;
-    border-radius: 16px;
-`
+  display: flex;
+  padding: ${(props) => (props.width >= 768 ? "20px" : "25px")};
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex: 1 0 0;
+  border-left: 1px solid #e9eaf0;
+  background: var(--Color-White-100, #fff);
+  font-style: normal;
+  line-height: normal;
+  border-radius: 16px;
+`;
 const ResumeHeader = styled.div`
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
+  color: var(--Color-Brand-Brand-Blue, #0859de);
+  width: 100%;
+  h3 {
     font-family: Inter;
-    color: var(--Color-Brand-Brand-Blue, #0859DE);
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 600;
     line-height: 40px;
     letter-spacing: -0.32px;
-    width: 100%;
-`
+  }
+`;
 const ProfileContent = styled.div`
-    display: flex;
-    position: relative;
-    padding: ${props => props.width >= 768 ? "24px" : "5px"};
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    align-self: stretch;
-    .line{
-        color: #DEEAFF;
-        width: 100%;
-    }
-`
+  display: flex;
+  position: relative;
+  padding: ${(props) => (props.width >= 768 ? "24px" : "5px")};
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  align-self: stretch;
+  .line {
+    color: #deeaff;
+    width: 100%;
+  }
+`;
 
 const ConfirmDiv = styled.div`
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
-    line-height: normal;
-    font-weight: 400;
-    p{
-        color: #000;
-    span{
-        color: #076AFF;
-        text-decoration-line: underline;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  line-height: normal;
+  font-weight: 400;
+  p {
+    color: #000;
+    span {
+      color: #076aff;
+      text-decoration-line: underline;
     }
-}
-`
+  }
+`;
 export default MyResume;

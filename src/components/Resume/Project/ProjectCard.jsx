@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import styled from "styled-components";
 import { GoDotFill } from "react-icons/go";
+import { GrProjects } from "react-icons/gr";
 import useWindowSize from "../../../hooks/useWindowSize";
 import {
   CardContainer,
@@ -15,7 +16,7 @@ import {
 } from "../../../styles/myResume.styles";
 import ResumeModals from "../../Modals/ResumeModals";
 
-const CertificationCard = ({ icon }) => {
+const ProjectCard = ({ icon }) => {
   const { width } = useWindowSize();
   const [showModal, setShowModal] = useState(false);
 
@@ -26,24 +27,35 @@ const CertificationCard = ({ icon }) => {
       {showModal && (
         <ResumeModals
           handleCancel={handleShowModal}
-          keyItem={"certification"}
+          keyItem={"project"}
           value={{}}
         />
       )}
       <div>
-        <img src={icon} alt="logo" />
+        <ProjectIcon>
+          <GrProjects />
+        </ProjectIcon>
+        {/* <img src={icon} alt="logo" /> */}
       </div>
       <CardInnerVariant width={width}>
         <Space size={2} direction="vertical">
-          <h5>Google UX Design Professional Certification</h5>
+          <h5>Project Title</h5>
+
+          <p className="desscription">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt
+            corporis ullam eveniet maxime numquam vero architecto quae dolore,
+            sapiente inventore placeat, rem optio similique alias perspiciatis
+            ad eum impedit ea debitis repellendus aliquid distinctio soluta
+            dolorum necessitatibus! Animi, accusantium consequatur?
+          </p>
           <Space size={6} align="start">
+            <p className="bold">Skills : </p>
             <p>Coursera</p>
             <DotStyle>
               <GoDotFill />
             </DotStyle>
             <p>Jan 2024</p>
           </Space>
-          <p>Credential Id 4s65d4f54sdf545s4f543s54f64f</p>
           <ConfigProvider
             theme={{
               components: {
@@ -62,7 +74,7 @@ const CertificationCard = ({ icon }) => {
               shape="round"
               size="large"
             >
-              Show Credential
+              Show Project
             </Button>
           </ConfigProvider>
         </Space>
@@ -86,6 +98,20 @@ const CardInnerVariant = styled(CardInner)`
     margin-top: 16px;
     border-color: #61738e;
   }
+  .bold {
+    font-weight: bold;
+  }
+  .description {
+    margin-top: 3px;
+  }
 `;
 
-export default CertificationCard;
+const ProjectIcon = styled.i`
+  color: #384d6d;
+  svg {
+    width: 37px;
+    height: auto;
+  }
+`;
+
+export default ProjectCard;
