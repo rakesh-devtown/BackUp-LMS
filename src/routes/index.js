@@ -72,10 +72,6 @@ export const routes = [
         element: <MyCourses />,
       },
       {
-        path: routeDefinitions.Video,
-        element: <Video />,
-      },
-      {
         path: routeDefinitions.Certificate,
         element: <MyCertificate />,
       },
@@ -179,6 +175,10 @@ export const routes = [
       {
         path: routeDefinitions.Settings,
         element: <Settings />,
+      },
+      {
+        path: routeDefinitions.Video,
+        element: <Video />,
       },
     ],
   },

@@ -11,11 +11,6 @@ const ModuleCardHeader = ({ title, onGoing, topic1, topic2 }) => {
       <div className="box">
         <div className="box-top">
           <h5>{title}</h5>
-          {onGoing ? (
-            <p className="tag on-going">On Going</p>
-          ) : (
-            <p className="tag pending">Pending Lectures</p>
-          )}
         </div>
         <div className="box-bottom">
           <p>{topic1}</p>

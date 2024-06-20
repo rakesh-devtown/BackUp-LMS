@@ -46,7 +46,8 @@ const Module = () => {
     scrollbarWidth: "none",
   };
 
-  const rightSidebarWidth = width >= 992 ? "60px" : "0";
+  // const rightSidebarWidth = width >= 992 ? "60px" : "0";
+  const rightSidebarWidth = 0;
 
   return (
     <Layout>
@@ -57,7 +58,8 @@ const Module = () => {
       </Helmet>
       <Content style={{ background: "#F4F7FE" }}>
         <MainContainer width={width} rightSidebarWidth={rightSidebarWidth}>
-          {width < 992 && (
+          {/* sidebar in mobile view */}
+          {/* {width < 992 && (
             <FloatButton.Group
               trigger="click"
               type="primary"
@@ -69,7 +71,7 @@ const Module = () => {
             >
               <RightSiderMenu />
             </FloatButton.Group>
-          )}
+          )} */}
           <ModuleTop>
             <Link to={"/"}>
               <Button type="link" className="back-btn">
@@ -87,7 +89,7 @@ const Module = () => {
             </Link>
           </ModuleTop>
           <ModuleBody>
-            <h4>Modules will over in this course:</h4>
+            <h4>Explore Modules for Learning</h4>
             <Tree
               multiple
               expandedKeys={selectedKey}
@@ -103,7 +105,7 @@ const Module = () => {
       </Content>
 
       {/* right sidebar to show modules */}
-      {width >= 992 && (
+      {/* {width >= 992 && (
         <Sider
           collapsedWidth="0"
           width={rightSidebarWidth}
@@ -111,7 +113,7 @@ const Module = () => {
         >
           <RightSiderMenu />
         </Sider>
-      )}
+      )} */}
     </Layout>
   );
 };
