@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button, FloatButton, Layout, Tree, theme } from "antd";
 import {
@@ -19,6 +19,7 @@ import { treeData } from "./mockData";
 const Module = () => {
   const [selectedKey, setSelectedKey] = useState([]);
   const { width } = useWindowSize();
+  const navigate = useNavigate();
   const { Content, Sider } = Layout;
   const {
     token: { colorBgContainer },
@@ -26,6 +27,7 @@ const Module = () => {
 
   //function for tree nodes
   const onSelect = (selectedKeys, info) => {
+    // navigate("/video");
     console.log("selected", selectedKeys, info);
     setSelectedKey(selectedKeys);
   };
@@ -69,7 +71,7 @@ const Module = () => {
             </FloatButton.Group>
           )}
           <ModuleTop>
-            <Link>
+            <Link to={"/"}>
               <Button type="link" className="back-btn">
                 {" "}
                 <ArrowLeftOutlined /> Back{" "}
@@ -77,12 +79,17 @@ const Module = () => {
             </Link>
             <h1>Full Stack Web Development Industrial Training program</h1>
             <FolderDetailsCard />
-            <CousreProgress />
+            {/* <CousreProgress /> */}
+            <Link to={"/video"}>
+              <Button type="primary" size="large" danger>
+                Start Learning
+              </Button>
+            </Link>
           </ModuleTop>
           <ModuleBody>
             <h4>Modules will over in this course:</h4>
             <Tree
-              // multiple
+              multiple
               expandedKeys={selectedKey}
               blockNode
               onSelect={onSelect}
