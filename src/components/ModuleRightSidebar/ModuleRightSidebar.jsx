@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Tabs } from "antd";
 import ModuleTree from "./ModuleTree";
 import BookmarkTree from "./BookmarkTree";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const mockData = [
   {
@@ -10,14 +11,15 @@ const mockData = [
     key: "1",
     children: <ModuleTree />,
   },
-  {
-    label: <h5 className="tab-title">Bookmarks</h5>,
-    key: "2",
-    children: <BookmarkTree />,
-  },
+  // {
+  //   label: <h5 className="tab-title">Bookmarks</h5>,
+  //   key: "2",
+  //   children: <BookmarkTree />,
+  // },
 ];
 
 const ModuleRightSidebar = () => {
+  const { width } = useWindowSize();
   return (
     <StyledTabs
       defaultActiveKey="1"
@@ -25,6 +27,7 @@ const ModuleRightSidebar = () => {
       centered
       indicator={{ size: 0 }}
       expandAction={"doubleclick"}
+      screenWidth={width}
     />
   );
 };
@@ -39,6 +42,9 @@ const StyledTabs = styled(Tabs)`
   border: 1px solid #e9eaf0;
   overflow: hidden;
   font-family: "DM Sans";
+  height: ${(props) =>
+    props.screenWidth >= 992 ? "calc(100vh - 169px)" : "100vh"};
+
   .tab-title {
     font-size: 16px;
     font-weight: 400;
@@ -58,7 +64,9 @@ const StyledTabs = styled(Tabs)`
     .ant-tabs-tab,
     .ant-tabs-tab-active {
       margin: 0 !important;
-      width: 50%;
+      width: 100%;
+      padding: 16px 0;
+      /* width: 50%; */
       justify-content: center;
     }
     .ant-tabs-tab-active {
@@ -67,5 +75,8 @@ const StyledTabs = styled(Tabs)`
         color: white;
       }
     }
+  }
+  .ant-tabs-content-top {
+    height: 100%;
   }
 `;

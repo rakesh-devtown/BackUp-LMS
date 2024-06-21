@@ -22,11 +22,14 @@ const TopicNode = ({ topic, lock, time, checked, difficulty }) => {
       </FlexBoxCenter>
       <FlexBoxCenter>
         {checked && (
-          <i className="hide">
-            <CheckOutlined style={{ color: "#1E6DE8" }} />
-          </i>
+          <>
+            <i className="hide">
+              <CheckOutlined style={{ color: "#1E6DE8" }} />
+            </i>
+            <p className="show-hover">Replay</p>
+          </>
         )}
-        {difficulty === "easy" && (
+        {/* {difficulty === "easy" && (
           <p className="hide" style={{ color: "green" }}>
             Easy
           </p>
@@ -40,8 +43,9 @@ const TopicNode = ({ topic, lock, time, checked, difficulty }) => {
           <p className="hide" style={{ color: "orange" }}>
             Hard
           </p>
-        )}
-        {time && <p className="hide">{time}</p>}
+        )} */}
+        {time && !checked && <p className="hide">{time}</p>}
+        {!checked && <p className="show-hover">Play</p>}
         <p className="play" style={{ color: "#1E6DE8" }}>
           Playing
         </p>

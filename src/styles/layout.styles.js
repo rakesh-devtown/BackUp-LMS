@@ -135,7 +135,7 @@ export const StyledContainer = styled.section`
 `;
 
 export const FullContentLayout = styled(Content)`
-  padding: ${(props) => (props.width >= 768 ? "16px 24px" : "16px 12px")};
+  padding: ${(props) => (props.width >= 768 ? "16px 20px" : "16px 12px")};
   background-color: transparent;
   /* .ant-layout-sider-children {
     height: unset;

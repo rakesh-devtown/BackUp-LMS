@@ -39,55 +39,69 @@ const AddCertification = ({ value, handleCancel }) => {
        }
     }
 
-    return (
-        <StyledForm name="basic" onFinish={handleSubmit} requiredMark={customizeRequiredMark} >
-            <Title>Add Cetificate</Title>
-            <InnerContainer>
 
-                <Form.Item label="Certificate Name" name="name"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input Certificate Name!',
-                        },
-                    ]}
-                >
-                    <Input placeholder="i.e Google UX Design" size='large' />
-                </Form.Item>
+  return (
+    <StyledForm
+      name="basic"
+      onFinish={handleSubmit}
+      requiredMark={customizeRequiredMark}
+    >
+      <Title>{value ? "Edit" : "Add"} Certificate</Title>
+      <InnerContainer>
+        <Form.Item
+          label="Certificate Name"
+          name="certificate"
+          rules={[
+            {
+              required: true,
+              message: "Please input Certificate Name!",
+            },
+          ]}
+        >
+          <Input placeholder="i.e Google UX Design" size="large" />
+        </Form.Item>
 
-                <Form.Item label="Issuing Organization" name="issueOrg"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input the Issuing Organization Name!',
-                        },
-                    ]}
-                >
-                    <Input placeholder="Coursera" size='large' />
-                </Form.Item>
+        <Form.Item
+          label="Issuing Organization"
+          name="issueOrg"
+          rules={[
+            {
+              required: true,
+              message: "Please input the Issuing Organization Name!",
+            },
+          ]}
+        >
+          <Input placeholder="Coursera" size="large" />
+        </Form.Item>
 
-                <StyledDate>
-                    <h5>Issue Date</h5>
-                    <Row gutter={15}>
-                        <Col span={12}>
-                            <CustomDatePicker mode={'Month'} name={'startMonth'} />
-                        </Col>
-                        <Col span={12}>
-                            <CustomDatePicker mode={'Year'} name={'startYear'} required={true} />
-                        </Col>
-                    </Row>
-                </StyledDate>
+        <StyledDate>
+          <h5>Issue Date</h5>
+          <Row gutter={15}>
+            <Col span={12}>
+              <CustomDatePicker mode={"Month"} name={"startMonth"} />
+            </Col>
+            <Col span={12}>
+              <CustomDatePicker
+                mode={"Year"}
+                name={"startYear"}
+                required={true}
+              />
+            </Col>
+          </Row>
+        </StyledDate>
 
-                <Form.Item label="Credential ID" name="credentialId"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input Credential ID!',
-                        },
-                    ]}
-                >
-                    <Input placeholder="i.e ID" size='large' />
-                </Form.Item>
+        <Form.Item
+          label="Credential ID"
+          name="credentialId"
+          rules={[
+            {
+              required: true,
+              message: "Please input Credential ID!",
+            },
+          ]}
+        >
+          <Input placeholder="i.e ID" size="large" />
+        </Form.Item>
 
                 <Form.Item label="Credential URL" name="credentialUrl"
                     rules={[

@@ -32,8 +32,7 @@ const MainModalBox = ({ handleCancel, keyNumber }) => {
       centered={true}
       okText={"Continue"}
       cancelButtonProps={{ visible: false }}
-      width={width >= 1200 ? "1016px" : width >= 768 ? "600px" : "450px"}
-      // closeIcon={<CloseModal />}
+      width={width >= 768 ? "600px" : "450px"}
       footer={null}
     >
       {/* rendering modals content based on option clicked */}

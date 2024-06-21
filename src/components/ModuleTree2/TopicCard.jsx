@@ -5,11 +5,18 @@ import {
 } from "@ant-design/icons";
 import { Space } from "antd";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const TopicCard = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/video");
+  };
+
   return (
-    <StyledCard>
+    <StyledCard onClick={handleClick}>
       <CardContent>
         <p className="topic">Topic 1 : Introduction to HTML </p>
         <Space size={24}>

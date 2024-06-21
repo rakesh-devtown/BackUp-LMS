@@ -3,6 +3,7 @@ import { Button, notification } from 'antd';
 import { Title, InnerContainer } from '../../../styles/myResume.styles';
 import Skill from './Skill';
 import useResumeStore from '../../../store/resumeStore';
+import { useEffect } from 'react';
 
 const AddSkills = ({handleCancel,value}) => {
     const [userSkills, setUserSkills] = useState([])
@@ -26,6 +27,13 @@ const AddSkills = ({handleCancel,value}) => {
             handleCancel();
         }
     }
+
+        useEffect(()=>{
+            if(skills.length > 0)
+            {
+                setUserSkills(skills.map(ele=>ele.name));
+            }
+        },[skills])
 
     return (
         <>

@@ -26,10 +26,10 @@ const ResumeModals = ({ keyItem, handleCancel, value }) => {
       >
         {keyItem === "education" && <AddEducation handleCancel={handleCancel} value={value}/>}
         {keyItem === "skills" && <AddSkills handleCancel={handleCancel} value={value} />}
-        {keyItem === "socialMedia" && <AddSocialMedia handleCancel={handleCancel}/>}
-        {keyItem === "experience" && <AddExperience value={value} handleCancel={handleCancel}/>}
-        {keyItem === "project" && <AddProject handleCancel={handleCancel}/>}
-        {keyItem === "certification" && <AddCertification handleCancel={handleCancel}/>}
+        {keyItem === "socialMedia" && <AddSocialMedia handleCancel={handleCancel} value={value}/>}
+        {keyItem === "experience" && <AddExperience handleCancel={handleCancel} value={value}/>}
+        {keyItem === "project" && <AddProject handleCancel={handleCancel} value={value}/>}
+        {keyItem === "certification" && <AddCertification handleCancel={handleCancel} value={value}/>}
         {keyItem === "personalDetails" && <EditPersonalDetails handleCancel={handleCancel}/>}
       </Modal>
     </>

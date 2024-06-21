@@ -51,35 +51,20 @@ const DeviceLogged = ({ handleCancel }) => {
                 {
                     sessions.map((session, index) => {
                         return (
-                            <Card key={index} width={width} className='card1'>
+                            <Card key={index} width={width} className='card'>
                                 <div><i>{(session.os === 'Win32' || session.os==='Window') ? <WindowsFilled /> : 
                                          (session.os === 'Android' || session.os==='Linux armv81') ? <AndroidFilled/> :
                                          (session.os === 'Darwin' || session.os.match(/mac/gi)) ? <AppleFilled/> : 
                                          session.os === 'Linux' ? <LinuxOutlined/>
                                          : <LaptopOutlined/>}</i> <p>{session.os}</p></div>
                                 <p>{session.loginTime}</p>
-                                <div className={`hidden hidden-card1`}>Logout</div>
+                                <div className={`hidden hidden-card`}>Logout</div>
                             </Card>
                         )
                     })
                 }
-                {/* <Card className='card3'>
-                    <div><i><WindowsFilled /></i> <p>Windows</p></div>
-                    <p>November 27,2024</p>
-                    <div className='hidden hidden-card3'>Logout</div>
-                </Card>
-                <Card className='card4'>
-                    <div><i><WindowsFilled /></i> <p>Linux</p></div>
-                    <p>November 27,2024</p>
-                    <div className='hidden hidden-card4'>Logout</div>
-                </Card>
-                <Card className='card5'>
-                    <div><i><AppleFilled /></i> <p>IOS Mobile</p></div>
-                    <p>March 27,2024</p>
-                    <div className='hidden hidden-card5'>Logout</div>
-                </Card> */}
                 <Button type='primary' size='large' style={{ height: "55px" }} onClick={handleClear}>Clear all session</Button>
-                <Link className='last-element'>Have problem with devices login?</Link>
+                {/* <Link className='last-element'>Have problem with devices login?</Link> */}
             </div>
         </StyledVariant>
     )
@@ -107,19 +92,7 @@ const StyledVariant = styled(StyledModalContent)`
     }
 
     /* showing logout option based on hover card */
-    .card1:hover .hidden-card1{
-        display:flex;
-    }
-    .card2:hover .hidden-card2{
-        display:flex;
-    }
-    .card3:hover .hidden-card3{
-        display:flex;
-    }
-    .card4:hover .hidden-card4{
-        display:flex;
-    }
-    .card5:hover .hidden-card5{
+    .card:hover .hidden-card{
         display:flex;
     }
 `
@@ -129,7 +102,7 @@ const Card = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: ${props => props.width >= 768 ? "16px 24px" : "16px 5px"};
+    padding: ${props => props.width >= 768 ? "13.4px 24px" : "13.4px 5px"};
     width: ${props => props.width >= 768 ? "430px" : "330px"};
     
     color: #081735;
@@ -145,7 +118,7 @@ const Card = styled.div`
         display: none;
         justify-content: center;
         align-items:center ;
-        padding: 16px 24px;
+        padding: 13.4px 24px;
         width: ${props => props.width >= 768 ? "430px" : "330px"};
         position: absolute;
         bottom: 0;
@@ -159,8 +132,8 @@ const Card = styled.div`
         transition: all 0.3s;
         
     }
-    .hidden-card1{
-        background-color: #0859DE;
+    .hidden-card{
+        background-color: #DE0844;
     }
 `
 export default DeviceLogged;

@@ -12,6 +12,7 @@ const MyCourses = () => {
       <div className="list">
         <MyCoursesCard />
         <MyCoursesCard />
+        <MyCoursesCard />
       </div>
     </StyledContainerVariant>
   );
@@ -20,7 +21,7 @@ const MyCourses = () => {
 const StyledContainerVariant = styled(StyledContainer)`
   h4 {
     color: var(--darkColor1);
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 500;
     margin-bottom: 26px;
   }

@@ -39,11 +39,12 @@ const EducationCard = ({item,name,degree,startDateMonth,startDateYear, endDateMo
                     </Space>
                 </Space>
                 <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleShowModal} className='edit-btn' 
-                    >Edit</Button>
+                    >Edit
 
+                </Button>
             </CardInner>
-        </CardContainer>
-    )
-}
+          </CardContainer>
+        );
+};
 
 export default EducationCard;

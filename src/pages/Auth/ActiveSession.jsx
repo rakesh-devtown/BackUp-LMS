@@ -172,7 +172,7 @@ function ActiveSession() {
           >
             Clear all Sessions
           </StyledButton>
-          <BlueText
+          {/* <BlueText
             style={{
               textAlign: "center",
               marginTop: "20px"
@@ -181,7 +181,7 @@ function ActiveSession() {
               setCurrentLeftPage("signin")
             }}>
             Having problem with login ?
-          </BlueText>
+          </BlueText> */}
         </div>
 
 

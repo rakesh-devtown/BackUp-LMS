@@ -3,7 +3,7 @@ import { Progress } from "antd";
 import styled from "styled-components";
 import LastActivityCard from "../LastActivityCard";
 
-const CousreProgress = () => {
+const CourseProgress = () => {
   return (
     <ProgressCard>
       <h5>Course Progress</h5>
@@ -78,4 +78,4 @@ const ProgressBar = styled.div`
   }
 `;
 
-export default CousreProgress;
+export default CourseProgress;
