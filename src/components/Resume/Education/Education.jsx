@@ -4,10 +4,12 @@ import { StyledContainer, StyledHeader } from '../../../styles/myResume.styles'
 import EducationCard from './EducationCard'
 import { useState } from 'react'
 import ResumeModals from '../../Modals/ResumeModals'
+import useResumeStore from '../../../store/resumeStore'
 
 const Education = () => {
 
     const [showModal, setShowModal] = useState(false);
+    const education = useResumeStore(state => state.education);
 
     const handleShowModal = () => setShowModal(!showModal)
 
@@ -18,7 +20,18 @@ const Education = () => {
                 <h4>Education</h4>
                 <Button type="text" size="large" icon={<PlusOutlined />} style={{ color: "#0859DE" }} onClick={handleShowModal} >Add</Button>
             </StyledHeader>
-            <EducationCard />
+            {
+                education && education.map((edu, index) => (
+                    <EducationCard key={index} 
+                        item={edu}
+                        name={edu.collageName} 
+                        degree={edu.degreeName} 
+                        startDateMonth={new Date(edu.startDate).toLocaleString('default', { month: 'short' })} 
+                        startDateYear={new Date(edu.startDate).getFullYear()} 
+                        endDateMonth={edu.endDate ? new Date(edu.endDate).toLocaleString('default', { month: 'short' }) : null} 
+                        endDateYear={edu.endDate ? new Date(edu.endDate).getFullYear() : null} />
+                ))
+            }
         </StyledContainer>
     )
 }

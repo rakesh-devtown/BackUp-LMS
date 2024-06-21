@@ -5,6 +5,7 @@ import useWindowSize from '../../../hooks/useWindowSize';
 import CustomDatePicker from '../../DatePicker/CustomDatePicker';
 import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from '../../../styles/myResume.styles';
 import customizeRequiredMark from '../../../utils/custom-form-functions';
+import useResumeStore from '../../../store/resumeStore';
 
 const AddExperience = ({ value }) => {
 
@@ -15,8 +16,23 @@ const AddExperience = ({ value }) => {
 
     const handleCheckbox1 = () => setcheckbox1(!checkbox1)
     const handleCheckbox2 = () => setcheckbox2(!checkbox2)
-    const handleSubmit = (e) => {
-        console.log(e)
+
+    const {postExperience} = useResumeStore();
+
+    const handleSubmit = async(e) => {
+        try{
+            const data={
+                companyName:e.company,
+                role:e.role,
+                startDate:new Date(e.startYear,e.startMonth-1,10),
+                endDate:checkbox1 ? null : new Date(e.endYear,e.endMonth-1,10),
+                description:e.description,
+                isProfileSubHeadline:checkbox2
+            }
+            await postExperience(data);         
+        }catch(err){
+            console.log(err)
+        }
     }
     const handleDelete = () => console.log("delete");
 

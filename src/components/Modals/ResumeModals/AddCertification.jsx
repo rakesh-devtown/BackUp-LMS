@@ -5,21 +5,38 @@ import CustomDatePicker from '../../DatePicker/CustomDatePicker'
 import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from '../../../styles/myResume.styles'
 import Skill from './Skill'
 import customizeRequiredMark from '../../../utils/custom-form-functions'
+import useResumeStore from '../../../store/resumeStore'
 
 
-const AddCertification = ({ value }) => {
+const AddCertification = ({ value, handleCancel }) => {
 
     const [state, setState] = useState(value);
     const [checked, setChecked] = useState(false)
     const [skills, setSkills] = useState([])
     const { width } = useWindowSize();
 
+    const {postCertificates} = useResumeStore();
+
     const handleDelete = () => console.log("delete");
     const handleCheckbox = () => setChecked(!checked)
     const handleSkills = (e) => setSkills(e)
 
-    const handleSubmit = (e) => {
-        console.log(e)
+    const handleSubmit = async(e) => {
+       try{
+        const data={
+            skills:skills,
+            name:e.name,
+            credentialId:e.credentialId,
+            credentialUrl:e.credentialUrl,
+            issuingOrg:e.issueOrg,
+            issueDate:new Date(e.startYear,e.startMonth-1,10)
+        }
+        await postCertificates(data);
+       }catch(err){
+           console.log(err)
+       }finally{
+           handleCancel()
+       }
     }
 
     return (
@@ -27,7 +44,7 @@ const AddCertification = ({ value }) => {
             <Title>Add Cetificate</Title>
             <InnerContainer>
 
-                <Form.Item label="Certificate Name" name="certificate"
+                <Form.Item label="Certificate Name" name="name"
                     rules={[
                         {
                             required: true,
@@ -83,9 +100,9 @@ const AddCertification = ({ value }) => {
                     <Input placeholder="i.e URL" size='large' />
                 </Form.Item>
                 <Skill skills={skills} setSkills={handleSkills} />
-                <Form.Item name={"checked"}>
+                {/* <Form.Item name={"checked"}>
                     <Checkbox onChange={handleCheckbox} checked={checked}>Add DevTown Certificate</Checkbox>
-                </Form.Item>
+                </Form.Item> */}
             </InnerContainer>
             <Form.Item>
                 {

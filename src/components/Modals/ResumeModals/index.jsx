@@ -24,7 +24,7 @@ const ResumeModals = ({ keyItem, handleCancel, value }) => {
         footer={null}
         width={width >= 1200 ? "1016px" : width >= 768 ? "600px" : "450px"}
       >
-        {keyItem === "education" && <AddEducation handleCancel={handleCancel} />}
+        {keyItem === "education" && <AddEducation handleCancel={handleCancel} value={value}/>}
         {keyItem === "skills" && <AddSkills handleCancel={handleCancel} value={value} />}
         {keyItem === "socialMedia" && <AddSocialMedia handleCancel={handleCancel}/>}
         {keyItem === "experience" && <AddExperience value={value} handleCancel={handleCancel}/>}
