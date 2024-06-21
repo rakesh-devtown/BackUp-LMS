@@ -10,6 +10,7 @@ export const StyledTopicNode = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  color: #3f4b5e;
   i {
     display: grid;
     place-items: center;
