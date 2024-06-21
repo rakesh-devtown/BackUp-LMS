@@ -74,7 +74,7 @@ const useAuthStore = create(
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken);
           setHeader("signature", visitorId);
-          setHeader("auth", `bearer ${token}`);
+          setHeader("Authorization", `bearer ${token}`);
           useAuthStore.getState().reset(token, chatToken, user);
           set({
             token,
@@ -89,7 +89,7 @@ const useAuthStore = create(
           notification.error({ message: "Login Error", description: message });
           if (message === "Too many active sessions") {
             localStorage.setItem("token", token);
-            setHeader("auth", `bearer ${token}`);
+            setHeader("Authorization", `bearer ${token}`);
             set({
               token,
               chatToken,
@@ -107,7 +107,7 @@ const useAuthStore = create(
           }
         }
       } catch (error) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         notification.error({
           message: "Login Error",
           description: "An error occurred during login",
@@ -141,12 +141,12 @@ const useAuthStore = create(
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken);
           setHeader("signature", visitorId);
-          setHeader("auth", `bearer ${token}`);
+          setHeader("Authorization", `bearer ${token}`);
           set({ token, chatToken, user, isGoogleAuthenticated: true, isAuthenticated: true });
         } else {
           // message.error(message, { duration: 4000 });
           if (message === "Too many active sessions") {
-            setHeader("auth", `bearer ${token}`);
+            setHeader("Authorization", `bearer ${token}`);
             set({
               token,
               chatToken,
@@ -165,7 +165,7 @@ const useAuthStore = create(
           }
         }
       } catch (error) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
 
       }
     },
@@ -174,7 +174,7 @@ const useAuthStore = create(
         const tokenn = localStorage.getItem("token");
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
-        // TODO: Change verify magic link to verify auth token url
+        // TODO: Change verify magic link to verify Authorization token url
         if (tokenn === null) {
           return false;
         }
@@ -186,7 +186,7 @@ const useAuthStore = create(
           `auth/auth/v1/verify-auth-token?token=${tokenn}&signature=${visitorId}&platform=${components.platform.value}`
         );
         if (success) {
-          setHeader("auth", `bearer ${token}`);
+          setHeader("Authorization", `bearer ${token}`);
           setHeader("signature", visitorId);
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken)
@@ -200,11 +200,11 @@ const useAuthStore = create(
           return success;
 
         } else {
-          deleteHeader("auth");
+          deleteHeader("Authorization");
           notification.error({ message: "Login Error", description: message });
           if (message === "Too many active sessions") {
             localStorage.setItem("token", token);
-            setHeader("auth", `bearer ${token}`);
+            setHeader("Authorization", `bearer ${token}`);
             set({
               token: '',
               chatToken,
@@ -214,7 +214,7 @@ const useAuthStore = create(
             });
           } else {
             localStorage.removeItem("token");
-            deleteHeader("auth");
+            deleteHeader("Authorization");
             set({
               token: null,
               chatToken: null,
@@ -225,7 +225,7 @@ const useAuthStore = create(
 
         }
       } catch (error) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         set({
           token: null,
           chatToken: null,
@@ -241,7 +241,7 @@ const useAuthStore = create(
         const tokenn = localStorage.getItem("token");
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
-        // TODO: Change verify magic link to verify auth token url
+        // TODO: Change verify magic link to verify Authorization token url
         if (tokenn === null) {
           return false;
         }
@@ -253,7 +253,7 @@ const useAuthStore = create(
           `auth/auth/v1/verify-auth?token=${tokenn}&signature=${visitorId}&platform=${components.platform.value}`
         );
         if (success) {
-          setHeader("auth", `bearer ${token}`);
+          setHeader("Authorization", `bearer ${token}`);
           setHeader("signature", visitorId);
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken)
@@ -267,11 +267,11 @@ const useAuthStore = create(
           return success;
 
         } else {
-          deleteHeader("auth");
+          deleteHeader("Authorization");
           notification.error({ message: "Login Error", description: message });
           if (message === "Too many active sessions") {
             localStorage.setItem("token", token);
-            setHeader("auth", `bearer ${token}`);
+            setHeader("Authorization", `bearer ${token}`);
             set({
               token: '',
               chatToken,
@@ -281,7 +281,7 @@ const useAuthStore = create(
             });
           } else {
             localStorage.removeItem("token");
-            deleteHeader("auth");
+            deleteHeader("Authorization");
             set({
               token: null,
               chatToken: null,
@@ -292,7 +292,7 @@ const useAuthStore = create(
 
         }
       } catch (error) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         set({
           token: null,
           chatToken: null,
@@ -312,7 +312,7 @@ const useAuthStore = create(
         );
 
         localStorage.removeItem("token");
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         set({
           token: null,
           chatToken: null,
@@ -321,7 +321,7 @@ const useAuthStore = create(
           isGoogleAuthenticated: false,
         });
       } catch (err) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         set({
           token: null,
           chatToken: null,
@@ -429,7 +429,7 @@ const useAuthStore = create(
           localStorage.setItem('token', token);
           setHeader('signature', visitorId);
           // Set the header
-          setHeader('auth', `bearer ${token}`);
+          setHeader('Authorization', `bearer ${token}`);
           set({
             token,
             chatToken,
@@ -451,7 +451,7 @@ const useAuthStore = create(
         if (message === 'Too many active sessions') {
           localStorage.setItem('token', token);
 
-          setHeader('auth', `bearer ${token}`);
+          setHeader('Authorization', `bearer ${token}`);
           return {
             token,
             chatToken,
@@ -468,7 +468,7 @@ const useAuthStore = create(
           isAuthenticated: false
         };
       } catch (error) {
-        deleteHeader('auth');
+        deleteHeader('Authorization');
         deleteHeader();
         return {
           token: null,
