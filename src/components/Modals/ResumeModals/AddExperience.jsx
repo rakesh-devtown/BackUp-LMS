@@ -12,8 +12,10 @@ const AddExperience = ({ value }) => {
   const [checkbox1, setcheckbox1] = useState(value?.endDate.present);
   const [checkbox2, setcheckbox2] = useState(false);
   const { width } = useWindowSize();
+  const { postExperience } = useResumeStore();
 
  
+  const handleCheckbox1 = () => setcheckbox1(!checkbox1);
   const handleCheckbox2 = () => setcheckbox2(!checkbox2);
 
   const handleSubmit = async(e) => {

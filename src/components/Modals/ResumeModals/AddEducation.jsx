@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from 'antd';
+import { Button, Checkbox, Col, Form, Input, InputNumber, Row, notification } from 'antd';
 import useWindowSize from '../../../hooks/useWindowSize';
 import CustomDatePicker from '../../DatePicker/CustomDatePicker';
 import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from '../../../styles/myResume.styles';
@@ -18,7 +18,8 @@ const AddEducation = ({ value, handleCancel }) => {
     //const education = useResumeStore(state => state.education);
     const handleSubmit = async(e) => {
         try{
-            const data = value ? 
+            //return notification.success({message:"test"})
+            const data = !value ? 
             {
                 collageName:e.collegeName,
                 grade:e.grade,
@@ -34,6 +35,8 @@ const AddEducation = ({ value, handleCancel }) => {
                 degreeName: e.degreeName,
                 id: education.id
             }
+
+            console.log(data)
             if(value)
             {
                 await updateEducation(data);
@@ -45,27 +48,10 @@ const AddEducation = ({ value, handleCancel }) => {
             handleCancel();
         }catch(err)
         {
-
+            console.log(err)
         }
     }
 
-    const handleUpdate = async(e) => {
-        try{
-            const data = {
-                collageName:e.collegeName,
-                grade:e.grade,
-                startDate: new Date(e.startYear, e.startMonth-1,10),
-                endDate: checked ? null : new Date(e.endYear, e.endMonth-1,10),
-                degreeName: e.degreeName,
-                id: education.id
-            }
-            await updateEducation(data);
-            handleCancel();
-        }catch(err)
-        {
-
-        }
-    }
 
     const handleDelete = async() => {
         try{

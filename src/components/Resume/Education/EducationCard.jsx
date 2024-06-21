@@ -8,6 +8,8 @@ import { CardContainer, CardInner, DotStyle } from '../../../styles/myResume.sty
 import { useState } from 'react';
 import ResumeModals from '../../Modals/ResumeModals';
 import useResumeStore from '../../../store/resumeStore';
+import { CgCap } from 'react-icons/cg';
+import { PiBook } from 'react-icons/pi';
 
 
 const EducationCard = ({item,name,degree,startDateMonth,startDateYear, endDateMonth, endDateYear,index}) => {
@@ -22,7 +24,7 @@ const EducationCard = ({item,name,degree,startDateMonth,startDateYear, endDateMo
         <CardContainer width={width}>
             {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"education"} value={item} />}
             <div>
-                <img src={collegeLogo} alt="logo" style={{width:'45px', height:'45px'}}/>
+                <PiBook size={30}/>
             </div>
             <CardInner width={width}>
                 <Space size={2} direction="vertical">

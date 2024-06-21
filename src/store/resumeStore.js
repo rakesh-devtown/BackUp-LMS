@@ -328,7 +328,10 @@ const useResumeStore = create(
 
                 const prevEducation = useResumeStore.getState().education;
                 if(success){
-                    set({education:prevEducation.map((edu)=>edu.id===education.id?edu:data)});
+                    console.log(prevEducation);
+                    console.log(data)
+                    const newEducation = prevEducation.filter((edu)=>edu.id!==data.id);
+                    set({education:[...newEducation,data]});
                     notification.success({
                         message: "Success",
                         description: "Education Updated",
