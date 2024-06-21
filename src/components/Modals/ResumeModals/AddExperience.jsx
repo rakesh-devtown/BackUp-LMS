@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import TextArea from 'antd/es/input/TextArea';
-import { Button, Checkbox, Col, Form, Input, Row, Space } from 'antd';
-import useWindowSize from '../../../hooks/useWindowSize';
-import CustomDatePicker from '../../DatePicker/CustomDatePicker';
-import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from '../../../styles/myResume.styles';
-import customizeRequiredMark from '../../../utils/custom-form-functions';
-import useResumeStore from '../../../store/resumeStore';
+import React, { useState } from "react";
+import TextArea from "antd/es/input/TextArea";
+import { Button, Checkbox, Col, Form, Input, Row, Select, Space } from "antd";
+import useWindowSize from "../../../hooks/useWindowSize";
+import CustomDatePicker from "../../DatePicker/CustomDatePicker";
+import {
+  StyledForm,
+  Title,
+  InnerContainer,
+  StyledDate,
+  SaveBtn,
+  UpdateDelete,
+} from "../../../styles/myResume.styles";
+import customizeRequiredMark from "../../../utils/custom-form-functions";
 
 const AddExperience = ({ value }) => {
   const [state, setState] = useState(value);
@@ -14,7 +20,7 @@ const AddExperience = ({ value }) => {
   const { width } = useWindowSize();
   const { postExperience } = useResumeStore();
 
- 
+  const { Option } = Select;
   const handleCheckbox1 = () => setcheckbox1(!checkbox1);
   const handleCheckbox2 = () => setcheckbox2(!checkbox2);
 
@@ -117,6 +123,28 @@ const AddExperience = ({ value }) => {
             Present
           </Checkbox>
         </Form.Item>
+        <Row gutter={15} style={{ marginBottom: "25px" }}>
+          <Col span={12}>
+            <Form.Item name="locationType" label="Location type">
+              <Select placeholder="Please select" allowClear>
+                <Option value="onSite">On-site</Option>
+                <Option value="hybrid">Hybrid</Option>
+                <Option value="remote">Remote</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item name="employmentType" label="Employment type">
+              <Select placeholder="Please select" allowClear>
+                <Option value="fullTime">Full-time</Option>
+                <Option value="partTime">Part-time</Option>
+                <Option value="internship">Internship</Option>
+                <Option value="freelance">Freelance</Option>
+                <Option value="selfEmployed">Self-employed</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
         <Form.Item label="Description" name={"description"}>
           <TextArea rows={5} />
         </Form.Item>
