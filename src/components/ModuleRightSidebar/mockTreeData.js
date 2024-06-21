@@ -8,26 +8,67 @@ export const treeData = [
     title: "Introduction to HTML",
     key: "0",
     className: "level-1",
+    selectable: false,
     children: [
       {
-        title: <TopicNode topic={"Topic 1"} checked={true} />,
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} checked={true} />,
         key: "0-1",
       },
       {
-        title: <TopicNode topic={"Topic 1"} checked={true} />,
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} checked={true} />,
         key: "0-2",
       },
       {
-        title: <TopicNode topic={"Topic 1"} difficulty={"easy"} />,
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
         key: "0-3",
       },
       {
-        title: <TopicNode topic={"Topic 1"} difficulty={"normal"} />,
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
         key: "0-4",
       },
       {
-        title: <TopicNode topic={"Topic 1"} difficulty={"normal"} />,
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
         key: "0-5",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-6",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-7",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-8",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-9",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-10",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-11",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-12",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-13",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic 1"} />,
+        key: "0-14",
+      },
+      {
+        title: <TopicNode time={"08:45"} topic={"Topic last"} />,
+        key: "0-15",
       },
     ],
   },

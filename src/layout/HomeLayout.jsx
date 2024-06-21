@@ -178,6 +178,9 @@ function HomeLayout() {
         style={{
           width: "100%",
           background: "#F4F7FE",
+          height: "100vh",
+          overflowY: "auto",
+          scrollbarWidth: "none",
         }}
       >
         <StyledHeader width={width} colorBgContainer={colorBgContainer}>

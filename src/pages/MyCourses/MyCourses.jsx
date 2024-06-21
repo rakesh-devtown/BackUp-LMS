@@ -10,8 +10,9 @@ const MyCourses = () => {
     <StyledContainerVariant width={width}>
       <h4>Enrolled Courses</h4>
       <div className="list">
-        <MyCoursesCard resume={false} />
-        <MyCoursesCard resume={true} />
+        <MyCoursesCard />
+        <MyCoursesCard />
+        <MyCoursesCard />
       </div>
     </StyledContainerVariant>
   );
