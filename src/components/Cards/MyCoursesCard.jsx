@@ -6,7 +6,7 @@ import useWindowSize from "../../hooks/useWindowSize";
 import LastActivityCard from "./LastActivityCard";
 import { Link } from "react-router-dom";
 
-const MyCoursesCard = ({ resume }) => {
+const MyCoursesCard = () => {
   const { width } = useWindowSize();
 
   return (
@@ -34,7 +34,7 @@ const MyCoursesCard = ({ resume }) => {
       </Top>
       <Link to="/video">
         <CustomButton type="primary" size="large" danger screenWidth={width}>
-          {resume ? "Resume Learning" : "Start Learning"}
+          Start Learning
         </CustomButton>
       </Link>
       {/* <LastActivityCard leftPadding={true} /> */}

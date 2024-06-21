@@ -141,11 +141,14 @@ const Video = () => {
               <Button
                 color="primary"
                 type="text"
-                size={width > 1120 ? "large" : "middle"}
+                size={width > 1120 || width < 768 ? "large" : "middle"}
               >
                 Previous Lecture
               </Button>
-              <Button type="text" size={width > 1120 ? "large" : "middle"}>
+              <Button
+                type="text"
+                size={width > 1120 || width < 768 ? "large" : "middle"}
+              >
                 Next Lecture
               </Button>
             </ButtonsDiv1>
@@ -161,12 +164,14 @@ const Video = () => {
               <a className="btn" href="#classNotes">
                 Notes
               </a>
-              <Button type="text" size="large">
+
+              {/* buttons not included in first phase */}
+              {/* <Button type="text" size="large">
                 View Code <ArrowUpOutlined rotate={45} />
               </Button>
               <Button type="text" size="large">
                 Code Rubiks
-              </Button>
+              </Button> */}
             </div>
             {/* <Button
               size="large"

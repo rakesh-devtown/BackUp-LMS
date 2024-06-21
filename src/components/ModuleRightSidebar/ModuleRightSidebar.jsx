@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Tabs } from "antd";
 import ModuleTree from "./ModuleTree";
 import BookmarkTree from "./BookmarkTree";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const mockData = [
   {
@@ -18,6 +19,7 @@ const mockData = [
 ];
 
 const ModuleRightSidebar = () => {
+  const { width } = useWindowSize();
   return (
     <StyledTabs
       defaultActiveKey="1"
@@ -25,6 +27,7 @@ const ModuleRightSidebar = () => {
       centered
       indicator={{ size: 0 }}
       expandAction={"doubleclick"}
+      screenWidth={width}
     />
   );
 };
@@ -39,6 +42,9 @@ const StyledTabs = styled(Tabs)`
   border: 1px solid #e9eaf0;
   overflow: hidden;
   font-family: "DM Sans";
+  height: ${(props) =>
+    props.screenWidth >= 992 ? "calc(100vh - 169px)" : "100vh"};
+
   .tab-title {
     font-size: 16px;
     font-weight: 400;
@@ -59,6 +65,7 @@ const StyledTabs = styled(Tabs)`
     .ant-tabs-tab-active {
       margin: 0 !important;
       width: 100%;
+      padding: 16px 0;
       /* width: 50%; */
       justify-content: center;
     }
@@ -68,5 +75,8 @@ const StyledTabs = styled(Tabs)`
         color: white;
       }
     }
+  }
+  .ant-tabs-content-top {
+    height: 100%;
   }
 `;

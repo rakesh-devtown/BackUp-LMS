@@ -49,6 +49,8 @@ function HomeLayout() {
           width: "100%",
           background: isMobileSideBarOpen ? "rgba(0, 0, 0, 0.5)" : "#F4F7FE",
           height: "100vh",
+          overflowY: "auto",
+          scrollbarWidth: "none",
         }}
       >
         <StyledHeader width={width}>
