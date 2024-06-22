@@ -35,8 +35,15 @@ export const servicePost = async (path, payload, headers = null) => {
           headers: headers,
         }
       )
-      .then(function (response) {
-        resolve(response.data);
+      .then(async function (response) {
+        if(response?.data?.message==='Unauthorized Access' || response?.data?.message==='Invalid Session'){
+          notification.error({
+            message: "Error",
+            description: "Unauthorized Access",
+          });
+          await useAuthStore.getState().logout();
+        }
+        else resolve(response.data);
       })
       .catch(async function (error) {
         reject(error);
@@ -67,11 +74,15 @@ export const serviceGet = async (path, headers) => {
           headers: headers,
         }
       )
-      .then(function (response) {
-        // if(response.data.statusCode===403){
-        //    store.dispatch(logout());
-        // }
-        resolve(response.data);
+      .then(async function (response) {
+        if(response?.data?.message==='Unauthorized Access' || response?.data?.message==='Invalid Session'){
+          notification.error({
+            message: "Error",
+            description: "Session Expired",
+          });
+          await useAuthStore.getState().logout();
+        }
+        else resolve(response.data);
       })
       .catch(async function (error) {
         reject(error);
@@ -102,8 +113,15 @@ export const servicePut = async (path, payload, headers = null) => {
           headers: headers,
         }
       )
-      .then(function (response) {
-        resolve(response.data);
+      .then(async function (response) {
+        if(response?.data?.message==='Unauthorized Access' || response?.data?.message==='Invalid Session'){
+          notification.error({
+            message: "Error",
+            description: "Unauthorized Access",
+          });
+          await useAuthStore.getState().logout();
+        }
+        else resolve(response.data);
       })
       .catch(function (error) {
         reject(error);
@@ -126,8 +144,15 @@ export const serviceDelete = async (path, headers) => {
           headers: headers,
         }
       )
-      .then(function (response) {
-        resolve(response.data);
+      .then(async function (response) {
+        if(response?.data?.message==='Unauthorized Access' || response?.data?.message==='Invalid Session'){
+          notification.error({
+            message: "Error",
+            description: "Unauthorized Access",
+          });
+          await useAuthStore.getState().logout();
+        }
+        else resolve(response.data);
       })
       .catch(function (error) {
         reject(error);

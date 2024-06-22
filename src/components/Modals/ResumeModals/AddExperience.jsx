@@ -12,6 +12,7 @@ import {
   UpdateDelete,
 } from "../../../styles/myResume.styles";
 import customizeRequiredMark from "../../../utils/custom-form-functions";
+import useResumeStore from "../../../store/resumeStore";
 
 const AddExperience = ({ value }) => {
   const [state, setState] = useState(value);
@@ -32,8 +33,11 @@ const AddExperience = ({ value }) => {
             startDate:new Date(e.startYear,e.startMonth-1,10),
             endDate:checkbox1 ? null : new Date(e.endYear,e.endMonth-1,10),
             description:e.description,
-            isProfileSubHeadline:checkbox2
+            isProfileSubHeadline:checkbox2,
+            locationType:e.locationType,
+            employmentType:e.employmentType
         }
+        //console.log(data)
         await postExperience(data);         
     }catch(err){
         console.log(err)

@@ -13,6 +13,7 @@ import Certifications from "../../components/Resume/Certifications/Certification
 import WorkExperience from "../../components/Resume/WorkExperience/WorkExperience";
 import useAuthStore from "../../store/authStore";
 import useResumeStore from "../../store/resumeStore";
+import Spinner from "../../components/loader/Spinner";
 
 const MyResume = () => {
   const [checkbox, setCheckbox] = useState(false);
@@ -62,19 +63,7 @@ const MyResume = () => {
           <hr className="line" />
           <Skills />
           {loading && (
-            <div
-              style={{
-                position: "fixed",
-                height: "30vh",
-                justifyContent: "center",
-                zIndex: 999,
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Spin size="large" />
-            </div>
+            <Spinner/>
           )}
         </ProfileContent>
 

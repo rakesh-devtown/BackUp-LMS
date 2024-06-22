@@ -8,6 +8,7 @@ import logo from "../../../assets/images/devtownLogoWithBg.png"
 import WorkPosition from "./WorkPosition";
 import ResumeModals from "../../Modals/ResumeModals"
 import useResumeStore from "../../../store/resumeStore"
+import { HiBuildingOffice2 } from "react-icons/hi2"
 
 
 const WorkExperience = () => {
@@ -30,7 +31,7 @@ const WorkExperience = () => {
                         return (
                             <Fragment key={index}>
                             <Company>
-                                <img src={logo} alt="logo" height={65} width={65} />
+                                <HiBuildingOffice2 size={50} />
                                 <Space size={2} direction="vertical">
                                     <h5>{item?.companyName}</h5>
                                     <Space size={6} align="start">
@@ -49,8 +50,13 @@ const WorkExperience = () => {
                                     </Space>
                                 </Space>
                             </Company>
-                            <WorkPosition />
-                            <WorkPosition />
+                            {
+                                item?.details &&  item?.details?.map((ele, ind) => (
+                                    <WorkPosition 
+                                        mockData={ele}
+                                    />
+                                ))
+                            }
                             </Fragment>
                         )
                     })

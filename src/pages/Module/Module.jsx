@@ -15,12 +15,17 @@ import RightSiderMenu from "../../components/RightSiderMenu/RightSiderMenu";
 import FolderDetailsCard from "../../components/Cards/video/FolderDetailsCard";
 import CousreProgress from "../../components/Cards/module/CourseProgress";
 import { treeData } from "./mockData";
+import useBatchStore from "../../store/batchStore";
+import ModuleCardHeader from "../../components/ModuleTree2/ModuleCardHeader";
+import TopicCard from "../../components/ModuleTree2/TopicCard";
 
 const Module = () => {
   const [selectedKey, setSelectedKey] = useState([]);
   const { width } = useWindowSize();
   const navigate = useNavigate();
+  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const { Content, Sider } = Layout;
+  const [mockData, setMockData] = useState([]);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -49,10 +54,39 @@ const Module = () => {
   // const rightSidebarWidth = width >= 992 ? "60px" : "0";
   const rightSidebarWidth = 0;
 
+
+
+  // useEffect(() => {
+  //   if(currentCourseDetails?.sections && currentCourseDetails?.sections.length > 0){
+  //     const data = currentCourseDetails.sections.map((section, index) => {
+  //       return {
+  //         title: (
+  //           <ModuleCardHeader
+  //             title={section?.name}
+  //             topic1={section?.subsections[0].name}
+  //             topic2={section?.subsections[1].name}
+  //             onGoing={section?.subsections.length > 0 ? true : false}
+  //           />
+  //         ),
+  //         key: index.toString(),
+  //         children: section?.subsections.map((subSection, subIndex) => {
+  //           return {
+  //             title: <TopicCard data={subSection} />,
+  //             key: `${index}-${subIndex}`,
+  //             className: `${subIndex === section?.subsections?.length -1 ? "animate-bounce" : ""}`,
+  //           };
+          
+  //         })
+  //       };
+  //     });
+  //     setMockData(data);
+  //   }
+  // },[currentCourseDetails])
+
   return (
     <Layout>
       <Helmet>
-        <title>Module</title>
+        <title>DevTown - {currentCourseDetails?.name}</title>
         <meta name="settings" content="settings" />
         <link rel="canonical" href="https://www.learn.devtown.in/setting" />
       </Helmet>
@@ -79,7 +113,7 @@ const Module = () => {
                 <ArrowLeftOutlined /> Back{" "}
               </Button>
             </Link>
-            <h1>Full Stack Web Development Industrial Training program</h1>
+            <h1>Course Name</h1>
             <FolderDetailsCard />
             {/* <CousreProgress /> */}
             <Link to={"/video"}>

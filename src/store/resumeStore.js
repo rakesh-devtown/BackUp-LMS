@@ -369,7 +369,7 @@ const useResumeStore = create(
 
                 const prevExperience = useResumeStore.getState().experience;
                 if(success){
-                    set({experience:[...prevExperience,data]});
+                    set({experience:data});
                     notification.success({
                         message: "Success",
                         description: "Experience Added",
