@@ -29,11 +29,11 @@ const AddSkills = ({handleCancel,value}) => {
     }
 
         useEffect(()=>{
-            if(skills.length > 0)
+            if(skills.length > 0 && value)
             {
                 setUserSkills(skills.map(ele=>ele.name));
             }
-        },[skills])
+        },[value])
 
     return (
         <>

@@ -4,18 +4,37 @@ import styled from "styled-components";
 import mern_icon from "../../assets/images/courses/mern_icon.svg";
 import useWindowSize from "../../hooks/useWindowSize";
 import LastActivityCard from "./LastActivityCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useBatchStore from "../../store/batchStore";
 
-const MyCoursesCard = () => {
+const MyCoursesCard = ({enroll}) => {
   const { width } = useWindowSize();
+  const [course, setCourse] = useState(null);
+  const {getModuleOfEnrolledCourse} = useBatchStore();
+  const navigate = useNavigate();
 
+  const onClickOnDashboard=async()=>{
+    try{
+      await getModuleOfEnrolledCourse(enroll.id);
+      navigate("/module")
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    if(enroll){
+      setCourse(enroll?.batch?.course);
+    }
+  },[enroll])
   return (
     <StyledCard width={width}>
       <Top width={width}>
         <FlexBox width={width}>
-          <img src={mern_icon} height={33} width={33} alt="icon" />
+          <img src={course?.bannerImg} height={33} width={33} alt="icon" />
           <div className="header">
-            <h5>Front End Web Development</h5>
+            <h5>{course?.name}</h5>
             <Space>
               <i>
                 <FileFilled />
@@ -27,7 +46,7 @@ const MyCoursesCard = () => {
         <Space size={16}>
           {/* <p className="completion">0% Completed</p> */}
 
-          <DashboardButton to={"/module"} shape="round" size="large">
+          <DashboardButton onClick={onClickOnDashboard}  shape="round" size="large">
             View Dashboard
           </DashboardButton>
         </Space>
@@ -92,7 +111,7 @@ const FlexBox = styled.div`
   align-items: center;
 `;
 
-const DashboardButton = styled(Link)`
+const DashboardButton = styled.button`
   color: #224848;
   font-family: "DM Sans";
   font-size: 16px;

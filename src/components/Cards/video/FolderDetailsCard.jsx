@@ -1,15 +1,20 @@
 import { ClockCircleOutlined, FolderOpenOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { Space, Typography } from 'antd';
 import styled from "styled-components"
+import useBatchStore from '../../../store/batchStore';
+import { useEffect } from 'react';
 
 
 const FolderDetailsCard = () => {
 
+    //const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+
+    
     return (
         <StyledDetailsCard>
             <div className='small-box'>
                 <i><FolderOpenOutlined /></i>
-                <p>6 Sections</p>
+                <p>3 Sections</p>
             </div>
             <div className='small-box'>
                 <i><PlayCircleOutlined /></i>

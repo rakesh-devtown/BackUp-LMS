@@ -56,7 +56,7 @@ const DeviceLogged = ({ handleCancel }) => {
                                          (session.os === 'Android' || session.os==='Linux armv81') ? <AndroidFilled/> :
                                          (session.os === 'Darwin' || session.os.match(/mac/gi)) ? <AppleFilled/> : 
                                          session.os === 'Linux' ? <LinuxOutlined/>
-                                         : <LaptopOutlined/>}</i> <p>{session.os}</p></div>
+                                         : <LaptopOutlined/>}</i> <p>{session.os === 'Linux armv81' ? 'Android' : session.os}</p></div>
                                 <p>{session.loginTime}</p>
                                 <div className={`hidden hidden-card`}>Logout</div>
                             </Card>

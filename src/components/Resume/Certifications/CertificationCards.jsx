@@ -14,8 +14,9 @@ import {
   DotStyle,
 } from "../../../styles/myResume.styles";
 import ResumeModals from "../../Modals/ResumeModals";
+import { PiCertificateFill } from "react-icons/pi";
 
-const CertificationCard = ({ icon }) => {
+const CertificationCard = ({ icon , data, title, orgName, credId, month,year, url}) => {
   const { width } = useWindowSize();
   const [showModal, setShowModal] = useState(false);
 
@@ -31,19 +32,19 @@ const CertificationCard = ({ icon }) => {
         />
       )}
       <div>
-        <img src={icon} alt="logo" />
+        <PiCertificateFill size={40} />
       </div>
       <CardInnerVariant width={width}>
         <Space size={2} direction="vertical">
-          <h5>Google UX Design Professional Certification</h5>
+          <h5>{title}</h5>
           <Space size={6} align="start">
-            <p>Coursera</p>
+            <p>{orgName}</p>
             <DotStyle>
               <GoDotFill />
             </DotStyle>
-            <p>Jan 2024</p>
+            <p>{month} {year}</p>
           </Space>
-          <p>Credential Id 4s65d4f54sdf545s4f543s54f64f</p>
+          <p>Credential Id {credId}</p>
           <ConfigProvider
             theme={{
               components: {
@@ -55,6 +56,7 @@ const CertificationCard = ({ icon }) => {
               },
             }}
           >
+          <a href={url} target="_blank" rel="noreferrer">
             <Button
               icon={<UploadOutlined />}
               type="primary"
@@ -62,8 +64,10 @@ const CertificationCard = ({ icon }) => {
               shape="round"
               size="large"
             >
-              Show Credential
+              
+                Show Credential
             </Button>
+            </a>
           </ConfigProvider>
         </Space>
         <Button

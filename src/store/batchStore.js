@@ -3,15 +3,19 @@ import { devtools } from "zustand/middleware";
 import { serviceGet } from "../utils/api";
 import { notification } from "antd";
 import { setHeader } from "../utils/header";
+import useAuthStore from "./authStore";
 
 const useBatchStore = create(
   devtools((set, get) => ({
+    courseLoading: false,
     currentBatch: {},
     currentBatchId: "",
     currentVideo: {},
     currentVideoDetails: {},
     section: {},
     sections: [],
+    enrolledCourses: [],
+    currentCourseDetails: {},
     
     setSection: (tracker) => {
       set((state) => {
@@ -83,6 +87,71 @@ const useBatchStore = create(
         });
       }
     },
+    getAllEnrolledCourses: async () => {
+      try {
+        set({
+          courseLoading: true,
+        })
+        const studentId = useAuthStore.getState().user.id;
+        const res = await serviceGet("student/student/v1/course?studentId="+studentId);
+        const {
+          success,
+          message,
+          data,
+        } = res;
+        if (success) {
+          set({ enrolledCourses: data });
+        }
+      } catch (e) {
+        notification.error({
+          message: "Error",
+          description: e.message,
+        });
+      }finally{
+        set({
+          courseLoading: false,
+        })
+      }
+    },
+    getModuleOfEnrolledCourse: async (enrollId) => {
+      try{
+        //setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+        set({
+          courseLoading: true,
+        })
+        const res = await serviceGet(`student/student/v1/course/Enroll/${enrollId}`);
+        const {
+          success,
+          message,
+          data,
+        } = res;
+        if (success) {
+          const {sections} = data;
+          sections?.sort((a,b)=>a.orderNumber-b.orderNumber);
+          sections?.forEach((section)=>{
+            section?.sectionItems?.sort((a,b)=>a.orderNumber-b.orderNumber);
+            section?.subsections?.sort((a,b)=>a.orderNumber-b.orderNumber);
+            section?.subsections?.forEach((subSection)=>{
+              subSection?.sectionItems?.sort((a,b)=>a.orderNumber-b.orderNumber);
+            })
+          })
+          console.log(sections);
+          set({ currentCourseDetails: {
+            ...data,
+            sections: sections,
+          }});
+        }
+      }catch(e){
+        notification.error({
+          message: "Error",
+          description: e.message,
+        });
+      }finally{
+        set({
+          courseLoading: false,
+        })
+      }
+    }
   }))
 );
 

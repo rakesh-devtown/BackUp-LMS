@@ -12,19 +12,38 @@ import {
   UpdateDelete,
 } from "../../../styles/myResume.styles";
 import customizeRequiredMark from "../../../utils/custom-form-functions";
+import useResumeStore from "../../../store/resumeStore";
 
 const AddExperience = ({ value }) => {
   const [state, setState] = useState(value);
   const [checkbox1, setcheckbox1] = useState(value?.endDate.present);
   const [checkbox2, setcheckbox2] = useState(false);
   const { width } = useWindowSize();
+  const { postExperience } = useResumeStore();
 
   const { Option } = Select;
   const handleCheckbox1 = () => setcheckbox1(!checkbox1);
   const handleCheckbox2 = () => setcheckbox2(!checkbox2);
-  const handleSubmit = (e) => {
-    console.log(e);
-  };
+
+  const handleSubmit = async(e) => {
+    try{
+        const data={
+            companyName:e.company,
+            role:e.role,
+            startDate:new Date(e.startYear,e.startMonth-1,10),
+            endDate:checkbox1 ? null : new Date(e.endYear,e.endMonth-1,10),
+            description:e.description,
+            isProfileSubHeadline:checkbox2,
+            locationType:e.locationType,
+            employmentType:e.employmentType
+        }
+        //console.log(data)
+        await postExperience(data);         
+    }catch(err){
+        console.log(err)
+    }
+}
+
   const handleDelete = () => console.log("delete");
 
   return (
