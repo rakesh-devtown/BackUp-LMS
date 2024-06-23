@@ -6,8 +6,8 @@ export const treeData = [
     title: (
       <ModuleCardHeader
         title={"Data Structures and Algorithms"}
-        topic1={"Module 1 : Introduction to Web Development"}
-        topic2={"Module 2 : Basic of Web Development"}
+        topic1={"Introduction to Web Development"}
+        topic2={"Basic of Web Development"}
         onGoing={true}
       />
     ),
@@ -32,8 +32,8 @@ export const treeData = [
     title: (
       <ModuleCardHeader
         title={"Web Development fundamentals"}
-        topic1={"Module 1 : Introduction to Web Development"}
-        topic2={"Module 2 : Basic of Web Development"}
+        topic1={"Introduction to Web Development"}
+        topic2={"Basic of Web Development"}
         onGoing={false}
       />
     ),
@@ -58,8 +58,8 @@ export const treeData = [
     title: (
       <ModuleCardHeader
         title={"Front End Development with React"}
-        topic1={"Module 1 : Introduction to Web Development"}
-        topic2={"Module 2 : Basic of Web Development"}
+        topic1={"Introduction to Web Development"}
+        topic2={"Basic of Web Development"}
         onGoing={false}
       />
     ),
@@ -84,8 +84,8 @@ export const treeData = [
     title: (
       <ModuleCardHeader
         title={"Web Development fundamentals"}
-        topic1={"Module 1 : Introduction to Web Development"}
-        topic2={"Module 2 : Basic of Web Development"}
+        topic1={"Introduction to Web Development"}
+        topic2={"Basic of Web Development"}
         onGoing={false}
       />
     ),
@@ -110,8 +110,8 @@ export const treeData = [
     title: (
       <ModuleCardHeader
         title={"Front End Development with React"}
-        topic1={"Module 1 : Introduction to Web Development"}
-        topic2={"Module 2 : Basic of Web Development"}
+        topic1={"Introduction to Web Development"}
+        topic2={"Basic of Web Development"}
         onGoing={false}
       />
     ),
