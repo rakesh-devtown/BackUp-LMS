@@ -16,6 +16,7 @@ const useBatchStore = create(
     sections: [],
     enrolledCourses: [],
     currentCourseDetails: {},
+    completedCoursesCertificates:[],
     
     setSection: (tracker) => {
       set((state) => {
@@ -142,6 +143,33 @@ const useBatchStore = create(
           }});
         }
       }catch(e){
+        notification.error({
+          message: "Error",
+          description: e.message,
+        });
+      }finally{
+        set({
+          courseLoading: false,
+        })
+      }
+    },
+
+    getCompletedCoursesCertificates: async () => {
+      try {
+        set({
+          courseLoading: true,
+        })
+        const studentId = useAuthStore.getState().user.id;
+        const res = await serviceGet(`student/student/v1/certificate/${studentId}?page=1&limit=20`);
+        const {
+          success,
+          message,
+          data,
+        } = res;
+        if (success) {
+          set({ completedCoursesCertificates: data });
+        }
+      } catch (e) {
         notification.error({
           message: "Error",
           description: e.message,

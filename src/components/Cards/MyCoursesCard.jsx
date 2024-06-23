@@ -39,7 +39,7 @@ const MyCoursesCard = ({enroll}) => {
               <i>
                 <FileFilled />
               </i>
-              <p className="lessons">20 Lessons</p>
+              <p className="lessons">{course?.totalSectionItems} Lectures</p>
             </Space>
           </div>
         </FlexBox>
