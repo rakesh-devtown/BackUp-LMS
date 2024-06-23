@@ -9,9 +9,10 @@ import ShareModal from './ShareModal/ShareModal';
 import MainModalBox from './ModalsSecurityPage';
 import { SuccessMessage } from '../../styles/messagePopup.styles';
 
-const CertificateDownloadModal = () => {
+const CertificateDownloadModal = ({data}) => {
 
     const { width } = useWindowSize(); //getting width for movile view
+    console.log(data)
     const [messageApi, contextHolder] = message.useMessage();
     const [showShareModal, setShowShareModal] = useState(false);
     const [editCertificate, setEditCertificate] = useState(false);
@@ -42,15 +43,15 @@ const CertificateDownloadModal = () => {
             {editCertificate && <MainModalBox keyNumber={1} handleCancel={handleEditCertificate} />}
 
             {/* Social Media Modal for sharing */}
-            <ShareModal handleClose={handleClose} showShareModal={showShareModal} title={shareModaltitle} />
+            <ShareModal handleClose={handleClose} showShareModal={showShareModal} title={shareModaltitle} data={data} />
 
             <FirstContainer>
                 <Space direction='vertical' size={18}>
-                    <img src={certificate1} alt="certificate.jpg" width={width < 768 ? 326 : null} />
-                    <p>This certificate affirms that <span>Part.V.Gangurde</span> has satisfactorily fulfilled the requirements outlined. This validation ensures its authenticity, having been duly verified and granted by Devtown.</p>
+                    <img src={data?.imageUrl} alt="certificate.jpg" width={width < 768 ? 326 : null} />
+                    <p>This certificate affirms that <span>{data?.studentName}</span> has satisfactorily fulfilled the requirements outlined. This validation ensures its authenticity, having been duly verified and granted by Devtown.</p>
                 </Space>
                 <StyledButtons width={width}>
-                    <button className='btn1' onClick={handleEditCertificate} >Edit Certificate</button>
+                    {/* <button className='btn1' onClick={handleEditCertificate} >Edit Certificate</button> */}
                     <button className='btn2' onClick={handleDownload}>Download Certificate <i><DownloadOutlined /></i></button>
                     <button className='btn3' onClick={() => setShowShareModal(true)}>Share <i><SendOutlined /></i></button>
                 </StyledButtons>
@@ -62,7 +63,7 @@ const CertificateDownloadModal = () => {
             {
                 <Space direction='vertical' size={26} align='center' className='space-antd'>
                     <h2>Certificate Recipient</h2>
-                    <h4>Part.V.Gangurde</h4>
+                    <h4>{String(data?.studentName).toUpperCase()}</h4>
                     <p>Issued By</p>
                     <img src={logo} alt="logo" />
                 </Space>

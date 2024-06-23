@@ -17,13 +17,18 @@ const FolderDetailsCard = () => {
         <i>
           <FolderOpenOutlined />
         </i>
-        <p>{currentCourseDetails?.sections?.length} Sections</p>
+        <p>{currentCourseDetails?.totalSubSections ? 
+            (parseInt(currentCourseDetails?.totalSubSections) > 0 
+              ? currentCourseDetails?.totalSubSections 
+              :currentCourseDetails?.sections?.length
+            )
+            :currentCourseDetails?.sections?.length} Sections</p>
       </div>
       <div className="small-box">
         <i>
           <PlayCircleOutlined />
         </i>
-        <p>202 lectures</p>
+        <p>{currentCourseDetails?.totalLecture} lectures</p>
       </div>
       {/* <div className='small-box'>
                 <i><ClockCircleOutlined /></i>

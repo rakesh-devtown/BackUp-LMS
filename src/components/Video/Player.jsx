@@ -19,6 +19,7 @@ const Player = ({
 	videoId,
 }) => {
 	const {postVideoProgress} = useBatchStore();
+	const currentVideo = useBatchStore((state) => state.currentVideo);
 	const {
 		videoPlayerRef,
 		controlRef,
@@ -49,7 +50,14 @@ const Player = ({
 
 	const handleVideoStudentProgress = async() => {
 		try{
-				await postVideoProgress(videoId);
+				if(currentVideo?.sectionProgress?.length == 0)
+				{
+					await postVideoProgress(videoId);
+				}
+				else if(currentVideo?.sectionProgress?.length > 0 && currentVideo?.sectionProgress[0]?.isCompleted == false)
+				{
+					await postVideoProgress(videoId);
+				}
 		}catch(err)
 		{
 			console.log(err)
@@ -64,14 +72,15 @@ const Player = ({
 			onKeyDown={handleKeyPress}
 			tabIndex={0}
 		>
-			<div className="" onClick={playPauseHandler}>
+			<div className=" bg-black" onClick={playPauseHandler}>
 				<ReactPlayer
 					ref={videoPlayerRef}
 					className="player"
 					url={url}
 					width="100%"
-					height="100%"
+					height="100%"				
 					playing={playing}
+					light={currentVideo?.videoThumbnail ? <img src={currentVideo?.videoThumbnail} style={{height:"100%", width:"100%"}} alt="thumbnail" /> : false}
 					playbackRate={playbackRate.options[playbackRate.selected]}
 					volume={volume}
 					muted={muted}

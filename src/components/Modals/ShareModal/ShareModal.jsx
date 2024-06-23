@@ -1,7 +1,7 @@
 import { Modal } from 'antd'
 import SocialMediaCard from '../../Cards/SocialMediaCard';
 
-const ShareModal = ({ showShareModal, handleClose, title }) => {
+const ShareModal = ({ showShareModal, handleClose, title ,data}) => {
 
     // custom styling for header
     const myTitleStyle = {
@@ -17,7 +17,7 @@ const ShareModal = ({ showShareModal, handleClose, title }) => {
         <>
             <Modal title={<h4 style={myTitleStyle}>{title}</h4>} open={showShareModal} onCancel={handleClose} footer={null} mask={true} centered={true} >
 
-                <SocialMediaCard />
+                <SocialMediaCard data={data}/>
             </Modal >
         </>
     )

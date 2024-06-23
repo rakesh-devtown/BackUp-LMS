@@ -11,7 +11,7 @@ import useBatchStore from "../../store/batchStore";
 const MyCoursesCard = ({enroll}) => {
   const { width } = useWindowSize();
   const [course, setCourse] = useState(null);
-  const {getModuleOfEnrolledCourse} = useBatchStore();
+  const {getModuleOfEnrolledCourse,setEnrollId,getFirstSectionOfCourse} = useBatchStore();
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const getCurrentSectionDetails = useBatchStore((state) => state.getCurrentSectionDetails);
   const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
@@ -19,7 +19,8 @@ const MyCoursesCard = ({enroll}) => {
 
   const onClickOnDashboard=async()=>{
     try{
-      await getModuleOfEnrolledCourse(enroll.id);
+      //await getModuleOfEnrolledCourse(enroll.id);
+      setEnrollId(enroll.id);
       navigate("/module")
     }catch(err){
       console.log(err)
@@ -35,21 +36,9 @@ const MyCoursesCard = ({enroll}) => {
 
   const startLearningFromFirstModule = async () => {
     try {
+      setEnrollId(enroll.id);
       await getModuleOfEnrolledCourse(enroll.id);
-      if(currentCourseDetails?.sections?.length === 0){
-        notification.error({message:"No Module Found",description:"No module found to start learning"})
-        return;
-      }
-      //console.log(currentCourseDetails?.sections[0]?.subsections?.length)
-      if(currentCourseDetails?.sections[0]?.subsections?.length > 0)
-      {
-          await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.subsections[0]?.id)
-      }
-      else if(currentCourseDetails?.sections?.length > 0){
-        await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.id)
-      }else{
-        return notification.error({message:"No Module Found",description:"No module found to start learning"})
-      }
+      await getFirstSectionOfCourse(enroll.batch.course.id);
       
       navigate("/video");
     } catch (err) {

@@ -27,7 +27,7 @@ const ModuleTree = () => {
 
   const transformDataToTree = (data) => {
     const children = data.sectionItems.map((item, index) => ({
-      title: <TopicNode class="ant-tree-treenode-selected" time={""} topic={item.title} checked={item?.sectionProgress?.length > 0 ? (item?.sectionProgress[0].isCompleted) :false} />,
+      title: <TopicNode class="ant-tree-treenode-selected" time={""} topic={`Day ${item?.orderNumber}: `+item.title} checked={item?.sectionProgress?.length > 0 ? (item?.sectionProgress[0].isCompleted) :false} />,
       key: item?.id, // Use the section item ID as the key
     }));
   

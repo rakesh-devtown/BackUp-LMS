@@ -86,14 +86,14 @@ const MyCertificate = () => {
               {courseLoading && <Spinner/>}
               <h2 className="title">Course Certification</h2>
               <Row gutter={[15, 15]}>
-                {completedCoursesCertificates?.certificates && completedCoursesCertificates?.certificates?.map((card, ind) => (
+                {completedCoursesCertificates && completedCoursesCertificates.map((card, ind) => (
                   <Col key={ind} span={24} md={12} xxl={8}>
                     <CourseCompletionCard data={card} completed={true} />
                   </Col>
                 ))}
               </Row>
               {
-                !completedCoursesCertificates?.certificates?.length && <h3 style={{textAlign:'center'}}>No Certificates Found</h3>
+                !completedCoursesCertificates?.length && <h3 style={{textAlign:'center'}}>No Certificates Found</h3>
               }
             </Tabs.TabPane>
           </Tabs>

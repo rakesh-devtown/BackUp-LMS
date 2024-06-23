@@ -8,11 +8,16 @@ import useWindowSize from "../../hooks/useWindowSize";
 const CourseCompletionCard = ({ data, completed,bgColor }) => {
 
     const [showCertificate, setShowCertificate] = useState(false)
+    const [certificateData, setCertificateData] = useState({})
     const [percentage, setPercentage] = useState(0)
     const { width } = useWindowSize();
 
     const { name, description, bannerImg } = data
-    const handleModal = () => setShowCertificate(!showCertificate)
+    const handleModal = (data) => {
+        //console.log(data)
+        setCertificateData(data?.studentCertificates?.length > 0 ? data?.studentCertificates[0] : {})
+        setShowCertificate(true)
+    }
 
     const calculatePercentage=()=>{
         const percent = parseInt(parseInt(parseInt(data?.totalSectionProgress)/parseInt(data?.totalSectionItems)) * 100);
@@ -34,19 +39,19 @@ const CourseCompletionCard = ({ data, completed,bgColor }) => {
             {/* open certificate modal for edit,download, and share */}
             <Modal
                 open={showCertificate}
-                onCancel={handleModal}
+                onCancel={()=>{setShowCertificate(false)}}
                 footer={false}
                 closeIcon={<Button shape="circle"><CloseOutlined /></Button>}
                 centered={true}
                 width={width > 1200 ? 1097 : (width >= 768 ? 700 : 397)}
             >
-                <CertificateDownloadModal />
+                <CertificateDownloadModal data={certificateData}/>
             </Modal>
 
             <StyledCard bgColor={bgColor}>
                 <MainCard width={width}>
                     <Space size={29}>
-                        <img src={bannerImg} alt="icon" />
+                        <img src={bannerImg} className=" max-w-20 max-h-20" alt="icon" />
                         <h4>{String(name).length > 30 ? String(name).substring(0,30)+'...' : name}</h4>
                     </Space>
                     <hr />
@@ -60,18 +65,14 @@ const CourseCompletionCard = ({ data, completed,bgColor }) => {
 
                     {completed ?
                         <>
-                            <div className="completed" onClick={handleModal}>
-                                <p>Course Completion</p>
-                                <i><ArrowUpOutlined rotate={45} /></i>
-                            </div>
-                            <div className="completed" onClick={handleModal}>
-                                <p>Project Completion</p>
-                                <i><ArrowUpOutlined rotate={45} /></i>
-                            </div>
-                            <div className="completed">
-                                <p>Training Completion</p>
-                                <i><ArrowUpOutlined rotate={45} /></i>
-                            </div>
+                            {  data && data?.versions && 
+                                data?.versions[0]?.certificates?.map((certificate, index) => (
+                                    <div className="completed" onClick={handleModal.bind(this,certificate)}>
+                                        <p>{certificate?.name}</p>
+                                        <i><ArrowUpOutlined rotate={45} /></i>
+                                    </div>
+                                ))
+                            }
                         </> :
                         <>
                             <div className="ongoing">

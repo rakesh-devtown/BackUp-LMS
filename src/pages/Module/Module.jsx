@@ -25,7 +25,8 @@ const Module = () => {
   const navigate = useNavigate();
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const courseLoading = useBatchStore((state) => state.courseLoading);
-  const {getCurrentSectionDetails} = useBatchStore();
+  const {getCurrentSectionDetails , getModuleOfEnrolledCourse} = useBatchStore();
+  const selectedEnrollIdOfCourse = useBatchStore((state) => state.selectedEnrollIdOfCourse);
   const { Content, Sider } = Layout;
 
   const chapterNameArray = [
@@ -73,34 +74,22 @@ const Module = () => {
     }
   }
 
+  const getEnrollCourses= async () => {
+    try{
+      await getModuleOfEnrolledCourse(selectedEnrollIdOfCourse)
+    }catch(err){
+      console.log(err)
+    }
+  }
 
 
-  // useEffect(() => {
-  //   if(currentCourseDetails?.sections && currentCourseDetails?.sections.length > 0){
-  //     const data = currentCourseDetails.sections.map((section, index) => {
-  //       return {
-  //         title: (
-  //           <ModuleCardHeader
-  //             title={section?.name}
-  //             topic1={section?.subsections[0].name}
-  //             topic2={section?.subsections[1].name}
-  //             onGoing={section?.subsections.length > 0 ? true : false}
-  //           />
-  //         ),
-  //         key: index.toString(),
-  //         children: section?.subsections.map((subSection, subIndex) => {
-  //           return {
-  //             title: <TopicCard data={subSection} />,
-  //             key: `${index}-${subIndex}`,
-  //             className: `${subIndex === section?.subsections?.length -1 ? "animate-bounce" : ""}`,
-  //           };
-          
-  //         })
-  //       };
-  //     });
-  //     setMockData(data);
-  //   }
-  // },[currentCourseDetails])
+  useEffect(() => {
+    if(selectedEnrollIdOfCourse){
+        getEnrollCourses();
+    }else{
+      navigate("/");
+    }
+  },[])
 
   return (
     <Layout>
@@ -144,8 +133,8 @@ const Module = () => {
           {/* showing all the chapter and modules */}
           <ModuleBody>
             <h4>Explore Modules for Learning</h4>
-            {chapterNameArray.map((ele, ind) => (
-              <ModuleChapter chapterName={ele} index={ind} />
+            {currentCourseDetails && currentCourseDetails?.sections?.map((ele, ind) => (
+              <ModuleChapter section={ele} index={ind} />
             ))}
           </ModuleBody>
         </MainContainer>

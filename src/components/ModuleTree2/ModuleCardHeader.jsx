@@ -13,8 +13,8 @@ const ModuleCardHeader = ({ title, onGoing, topic1, topic2 }) => {
           <h5>{title}</h5>
         </div>
         <div className="box-bottom">
-          {topic1 && <p>Day 1: {topic1}</p>}
-          {topic2 && <p>Day 2: {topic2}</p>}
+          {topic1 && <p>{topic1}</p>}
+          {topic2 && <p>{topic2}</p>}
         </div>
         <div></div>
       </div>
