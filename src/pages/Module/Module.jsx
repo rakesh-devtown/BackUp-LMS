@@ -14,34 +14,26 @@ import useWindowSize from "../../hooks/useWindowSize";
 import RightSiderMenu from "../../components/RightSiderMenu/RightSiderMenu";
 import FolderDetailsCard from "../../components/Cards/video/FolderDetailsCard";
 import CousreProgress from "../../components/Cards/module/CourseProgress";
-import { treeData } from "./mockData";
 import useBatchStore from "../../store/batchStore";
 import ModuleCardHeader from "../../components/ModuleTree2/ModuleCardHeader";
 import TopicCard from "../../components/ModuleTree2/TopicCard";
 import Spinner from "../../components/loader/Spinner";
+import ModuleChapter from "../../components/Module/ModuleChapter";
 
 const Module = () => {
-  const [selectedKey, setSelectedKey] = useState([]);
   const { width } = useWindowSize();
   const navigate = useNavigate();
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const courseLoading = useBatchStore((state) => state.courseLoading);
   const {getCurrentSectionDetails} = useBatchStore();
   const { Content, Sider } = Layout;
-  const [mockData, setMockData] = useState([]);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
-  //function for tree nodes
-  const onSelect = (selectedKeys, info) => {
-    // navigate("/video");
-    console.log("selected", selectedKeys, info);
-    setSelectedKey(selectedKeys);
-  };
-  const onCheck = (checkedKeys, info) => {
-    console.log("onCheck", checkedKeys, info);
-  };
+  const chapterNameArray = [
+    "FrontEnd Development",
+    "BackendDevelopment",
+    "DSA",
+    "others",
+  ];
 
   const mySiderStyle = {
     background: "transparent",
@@ -148,18 +140,13 @@ const Module = () => {
                 Start Learning
               </Button>
           </ModuleTop>
+
+          {/* showing all the chapter and modules */}
           <ModuleBody>
             <h4>Explore Modules for Learning</h4>
-            <Tree
-              multiple
-              expandedKeys={selectedKey}
-              blockNode
-              onSelect={onSelect}
-              onCheck={onCheck}
-              treeData={treeData}
-              switcherIcon={false}
-              onExpand={(e) => console.log(e)}
-            />
+            {chapterNameArray.map((ele, ind) => (
+              <ModuleChapter chapterName={ele} index={ind} />
+            ))}
           </ModuleBody>
         </MainContainer>
       </Content>
@@ -226,29 +213,6 @@ const ModuleBody = styled.div`
     border-radius: 8px;
     background: #e6ebf3;
     margin-bottom: 5px;
-  }
-  .ant-tree-switcher {
-    width: 0;
-  }
-  .ant-tree-indent {
-    width: 0;
-  }
-  .ant-tree-treenode {
-    padding: 0;
-  }
-  .ant-tree-node-selected {
-    .ant-tree-title > div {
-      border-bottom: none;
-    }
-    .closed {
-      display: none;
-    }
-    .open {
-      display: grid;
-    }
-    .box-bottom {
-      display: none;
-    }
   }
 `;
 
