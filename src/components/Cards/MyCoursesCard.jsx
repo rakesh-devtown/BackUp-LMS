@@ -1,5 +1,5 @@
 import { FileFilled } from "@ant-design/icons";
-import { Button, ConfigProvider, Space } from "antd";
+import { Button, ConfigProvider, Space, notification } from "antd";
 import styled from "styled-components";
 import mern_icon from "../../assets/images/courses/mern_icon.svg";
 import useWindowSize from "../../hooks/useWindowSize";
@@ -12,6 +12,9 @@ const MyCoursesCard = ({enroll}) => {
   const { width } = useWindowSize();
   const [course, setCourse] = useState(null);
   const {getModuleOfEnrolledCourse} = useBatchStore();
+  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+  const getCurrentSectionDetails = useBatchStore((state) => state.getCurrentSectionDetails);
+  const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
   const navigate = useNavigate();
 
   const onClickOnDashboard=async()=>{
@@ -28,6 +31,32 @@ const MyCoursesCard = ({enroll}) => {
       setCourse(enroll?.batch?.course);
     }
   },[enroll])
+
+
+  const startLearningFromFirstModule = async () => {
+    try {
+      await getModuleOfEnrolledCourse(enroll.id);
+      if(currentCourseDetails?.sections?.length === 0){
+        notification.error({message:"No Module Found",description:"No module found to start learning"})
+        return;
+      }
+      //console.log(currentCourseDetails?.sections[0]?.subsections?.length)
+      if(currentCourseDetails?.sections[0]?.subsections?.length > 0)
+      {
+          await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.subsections[0]?.id)
+      }
+      else if(currentCourseDetails?.sections?.length > 0){
+        await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.id)
+      }else{
+        return notification.error({message:"No Module Found",description:"No module found to start learning"})
+      }
+      
+      navigate("/video");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <StyledCard width={width}>
       <Top width={width}>
@@ -51,11 +80,9 @@ const MyCoursesCard = ({enroll}) => {
           </DashboardButton>
         </Space>
       </Top>
-      <Link to="/video">
-        <CustomButton type="primary" size="large" danger screenWidth={width}>
+        <CustomButton onClick={startLearningFromFirstModule} type="primary" size="large" danger screenWidth={width}>
           Start Learning
         </CustomButton>
-      </Link>
       {/* <LastActivityCard leftPadding={true} /> */}
     </StyledCard>
   );

@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&display=swap");
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 html * {
   margin: 0;
   padding: 0;
@@ -76,4 +78,91 @@ li {
   height: 100vh;
   width: 100%;
   background: rgb(0, 0, 0, 0.6);
+}
+
+
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+}
+
+.viewFullscreen:hover {
+	animation: ping 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+.exitFullscreen:hover {
+	animation: shrink 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes ping {
+	25% {
+		transform: scale(1.3);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+	75% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes shrink {
+	25% {
+		transform: scale(1.3);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+	75% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes shrink {
+	25% {
+		transform: scale(1.3);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+	75% {
+		transform: scale(1.3);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.volumeSeek {
+  animation: volumeSeekAnimation 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes volumeSeekAnimation {
+  25%, 100% {
+      width: 96px;
+  }
+}
+
+
+.dropdown:focus-within .dropdown-menu {
+	opacity: 1;
+	transform: translate(0) scale(1);
+	visibility: visible;
 }

@@ -1,13 +1,23 @@
+import { useEffect, useState } from 'react';
+import useBatchStore from '../../store/batchStore';
 import { StyledContentText } from '../../styles/videoPage.styles';
+import DOMPurify from 'dompurify';
 
 const Description = () => {
+    const currentVideo = useBatchStore(state=>state.currentVideo);
+    const [richText, setRichText] = useState('');
+    useEffect(() => {
+        if (currentVideo) {
+            setRichText(DOMPurify.sanitize(currentVideo.content));
+        }
+    }, [currentVideo]);
     return (
         <>
             <StyledContentText id='description'>
-                <h4>Description</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga, at rem nulla neque ipsum asperiores est. Error eius a fuga?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium voluptatum, est et, soluta praesentium esse maxime commodi minus, corporis aspernatur quia? Ad enim delectus quia minima tenetur, minus atque tempore magnam voluptatum ab totam? Tempore tenetur itaque in delectus quae cumque, corrupti ad molestias, quis libero aperiam deserunt. Nulla, officia.</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero pariatur molestias </p>
+                <div style={{paddingBottom:'10px'}}>
+                    <h4>Description</h4>
+                </div>
+                <div dangerouslySetInnerHTML={{ __html: richText }} />
             </StyledContentText>
         </>
     )

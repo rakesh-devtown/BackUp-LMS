@@ -6,7 +6,7 @@ import {
   MenuUnfoldOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ProfilePhoto from "../../assets/images/profilePic.jpg";
 import MainLogo from "../../assets/images/Big Logo.jpg";
 import useWindowSize from "../../hooks/useWindowSize";
@@ -36,6 +36,8 @@ function HeaderBar() {
   const myPopoverlayStyle = {
     width: width >= 576 ? "400px" : null,
   };
+
+  const location = useLocation();
 
   return (
     // < StyledNav >
@@ -78,7 +80,7 @@ function HeaderBar() {
         }
       </li>
       <StyledSearchBox>
-        {width >= 992 && (
+        {(width >= 992 && (location.pathname==='/' || location.pathname==='/courses')) && (
           <Div4>
             <SearchOutlined />
             <SearchInput placeholder="Search" />
@@ -139,6 +141,7 @@ const SearchInput = styled.input`
   padding: 5px 0px;
   border: none;
   white-space: initial;
+  height:26px;
   outline: none;
   background-color: inherit;
 `;

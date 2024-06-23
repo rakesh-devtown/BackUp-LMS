@@ -44,6 +44,9 @@ const MyResume = () => {
         <link rel="canonical" href="https://www.learn.devtown.in/me" />
       </Helmet>
       <ProfileContainer>
+      {loading && (
+            <Spinner/>
+          )}
         <ResumeHeader>
           <img src={Profile_logo} alt="icon" />
           <h3>My Profile</h3>
@@ -62,9 +65,6 @@ const MyResume = () => {
           <Certifications />
           <hr className="line" />
           <Skills />
-          {loading && (
-            <Spinner/>
-          )}
         </ProfileContent>
 
         {/* not added in first release */}

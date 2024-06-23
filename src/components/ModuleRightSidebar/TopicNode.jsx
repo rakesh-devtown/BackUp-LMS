@@ -11,7 +11,7 @@ import {
   StyledTopicNode,
 } from "../../styles/moduleRightSidebar.styles";
 
-const TopicNode = ({ topic, lock, time, checked, difficulty }) => {
+const TopicNode = ({ topic, lock, time, checked, difficulty,selected }) => {
   return (
     <StyledTopicNode>
       <FlexBoxCenter gap={"8px"}>

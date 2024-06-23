@@ -21,6 +21,7 @@ import Loader from "./components/loader/Loader";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LoaderOuterContainer } from "./styles/loader.styles";
 import { Helmet } from "react-helmet";
+import { VideoPlayerContext } from "./context/VideoPlayerContext";
 const { Header, Content, Sider } = Layout;
 //router
 const router = createBrowserRouter(routes);
@@ -80,12 +81,12 @@ const App = () => {
         
         </Helmet>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-        {loading && (
-          <LoaderOuterContainer>
-            <Loader />
-          </LoaderOuterContainer>
-        )}
-        <RouterProvider router={router} />
+          {loading && (
+            <LoaderOuterContainer>
+              <Loader />
+            </LoaderOuterContainer>
+          )}
+          <RouterProvider router={router} />
       </GoogleOAuthProvider>
     </>
   );

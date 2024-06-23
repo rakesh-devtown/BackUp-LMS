@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button, FloatButton, Layout, Tree, theme } from "antd";
+import { Button, FloatButton, Layout, Tree, notification, theme } from "antd";
 import {
   ArrowLeftOutlined,
   ArrowUpOutlined,
@@ -18,12 +18,15 @@ import { treeData } from "./mockData";
 import useBatchStore from "../../store/batchStore";
 import ModuleCardHeader from "../../components/ModuleTree2/ModuleCardHeader";
 import TopicCard from "../../components/ModuleTree2/TopicCard";
+import Spinner from "../../components/loader/Spinner";
 
 const Module = () => {
   const [selectedKey, setSelectedKey] = useState([]);
   const { width } = useWindowSize();
   const navigate = useNavigate();
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+  const courseLoading = useBatchStore((state) => state.courseLoading);
+  const {getCurrentSectionDetails} = useBatchStore();
   const { Content, Sider } = Layout;
   const [mockData, setMockData] = useState([]);
   const {
@@ -53,6 +56,30 @@ const Module = () => {
 
   // const rightSidebarWidth = width >= 992 ? "60px" : "0";
   const rightSidebarWidth = 0;
+
+  const startLearningFromFirstModule = async () => {
+    try {
+      console.log("currentCourseDetails",currentCourseDetails)
+      if(currentCourseDetails?.sections?.length === 0){
+        notification.error({message:"No Module Found",description:"No module found to start learning"})
+        return;
+      }
+      console.log(currentCourseDetails?.sections[0]?.subsections?.length)
+      if(currentCourseDetails?.sections[0]?.subsections?.length > 0)
+      {
+          await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.subsections[0]?.id)
+      }
+      else if(currentCourseDetails?.sections?.length > 0){
+        await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.id)
+      }else{
+        notification.error({message:"No Module Found",description:"No module found to start learning"})
+      }
+      
+      navigate("/video");
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
 
 
@@ -86,12 +113,13 @@ const Module = () => {
   return (
     <Layout>
       <Helmet>
-        <title>DevTown - {currentCourseDetails?.name}</title>
+        <title>DevTown - Module</title>
         <meta name="settings" content="settings" />
         <link rel="canonical" href="https://www.learn.devtown.in/setting" />
       </Helmet>
       <Content style={{ background: "#F4F7FE" }}>
         <MainContainer width={width} rightSidebarWidth={rightSidebarWidth}>
+          {courseLoading && <Spinner large/>}
           {/* sidebar in mobile view */}
           {/* {width < 992 && (
             <FloatButton.Group
@@ -113,14 +141,12 @@ const Module = () => {
                 <ArrowLeftOutlined /> Back{" "}
               </Button>
             </Link>
-            <h1>Course Name</h1>
+            <h1>{currentCourseDetails?.name}</h1>
             <FolderDetailsCard />
             {/* <CousreProgress /> */}
-            <Link to={"/video"}>
-              <Button type="primary" size="large" danger>
+              <Button type="primary" size="large" danger onClick={startLearningFromFirstModule}>
                 Start Learning
               </Button>
-            </Link>
           </ModuleTop>
           <ModuleBody>
             <h4>Explore Modules for Learning</h4>

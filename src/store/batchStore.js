@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { serviceGet } from "../utils/api";
+import { serviceGet, servicePost } from "../utils/api";
 import { notification } from "antd";
 import { setHeader } from "../utils/header";
 import useAuthStore from "./authStore";
@@ -9,14 +9,13 @@ const useBatchStore = create(
   devtools((set, get) => ({
     courseLoading: false,
     currentBatch: {},
-    currentBatchId: "",
-    currentVideo: {},
-    currentVideoDetails: {},
-    section: {},
     sections: [],
     enrolledCourses: [],
     currentCourseDetails: {},
     completedCoursesCertificates:[],
+    currentCourseSections: {},
+    currentVideoDetails:{},
+    currentVideo: {},
     
     setSection: (tracker) => {
       set((state) => {
@@ -47,45 +46,25 @@ const useBatchStore = create(
     getVideo: async (videoId) => {
       try {
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+        set({courseLoading:true})
         const res = await serviceGet(
-          `student/student-api/v1/video?id=${videoId}`
+          `student/student/v1/video?videoId=${videoId}`
         );
         const {
           success,
           message,
-          data: { video },
+          data
         } = res;
         if (success) {
-          set({ currentVideoDetails: video });
+          set({ currentVideo: data });
         }
       } catch (e) {
         notification.error({
           message: "Error",
           description: e.message,
         });
-      }
-    },
-    getCurrentBatch: async (batchId) => {
-      try {
-        setHeader("auth", `bearer ${localStorage.getItem("token")}`);
-        const res = await serviceGet(
-          `student/student-api/v1/batch?batchId=${batchId}`
-        );
-        const {
-          success,
-          message,
-          data: { batch },
-        } = res;
-        if (success) {
-          set({ currentBatch: batch });
-          set({ sections: batch?.course[0]?.sections });
-         
-        }
-      } catch (e) {
-        notification.error({
-          message: "Error",
-          description: e.message,
-        });
+      }finally{
+        set({courseLoading:false})
       }
     },
     getAllEnrolledCourses: async () => {
@@ -101,7 +80,8 @@ const useBatchStore = create(
           data,
         } = res;
         if (success) {
-          set({ enrolledCourses: data });
+          await set({ enrolledCourses: data });
+          return data;
         }
       } catch (e) {
         notification.error({
@@ -179,7 +159,60 @@ const useBatchStore = create(
           courseLoading: false,
         })
       }
-    }
+    },
+    getCurrentSectionDetails: async (sectionId,notLoading) => {
+      try {
+        set({courseLoading:true})
+        if(notLoading) set({courseLoading:false})
+        setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+        const userId = useAuthStore.getState().user.id;
+        const res = await serviceGet(`student/student/v1/course/sectionModules/${sectionId}?userId=${userId}`);
+        const {
+          success,
+          message,
+          data,
+        } = res;
+        if (success) {
+          set({ currentCourseSections: data });
+          if(data?.sectionItems?.length > 0 && !notLoading){
+            await useBatchStore.getState().getVideo(data?.sectionItems[0].id);
+          }
+        }
+      } catch (e) {
+        notification.error({
+          message: "Error",
+          description: e.message,
+        });
+      }finally{
+        set({
+          courseLoading: false,
+        })
+      }
+    },
+    
+    postVideoProgress: async (sectionItemId,) => {
+      try {
+        setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+        const currentVideo = useBatchStore.getState().currentVideo;
+        const sectionId = currentVideo.sectionId;
+        const courseId = useBatchStore.getState().currentCourseDetails.id;
+        const res = await servicePost(`student/student/v1/course/progress?sectionItemId=${sectionItemId}&enrollmentId=${"eb7f536b-becd-42a4-aad9-2b630a792462"}`);
+        const {
+          success,
+          message,
+          data,
+        } = res;
+        if (success) {
+          await useBatchStore.getState().getCurrentSectionDetails(sectionId,true);
+        }
+      } catch (e) {
+        notification.error({
+          message: "Error",
+          description: e.message,
+        });
+      }
+    },
+
   }))
 );
 
