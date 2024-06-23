@@ -8,7 +8,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const TopicCard = ({data}) => {
+const TopicCard = ({ data }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -18,8 +18,9 @@ const TopicCard = ({data}) => {
   return (
     <StyledCard onClick={handleClick}>
       <CardContent>
-        <p className="topic">{data?.name}</p>
-        <Space size={24}>
+        <p className="topic">Topic1: Introduction to module 1</p>
+        {/* <p className="topic">{data?.name}</p> */}
+        {/* <Space size={24}>
           <Space size={8} className="sub-content">
             <i>
               <FolderOutlined />
@@ -32,7 +33,7 @@ const TopicCard = ({data}) => {
             </i>
             <p>45 Mins</p>
           </Space>
-        </Space>
+        </Space> */}
       </CardContent>
       <i>
         <CheckOutlined style={{ color: "#008022" }} />
