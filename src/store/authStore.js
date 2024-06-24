@@ -86,6 +86,7 @@ const useAuthStore = create(
             isAuthenticated: true,
             isGoogleAuthenticated: false,
           })
+          await useBatchStore.getState().getAllEnrolledCourses(true);
         } else {
 
           notification.error({ message: "Login Error", description: message });
@@ -145,6 +146,7 @@ const useAuthStore = create(
           setHeader("signature", visitorId);
           setHeader("Authorization", `bearer ${token}`);
           set({ token, chatToken, user, isGoogleAuthenticated: true, isAuthenticated: true });
+          await useBatchStore.getState().getAllEnrolledCourses(true);
         } else {
           // message.error(message, { duration: 4000 });
           if (message === "Too many active sessions") {
@@ -156,7 +158,7 @@ const useAuthStore = create(
               isAuthenticated: false,
               screenLimitReached: true,
             });
-
+            
           } else {
             set({
               token: null,
@@ -456,7 +458,9 @@ const useAuthStore = create(
             user,
             isAuthenticated: true,
             isGoogleAuthenticated: true,
+            isTokenValid: true
           });
+          await useBatchStore.getState().getAllEnrolledCourses(true);
           return {
             token,
             chatToken,

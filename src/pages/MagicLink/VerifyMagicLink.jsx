@@ -23,15 +23,20 @@ function VerifyMagicLink() {
   useEffect(() => {
     if (isAuthenticated) navigate("/");
   }, [isAuthenticated, navigate]);
+
+  const verifyFunction=async(token)=>{
+    try{
+      if(token!=null)
+        {
+            await verifyMagicLink({ token: token, setIsDataLoaded: setIsDataLoaded });
+      }
+  }catch(err){
+    console.log(err);
+  }
+}
   useEffect(() => {
     setLoading(true);
-
-    if(token!=null)
-    {
-        console.log("loading")
-        verifyMagicLink({ token: token, setIsDataLoaded: setIsDataLoaded });
-    }
-
+    verifyFunction(token);
     setLoading(false);
   }, [token]);
 
