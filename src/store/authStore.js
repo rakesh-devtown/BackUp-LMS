@@ -332,6 +332,8 @@ const useAuthStore = create(
           user: null,
           isAuthenticated: false,
           isGoogleAuthenticated: false,
+          screenLimitReached: false,
+          isTokenValid: false,
         });
       } catch (err) {
         deleteHeader("Authorization");

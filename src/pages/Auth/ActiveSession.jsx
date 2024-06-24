@@ -48,6 +48,11 @@ function ActiveSession() {
   };
   const clearAllSession = async () => {
     try {
+      if(sessions.length === 0)
+      {
+        navigate("/");
+        return;
+      }
       setLoading(true);
       const { success, message } = await serviceDelete(
         `student/student/v1/screen?studentId=${user.id}`
