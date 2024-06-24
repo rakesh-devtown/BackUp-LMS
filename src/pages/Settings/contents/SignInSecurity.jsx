@@ -14,13 +14,6 @@ const SignInAndSecurity = () => {
 
   const user = useAuthStore((state) => state.user);
 
-  //mock data
-  const profileDetails = {
-    name: "Rakesh Magar",
-    email: "thapa@gmail.com",
-    phone: "7002175147",
-  };
-
   return (
     <StyledSettingsContent>
       <div>
@@ -38,7 +31,7 @@ const SignInAndSecurity = () => {
         <Field
           keyNumber={3}
           title={"Phone Number"}
-          value={user?.mobileNumber}
+          value={user?.phone}
           change={true}
         />
         <Field keyNumber={4} title={"Change Password"} change={true} />
