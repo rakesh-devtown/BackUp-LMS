@@ -11,17 +11,17 @@ import useAuthStore from "./authStore";
 import loginUiStore from "./loginUi.store";
 
 const useResumeStore = create(
-  devtools((set, get) => ({
-    resumeId: null,
-    loading: false,
-    personalDetails: {},
-    education: [],
-    experience: [],
-    skills: [],
-    projects: [],
-    certifications: [],
-    socialLinks: {},
-    role: null,
+    devtools((set, get) => ({
+        resumeId:null,
+        role:null,
+        loading: false,
+        personalDetails:{},
+        education:[],
+        experience:[],
+        skills:[],
+        projects:[],
+        certifications:[],
+        socialLinks:{},
 
     resetResume: () => {
       set({
@@ -49,56 +49,48 @@ const useResumeStore = create(
           success,
         } = res;
 
-        if (success) {
-          const {
-            personalDetails,
-            education,
-            workExp,
-            Skills,
-            projects,
-            certifications,
-            socialLinks,
-            role,
-          } = resume;
-          set({
-            resumeId: resume.id,
-            personalDetails,
-            education,
-            skills: Skills,
-            projects,
-            certifications,
-            socialLinks,
-            role,
-            experience: workExp,
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    updatePersonalDetails: async (personalDetails) => {
-      try {
-        set({ loading: true });
-        const userId = useAuthStore.getState().user.id;
-        const res = await servicePost(
-          `student/student/v1/resume/personal-details/edit?id=${userId}`,
-          personalDetails
-        );
-        const {
-          data: { user },
-          message,
-          success,
-        } = res;
+                if(success){
+                    const { personalDetails, education, workExp, Skills, projects, certifications, socialLinks, role} = resume;
+                    //console.log(resume?.role);
+                    set({
+                        resumeId:resume.id,
+                        personalDetails,
+                        education,
+                        role:resume?.role,
+                        skills:Skills,
+                        projects,
+                        certifications,
+                        socialLinks,
+                        role,
+                        experience:workExp
+                    });
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        updatePersonalDetails: async(personalDetails) => {
+            try{
+                set({loading:true});
+                const userId = useAuthStore.getState().user.id;
+                const res = await servicePost(`student/student/v1/resume/personal-details/edit?id=${userId}`,personalDetails);
+                const {
+                    data: { user },
+                    message,
+                    success,
+                  } = res;
 
         if (success) {
           set({ personalDetails: personalDetails });

@@ -14,7 +14,7 @@ const SocialMediaCardSmall = () => {
         <StyledContainer>
             {socialLinks?.linkedIn && <a target="_blank" href={socialLinks?.linkedIn} className="linkedin" ><FaLinkedinIn /></a>}
             {socialLinks?.github && <a target="_blank" href={socialLinks?.github} className="github"><GithubOutlined /></a>}
-            {socialLinks?.leetcode && <a target="_blank" href={socialLinks?.leetcode} className="leetcode"><SiLeetcode /></a>}
+            {socialLinks?.leetCode && <a target="_blank" href={socialLinks?.leetcode} className="leetcode"><SiLeetcode /></a>}
             {socialLinks?.website && <a target="_blank" href={socialLinks?.website} className="www"><TbWorldWww /></a>}
             { socialLinks?.behance && <a target="_blank" href={socialLinks?.behance} className="behance"><BehanceOutlined /></a>}
             {socialLinks?.reddit && <a target="_blank" href={socialLinks?.reddit} className="reddit"><FaRedditAlien /></a>}
