@@ -2,6 +2,7 @@ import {
   GoogleOAuthProvider,
   GoogleLogin,
   useGoogleOneTapLogin,
+  useGoogleLogin
 } from "@react-oauth/google";
 import { useEffect } from "react";
 import jwt_decode from "jwt-decode";
@@ -19,19 +20,30 @@ export const GoogleAuthLogin = () => {
   const responseGoogle = (response) => {
     try {
       const userObject = jwt_decode(response.credential);
+      console.log("User Object:", userObject);
       localStorage.setItem("user", JSON.stringify(userObject));
     } catch (error) {
       console.error("Error decoding Google user data:", error);
     }
   };
 
+
+  const login = useGoogleLogin({
+    onSuccess: async (credentialResponse) => {
+      onSignInSuccess(credentialResponse);
+    },
+    onError: () => {
+      console.error("Login Failed");
+    },
+  });
+
   const onSignInSuccess = async (response) => {
     try {
       setLoading(true);
       responseGoogle(response);
-
+      console.log("Google Login Response:", response);
       const credential = response.credential;
-
+      console.log("Google Login Credential:", credential);
       await googleLogin(credential);
       setLoading(false);
       // dispatch(setLoadingFalse());
@@ -60,11 +72,11 @@ export const GoogleAuthLogin = () => {
   });
 
   useEffect(() => {
-    if (isGoogleAuthenticated) navigate("/programs");
+    if (isGoogleAuthenticated) navigate("/");
   }, [isGoogleAuthenticated, navigate]);
 
   return (
-    <GoogleLogin 
+    <GoogleLogin
       render={(renderProps) => (
         <button
           onClick={renderProps.onClick}
@@ -74,11 +86,12 @@ export const GoogleAuthLogin = () => {
           Sign in with Google
         </button>
       )}
-      width="100%"
+      width={10000}
       onSuccess={onSignInSuccess}
       onFailure={onSignInFailure}
       cookiePolicy="single_host_origin"
-      isS
+      shape="rectangular"
     />
+    
   );
 };

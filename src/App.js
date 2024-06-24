@@ -21,6 +21,7 @@ import Loader from "./components/loader/Loader";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LoaderOuterContainer } from "./styles/loader.styles";
 import { Helmet } from "react-helmet";
+import { VideoPlayerContext } from "./context/VideoPlayerContext";
 const { Header, Content, Sider } = Layout;
 //router
 const router = createBrowserRouter(routes);
@@ -48,13 +49,25 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 );
 
 const App = () => {
+
+  if ( window.location.origin === "https://www.learn.devtown.in") {
+    console.log = () => {}
+    console.error = () => {}
+    console.debug = () => {}
+  }
+
   const loadUser = useAuthStore((state) => state.loadUser);
   const loading = useLoadingStore((state) => state.loading);
   const setLoading = useLoadingStore((state) => state.setLoading);
+  //const navigate = useNavigate();
   const verifyAuthToken = async () => {
     try {
       setLoading(true);
-      await loadUser();
+      const success = await loadUser();
+      if(success)
+      {
+        
+      }
     } catch (error) {
     } finally {
       setLoading(false);
@@ -75,12 +88,12 @@ const App = () => {
         
         </Helmet>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-        {loading && (
-          <LoaderOuterContainer>
-            <Loader />
-          </LoaderOuterContainer>
-        )}
-        <RouterProvider router={router} />
+          {loading && (
+            <LoaderOuterContainer>
+              <Loader />
+            </LoaderOuterContainer>
+          )}
+          <RouterProvider router={router} />
       </GoogleOAuthProvider>
     </>
   );

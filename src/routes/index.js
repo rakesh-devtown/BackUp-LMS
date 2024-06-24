@@ -33,8 +33,10 @@ import HomeLayoutHeaderOnly from "../layout/HomeLayoutHeaderOnly.jsx";
 import ResetPassword from "../components/Forms/ResetPassword.jsx";
 import MyResume from "../pages/MyResume/MyResume.jsx";
 import MyCourses from "../pages/MyCourses/MyCourses.jsx";
-import LoginMainPage from "../pages/Auth/LoginMainPage.jsx"
+import LoginMainPage from "../pages/Auth/LoginMainPage.jsx";
 import OTPverify from "../components/Forms/OTPverification.jsx";
+import Module from "../pages/Module/Module.jsx";
+import Test from "./Test.jsx";
 export const routes = [
   {
     path: routeDefinitions.AUTH,
@@ -55,7 +57,7 @@ export const routes = [
       {
         path: routeDefinitions.VerifyOTP,
         element: <OTPverify />,
-      }
+      },
     ],
   },
   {
@@ -71,16 +73,16 @@ export const routes = [
         element: <MyCourses />,
       },
       {
-        path: routeDefinitions.Video,
-        element: <Video />,
-      },
-      {
         path: routeDefinitions.Certificate,
         element: <MyCertificate />,
       },
       {
         path: routeDefinitions.Profile,
         element: <MyResume />,
+      },
+      {
+        path: routeDefinitions.Module,
+        element: <Module />,
       },
       // {
       //   path: 'lms',
@@ -174,6 +176,10 @@ export const routes = [
       {
         path: routeDefinitions.Settings,
         element: <Settings />,
+      },
+      {
+        path: routeDefinitions.Video,
+        element: <Video />,
       },
     ],
   },

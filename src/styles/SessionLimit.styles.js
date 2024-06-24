@@ -1,14 +1,14 @@
-import styled from 'styled-components';
-import { Button } from 'antd';
+import styled from "styled-components";
+import { Button } from "antd";
 export const SessionLimitContainer = styled.div`
-height: 100vh;
-background-color: #fff;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-position: relative;
-padding: 5rem;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 5rem;
 `;
 
 export const BackButton = styled.button`
@@ -24,11 +24,11 @@ export const BackButton = styled.button`
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
 `;
 
 export const CardContainer = styled.div`
- width: fit-content;
+  width: fit-content;
   height: fit-content;
   background-color: #fff;
   text-align: center;
@@ -36,12 +36,12 @@ export const CardContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-   color: #012353;
+  color: #012353;
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 16px;
-  text-align:left;
-  font-family: 'Manrope', sans-serif;
+  text-align: left;
+  font-family: "Manrope", sans-serif;
 `;
 
 export const Description = styled.p`
@@ -49,7 +49,7 @@ export const Description = styled.p`
   color: #777;
   font-size: 1.25rem;
   font-weight: normal;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 `;
 
 export const ButtonContainer = styled.div`
@@ -59,26 +59,28 @@ export const ButtonContainer = styled.div`
   height: fit-content;
 `;
 
-export const Box=styled.div`
- height: 4rem;
+export const Box = styled.div`
+  height: 56px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem;
+  padding: 0 2rem;
   border: 1px solid #ccc;
   border-radius: 1rem;
   margin-bottom: 1rem;
   border-radius: 10px;
   display: flex;
   position: relative;
+  cursor: pointer;
   &:hover::after {
-    content: 'Logout';
+    content: "Logout";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    height: 56px;
     background-color: red;
     color: white;
     display: flex;
@@ -86,14 +88,12 @@ export const Box=styled.div`
     align-items: center;
     border-radius: 10px;
   }
-
 `;
-export const LoginTime=styled.p`
-`;
+export const LoginTime = styled.p``;
 export const ClearButton = styled.button`
-   padding: 6px 6px;
-   left:641px;
-   top:219px;
+  padding: 6px 6px;
+  left: 641px;
+  top: 219px;
   border: 1px solid #012353;
   border-radius: 4px;
   display: inline-flex;
@@ -102,12 +102,12 @@ export const ClearButton = styled.button`
   font-size: 14px;
   font-weight: 600;
   line-height: 1.25rem;
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
   line-height: 2;
 `;
-export const ClearAllButton=styled.button`
- width: 100%;
-  
+export const ClearAllButton = styled.button`
+  width: 100%;
+
   padding: 0.75rem 51px;
   left: 77px;
   top: 390px;
@@ -121,38 +121,34 @@ export const ClearAllButton=styled.button`
   color: #fff;
   font-size: 1.5rem;
   font-weight: 700;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   line-height: 2rem;
   border: none;
   cursor: pointer;
 `;
 
 export const StyledButton = styled.button`
-position: absolute;
-top: 20px;
-left: 20px;
-padding: 10px 15px;
-border: 1px solid #012353;
-border-radius: 4px;
-display: inline-flex;
-gap: 5px;
-color: black;
-font-size: 10px;
-font-weight: 600;
-line-height: 1.4;
-font-family: 'Manrope', sans-serif;
-display: flex;
-align-items: center;
-cursor: pointer;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 15px;
+  border: 1px solid #012353;
+  border-radius: 4px;
+  display: inline-flex;
+  gap: 5px;
+  color: black;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+  font-family: "Manrope", sans-serif;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
-
-
-
 
 export const StyledBoxSessionLimit = styled.div`
   border-radius: 10px;
   display: flex;
-  
 `;
 
 export const StyledDivOss = styled.div`
@@ -186,7 +182,6 @@ export const SessionLimitContainers = styled.div`
   gap: 12px;
   justify-content: space-between;
   align-items: center;
-
 `;
 
 export const OsColor = styled.div`

@@ -24,11 +24,10 @@ const FormContainer = styled.div`
   width: 100%;
   margin-top: auto;
   margin-bottom: auto;
-  label{
+  label {
     color: #081735 !important;
     font-size: 16px !important;
   }
-  
 `;
 
 const Image = styled.img`
@@ -47,12 +46,16 @@ const Title = styled.h2`
 export default function ForgetPass({ toggleSignUp, nextPage }) {
   const navigate = useNavigate();
   const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
-  const setCurrentUserEmail = loginUiStore((state) => state.setCurrentUserEmail);
+  const setCurrentUserEmail = loginUiStore(
+    (state) => state.setCurrentUserEmail
+  );
   const { forgotPassword } = useAuthStore();
 
-  const onFinish = (values) => {
+  const onFinish = async(values) => {
     const { email } = values;
-    if (forgotPassword(values)) {
+    const response = await forgotPassword(email);
+    //console.log(response);
+    if (response) {
       setCurrentUserEmail(email);
       setCurrentPage("otp");
     }
@@ -73,14 +76,18 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
         >
           Don't Worry! We can help.
         </h3>
-        <Form onFinish={onFinish}
-          requiredMark="optional"
-          layout="vertical"
-        >
+        <Form onFinish={onFinish} requiredMark="optional" layout="vertical">
           <Form.Item
             label="Email Address"
             name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Please input your email!",
+              },
+            ]}
+            normalize={(value) => value.trim()}
           >
             {/* <StyledLabel>
               Email Address
@@ -95,10 +102,7 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
           </Form.Item>
 
           <Form.Item>
-            <StyledButton
-              type="primary"
-              htmlType="submit"
-            >
+            <StyledButton type="primary" htmlType="submit">
               Continue
             </StyledButton>
           </Form.Item>
@@ -113,7 +117,7 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
             <p>Remembered your password ? </p>
             <BlueText
               onClick={() => {
-                toggleSignUp()
+                toggleSignUp();
               }}
             >
               Back to login

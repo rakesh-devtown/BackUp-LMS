@@ -62,13 +62,13 @@ const LayoutActions = styled.p`
   justify-content: center;
 `;
 const LayoutFullScreenContent = styled(Content)`
-display: flex;
-flex-direction: column;
-margin: 0;
-min-height: 280px;
-padding: 20px;
-width: 100%;
-overflow: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 280px;
+  padding: 20px;
+  width: 100%;
+  overflow: auto;
 
   ${(props) =>
     (props.location.pathname === "/message" ||
@@ -89,11 +89,10 @@ export const LayoutOuterContainer = styled.div`
   top: 100px;
   width: 70%;
   z-index: 0;
-  background-color: #F4F7FE;
+  background-color: #f4f7fe;
   @media (max-width: 991px) {
     width: 95%;
   }
-  
 `;
 
 export {
@@ -107,19 +106,56 @@ export {
   LayoutFullScreenContent,
 };
 
-
 //header styled component
 
 export const StyledHeader = styled(Header)`
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        background-color: #F4F7FE;
-        padding: ${props => props.width >= 768 ? "20px 24px" : "20px 12px"};
-        /* margin-bottom: 16px; */
-        height: unset;
-        z-index: 10;
-` 
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #f4f7fe;
+  padding: ${(props) => (props.width >= 768 ? "20px 24px" : "20px 12px")};
+  /* margin-bottom: 16px; */
+  height: unset;
+  z-index: 10;
+`;
+
+export const StyledContainer = styled.section`
+  padding: ${(props) => (props.width >= 768 ? "24px" : "16px")};
+  font-family: "DM Sans";
+  font-style: normal;
+  line-height: normal;
+  border-radius: 16px;
+  border: 1px solid #d2e0ff;
+  background-color: white;
+  /* min-height: calc(100vh - 160px); */
+  padding-bottom: 50px;
+`;
+
+export const FullContentLayout = styled(Content)`
+  padding: ${(props) => (props.width >= 768 ? "16px 20px" : "16px 12px")};
+  background-color: transparent;
+  /* .ant-layout-sider-children {
+    height: unset;
+    padding: ${(props) => (props.width >= 992 ? "0 0 100px 0" : "0")};
+  }
+
+  .shaded-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 50;
+    height: 100vh;
+    width: 100%;
+    background: rgb(0, 0, 0, 0.6);
+  } */
+`;
+
+export const MainContentLayout = styled(Content)`
+  border-radius: 16px;
+  border: 1px solid #e9eaf0;
+  background: var(--Color-White-100, #fff);
+  padding: 20px;
+`;

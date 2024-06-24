@@ -5,6 +5,8 @@ import { deleteHeader, setHeader } from "../utils/header";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { devtools } from "zustand/middleware";
 import { useNavigate } from "react-router-dom";
+import loginUiStore from "./loginUi.store";
+import useBatchStore from "./batchStore";
 
 const useAuthStore = create(
   devtools((set) => ({
@@ -14,6 +16,7 @@ const useAuthStore = create(
     isGoogleAuthenticated: false,
     user: null,
     isReady: false,
+    isTokenValid: false,
     screenLimitReached: false,
     load: false,
 
@@ -25,6 +28,25 @@ const useAuthStore = create(
         isAuthenticated: true,
         isGoogleAuthenticated: true,
       });
+    },
+
+    setProfileImage: async (file,user) => {
+      try{
+        const response = await servicePost(`student/student/v1/me/update-photo?uId=${user.id}`, 
+          {
+            profilePic: file
+          },);
+          set({
+            user: {
+              ...user,
+              profilePic: file
+            }
+          })
+        notification.success({ message: "Success", description: "Profile Picture Updated" });
+      }catch(err)
+      {
+        notification.error({ message: "Error", description: err.message });
+      }
     },
 
     login: async (values) => {
@@ -55,7 +77,7 @@ const useAuthStore = create(
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken);
           setHeader("signature", visitorId);
-          setHeader("auth", `bearer ${token}`);
+          setHeader("Authorization", `bearer ${token}`);
           useAuthStore.getState().reset(token, chatToken, user);
           set({
             token,
@@ -63,14 +85,14 @@ const useAuthStore = create(
             user,
             isAuthenticated: true,
             isGoogleAuthenticated: false,
-
           })
+          await useBatchStore.getState().getAllEnrolledCourses(true);
         } else {
 
           notification.error({ message: "Login Error", description: message });
           if (message === "Too many active sessions") {
             localStorage.setItem("token", token);
-            setHeader("auth", `bearer ${token}`);
+            setHeader("Authorization", `bearer ${token}`);
             set({
               token,
               chatToken,
@@ -88,7 +110,7 @@ const useAuthStore = create(
           }
         }
       } catch (error) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         notification.error({
           message: "Login Error",
           description: "An error occurred during login",
@@ -122,12 +144,13 @@ const useAuthStore = create(
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken);
           setHeader("signature", visitorId);
-          setHeader("auth", `bearer ${token}`);
+          setHeader("Authorization", `bearer ${token}`);
           set({ token, chatToken, user, isGoogleAuthenticated: true, isAuthenticated: true });
+          await useBatchStore.getState().getAllEnrolledCourses(true);
         } else {
           // message.error(message, { duration: 4000 });
           if (message === "Too many active sessions") {
-            setHeader("auth", `bearer ${token}`);
+            setHeader("Authorization", `bearer ${token}`);
             set({
               token,
               chatToken,
@@ -135,7 +158,7 @@ const useAuthStore = create(
               isAuthenticated: false,
               screenLimitReached: true,
             });
-
+            
           } else {
             set({
               token: null,
@@ -146,7 +169,7 @@ const useAuthStore = create(
           }
         }
       } catch (error) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
 
       }
     },
@@ -155,7 +178,7 @@ const useAuthStore = create(
         const tokenn = localStorage.getItem("token");
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
-        // TODO: Change verify magic link to verify auth token url
+        // TODO: Change verify magic link to verify Authorization token url
         if (tokenn === null) {
           return false;
         }
@@ -167,7 +190,7 @@ const useAuthStore = create(
           `auth/auth/v1/verify-auth-token?token=${tokenn}&signature=${visitorId}&platform=${components.platform.value}`
         );
         if (success) {
-          setHeader("auth", `bearer ${token}`);
+          setHeader("Authorization", `bearer ${token}`);
           setHeader("signature", visitorId);
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken)
@@ -177,15 +200,19 @@ const useAuthStore = create(
             user,
             isAuthenticated: true,
             isGoogleAuthenticated: true,
+            isTokenValid: true,
           });
+
+          //console.log("token is verified");
+          await useBatchStore.getState().getAllEnrolledCourses(true);
           return success;
 
         } else {
-          deleteHeader("auth");
+          deleteHeader("Authorization");
           notification.error({ message: "Login Error", description: message });
           if (message === "Too many active sessions") {
             localStorage.setItem("token", token);
-            setHeader("auth", `bearer ${token}`);
+            setHeader("Authorization", `bearer ${token}`);
             set({
               token: '',
               chatToken,
@@ -195,7 +222,7 @@ const useAuthStore = create(
             });
           } else {
             localStorage.removeItem("token");
-            deleteHeader("auth");
+            deleteHeader("Authorization");
             set({
               token: null,
               chatToken: null,
@@ -206,7 +233,7 @@ const useAuthStore = create(
 
         }
       } catch (error) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         set({
           token: null,
           chatToken: null,
@@ -220,9 +247,10 @@ const useAuthStore = create(
     loadUser: async () => {
       try {
         const tokenn = localStorage.getItem("token");
+        console.log(tokenn)
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
-        // TODO: Change verify magic link to verify auth token url
+        // TODO: Change verify magic link to verify Authorization token url
         if (tokenn === null) {
           return false;
         }
@@ -233,11 +261,15 @@ const useAuthStore = create(
         } = await serviceGet(
           `auth/auth/v1/verify-auth?token=${tokenn}&signature=${visitorId}&platform=${components.platform.value}`
         );
+
+        console.log("Token is Verified")
+        console.log(success)
         if (success) {
-          setHeader("auth", `bearer ${token}`);
+          setHeader("Authorization", `bearer ${token}`);
           setHeader("signature", visitorId);
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken)
+          console.log("Token is Verified")
           set({
             token,
             chatToken,
@@ -245,14 +277,16 @@ const useAuthStore = create(
             isAuthenticated: true,
             isGoogleAuthenticated: true,
           });
-          return success;
+          
+          //await useBatchStore.getState().getAllEnrolledCourses(true);
+          set({isTokenValid:true})
 
         } else {
-          deleteHeader("auth");
+          deleteHeader("Authorization");
           notification.error({ message: "Login Error", description: message });
           if (message === "Too many active sessions") {
             localStorage.setItem("token", token);
-            setHeader("auth", `bearer ${token}`);
+            setHeader("Authorization", `bearer ${token}`);
             set({
               token: '',
               chatToken,
@@ -262,7 +296,7 @@ const useAuthStore = create(
             });
           } else {
             localStorage.removeItem("token");
-            deleteHeader("auth");
+            deleteHeader("Authorization");
             set({
               token: null,
               chatToken: null,
@@ -273,7 +307,7 @@ const useAuthStore = create(
 
         }
       } catch (error) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         set({
           token: null,
           chatToken: null,
@@ -293,16 +327,18 @@ const useAuthStore = create(
         );
 
         localStorage.removeItem("token");
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         set({
           token: null,
           chatToken: null,
           user: null,
           isAuthenticated: false,
           isGoogleAuthenticated: false,
+          screenLimitReached: false,
+          isTokenValid: false,
         });
       } catch (err) {
-        deleteHeader("auth");
+        deleteHeader("Authorization");
         set({
           token: null,
           chatToken: null,
@@ -321,33 +357,28 @@ const useAuthStore = create(
         isAuthenticated: true,
       });
     },
-    async forgotPassword(values) {
+    async forgotPassword(value) {
       try {
 
         const res = await servicePost(
           "auth/auth/v1/forgot-password",
-          { ...values, callbackUrl: "https://www.student-platform.devtown.in" }
+          { email: value}
         );
         const { success, message } = res;
         notification.success({ message: "Success", description: message });
         return true;
-
-        if (success != false) {
-          notification.success({ message: "Success", description: message });
-        } else {
-          notification.error({ message: "Error", description: message });
-        }
       } catch (error) {
         notification.error({ message: "Error", description: error.message });
+        return false;
       }
     },
 
-    async otpVerify(otp) {
+    async otpVerify(otp,email) {
       try {
 
         const res = await servicePost(
           "auth/auth/v1/verify-otp",
-          { otp }
+          { otp, email }
         );
         const { success, message, data } = res;
 
@@ -366,33 +397,38 @@ const useAuthStore = create(
     },
 
     //reset password code
-    async resetPassword(values, token) {
-      if (token != null) {
+    async resetPassword(password) {
         try {
+
+          const otp = loginUiStore?.getState().currentOtp;
+          const email = loginUiStore?.getState().currentUserEmail;
+          console.log(otp, email);
+
           const res = await servicePost(
-            `auth/auth/v1/reset-password?token=${token}`,
-            { password: values }
+            `auth/auth/v1/reset-password?otp=${otp}&email=${email}`,
+            { password: password }
           );
           const { success, message } = res;
           if (success) {
-            return notification.success({
+            notification.success({
               message: "Success",
               description: message,
             });
+            return true;
           } else {
             const [err] = res.data.errors;
-            return err.param === "token"
+            err.param === "token"
               ? notification.error({
                 message: "Error",
-                description:
-                  "Your invite has expired !! Reset password via Forget Password link",
+                description: message,
               })
-              : notification.error({ message: "Error", description: "Error" });
+              : notification.error({ message: "Error", description: message });
+              return false;
           }
         } catch (error) {
           notification.error({ message: "Error", description: error.message });
+          return false;
         }
-      }
     },
     async verifyMagicLink({ token, setIsDataLoaded }) {
       const VerificationToken = token;
@@ -415,14 +451,16 @@ const useAuthStore = create(
           localStorage.setItem('token', token);
           setHeader('signature', visitorId);
           // Set the header
-          setHeader('auth', `bearer ${token}`);
+          setHeader('Authorization', `bearer ${token}`);
           set({
             token,
             chatToken,
             user,
             isAuthenticated: true,
             isGoogleAuthenticated: true,
+            isTokenValid: true
           });
+          await useBatchStore.getState().getAllEnrolledCourses(true);
           return {
             token,
             chatToken,
@@ -437,7 +475,7 @@ const useAuthStore = create(
         if (message === 'Too many active sessions') {
           localStorage.setItem('token', token);
 
-          setHeader('auth', `bearer ${token}`);
+          setHeader('Authorization', `bearer ${token}`);
           return {
             token,
             chatToken,
@@ -454,7 +492,7 @@ const useAuthStore = create(
           isAuthenticated: false
         };
       } catch (error) {
-        deleteHeader('auth');
+        deleteHeader('Authorization');
         deleteHeader();
         return {
           token: null,

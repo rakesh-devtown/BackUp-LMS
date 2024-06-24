@@ -14,18 +14,29 @@ import loginUiStore from "../../store/loginUi.store";
 export default function ResetPassword({ handleNext }) {
   const navigate = useNavigate();
   // const { token } = useParams();
+  const [loading, setLoading] = useState(false);
   const { resetPassword } = useAuthStore();
 
   const handleSubmit = async (values) => {
+   try{
+    if(loading)return;
+    setLoading(true);
     if (values.password === values.confirmPassword) {
       const token = localStorage.getItem('token');
-      resetPassword(values.password, token);
-      navigate("/");
+      const res = await resetPassword(values.password, token);
+      if (res) {
+        navigate("/");
+      }
     } else {
       notification.error({
         message: "Password Mismatch",
       })
     }
+   }catch(err){
+      console.log(err)
+   }finally{
+    setLoading(false);
+   }
   };
 
   return (
@@ -64,7 +75,7 @@ export default function ResetPassword({ handleNext }) {
             />
           </Form.Item>
           <Form.Item>
-            <StyledButton type="primary" htmlType="submit" children="reset">
+            <StyledButton loading={loading} disabled={loading} type="primary" htmlType="submit" children="reset">
               Reset Password
             </StyledButton>
           </Form.Item>

@@ -87,7 +87,7 @@ export default function Login() {
   useEffect(() => {
     if (isAuthenticated || isGoogleAuthenticated) {
       // Check if either isAuthenticated or isGoogleAuthenticated is true
-      navigate("/");
+      navigate("/courses");
     }
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
 
@@ -150,7 +150,7 @@ export default function Login() {
                       src="https://img.icons8.com/ios/50/000000/fantasy.png"
                       alt="maginc Link icons"
                     />
-                    <p style={{ color: "#6B7280" }}>Sign In with Magic Link </p>
+                    <p>Sign In with Magic Link </p>
                   </LoginLink>
                 </LoginContainer>
                 <FlexContainer>
@@ -170,6 +170,7 @@ export default function Login() {
                         message: "Please enter your email!",
                       },
                     ]}
+                    normalize={(value) => value.trim()}
                   >
                     {/* <StyledLabel>Email Address</StyledLabel> */}
                     <InputUsername placeholder="examplemail@gmail.com" />
@@ -190,10 +191,7 @@ export default function Login() {
                     ]}
                   >
                     {/* <StyledLabel>Password</StyledLabel> */}
-                    <StyledPassword
-                      placeholder="Min. 8 characters"
-                      type="password"
-                    />
+                    <StyledPassword placeholder="password" type="password" />
                   </Form.Item>
                 </Space>
 
@@ -243,7 +241,7 @@ export default function Login() {
             ) : currentLeftPage === "sessionlimit" ? (
               <ActiveSession />
             ) : (
-              <h1>Hello </h1>
+              <h1>Something Went Wrong</h1>
             )}
           </StyledLoginForm>
 

@@ -75,11 +75,17 @@ function GenerateMagicLink() {
                   autoComplete="email"
                   required
                   placeholder="Email address"
+                  size="large"
                 />
               </div>
             </MagicLinkFormInnerContainer>
             <MagicLinkSubmitButtonContainer>
-              <Button style={{width:"100%"}} type="primary" onClick={handleSubmit}>
+              <Button
+                style={{ width: "100%" }}
+                type="primary"
+                size="large"
+                onClick={handleSubmit}
+              >
                 Send Magic Link
               </Button>
             </MagicLinkSubmitButtonContainer>

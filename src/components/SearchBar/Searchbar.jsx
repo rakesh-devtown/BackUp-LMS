@@ -16,10 +16,13 @@ const SearchBar = ({ collapsed }) => {
     setName(value);
   };
   const location = useLocation();
-  useEffect(() => {}, [name]);
+  // useEffect(() => {
+  //   console.log(name);
+  // }, [name]);
+  // console.log(location.pathname);
   return (
     <>
-      {location.pathname === "/programs" && (
+      {location.pathname === "/courses" && (
         <CourseSearch
           placeholder="Search Course"
           onChange={onHandleUserInput}

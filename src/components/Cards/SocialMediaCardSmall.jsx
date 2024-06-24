@@ -4,17 +4,21 @@ import { FaMedium } from "react-icons/fa6";
 import { SiLeetcode } from "react-icons/si";
 import { TbWorldWww } from "react-icons/tb";
 import { BehanceOutlined, GithubOutlined } from "@ant-design/icons";
+import useResumeStore from "../../store/resumeStore";
 
 const SocialMediaCardSmall = () => {
+
+    const socialLinks = useResumeStore(state => state.socialLinks);
+
     return (
         <StyledContainer>
-            <i className="linkedin" ><FaLinkedinIn /></i>
-            <i className="github"><GithubOutlined /></i>
-            <i className="leetcode"><SiLeetcode /></i>
-            <i className="www"><TbWorldWww /></i>
-            <i className="behance"><BehanceOutlined /></i>
-            <i className="reddit"><FaRedditAlien /></i>
-            <i className="medium"><FaMedium /></i>
+            {socialLinks?.linkedIn && <a target="_blank" href={socialLinks?.linkedIn} className="linkedin" ><FaLinkedinIn /></a>}
+            {socialLinks?.github && <a target="_blank" href={socialLinks?.github} className="github"><GithubOutlined /></a>}
+            {socialLinks?.leetcode && <a target="_blank" href={socialLinks?.leetcode} className="leetcode"><SiLeetcode /></a>}
+            {socialLinks?.website && <a target="_blank" href={socialLinks?.website} className="www"><TbWorldWww /></a>}
+            { socialLinks?.behance && <a target="_blank" href={socialLinks?.behance} className="behance"><BehanceOutlined /></a>}
+            {socialLinks?.reddit && <a target="_blank" href={socialLinks?.reddit} className="reddit"><FaRedditAlien /></a>}
+            {socialLinks?.medium && <a target="_blank" href={socialLinks?.medium} className="medium"><FaMedium /></a>}
 
         </StyledContainer>
     )
@@ -24,7 +28,7 @@ const StyledContainer = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
-    i{
+    a{
         display: grid;
         place-items: center;
         color: white;

@@ -1,16 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Typography, notification } from "antd";
-import {
-  FormOutlined,
-  GithubOutlined,
-  LinkedinOutlined,
-  EditOutlined,
-  PlusOutlined,
-  LinkOutlined,
-} from "@ant-design/icons";
-import { formatDate } from "../../components/courses/CourseOverview";
-import Dot from "../../assets/images/Ellipse.svg";
 
 
 import useAuthStore from "../../store/authStore";

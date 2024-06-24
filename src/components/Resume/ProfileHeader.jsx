@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
-import { Button, Progress, Space } from "antd";
+import { Button, Progress, Space, notification } from "antd";
 import SocialMediaCardSmall from "../Cards/SocialMediaCardSmall";
 import useWindowSize from "../../hooks/useWindowSize";
 import userPic from "../../assets/images/profilePic.jpg";
@@ -9,14 +9,18 @@ import ShareModal from "../Modals/ShareModal/ShareModal";
 import { CameraOutlined, PlusOutlined } from "@ant-design/icons";
 import ResumeModals from "../Modals/ResumeModals";
 import useAuthStore from "../../store/authStore";
+import { serviceGet } from "../../utils/api";
+import axios from "axios";
+import useResumeStore from "../../store/resumeStore";
 
 const ProfileHeader = () => {
-
   const [shareModal, setShareModal] = useState(false);
+  const personalDetails = useResumeStore((state) => state.personalDetails);
+  const inputFile = useRef(null);
   const [addSocialMedia, setAddSocialMedia] = useState(false);
   const { width } = useWindowSize();
   const user = useAuthStore((state) => state.user);
-
+  const setProfileImage = useAuthStore((state) => state.setProfileImage);
 
   const handleShareModal = () => setShareModal(!shareModal);
   const handleAddSocialMedia = () => setAddSocialMedia(!addSocialMedia);
@@ -27,6 +31,44 @@ const ProfileHeader = () => {
     marginTop: "4px",
   };
 
+  const onFileUploadClick = () => {
+    inputFile.current.click();
+  };
+
+  const handleFileChange = async (event) => {
+    try {
+      const file = event.target.files[0];
+      if (
+        file.type !== "image/png" &&
+        file.type !== "image/jpeg" &&
+        file.type !== "image/jpg"
+      ) {
+        return notification.error({
+          message: "Error",
+          description: "Please select valid Image",
+        });
+      }
+      const extension = file.type.split("/")[1];
+      const { data } = await serviceGet(
+        `student/student/v1/me/url?type=.${extension}&path=/profile-pictures`
+      );
+      const url = data.url;
+      const key = url.split("?")[0];
+      console.log(key);
+      const res = await fetch(url, {
+        method: "PUT",
+        body: file,
+        headers: {
+          "Content-Type": file.type,
+        },
+      });
+      if (res.ok) {
+        setProfileImage(key, user);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Profile width={width}>
       {addSocialMedia && (
@@ -42,45 +84,64 @@ const ProfileHeader = () => {
       />
 
       <div className="profile-top">
-        <ProfilePic userPic={userPic}>
-          <Progress
-            type="circle"
-            percent={75}
-            showInfo={false}
-            strokeColor="#05B260"
-          ></Progress>
-          <div className="upload">
-            <CameraOutlined style={cameraIcon} />
-          </div>
+        <ProfilePic userPic={user?.profilePic || userPic}>
+          <button
+            onClick={onFileUploadClick}
+            style={{
+              zIndex: 999,
+              backgroundColor: "transparent",
+              border: 0,
+              width: "100%",
+              height: "100%",
+              cursor: "pointer",
+            }}
+          >
+            <Progress
+              type="circle"
+              percent={75}
+              showInfo={false}
+              strokeColor="#05B260"
+            ></Progress>
+            <div className="upload">
+              <CameraOutlined style={cameraIcon} />
+            </div>
+            <input
+              ref={inputFile}
+              onChange={handleFileChange}
+              type="file"
+              style={{ display: "none" }}
+            />
+          </button>
         </ProfilePic>
-
         {/* for responsiveness showing in mobile */}
         <div className="hide-in-lptp">
           <Space className="name" size={15}>
             {user?.name}
-            <img
+            {/* share profile button mobile view*/}
+            {/* <img
               src={shareIcon}
               alt="icon"
               className="share-icon"
               onClick={handleShareModal}
-            />
+            /> */}
           </Space>
-          <div className="field"> UX Designer</div>
+          <div className="field">{personalDetails?.role}</div>
         </div>
       </div>
-      <Space direction="vertical">
+      <Space direction="vertical profile-content">
         <div className="hide-in-mobile">
           <div className="name-card">
             <Space className="name" size={15}>
-            {user?.name}
-              <img
+              {user?.name}
+              {/* share profile button laptop view*/}
+              {/* <img
                 src={shareIcon}
                 alt="icon"
                 className="share-icon"
                 onClick={handleShareModal}
-              />
+              /> */}
             </Space>
-            <StyledMediaCard>
+            <StyledMediaCard socialLink={personalDetails?.socialLink}>
               {/* social media link of the user */}
               <SocialMediaCardSmall />
               <Button shape="circle" onClick={handleAddSocialMedia}>
@@ -88,16 +149,11 @@ const ProfileHeader = () => {
               </Button>
             </StyledMediaCard>
           </div>
-          <div className="field"> UX Designer</div>
+          <div className="field">{personalDetails?.role}</div>
         </div>
-        <div className="text">
-          Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo.
-        </div>
+        <div className="text">{personalDetails?.aboutMe}</div>
         <div className="hide-in-lptp card-bottom">
-          <StyledMediaCard>
+          <StyledMediaCard socialLink={personalDetails?.socialLink}>
             <SocialMediaCardSmall />
             <Button shape="circle" onClick={handleAddSocialMedia}>
               <PlusOutlined />
@@ -115,6 +171,9 @@ const Profile = styled.div`
   align-items: center;
   align-self: stretch;
   flex-direction: ${(props) => (props.width >= 768 ? "row" : "column")};
+  .profile-content {
+    flex-grow: 1;
+  }
   .hide-in-lptp {
     display: ${(props) => (props.width >= 768 ? "none" : null)};
   }
@@ -129,6 +188,7 @@ const Profile = styled.div`
   }
   .name {
     font-family: Inter;
+    text-transform: capitalize;
     font-size: 36px;
     font-weight: 700;
     background: linear-gradient(90deg, #0a5be0 0%, #ff4e72 104.46%);
@@ -163,7 +223,7 @@ const Profile = styled.div`
 
 const StyledMediaCard = styled(Space)`
   .ant-btn {
-    display: none;
+    display: ${(props) => (props.socialLink ? "none" : null)};
     color: #0859de;
     transition: all 0.3s;
     &:hover {
@@ -188,6 +248,7 @@ const ProfilePic = styled.div`
   overflow: hidden;
   height: 120px;
   width: 120px;
+  flex-shrink: 0;
   cursor: pointer;
   .ant-progress {
     position: relative;

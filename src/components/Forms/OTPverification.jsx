@@ -11,10 +11,12 @@ import loginUiStore from "../../store/loginUi.store";
 
 const OTPverify = ({ handleBack, handleNext }) => {
     const currentUserEmail = loginUiStore((state) => state.currentUserEmail);
+    const setOtp = loginUiStore((state) => state.setOtp);
     const { otpVerify } = useAuthStore();
     const [otpValid, setOtpValid] = useState(false);
     const [timer, setTimer] = useState(60)
-
+    const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
+    const { forgotPassword } = useAuthStore();
 
     // #region The Uncontrolled Logic
     const [form] = Form.useForm();
@@ -49,10 +51,23 @@ const OTPverify = ({ handleBack, handleNext }) => {
             ]);
         }
        
-        if (await otpVerify(otp)) {
+        if (await otpVerify(otp,currentUserEmail)) {
+             setOtp(otp);
              handleNext()
         }
     };
+
+    const resendOTP=async()=>{
+        if(timer === 0){
+            const response = await forgotPassword(currentUserEmail);
+            if(response){
+                setTimer(60)
+            }else
+            {
+                setCurrentPage("forget-password")
+            }
+        }
+    }
 
     useEffect(() => {
         //timer to resend code
@@ -90,7 +105,7 @@ const OTPverify = ({ handleBack, handleNext }) => {
                     fontWeight: "800",
 
                 }}>
-                    {currentUserEmail} <EditFilled />
+                    {currentUserEmail} <EditFilled onClick={() => setCurrentPage("forget-password")}/>
                 </span>
             </p>
             <BlueText
@@ -117,7 +132,7 @@ const OTPverify = ({ handleBack, handleNext }) => {
                         justifyContent: "center",
                         gap: "5px",
                     }} >
-                        I didn't recieve any code! <BlueText>Resend</BlueText>
+                        I didn't recieve any code! <BlueText  style={{opacity:timer > 0 ? 0.6 : 1, pointerEvents : timer > 0 ? 'none' : 'auto'}} onClick={resendOTP}>Resend</BlueText>
                     </p>
                 </Form.Item>
                 <Form.Item noStyle>

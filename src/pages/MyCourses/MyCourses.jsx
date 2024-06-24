@@ -1,32 +1,44 @@
 import styled from "styled-components";
 import MyCoursesCard from "../../components/Cards/MyCoursesCard";
 import useWindowSize from "../../hooks/useWindowSize";
+import { StyledContainer } from "../../styles/layout.styles";
+import useBatchStore from "../../store/batchStore";
+import Spinner from "../../components/loader/Spinner";
+import { useEffect } from "react";
 
 const MyCourses = () => {
   const { width } = useWindowSize();
+  const courseLoading = useBatchStore((state) => state.courseLoading);
+  const enrolledCourses = useBatchStore((state) => state.enrolledCourses);
+  const {getAllEnrolledCourses} = useBatchStore();
+
+  useEffect(() => {
+    getAllEnrolledCourses();
+  },[])
 
   return (
-    <StyledContainer width={width}>
+    <StyledContainerVariant width={width}>
+      {courseLoading && <Spinner large />}
       <h4>Enrolled Courses</h4>
       <div className="list">
-        <MyCoursesCard />
-        <MyCoursesCard />
+        {enrolledCourses &&
+          enrolledCourses.map((course) => (
+          <MyCoursesCard key={course.id} enroll={course} />
+        ))}
+
+        {enrolledCourses && enrolledCourses.length === 0 && 
+          <h4>No Enrolled Courses</h4>
+        }
       </div>
-    </StyledContainer>
+    </StyledContainerVariant>
   );
 };
 
-const StyledContainer = styled.section`
-  padding: ${(props) => (props.width >= 768 ? "24px" : "16px")};
-  font-family: "DM Sans";
-  font-style: normal;
-  line-height: normal;
-  border-radius: 8px;
-  border: 1px solid #d2e0ff;
-  background-color: white;
+const StyledContainerVariant = styled(StyledContainer)`
   h4 {
     color: var(--darkColor1);
-    font-size: 22px;
+    font-size: 26px;
+    position:'relative';
     font-weight: 500;
     margin-bottom: 26px;
   }

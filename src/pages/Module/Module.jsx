@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button, FloatButton, Layout, Tree, theme } from "antd";
+import { Button, FloatButton, Layout, Tree, notification, theme } from "antd";
 import {
   ArrowLeftOutlined,
   ArrowUpOutlined,
@@ -13,25 +13,28 @@ import {
 import useWindowSize from "../../hooks/useWindowSize";
 import RightSiderMenu from "../../components/RightSiderMenu/RightSiderMenu";
 import FolderDetailsCard from "../../components/Cards/video/FolderDetailsCard";
-import CousreProgress from "../../components/Cards/module/CousreProgress";
-import { treeData } from "./mockData";
+import CousreProgress from "../../components/Cards/module/CourseProgress";
+import useBatchStore from "../../store/batchStore";
+import ModuleCardHeader from "../../components/ModuleTree2/ModuleCardHeader";
+import TopicCard from "../../components/ModuleTree2/TopicCard";
+import Spinner from "../../components/loader/Spinner";
+import ModuleChapter from "../../components/Module/ModuleChapter";
 
 const Module = () => {
-  const [selectedKey, setSelectedKey] = useState([]);
   const { width } = useWindowSize();
+  const navigate = useNavigate();
+  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+  const courseLoading = useBatchStore((state) => state.courseLoading);
+  const {getCurrentSectionDetails , getModuleOfEnrolledCourse} = useBatchStore();
+  const selectedEnrollIdOfCourse = useBatchStore((state) => state.selectedEnrollIdOfCourse);
   const { Content, Sider } = Layout;
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
-  //function for tree nodes
-  const onSelect = (selectedKeys, info) => {
-    console.log("selected", selectedKeys, info);
-    setSelectedKey(selectedKeys);
-  };
-  const onCheck = (checkedKeys, info) => {
-    console.log("onCheck", checkedKeys, info);
-  };
+  const chapterNameArray = [
+    "FrontEnd Development",
+    "BackendDevelopment",
+    "DSA",
+    "others",
+  ];
 
   const mySiderStyle = {
     background: "transparent",
@@ -44,18 +47,62 @@ const Module = () => {
     scrollbarWidth: "none",
   };
 
-  const rightSidebarWidth = width >= 992 ? "60px" : "0";
+  // const rightSidebarWidth = width >= 992 ? "60px" : "0";
+  const rightSidebarWidth = 0;
+
+  const startLearningFromFirstModule = async () => {
+    try {
+      console.log("currentCourseDetails",currentCourseDetails)
+      if(currentCourseDetails?.sections?.length === 0){
+        notification.error({message:"No Module Found",description:"No module found to start learning"})
+        return;
+      }
+      console.log(currentCourseDetails?.sections[0]?.subsections?.length)
+      if(currentCourseDetails?.sections[0]?.subsections?.length > 0)
+      {
+          await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.subsections[0]?.id)
+      }
+      else if(currentCourseDetails?.sections?.length > 0){
+        await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.id)
+      }else{
+        notification.error({message:"No Module Found",description:"No module found to start learning"})
+      }
+      
+      navigate("/video");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const getEnrollCourses= async () => {
+    try{
+      await getModuleOfEnrolledCourse(selectedEnrollIdOfCourse)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+
+  useEffect(() => {
+    if(selectedEnrollIdOfCourse){
+        getEnrollCourses();
+    }else{
+      navigate("/");
+    }
+  },[])
 
   return (
     <Layout>
       <Helmet>
-        <title>Module</title>
+        <title>DevTown - Module</title>
         <meta name="settings" content="settings" />
         <link rel="canonical" href="https://www.learn.devtown.in/setting" />
       </Helmet>
       <Content style={{ background: "#F4F7FE" }}>
         <MainContainer width={width} rightSidebarWidth={rightSidebarWidth}>
-          {width < 992 && (
+          {courseLoading && <Spinner large/>}
+          {/* sidebar in mobile view */}
+          {/* {width < 992 && (
             <FloatButton.Group
               trigger="click"
               type="primary"
@@ -67,36 +114,34 @@ const Module = () => {
             >
               <RightSiderMenu />
             </FloatButton.Group>
-          )}
+          )} */}
           <ModuleTop>
-            <Link>
+            <Link to={"/"}>
               <Button type="link" className="back-btn">
                 {" "}
                 <ArrowLeftOutlined /> Back{" "}
               </Button>
             </Link>
-            <h1>Full Stack Web Development Industrial Training program</h1>
+            <h1>{currentCourseDetails?.name}</h1>
             <FolderDetailsCard />
-            <CousreProgress />
+            {/* <CousreProgress /> */}
+              <Button type="primary" size="large" danger onClick={startLearningFromFirstModule}>
+                Start Learning
+              </Button>
           </ModuleTop>
+
+          {/* showing all the chapter and modules */}
           <ModuleBody>
-            <h4>Modules will over in this course:</h4>
-            <Tree
-              // multiple
-              expandedKeys={selectedKey}
-              blockNode
-              onSelect={onSelect}
-              onCheck={onCheck}
-              treeData={treeData}
-              switcherIcon={false}
-              onExpand={(e) => console.log(e)}
-            />
+            <h4>Explore Modules for Learning</h4>
+            {currentCourseDetails && currentCourseDetails?.sections?.map((ele, ind) => (
+              <ModuleChapter section={ele} index={ind} />
+            ))}
           </ModuleBody>
         </MainContainer>
       </Content>
 
       {/* right sidebar to show modules */}
-      {width >= 992 && (
+      {/* {width >= 992 && (
         <Sider
           collapsedWidth="0"
           width={rightSidebarWidth}
@@ -104,7 +149,7 @@ const Module = () => {
         >
           <RightSiderMenu />
         </Sider>
-      )}
+      )} */}
     </Layout>
   );
 };
@@ -132,7 +177,7 @@ const ModuleTop = styled.div`
   h1 {
     color: #1d2026;
     font-family: "DM Sans";
-    font-size: 24px;
+    font-size: 26px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -157,29 +202,6 @@ const ModuleBody = styled.div`
     border-radius: 8px;
     background: #e6ebf3;
     margin-bottom: 5px;
-  }
-  .ant-tree-switcher {
-    width: 0;
-  }
-  .ant-tree-indent {
-    width: 0;
-  }
-  .ant-tree-treenode {
-    padding: 0;
-  }
-  .ant-tree-node-selected {
-    .ant-tree-title > div {
-      border-bottom: none;
-    }
-    .closed {
-      display: none;
-    }
-    .open {
-      display: grid;
-    }
-    .box-bottom {
-      display: none;
-    }
   }
 `;
 

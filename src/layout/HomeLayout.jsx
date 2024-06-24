@@ -124,7 +124,7 @@ function HomeLayout() {
     (state) => state.setMobileSideBarOpen
   );
   const { width } = useWindowSize();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -146,8 +146,7 @@ function HomeLayout() {
     left: "20px",
     top: "136px",
     borderRadius: "8px",
-    border: "0.25px solid #A1A9BA",
-    // background: "white",
+    background: "white",
     boxShadow: "0px 0px 9px 0px rgba(0, 0, 0, 0.09)",
     scrollbarWidth: "none",
   };
@@ -179,6 +178,9 @@ function HomeLayout() {
         style={{
           width: "100%",
           background: "#F4F7FE",
+          height: "100vh",
+          overflowY: "auto",
+          scrollbarWidth: "none",
         }}
       >
         <StyledHeader width={width} colorBgContainer={colorBgContainer}>

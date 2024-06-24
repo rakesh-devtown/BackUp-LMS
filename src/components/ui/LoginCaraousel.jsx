@@ -7,7 +7,7 @@ const OuterDiv = styled.div`
   z-index: 60;
 `;
 const InnerDiv = styled.div`
-  height: 700px;
+  height: 720px;
   color: #fff;
   text-align: center;
   position: relative;
