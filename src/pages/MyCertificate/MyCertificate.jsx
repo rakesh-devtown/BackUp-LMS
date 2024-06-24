@@ -1,9 +1,5 @@
 import { Col, Row, Tabs } from "antd";
 import CourseCompletionCard from "../../components/Cards/CourseCompletionCard";
-import icon_python from "../../assets/images/courses/icon_python.svg";
-import mern_icon from "../../assets/images/courses/mern_icon.svg";
-import icon_Cplus from "../../assets/images/courses/icon_C++.svg";
-import icon_express_node from "../../assets/images/courses/icon_express_nodejs.svg";
 import styled from "styled-components";
 import { StyledContainer } from "../../styles/layout.styles";
 import useBatchStore from "../../store/batchStore";
@@ -21,42 +17,6 @@ const MyCertificate = () => {
     getCompletedCoursesCertificates();
   },[])
 
-  const mockData1 = [
-    {
-      title: "C++",
-      description: "Industrial Training Program & Project Internship",
-      icon: icon_Cplus,
-      bgColor: "#1A4674",
-    },
-    {
-      title: "Learn Backend Web Development using node.js and express",
-      description:
-        "7 Days Free Industrial Training Bootcamp with Certification",
-      icon: icon_express_node,
-      bgColor: "#3E863D",
-    },
-  ];
-  const mockData2 = [
-    {
-      title: "Data Structures & Algorithms",
-      description: "Industrial Training Program & Project Internship",
-      icon: icon_python,
-      bgColor: "#E7B11F",
-    },
-    {
-      title: "Full Stack Web Development",
-      description: "Industrial Training Program & Project Internship",
-      icon: mern_icon,
-      bgColor: "#1E6DE8",
-    },
-    {
-      title: "Intro to C++ and Data Structures and Algorithms",
-      description:
-        "7 Days Free Industrial Training Bootcamp with Certification",
-      icon: icon_Cplus,
-      bgColor: "#4B7EB7",
-    },
-  ];
 
   return (
     <>

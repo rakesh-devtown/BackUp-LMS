@@ -1,7 +1,6 @@
 import { FileFilled } from "@ant-design/icons";
 import { Button, ConfigProvider, Space, notification } from "antd";
 import styled from "styled-components";
-import mern_icon from "../../assets/images/courses/mern_icon.svg";
 import useWindowSize from "../../hooks/useWindowSize";
 import LastActivityCard from "./LastActivityCard";
 import { Link, useNavigate } from "react-router-dom";
