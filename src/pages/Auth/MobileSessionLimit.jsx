@@ -45,6 +45,7 @@ function MobileSessionLimit() {
         if(res)
         {
           navigate("/");
+          setCurrentLeftPage("signin");
         }
       }
     } catch (error) {
@@ -58,6 +59,7 @@ function MobileSessionLimit() {
       if(sessions.length === 0)
       {
         navigate("/");
+        setCurrentLeftPage("signin");
         return;
       }
       setLoading(true);
@@ -70,6 +72,7 @@ function MobileSessionLimit() {
         if(res)
         {
           navigate("/");
+          setCurrentLeftPage("signin");
         }
       }
     } catch (error) {

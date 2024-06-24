@@ -48,7 +48,7 @@ const CourseCompletionCard = ({ data, completed,bgColor }) => {
                 <CertificateDownloadModal data={certificateData}/>
             </Modal>
 
-            <StyledCard bgColor={bgColor}>
+            { (percentage<100 || completed) && <StyledCard bgColor={bgColor}>
                 <MainCard width={width}>
                     <Space size={29}>
                         <img src={bannerImg} className=" max-w-20 max-h-20" alt="icon" />
@@ -84,7 +84,7 @@ const CourseCompletionCard = ({ data, completed,bgColor }) => {
                     }
                 </div>
 
-            </StyledCard>
+            </StyledCard>}
         </>
     )
 }

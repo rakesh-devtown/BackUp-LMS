@@ -169,7 +169,7 @@ const Video = () => {
               <a className="btn" href="#description">
                 Description
               </a>
-              { currentCourseSections?.note && <a className="btn" href="#classNotes">
+              { currentVideo?.note && <a className="btn" href="#classNotes">
                 Notes
               </a>}
 

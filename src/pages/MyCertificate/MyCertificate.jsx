@@ -10,11 +10,20 @@ const MyCertificate = () => {
 
   const enrolledCourses = useBatchStore((state) => state.enrolledCourses);
   const completedCoursesCertificates = useBatchStore((state) => state.completedCoursesCertificates);
-  const { getCompletedCoursesCertificates } = useBatchStore();
+  const { getCompletedCoursesCertificates,getAllEnrolledCourses } = useBatchStore();
   const courseLoading = useBatchStore((state) => state.courseLoading);
 
+  const loadCourses = async () => {
+    try{
+      await getAllEnrolledCourses();
+      await getCompletedCoursesCertificates();
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
-    getCompletedCoursesCertificates();
+    loadCourses();
   },[])
 
 

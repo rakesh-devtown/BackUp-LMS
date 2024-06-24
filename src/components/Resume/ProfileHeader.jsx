@@ -16,6 +16,7 @@ import useResumeStore from "../../store/resumeStore";
 const ProfileHeader = () => {
   const [shareModal, setShareModal] = useState(false);
   const personalDetails = useResumeStore((state) => state.personalDetails);
+  const role = useResumeStore((state) => state.role);
   const inputFile = useRef(null);
   const [addSocialMedia, setAddSocialMedia] = useState(false);
   const { width } = useWindowSize();
@@ -125,7 +126,7 @@ const ProfileHeader = () => {
               onClick={handleShareModal}
             /> */}
           </Space>
-          <div className="field">{personalDetails?.role}</div>
+          <div className="field">{role ? role : ''}</div>
         </div>
       </div>
       <Space direction="vertical profile-content">
@@ -149,7 +150,7 @@ const ProfileHeader = () => {
               </Button>
             </StyledMediaCard>
           </div>
-          <div className="field">{personalDetails?.role}</div>
+          <div className="field">{role ? role : ""}</div>
         </div>
         <div className="text">{personalDetails?.aboutMe}</div>
         <div className="hide-in-lptp card-bottom">

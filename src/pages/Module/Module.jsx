@@ -87,7 +87,7 @@ const Module = () => {
     if(selectedEnrollIdOfCourse){
         getEnrollCourses();
     }else{
-      navigate("/");
+      navigate("/courses");
     }
   },[])
 
@@ -116,7 +116,7 @@ const Module = () => {
             </FloatButton.Group>
           )} */}
           <ModuleTop>
-            <Link to={"/"}>
+            <Link to={"/courses"}>
               <Button type="link" className="back-btn">
                 {" "}
                 <ArrowLeftOutlined /> Back{" "}

@@ -23,34 +23,42 @@ const mockData = [
   {
     name: "LinkedIn",
     img: LinkedIn,
+    label: "linkedIn",
   },
   {
     name: "Github",
     img: Github,
+    label: "github",
   },
   {
     name: "Leetcode",
     img: Leetcode,
+    label: "leetCode",
   },
   {
     name: "Website",
     img: Website,
+    label: "website",
   },
   {
     name: "Dribble",
     img: Dribble,
+    label: "dribble",
   },
   {
     name: "Behance",
     img: Behance,
+    label: "behance",
   },
   {
     name: "Reddit",
     img: Reddit,
+    label: "reddit",
   },
   {
     name: "Medium",
     img: Medium,
+    label: "medium",
   },
 ];
 
@@ -89,19 +97,15 @@ const AddSocialMedia = ({ handleCancel }) => {
         <Title>Add Social Media Account</Title>
         <InnerContainer>
           {mockData.map((e, id) => (
-            <StyledCard>
+            <StyledCard key={e.label}>
               <img src={e.img} alt="icon" />
               <Form.Item
                 initialValue={
-                  e.name === "LinkedIn"
-                    ? socialLinks?.linkedIn
-                    : socialLinks?.[String(e.name).toLowerCase()]
+                    socialLinks?.[e.label]
                 }
                 label={e.name}
                 name={
-                  e.name === "LinkedIn"
-                    ? "linkedIn"
-                    : String(e.name).toLowerCase()
+                  e.label
                 }
                 rules={[
                   {

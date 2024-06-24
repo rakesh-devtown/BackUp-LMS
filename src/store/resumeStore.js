@@ -7,6 +7,7 @@ import useAuthStore from "./authStore";
 const useResumeStore = create(
     devtools((set, get) => ({
         resumeId:null,
+        role:null,
         loading: false,
         personalDetails:{},
         education:[],
@@ -45,10 +46,12 @@ const useResumeStore = create(
 
                 if(success){
                     const { personalDetails, education, workExp, Skills, projects, certifications, socialLinks, role} = resume;
+                    //console.log(resume?.role);
                     set({
                         resumeId:resume.id,
                         personalDetails,
                         education,
+                        role:resume?.role,
                         skills:Skills,
                         projects,
                         certifications,

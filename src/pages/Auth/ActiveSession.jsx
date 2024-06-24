@@ -38,6 +38,7 @@ function ActiveSession() {
         if(res)
         {
           navigate("/");
+          setCurrentLeftPage("signin");
         }
       }
     } catch (error) {
@@ -51,6 +52,7 @@ function ActiveSession() {
       if(sessions.length === 0)
       {
         navigate("/");
+        setCurrentLeftPage("signin");
         return;
       }
       setLoading(true);
@@ -63,6 +65,7 @@ function ActiveSession() {
         if(res)
         {
           navigate("/");
+          setCurrentLeftPage("signin");
         }
       }
     } catch (error) {
