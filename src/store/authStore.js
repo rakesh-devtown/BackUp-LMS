@@ -6,6 +6,7 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { devtools } from "zustand/middleware";
 import { useNavigate } from "react-router-dom";
 import loginUiStore from "./loginUi.store";
+import useBatchStore from "./batchStore";
 
 const useAuthStore = create(
   devtools((set) => ({
@@ -15,6 +16,7 @@ const useAuthStore = create(
     isGoogleAuthenticated: false,
     user: null,
     isReady: false,
+    isTokenValid: false,
     screenLimitReached: false,
     load: false,
 
@@ -83,7 +85,6 @@ const useAuthStore = create(
             user,
             isAuthenticated: true,
             isGoogleAuthenticated: false,
-
           })
         } else {
 
@@ -197,7 +198,11 @@ const useAuthStore = create(
             user,
             isAuthenticated: true,
             isGoogleAuthenticated: true,
+            isTokenValid: true,
           });
+
+          //console.log("token is verified");
+          await useBatchStore.getState().getAllEnrolledCourses(true);
           return success;
 
         } else {
@@ -240,6 +245,7 @@ const useAuthStore = create(
     loadUser: async () => {
       try {
         const tokenn = localStorage.getItem("token");
+        console.log(tokenn)
         const fp = await FingerprintJS.load();
         const { visitorId, components } = await fp.get();
         // TODO: Change verify magic link to verify Authorization token url
@@ -253,11 +259,15 @@ const useAuthStore = create(
         } = await serviceGet(
           `auth/auth/v1/verify-auth?token=${tokenn}&signature=${visitorId}&platform=${components.platform.value}`
         );
+
+        console.log("Token is Verified")
+        console.log(success)
         if (success) {
           setHeader("Authorization", `bearer ${token}`);
           setHeader("signature", visitorId);
           localStorage.setItem("token", token);
           localStorage.setItem("chatToken", chatToken)
+          console.log("Token is Verified")
           set({
             token,
             chatToken,
@@ -265,7 +275,9 @@ const useAuthStore = create(
             isAuthenticated: true,
             isGoogleAuthenticated: true,
           });
-          return success;
+          
+          //await useBatchStore.getState().getAllEnrolledCourses(true);
+          set({isTokenValid:true})
 
         } else {
           deleteHeader("Authorization");
@@ -320,6 +332,8 @@ const useAuthStore = create(
           user: null,
           isAuthenticated: false,
           isGoogleAuthenticated: false,
+          screenLimitReached: false,
+          isTokenValid: false,
         });
       } catch (err) {
         deleteHeader("Authorization");

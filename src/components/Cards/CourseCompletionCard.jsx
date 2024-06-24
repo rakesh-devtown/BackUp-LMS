@@ -24,7 +24,7 @@ const CourseCompletionCard = ({ data, completed,bgColor }) => {
         let progress = parseInt(data?.totalSectionProgress)/parseInt(data?.totalSectionItems);
         progress = progress * 100;
         
-        setPercentage(parseInt(progress));
+        setPercentage(Math.min(parseInt(progress),100));
     }
 
     useEffect(() => {

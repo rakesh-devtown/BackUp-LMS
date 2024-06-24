@@ -68,8 +68,17 @@ const useBatchStore = create(
         set({courseLoading:false})
       }
     },
-    getAllEnrolledCourses: async () => {
+    getAllEnrolledCourses: async (wantFetch) => {
       try {
+        const user = useAuthStore.getState().user;
+        setHeader("Authorization", `bearer ${localStorage.getItem("token")}`);
+        const isAuthenticated = useAuthStore.getState().isAuthenticated;
+        const isTokenValid = useAuthStore.getState().isTokenValid;
+        console.log(isAuthenticated, isTokenValid);
+        console.log("coming from batch store",wantFetch);
+       // console.log("coming from batch store",wantFetch);
+        if(!isTokenValid && !wantFetch) return;
+        
         set({
           courseLoading: true,
         })

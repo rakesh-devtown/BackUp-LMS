@@ -49,6 +49,13 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 );
 
 const App = () => {
+
+  if ( window.location.origin === "https://www.learn.devtown.in") {
+    console.log = () => {}
+    console.error = () => {}
+    console.debug = () => {}
+  }
+
   const loadUser = useAuthStore((state) => state.loadUser);
   const loading = useLoadingStore((state) => state.loading);
   const setLoading = useLoadingStore((state) => state.setLoading);
