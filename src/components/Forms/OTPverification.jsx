@@ -8,6 +8,7 @@ import { ArrowLeftOutlined, EditFilled } from "@ant-design/icons";
 import styled from "styled-components";
 import useAuthStore from "../../store/authStore";
 import loginUiStore from "../../store/loginUi.store";
+import useResumeStore from "../../store/resumeStore";
 
 const OTPverify = ({ handleBack, handleNext }) => {
     const currentUserEmail = loginUiStore((state) => state.currentUserEmail);
@@ -16,7 +17,9 @@ const OTPverify = ({ handleBack, handleNext }) => {
     const [otpValid, setOtpValid] = useState(false);
     const [timer, setTimer] = useState(60)
     const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
+    const currentPage = loginUiStore((state) => state.currentPage);
     const { forgotPassword } = useAuthStore();
+    const { passwordChangeOtpVerify } = useResumeStore();
 
     // #region The Uncontrolled Logic
     const [form] = Form.useForm();
@@ -39,7 +42,6 @@ const OTPverify = ({ handleBack, handleNext }) => {
         // Check the field if there is no value, or value is undefined/empty string
         // const { otp } = values;
         // if (!otp || otp.includes(undefined) || otp.includes(""))
-
         const otp = parseInt(values.otp.reduce((acc, num) => acc + num.toString(), ""));
 
         if (!otpValid) {
@@ -50,10 +52,17 @@ const OTPverify = ({ handleBack, handleNext }) => {
                 }
             ]);
         }
-       
-        if (await otpVerify(otp,currentUserEmail)) {
-             setOtp(otp);
-             handleNext()
+
+        if (currentPage === "changePasswordOtp") {
+            if (await passwordChangeOtpVerify(otp, currentUserEmail)) {
+                setOtp(otp);
+                handleNext()
+           }
+        } else {
+            if (await otpVerify(otp,currentUserEmail)) {
+                setOtp(otp);
+                handleNext()
+           }
         }
     };
 
