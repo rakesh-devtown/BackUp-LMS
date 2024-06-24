@@ -32,9 +32,13 @@ function ActiveSession() {
       );
 
       if (success) {
-        clearSessions();
-        registerUserSession();
-        navigate("/auth");
+        await clearSessions();
+        const res = await registerUserSession();
+        console.log("I am verifying the token", res)
+        if(res)
+        {
+          navigate("/");
+        }
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
@@ -49,9 +53,12 @@ function ActiveSession() {
         `student/student/v1/screen?studentId=${user.id}`
       );
       if (success) {
-        clearSessions();
-        registerUserSession();
-        navigate("/");
+        await clearSessions();
+        const res = await registerUserSession();
+        if(res)
+        {
+          navigate("/");
+        }
       }
     } catch (error) {
       notification.error({ message: "Something went wrong" });
