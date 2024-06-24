@@ -9,12 +9,23 @@ import {
   StyledModalContent,
 } from "../../../styles/settings.styles";
 import useWindowSize from "../../../hooks/useWindowSize";
+import useResumeStore from "../../../store/resumeStore";
+import useAuthStore from "../../../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 const NameChange = ({ handleCancel }) => {
   const [myName, setMyName] = useState("");
   const { width } = useWindowSize();
+  const { changeName } = useResumeStore();
+  const  user = useAuthStore(state => state.user);
 
-  const handleSave = () => handleCancel();
+  const handleSave = async () => {
+    const response = await changeName(user.email, myName);
+    console.log(response)
+    if (response) {
+      window.location.reload();
+    }
+  }
 
   return (
     <StyledModalContent width={width}>
@@ -44,6 +55,7 @@ const NameChange = ({ handleCancel }) => {
           type="primary"
           size="large"
           style={{ width: "100%", marginTop: "20px" }}
+          onClick={handleSave}
         >
           {" "}
           Save{" "}
