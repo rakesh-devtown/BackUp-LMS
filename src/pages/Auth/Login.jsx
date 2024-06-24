@@ -87,7 +87,7 @@ export default function Login() {
   useEffect(() => {
     if (isAuthenticated || isGoogleAuthenticated) {
       // Check if either isAuthenticated or isGoogleAuthenticated is true
-      navigate("/");
+      navigate("/courses");
     }
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
 

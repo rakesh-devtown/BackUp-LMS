@@ -5,6 +5,7 @@ import { deleteHeader, setHeader } from "../utils/header";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { devtools } from "zustand/middleware";
 import { useNavigate } from "react-router-dom";
+import loginUiStore from "./loginUi.store";
 
 const useAuthStore = create(
   devtools((set) => ({
@@ -340,12 +341,12 @@ const useAuthStore = create(
         isAuthenticated: true,
       });
     },
-    async forgotPassword(values) {
+    async forgotPassword(value) {
       try {
 
         const res = await servicePost(
           "auth/auth/v1/forgot-password",
-          { ...values, callbackUrl: "https://www.student-platform.devtown.in" }
+          { email: value}
         );
         const { success, message } = res;
         notification.success({ message: "Success", description: message });
@@ -380,33 +381,38 @@ const useAuthStore = create(
     },
 
     //reset password code
-    async resetPassword(values, token) {
-      if (token != null) {
+    async resetPassword(password) {
         try {
+
+          const otp = loginUiStore?.getState().currentOtp;
+          const email = loginUiStore?.getState().currentUserEmail;
+          console.log(otp, email);
+
           const res = await servicePost(
-            `auth/auth/v1/reset-password?token=${token}`,
-            { password: values }
+            `auth/auth/v1/reset-password?otp=${otp}&email=${email}`,
+            { password: password }
           );
           const { success, message } = res;
           if (success) {
-            return notification.success({
+            notification.success({
               message: "Success",
               description: message,
             });
+            return true;
           } else {
             const [err] = res.data.errors;
-            return err.param === "token"
+            err.param === "token"
               ? notification.error({
                 message: "Error",
-                description:
-                  "Your invite has expired !! Reset password via Forget Password link",
+                description: message,
               })
-              : notification.error({ message: "Error", description: "Error" });
+              : notification.error({ message: "Error", description: message });
+              return false;
           }
         } catch (error) {
           notification.error({ message: "Error", description: error.message });
+          return false;
         }
-      }
     },
     async verifyMagicLink({ token, setIsDataLoaded }) {
       const VerificationToken = token;

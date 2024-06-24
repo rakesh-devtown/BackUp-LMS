@@ -12,7 +12,7 @@ const Spinner=({large})=>{
             height:'100%',
             display:'flex',
             justifyContent:'center',
-            backgroundColor:'rgba(0,0,0,0.0.7)',
+            backgroundColor:'rgba(0,0,0,0.2)',
             zIndex:99,
             alignItems:'center',
         }}>

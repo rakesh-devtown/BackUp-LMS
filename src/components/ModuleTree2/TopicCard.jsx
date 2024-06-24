@@ -7,18 +7,26 @@ import { Space } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import useBatchStore from "../../store/batchStore";
 
 const TopicCard = ({ data }) => {
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/video");
+  const getVideo = useBatchStore((state) => state.getVideo);
+  const getCurrentSectionDetailsWithVideo = useBatchStore((state) => state.getCurrentSectionDetailsWithVideo);
+  const handleClick = async() => {
+    try{
+      //console.log("data",data)
+      await getCurrentSectionDetailsWithVideo(data.sectionId,data.id);
+      navigate("/video");
+    }catch(err){
+      console.log(err)
+    }
   };
 
   return (
     <StyledCard onClick={handleClick}>
       <CardContent>
-        <p className="topic">Topic1: Introduction to module 1</p>
+        <p className="topic">{`Day ${data?.orderNumber}: ${data?.title}`}</p>
         {/* <p className="topic">{data?.name}</p> */}
         {/* <Space size={24}>
           <Space size={8} className="sub-content">
@@ -36,7 +44,10 @@ const TopicCard = ({ data }) => {
         </Space> */}
       </CardContent>
       <i>
-        <CheckOutlined style={{ color: "#008022" }} />
+        {data?.sectionProgress?.length > 0 ? 
+            data?.sectionProgress[0]?.isCompleted ?
+            <CheckOutlined style={{ color: "#008022" }} /> : ""
+         : ""}
       </i>
     </StyledCard>
   );

@@ -1,26 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Row, Space, Tree } from "antd";
-import { treeData } from "./mockTreeData";
 import styled from "styled-components";
 import { DownOutlined } from "@ant-design/icons";
 import useWindowSize from "../../hooks/useWindowSize";
+import useBatchStore from "../../store/batchStore";
+import TopicNode from "./TopicNode";
 
 const ModuleTree = () => {
   const { width } = useWindowSize();
-
-  const onSelect = (selectedKeys, info) => {
-    console.log("selected", selectedKeys, info);
+  const [treeData, setTreeData] = useState([])
+  const [defaultExpandedKeys, setDefaultExpandedKeys] = useState([0]);
+  const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
+  const {getVideo} = useBatchStore();
+  const onSelect = async(selectedKeys, info) => {
+    try{
+      const id = info.node.key;
+      await getVideo(id);
+    }catch(err){
+      console.log(err)
+    }
   };
   const onCheck = (checkedKeys, info) => {
     console.log("onCheck", checkedKeys, info);
   };
+
+
+  const transformDataToTree = (data) => {
+    const children = data.sectionItems.map((item, index) => ({
+      title: <TopicNode class="ant-tree-treenode-selected" time={""} topic={`Day ${item?.orderNumber}: `+item.title} checked={item?.sectionProgress?.length > 0 ? (item?.sectionProgress[0].isCompleted) :false} />,
+      key: item?.id, // Use the section item ID as the key
+    }));
+  
+    return {
+      title: data.name,
+      key: "0", // Use the module ID as the key
+      className: "level-1",
+      selectable: false,
+      children: children,
+    };
+  };
+
+
+  useEffect(()=>{
+    if(currentCourseSections){
+      const transformedData = transformDataToTree(currentCourseSections)
+      //console.log(transformedData)
+      setTreeData([transformedData])
+    }
+  },[currentCourseSections])
+
+
   return (
     <>
-      <StyledTree
+      {
+        treeData.length > 0 &&
+        <StyledTree
         //   checkable
         // defaultSelectedKeys={["0-0-0", "0-0-1"]}
         // defaultCheckedKeys={["0-0-0", "0-0-1"]}
-        defaultExpandedKeys={["0"]}
+        defaultExpandedKeys={[treeData[0]?.key]}
         onSelect={onSelect}
         onCheck={onCheck}
         treeData={treeData}
@@ -29,6 +67,7 @@ const ModuleTree = () => {
         switcherIcon={<DownOutlined />}
         screenWidth={width}
       />
+      }
       <BottomButtons>
         <Col span={12}>
           <p>Previous Module</p>

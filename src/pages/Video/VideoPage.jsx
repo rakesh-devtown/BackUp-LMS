@@ -21,6 +21,8 @@ import {
 } from "../../styles/layout.styles";
 import ModuleRightSidebar from "../../components/ModuleRightSidebar/ModuleRightSidebar";
 import DoubtModal from "../../components/AskDoubts/DoubtModal";
+import useBatchStore from "../../store/batchStore";
+import Spinner from "../../components/loader/Spinner";
 
 const Video = () => {
   const { width } = useWindowSize();
@@ -28,7 +30,10 @@ const Video = () => {
   const [bookmarked, setBookmarked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
+  const currentCourseSections = useBatchStore(state=>state.currentCourseSections);
+  const currentCourseDetails = useBatchStore(state=>state.currentCourseDetails);
+  const currentVideo = useBatchStore(state=>state.currentVideo);
+  const courseLoading = useBatchStore(state=>state.courseLoading);
   const { Sider } = Layout;
   const {
     token: { colorBgContainer },
@@ -64,7 +69,7 @@ const Video = () => {
   return (
     <>
       <Helmet>
-        <title>Video</title>
+        <title>Devtown - {currentCourseDetails?.name}</title>
         <meta name="settings" content="settings" />
         <link rel="canonical" href="https://www.learn.devtown.in/setting" />
       </Helmet>
@@ -72,7 +77,7 @@ const Video = () => {
         widtth={width}
         type="link"
         size="large"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/module")}
       >
         <ArrowLeftOutlined /> Back To DashBoard
       </GoBackBtn>
@@ -94,6 +99,7 @@ const Video = () => {
           rightSidebarWidth={rightSidebarWidth}
           collapsed={collapsed}
         >
+          
           <Header width={width}>
             <div className="inner-header" onClick={handleRightSideBar}>
               <Space size={12} align="center">
@@ -103,8 +109,8 @@ const Video = () => {
                   />
                 </i>
                 <Space direction="vertical" size={4}>
-                  <p>Data Structure and Algorithms / Introduction to HTML</p>
-                  <h1 className="test">Basic of Web Development</h1>
+                  <p>{currentCourseSections?.name} / {currentVideo?.title}</p>
+                  <h1 className="test">{ currentCourseDetails?.name}</h1>
                 </Space>
                 {width < 992 && (
                   <RightOutlined
@@ -154,16 +160,18 @@ const Video = () => {
             </ButtonsDiv1>
           </Header>
 
-          <VideoPlayer />
+          {courseLoading && <Spinner large />}
+
+          <VideoPlayer id={currentVideo?.id} url={currentVideo?.hlsLink}/>
 
           <ButtonsDiv2>
             <div>
               <a className="btn" href="#description">
                 Description
               </a>
-              <a className="btn" href="#classNotes">
+              { currentCourseSections?.note && <a className="btn" href="#classNotes">
                 Notes
-              </a>
+              </a>}
 
               {/* buttons not included in first phase */}
               {/* <Button type="text" size="large">

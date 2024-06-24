@@ -1,18 +1,17 @@
 import ReactPlayer from 'react-player'
 import styled from 'styled-components'
 import useWindowSize from '../../hooks/useWindowSize'
+import VideoPlayerProvider, { VideoPlayerContext } from '../../context/VideoPlayerContext'
+import Player from './Player'
 
-const VideoPlayer = () => {
+const VideoPlayer = ({url,id}) => {
 
     const { width } = useWindowSize()
-    const url = "https://youtu.be/TLfLOqt7S54"
     return (
-        <>
-            <VideoWrapper width={width}>
-                <div className='react_player'>
-                    <ReactPlayer url={url} controls width={"100%"} height={"100%"} />
-                </div>
-            </VideoWrapper>
+        <>          
+                <VideoWrapper width={width}>
+                    <VideoPlayerProvider><Player url={url} videoId={id}/></VideoPlayerProvider>
+                </VideoWrapper>
         </>
     )
 }
@@ -21,6 +20,7 @@ const VideoWrapper = styled.div`
 margin: 12px 0;
 display: flex;
 justify-content: center;
+cursor: pointer;
 
 
 .react_player{

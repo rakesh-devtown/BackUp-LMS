@@ -36,6 +36,7 @@ import MyCourses from "../pages/MyCourses/MyCourses.jsx";
 import LoginMainPage from "../pages/Auth/LoginMainPage.jsx";
 import OTPverify from "../components/Forms/OTPverification.jsx";
 import Module from "../pages/Module/Module.jsx";
+import Test from "./Test.jsx";
 export const routes = [
   {
     path: routeDefinitions.AUTH,

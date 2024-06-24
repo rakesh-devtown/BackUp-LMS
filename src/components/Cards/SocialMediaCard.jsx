@@ -9,12 +9,15 @@ import {
 import instaIcon from "../../assets/images/instaIcon.svg";
 import { SuccessMessage } from "../../styles/messagePopup.styles";
 
-const SocialMediaCard = () => {
+const SocialMediaCard = ({data}) => {
   const [shareUrl, setShareUrl] = useState(window.location.href);
   const [messageApi, contextHolder] = message.useMessage();
 
+
+  
+
   const handleShare = async () => {
-    await navigator.clipboard.writeText(shareUrl);
+    await navigator.clipboard.writeText("https://cert.devtown.in/verify/"+data?.credentialId);
     messageApi.open({
       key: 1,
       content: <SuccessMessage>Copied URL</SuccessMessage>,
@@ -54,7 +57,7 @@ const SocialMediaCard = () => {
         </Space>
       </div>
       <CopyLink>
-        <p>{shareUrl}</p>
+        <p>{"https://cert.devtown.in/verify/"+data?.credentialId}</p>
         <Button type="primary" size="large" shape="round" onClick={handleShare}>
           Copy Link
         </Button>

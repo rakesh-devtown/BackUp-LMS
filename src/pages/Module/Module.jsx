@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button, FloatButton, Layout, Tree, theme } from "antd";
+import { Button, FloatButton, Layout, Tree, notification, theme } from "antd";
 import {
   ArrowLeftOutlined,
   ArrowUpOutlined,
@@ -15,13 +15,18 @@ import RightSiderMenu from "../../components/RightSiderMenu/RightSiderMenu";
 import FolderDetailsCard from "../../components/Cards/video/FolderDetailsCard";
 import CousreProgress from "../../components/Cards/module/CourseProgress";
 import useBatchStore from "../../store/batchStore";
+import ModuleCardHeader from "../../components/ModuleTree2/ModuleCardHeader";
+import TopicCard from "../../components/ModuleTree2/TopicCard";
+import Spinner from "../../components/loader/Spinner";
 import ModuleChapter from "../../components/Module/ModuleChapter";
 
 const Module = () => {
   const { width } = useWindowSize();
-  const currentCourseDetails = useBatchStore(
-    (state) => state.currentCourseDetails
-  );
+  const navigate = useNavigate();
+  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+  const courseLoading = useBatchStore((state) => state.courseLoading);
+  const {getCurrentSectionDetails , getModuleOfEnrolledCourse} = useBatchStore();
+  const selectedEnrollIdOfCourse = useBatchStore((state) => state.selectedEnrollIdOfCourse);
   const { Content, Sider } = Layout;
 
   const chapterNameArray = [
@@ -45,16 +50,57 @@ const Module = () => {
   // const rightSidebarWidth = width >= 992 ? "60px" : "0";
   const rightSidebarWidth = 0;
 
+  const startLearningFromFirstModule = async () => {
+    try {
+      console.log("currentCourseDetails",currentCourseDetails)
+      if(currentCourseDetails?.sections?.length === 0){
+        notification.error({message:"No Module Found",description:"No module found to start learning"})
+        return;
+      }
+      console.log(currentCourseDetails?.sections[0]?.subsections?.length)
+      if(currentCourseDetails?.sections[0]?.subsections?.length > 0)
+      {
+          await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.subsections[0]?.id)
+      }
+      else if(currentCourseDetails?.sections?.length > 0){
+        await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.id)
+      }else{
+        notification.error({message:"No Module Found",description:"No module found to start learning"})
+      }
+      
+      navigate("/video");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const getEnrollCourses= async () => {
+    try{
+      await getModuleOfEnrolledCourse(selectedEnrollIdOfCourse)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+
+  useEffect(() => {
+    if(selectedEnrollIdOfCourse){
+        getEnrollCourses();
+    }else{
+      navigate("/");
+    }
+  },[])
+
   return (
     <Layout>
       <Helmet>
-        <title>Mock title</title>
-        {/* <title>DevTown - {currentCourseDetails?.name}</title> */}
+        <title>DevTown - Module</title>
         <meta name="settings" content="settings" />
         <link rel="canonical" href="https://www.learn.devtown.in/setting" />
       </Helmet>
       <Content style={{ background: "#F4F7FE" }}>
         <MainContainer width={width} rightSidebarWidth={rightSidebarWidth}>
+          {courseLoading && <Spinner large/>}
           {/* sidebar in mobile view */}
           {/* {width < 992 && (
             <FloatButton.Group
@@ -76,21 +122,19 @@ const Module = () => {
                 <ArrowLeftOutlined /> Back{" "}
               </Button>
             </Link>
-            <h1>Course Name</h1>
+            <h1>{currentCourseDetails?.name}</h1>
             <FolderDetailsCard />
             {/* <CousreProgress /> */}
-            <Link to={"/video"}>
-              <Button type="primary" size="large" danger>
+              <Button type="primary" size="large" danger onClick={startLearningFromFirstModule}>
                 Start Learning
               </Button>
-            </Link>
           </ModuleTop>
 
           {/* showing all the chapter and modules */}
           <ModuleBody>
             <h4>Explore Modules for Learning</h4>
-            {chapterNameArray.map((ele, ind) => (
-              <ModuleChapter chapterName={ele} index={ind} />
+            {currentCourseDetails && currentCourseDetails?.sections?.map((ele, ind) => (
+              <ModuleChapter section={ele} index={ind} />
             ))}
           </ModuleBody>
         </MainContainer>

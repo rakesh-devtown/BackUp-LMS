@@ -54,8 +54,8 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
   const onFinish = async(values) => {
     const { email } = values;
     const response = await forgotPassword(email);
-    console.log(response);
-    if (!response) {
+    //console.log(response);
+    if (response) {
       setCurrentUserEmail(email);
       setCurrentPage("otp");
     }

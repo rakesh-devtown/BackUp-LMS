@@ -1,5 +1,5 @@
 import { FileFilled } from "@ant-design/icons";
-import { Button, ConfigProvider, Space } from "antd";
+import { Button, ConfigProvider, Space, notification } from "antd";
 import styled from "styled-components";
 import mern_icon from "../../assets/images/courses/mern_icon.svg";
 import useWindowSize from "../../hooks/useWindowSize";
@@ -11,12 +11,16 @@ import useBatchStore from "../../store/batchStore";
 const MyCoursesCard = ({enroll}) => {
   const { width } = useWindowSize();
   const [course, setCourse] = useState(null);
-  const {getModuleOfEnrolledCourse} = useBatchStore();
+  const {getModuleOfEnrolledCourse,setEnrollId,getFirstSectionOfCourse} = useBatchStore();
+  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+  const getCurrentSectionDetails = useBatchStore((state) => state.getCurrentSectionDetails);
+  const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
   const navigate = useNavigate();
 
   const onClickOnDashboard=async()=>{
     try{
-      await getModuleOfEnrolledCourse(enroll.id);
+      //await getModuleOfEnrolledCourse(enroll.id);
+      setEnrollId(enroll.id);
       navigate("/module")
     }catch(err){
       console.log(err)
@@ -28,6 +32,20 @@ const MyCoursesCard = ({enroll}) => {
       setCourse(enroll?.batch?.course);
     }
   },[enroll])
+
+
+  const startLearningFromFirstModule = async () => {
+    try {
+      setEnrollId(enroll.id);
+      await getModuleOfEnrolledCourse(enroll.id);
+      await getFirstSectionOfCourse(enroll.batch.course.id);
+      
+      navigate("/video");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <StyledCard width={width}>
       <Top width={width}>
@@ -39,7 +57,7 @@ const MyCoursesCard = ({enroll}) => {
               <i>
                 <FileFilled />
               </i>
-              <p className="lessons">20 Lessons</p>
+              <p className="lessons">{course?.totalSectionItems} Lectures</p>
             </Space>
           </div>
         </FlexBox>
@@ -51,11 +69,9 @@ const MyCoursesCard = ({enroll}) => {
           </DashboardButton>
         </Space>
       </Top>
-      <Link to="/video">
-        <CustomButton type="primary" size="large" danger screenWidth={width}>
+        <CustomButton onClick={startLearningFromFirstModule} type="primary" size="large" danger screenWidth={width}>
           Start Learning
         </CustomButton>
-      </Link>
       {/* <LastActivityCard leftPadding={true} /> */}
     </StyledCard>
   );

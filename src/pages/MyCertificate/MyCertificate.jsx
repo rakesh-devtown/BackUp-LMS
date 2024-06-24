@@ -6,8 +6,21 @@ import icon_Cplus from "../../assets/images/courses/icon_C++.svg";
 import icon_express_node from "../../assets/images/courses/icon_express_nodejs.svg";
 import styled from "styled-components";
 import { StyledContainer } from "../../styles/layout.styles";
+import useBatchStore from "../../store/batchStore";
+import Spinner from "../../components/loader/Spinner";
+import { useEffect } from "react";
 
 const MyCertificate = () => {
+
+  const enrolledCourses = useBatchStore((state) => state.enrolledCourses);
+  const completedCoursesCertificates = useBatchStore((state) => state.completedCoursesCertificates);
+  const { getCompletedCoursesCertificates } = useBatchStore();
+  const courseLoading = useBatchStore((state) => state.courseLoading);
+
+  useEffect(() => {
+    getCompletedCoursesCertificates();
+  },[])
+
   const mockData1 = [
     {
       title: "C++",
@@ -58,23 +71,30 @@ const MyCertificate = () => {
             <Tabs.TabPane tab="Ongoing" key={"1"}>
               <h3 className="title">Course Certification</h3>
               <Row gutter={[15, 15]}>
-                {mockData1.map((card, ind) => (
+                {enrolledCourses.map((card, ind) => (
                   <Col key={ind} span={24} md={12} xxl={8}>
-                    <CourseCompletionCard data={card} completed={false} />
+                    <CourseCompletionCard 
+                      bgColor={ind % 2 === 0 ? "#1A4674" : "#3E863D"} 
+                      data={card?.batch?.course} 
+                      completed={false} />
                   </Col>
                 ))}
               </Row>
             </Tabs.TabPane>
 
             <Tabs.TabPane tab="Completed" key={"2"}>
+              {courseLoading && <Spinner/>}
               <h2 className="title">Course Certification</h2>
               <Row gutter={[15, 15]}>
-                {mockData2.map((card, ind) => (
+                {completedCoursesCertificates && completedCoursesCertificates.map((card, ind) => (
                   <Col key={ind} span={24} md={12} xxl={8}>
                     <CourseCompletionCard data={card} completed={true} />
                   </Col>
                 ))}
               </Row>
+              {
+                !completedCoursesCertificates?.length && <h3 style={{textAlign:'center'}}>No Certificates Found</h3>
+              }
             </Tabs.TabPane>
           </Tabs>
         </StyledTabs>

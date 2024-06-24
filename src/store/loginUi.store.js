@@ -7,6 +7,7 @@ const loginUiStore = create(
     currentLeftPage: "signin",
     isMobileAuthModelOpen: false,
     mobileCurrentPage: "login",
+    currentOtp: null,
     isDesktopAuthModelOpen: false,
     currentUserEmail: null,
     setIsDesktopAuthModelOpen: (page) => {
@@ -14,6 +15,9 @@ const loginUiStore = create(
     },
     setMobileCurrentPage: (page) => {
       set({ mobileCurrentPage: page });
+    },
+    setOtp:(otp) => {
+      set({ currentOtp: otp });
     },
     setIsMobileAuthModelOpen: (isOpen) => {
       set({ isMobileAuthModelOpen: isOpen });

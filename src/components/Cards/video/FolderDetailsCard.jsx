@@ -9,7 +9,7 @@ import useBatchStore from "../../../store/batchStore";
 import { useEffect } from "react";
 
 const FolderDetailsCard = () => {
-  //const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
 
   return (
     <StyledDetailsCard>
@@ -17,13 +17,18 @@ const FolderDetailsCard = () => {
         <i>
           <FolderOpenOutlined />
         </i>
-        <p>3 Sections</p>
+        <p>{currentCourseDetails?.totalSubSections ? 
+            (parseInt(currentCourseDetails?.totalSubSections) > 0 
+              ? currentCourseDetails?.totalSubSections 
+              :currentCourseDetails?.sections?.length
+            )
+            :currentCourseDetails?.sections?.length} Sections</p>
       </div>
       <div className="small-box">
         <i>
           <PlayCircleOutlined />
         </i>
-        <p>202 lectures</p>
+        <p>{currentCourseDetails?.totalLecture} lectures</p>
       </div>
       {/* <div className='small-box'>
                 <i><ClockCircleOutlined /></i>

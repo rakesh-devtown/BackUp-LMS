@@ -11,6 +11,7 @@ import loginUiStore from "../../store/loginUi.store";
 
 const OTPverify = ({ handleBack, handleNext }) => {
     const currentUserEmail = loginUiStore((state) => state.currentUserEmail);
+    const setOtp = loginUiStore((state) => state.setOtp);
     const { otpVerify } = useAuthStore();
     const [otpValid, setOtpValid] = useState(false);
     const [timer, setTimer] = useState(60)
@@ -51,6 +52,7 @@ const OTPverify = ({ handleBack, handleNext }) => {
         }
        
         if (await otpVerify(otp,currentUserEmail)) {
+             setOtp(otp);
              handleNext()
         }
     };
