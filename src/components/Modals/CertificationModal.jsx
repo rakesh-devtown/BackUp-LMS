@@ -12,7 +12,8 @@ import { SuccessMessage } from '../../styles/messagePopup.styles';
 const CertificateDownloadModal = ({data}) => {
 
     const { width } = useWindowSize(); //getting width for movile view
-    console.log(data)
+    //console.log(data)
+
     const [messageApi, contextHolder] = message.useMessage();
     const [showShareModal, setShowShareModal] = useState(false);
     const [editCertificate, setEditCertificate] = useState(false);
@@ -24,6 +25,15 @@ const CertificateDownloadModal = ({data}) => {
 
     const handleDownload = () => {
         //showing succcessful notification 
+
+        const pdfUrl = data?.pdfUrl
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = pdfUrl.split('/').pop(); // Extract the file name from the URL
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
         messageApi.open({
             key: 1,
             content: <SuccessMessage>Certificate Downloaded Successfully</SuccessMessage>,

@@ -57,6 +57,8 @@ const Player = ({
 				else if(currentVideo?.sectionProgress?.length > 0 && currentVideo?.sectionProgress[0]?.isCompleted == false)
 				{
 					await postVideoProgress(videoId);
+				}else{
+					//console.log(currentVideo)
 				}
 		}catch(err)
 		{

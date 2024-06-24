@@ -13,6 +13,9 @@ const SocialMediaCard = ({data}) => {
   const [shareUrl, setShareUrl] = useState(window.location.href);
   const [messageApi, contextHolder] = message.useMessage();
 
+
+  
+
   const handleShare = async () => {
     await navigator.clipboard.writeText("https://cert.devtown.in/verify/"+data?.credentialId);
     messageApi.open({
