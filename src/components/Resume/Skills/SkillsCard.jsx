@@ -1,61 +1,64 @@
-import { useState } from 'react';
-import { CloseOutlined, PlusOutlined, EditOutlined } from "@ant-design/icons"
-import { Button } from "antd"
-import styled from "styled-components"
-import useWindowSize from '../../../hooks/useWindowSize';
+import { useState } from "react";
+import { CloseOutlined, PlusOutlined, EditOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import styled from "styled-components";
+import useWindowSize from "../../../hooks/useWindowSize";
 import { CardContainer, CardInner } from "../../../styles/myResume.styles";
-import ResumeModals from '../../Modals/ResumeModals';
+import ResumeModals from "../../Modals/ResumeModals";
 
 const SkillsCard = ({ skills }) => {
+  const { width } = useWindowSize();
+  const [showModal, setShowModal] = useState(false);
 
-    const { width } = useWindowSize();
-    const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(!showModal);
 
-    const handleShowModal = () => setShowModal(!showModal)
+  return (
+    <CardContainer width={width}>
+      {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"skills"} value={true} />}
 
-    return (
-        <CardContainer width={width}>
-            {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"skills"} value={skills} />}
-
-            {
-                skills?.length > 0 &&
-                <CardInner width={width}>
-                    <StyledSkill>
-                        {skills.map((ele, ind) => (
-                            <div key={ind}>
-                                <p>{ele}</p>
-                                {/* <CloseOutlined style={{ fontSize: "10px" }} onClick={() => handleRemove(ele)} /> */}
-                            </div>
-                        ))}
-                    </StyledSkill>
-                    <Button type="text" danger icon={<EditOutlined />} size="large" onClick={handleShowModal} className='edit-btn' >Edit</Button>
-                </CardInner>
-
-            }
-        </CardContainer>
-    )
-}
+      {skills?.length > 0 && (
+        <CardInner width={width}>
+          <StyledSkill>
+            {skills.map((ele, ind) => (
+              <div key={ind}>
+                <p>{ele.name}</p>
+                {/* <CloseOutlined style={{ fontSize: "10px" }} onClick={() => handleRemove(ele)} /> */}
+              </div>
+            ))}
+          </StyledSkill>
+          <Button
+            type="text"
+            danger
+            icon={<EditOutlined />}
+            size="large"
+            onClick={handleShowModal}
+            className="edit-btn"
+          />
+        </CardInner>
+      )}
+    </CardContainer>
+  );
+};
 
 const StyledSkill = styled.div`
-display: flex;
-gap: 10px;
-padding: 10px 0 15px 0;
-flex-wrap: wrap;
-div{
+  display: flex;
+  gap: 10px;
+  padding: 10px 0 15px 0;
+  flex-wrap: wrap;
+  div {
     display: flex;
     align-items: center;
     gap: 2px;
     padding: 2px 7px;
     border-radius: 10px;
-    color: #384D6D;
+    color: #384d6d;
     background-color: #f5deb37d;
-}
-`
+  }
+`;
 const StyledButton = styled(Button)`
-     width: fit-content;
-     color: #0859DE;
-     margin-top: 10px;
-`
-
+  width: fit-content;
+  color: #0859de;
+  margin-top: 10px;
+`;
 
 export default SkillsCard;

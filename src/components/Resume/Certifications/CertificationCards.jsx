@@ -1,36 +1,23 @@
 import { useState } from "react";
 import { Button, ConfigProvider, Space } from "antd";
-import {
-  EditOutlined,
-  SearchOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, SearchOutlined, UploadOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { GoDotFill } from "react-icons/go";
 import useWindowSize from "../../../hooks/useWindowSize";
-import {
-  CardContainer,
-  CardInner,
-  DotStyle,
-} from "../../../styles/myResume.styles";
+import { CardContainer, CardInner, DotStyle } from "../../../styles/myResume.styles";
 import ResumeModals from "../../Modals/ResumeModals";
 import { PiCertificateFill } from "react-icons/pi";
 
-const CertificationCard = ({ icon , data, title, orgName, credId, month,year, url}) => {
+const CertificationCard = ({ item, icon, title, orgName, credId, month, year, url }) => {
   const { width } = useWindowSize();
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => setShowModal(!showModal);
 
+  console.log(url);
   return (
     <CardContainer width={width}>
-      {showModal && (
-        <ResumeModals
-          handleCancel={handleShowModal}
-          keyItem={"certification"}
-          value={{}}
-        />
-      )}
+      {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"certification"} value={item} />}
       <div>
         <PiCertificateFill size={40} />
       </div>
@@ -42,7 +29,9 @@ const CertificationCard = ({ icon , data, title, orgName, credId, month,year, ur
             <DotStyle>
               <GoDotFill />
             </DotStyle>
-            <p>{month} {year}</p>
+            <p>
+              {month} {year}
+            </p>
           </Space>
           <p>Credential Id {credId}</p>
           <ConfigProvider
@@ -56,17 +45,10 @@ const CertificationCard = ({ icon , data, title, orgName, credId, month,year, ur
               },
             }}
           >
-          <a href={url} target="_blank" rel="noreferrer">
-            <Button
-              icon={<UploadOutlined />}
-              type="primary"
-              iconPosition="end"
-              shape="round"
-              size="large"
-            >
-              
+            <a href={url} target="_blank" rel="noreferrer">
+              <Button icon={<UploadOutlined />} type="primary" iconPosition="end" shape="round" size="large">
                 Show Credential
-            </Button>
+              </Button>
             </a>
           </ConfigProvider>
         </Space>
@@ -77,9 +59,7 @@ const CertificationCard = ({ icon , data, title, orgName, credId, month,year, ur
           size="large"
           className="edit-btn"
           onClick={handleShowModal}
-        >
-          Edit
-        </Button>
+        />
       </CardInnerVariant>
     </CardContainer>
   );

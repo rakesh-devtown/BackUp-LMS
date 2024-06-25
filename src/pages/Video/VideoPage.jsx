@@ -77,6 +77,7 @@ const Video = () => {
         widtth={width}
         type="link"
         size="large"
+        style={{display:'flex', alignItems:"center"}}
         onClick={() => navigate("/module")}
       >
         <ArrowLeftOutlined /> Back To DashBoard

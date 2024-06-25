@@ -119,7 +119,7 @@ const AddEducation = ({ value, handleCancel }) => {
                         <Col span={12}>
                             <CustomDatePicker
                                 mode={'Month'} name={'startMonth'} 
-                                value={education?.startDate ? new Date(education.startDate).toLocaleString('default', { month: 'long' }): null}
+                                value={education?.startDate ? new Date(education.startDate).toLocaleString('default', { month: '2-digit' }): null}
                              />
                         </Col>
                         <Col span={12}>
@@ -135,7 +135,7 @@ const AddEducation = ({ value, handleCancel }) => {
                         <Row gutter={15}>
                             <Col span={12}>
                                 <CustomDatePicker mode={'Month'} name={'endMonth'} 
-                                    value={education?.endDate ? new Date(education.endDate).toLocaleString('default', { month: 'long' }) : null}
+                                    value={education?.endDate ? new Date(education.endDate).toLocaleString('default', { month: '2-digit' }) : null}
                                 />
                             </Col>
                             <Col span={12}>

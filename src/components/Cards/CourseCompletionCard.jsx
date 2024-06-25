@@ -41,7 +41,7 @@ const CourseCompletionCard = ({ data, completed,bgColor }) => {
                 open={showCertificate}
                 onCancel={()=>{setShowCertificate(false)}}
                 footer={false}
-                closeIcon={<Button shape="circle"><CloseOutlined /></Button>}
+                // closeIcon={<Button shape="circle"><CloseOutlined /></Button>}
                 centered={true}
                 width={width > 1200 ? 1097 : (width >= 768 ? 700 : 397)}
             >
@@ -99,7 +99,7 @@ const StyledCard = styled.div`
     border-bottom-width: 7px;
     border-bottom-style: solid;
     border-color:${props => props.bgColor ? props.bgColor : "#E7B11F"} ;
-    max-width: 800px;
+    max-width: 600px;
     //styling for the hidden div
     .hidden-card{
         display: none;

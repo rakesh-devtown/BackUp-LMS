@@ -11,55 +11,55 @@ import OTPverify from "../../components/Forms/OTPverification";
 import SuccessBox from "../../components/Forms/Success";
 import ResetPassword from "../../components/Forms/ResetPassword";
 
-
 const LoginMobileView = () => {
-
   const { width } = useWindowSize();
 
   const mobileCurrentPage = loginUiStore((state) => state.mobileCurrentPage);
-  const setMobileCurrentPage = loginUiStore(
-    (state) => state.setMobileCurrentPage
-  );
+  const setMobileCurrentPage = loginUiStore((state) => state.setMobileCurrentPage);
 
   return (
-
     <LoginMobile width={width} mobileCurrentPage={mobileCurrentPage}>
-
       {mobileCurrentPage === "register" ? (
         <MobileRegister />
       ) : mobileCurrentPage === "login" ? (
         <MobileLogin />
       ) : mobileCurrentPage === "forget-password" ? (
-        <ForgetPass toggleSignUp={() => setMobileCurrentPage('login')} nextPage={() => setMobileCurrentPage("otp")} />
+        <ForgetPass toggleSignUp={() => setMobileCurrentPage("login")} nextPage={() => setMobileCurrentPage("otp")} />
       ) : mobileCurrentPage === "otp" ? (
-        <OTPverify handleBack={() => setMobileCurrentPage('login')} handleNext={() => setMobileCurrentPage("reset-password")} />
+        <OTPverify
+          handleBack={() => setMobileCurrentPage("login")}
+          handleNext={() => setMobileCurrentPage("reset-password")}
+        />
       ) : mobileCurrentPage === "reset-password" ? (
-        <ResetPassword handleNext={() => setMobileCurrentPage('success')} />
+        <ResetPassword handleNext={() => setMobileCurrentPage("success")} />
       ) : mobileCurrentPage === "success" ? (
-        <SuccessBox handleNext={() => setMobileCurrentPage('login')} successMessage={"Password Successfully Update"} btnText={"Back to Login"} />
+        <SuccessBox
+          handleNext={() => setMobileCurrentPage("login")}
+          successMessage={"Password Successfully Update"}
+          btnText={"Back to Login"}
+        />
       ) : mobileCurrentPage === "session-limit" ? (
         <MobileSessionLimit />
-        // ) : mobileCurrentPage === "carrer-path" ? (
-        //   <MobileCarrerPath />
-      ) : (
-        null
-      )
-
-      }
+      ) : // ) : mobileCurrentPage === "carrer-path" ? (
+      //   <MobileCarrerPath />
+      null}
     </LoginMobile>
-
   );
 };
 
 const LoginMobile = styled.div`
-background-color: white;
-width: ${props => props.width >= 576 ? "551px" : "100%"};
-margin: 0 auto;
-/* width: 551px; */
-min-height: 100vh;
-padding: ${props => (props.mobileCurrentPage === "register" || props.mobileCurrentPage === "login") ? '36px 24px' : '36px 55px'};
-display: grid;
-place-items: center;
-`
+  position: relative;
+  z-index: 5;
+  background-color: white;
+  background: transparent;
+  width: ${(props) => (props.width >= 576 ? "551px" : "100%")};
+  margin: 0 auto;
+  /* width: 551px; */
+  min-height: 100vh;
+  padding: ${(props) =>
+    props.mobileCurrentPage === "register" || props.mobileCurrentPage === "login" ? "36px 24px" : "36px 55px"};
+  display: grid;
+  place-items: center;
+`;
 
 export default LoginMobileView;

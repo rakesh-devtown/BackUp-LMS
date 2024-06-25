@@ -1,22 +1,14 @@
 import { useState } from "react";
 import { Button, ConfigProvider, Space } from "antd";
-import {
-  EditOutlined,
-  SearchOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, SearchOutlined, UploadOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { GoDotFill } from "react-icons/go";
 import { GrProjects } from "react-icons/gr";
 import useWindowSize from "../../../hooks/useWindowSize";
-import {
-  CardContainer,
-  CardInner,
-  DotStyle,
-} from "../../../styles/myResume.styles";
+import { CardContainer, CardInner, DotStyle } from "../../../styles/myResume.styles";
 import ResumeModals from "../../Modals/ResumeModals";
 
-const ProjectCard = ({ icon }) => {
+const ProjectCard = ({ item, name, githubLink, hostedLink, description, issueMonth, issueYear }) => {
   const { width } = useWindowSize();
   const [showModal, setShowModal] = useState(false);
 
@@ -24,13 +16,7 @@ const ProjectCard = ({ icon }) => {
 
   return (
     <CardContainer width={width}>
-      {showModal && (
-        <ResumeModals
-          handleCancel={handleShowModal}
-          keyItem={"project"}
-          value={{}}
-        />
-      )}
+      {showModal && <ResumeModals handleCancel={handleShowModal} keyItem={"project"} value={item} />}
       <div>
         <ProjectIcon>
           <GrProjects />
@@ -39,44 +25,37 @@ const ProjectCard = ({ icon }) => {
       </div>
       <CardInnerVariant width={width}>
         <Space size={2} direction="vertical">
-          <h5>Project Title</h5>
+          <h5>{name}</h5>
 
-          <p className="desscription">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt
-            corporis ullam eveniet maxime numquam vero architecto quae dolore,
-            sapiente inventore placeat, rem optio similique alias perspiciatis
-            ad eum impedit ea debitis repellendus aliquid distinctio soluta
-            dolorum necessitatibus! Animi, accusantium consequatur?
-          </p>
+          <p className="desscription">{description}</p>
           <Space size={6} align="start">
-            <p className="bold">Skills : </p>
-            <p>Coursera</p>
-            <DotStyle>
+            {/* <p className="bold">Skills : </p> */}
+            {/* <p>Coursera</p> */}
+            {/* <DotStyle>
               <GoDotFill />
-            </DotStyle>
-            <p>Jan 2024</p>
+            </DotStyle> */}
+            <p>
+              {issueMonth} {issueYear}
+            </p>
           </Space>
-          <ConfigProvider
-            theme={{
-              components: {
-                Button: {
-                  colorPrimary: "white",
-                  primaryColor: "#61738e",
-                  colorPrimaryHover: "#1E6DE8",
+
+          <a target="_blank" href={githubLink}>
+            <ConfigProvider
+              theme={{
+                components: {
+                  Button: {
+                    colorPrimary: "white",
+                    primaryColor: "#61738e",
+                    colorPrimaryHover: "#1E6DE8",
+                  },
                 },
-              },
-            }}
-          >
-            <Button
-              icon={<UploadOutlined />}
-              type="primary"
-              iconPosition="end"
-              shape="round"
-              size="large"
+              }}
             >
-              Show Project
-            </Button>
-          </ConfigProvider>
+              <Button icon={<UploadOutlined />} type="primary" iconPosition="end" shape="round" size="large">
+                Show Project
+              </Button>
+            </ConfigProvider>
+          </a>
         </Space>
         <Button
           type="text"
@@ -85,9 +64,7 @@ const ProjectCard = ({ icon }) => {
           size="large"
           className="edit-btn"
           onClick={handleShowModal}
-        >
-          Edit
-        </Button>
+        />
       </CardInnerVariant>
     </CardContainer>
   );

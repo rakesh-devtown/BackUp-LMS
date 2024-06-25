@@ -3,6 +3,7 @@ import { months, years } from '../../utils/monthyear'
 const CustomDatePicker = ({ mode, required, name, value }) => {
     return (
         <Form.Item label={mode} required={required} name={name}
+        initialValue={value}
             rules={[
                 {
                     required,

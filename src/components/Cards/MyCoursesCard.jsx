@@ -7,43 +7,42 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useBatchStore from "../../store/batchStore";
 
-const MyCoursesCard = ({enroll}) => {
+const MyCoursesCard = ({ enroll }) => {
   const { width } = useWindowSize();
   const [course, setCourse] = useState(null);
-  const {getModuleOfEnrolledCourse,setEnrollId,getFirstSectionOfCourse} = useBatchStore();
+  const { getModuleOfEnrolledCourse, setEnrollId, getFirstSectionOfCourse } = useBatchStore();
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const getCurrentSectionDetails = useBatchStore((state) => state.getCurrentSectionDetails);
   const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
   const navigate = useNavigate();
 
-  const onClickOnDashboard=async()=>{
-    try{
+  const onClickOnDashboard = async () => {
+    try {
       //await getModuleOfEnrolledCourse(enroll.id);
       setEnrollId(enroll.id);
-      navigate("/module")
-    }catch(err){
-      console.log(err)
+      navigate("/module");
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
-  useEffect(()=>{
-    if(enroll){
+  useEffect(() => {
+    if (enroll) {
       setCourse(enroll?.batch?.course);
     }
-  },[enroll])
-
+  }, [enroll]);
 
   const startLearningFromFirstModule = async () => {
     try {
       setEnrollId(enroll.id);
       await getModuleOfEnrolledCourse(enroll.id);
       await getFirstSectionOfCourse(enroll.batch.course.id);
-      
+
       navigate("/video");
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <StyledCard width={width}>
@@ -63,14 +62,14 @@ const MyCoursesCard = ({enroll}) => {
         <Space size={16}>
           {/* <p className="completion">0% Completed</p> */}
 
-          <DashboardButton onClick={onClickOnDashboard}  shape="round" size="large">
+          <DashboardButton onClick={onClickOnDashboard} shape="round" size="large">
             View Dashboard
           </DashboardButton>
         </Space>
       </Top>
-        <CustomButton onClick={startLearningFromFirstModule} type="primary" size="large" danger screenWidth={width}>
-          Start Learning
-        </CustomButton>
+      <CustomButton onClick={startLearningFromFirstModule} type="primary" size="large" danger screenWidth={width}>
+        Start Learning
+      </CustomButton>
       {/* <LastActivityCard leftPadding={true} /> */}
     </StyledCard>
   );
@@ -79,8 +78,9 @@ const MyCoursesCard = ({enroll}) => {
 const StyledCard = styled.div`
   padding: ${(props) => (props.width >= 768 ? "24px" : "16px")};
   border-radius: 8px;
-  border: 0.5px solid #5578d1;
-  background: #f6faff;
+  border: 0.025px solid #5578d1;
+  /* background: #f6faff; */
+  background: white;
 `;
 
 const Top = styled.div`
