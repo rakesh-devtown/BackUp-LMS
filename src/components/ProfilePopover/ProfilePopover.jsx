@@ -30,8 +30,6 @@ const ProfilePopover = () => {
         <img
           src={user?.profilePic || profilePic}
           alt=""
-          width={37}
-          height={37}
         />
         <div className="box1">
           <div>
@@ -95,6 +93,8 @@ const ProfileLink = styled(Link)`
   img {
     border-radius: 50%;
     overflow: hidden;
+    height: 45px;
+    width: 45px;
   }
   .box1 {
     display: flex;

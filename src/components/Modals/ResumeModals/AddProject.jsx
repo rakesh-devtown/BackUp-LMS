@@ -106,6 +106,7 @@ const AddProject = ({ value, handleCancel }) => {
               <CustomDatePicker
                 mode={"Month"}
                 name={"startMonth"}
+                required={true}
                 value={
                   project?.issueDate
                     ? new Date(project?.issueDate).toLocaleString("default", {

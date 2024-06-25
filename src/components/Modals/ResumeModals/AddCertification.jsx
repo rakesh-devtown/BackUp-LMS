@@ -92,6 +92,7 @@ const AddCertification = ({ value, handleCancel }) => {
               <CustomDatePicker
                 mode={"Month"}
                 name={"startMonth"}
+                required={true}
                 value={
                   certificate?.issueDate
                     ? new Date(certificate?.issueDate).toLocaleString("default", {
