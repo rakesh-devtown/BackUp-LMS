@@ -97,9 +97,7 @@ function HeaderBar() {
         >
           <img
             src={user?.profilePic || ProfilePhoto}
-            alt=""
-            width={37}
-            height={37}
+            alt="img"
             className="profile-pic"
           />
         </Popover>
@@ -112,6 +110,7 @@ function HeaderBar() {
 export default HeaderBar;
 
 const StyledUl = styled.ul`
+  height: 60px;
   display: flex;
   flex-grow: 1;
   align-items: center;
@@ -154,5 +153,7 @@ const StyledSearchBox = styled.div`
   .profile-pic {
     border-radius: 50%;
     overflow: hidden;
+    height: 37px;
+    width: 37px;
   }
 `;

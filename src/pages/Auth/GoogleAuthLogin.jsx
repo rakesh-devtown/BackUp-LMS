@@ -86,7 +86,7 @@ export const GoogleAuthLogin = () => {
           Sign in with Google
         </button>
       )}
-      width={10000}
+      width={375}
       onSuccess={onSignInSuccess}
       onFailure={onSignInFailure}
       cookiePolicy="single_host_origin"

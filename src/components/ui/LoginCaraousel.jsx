@@ -7,7 +7,7 @@ const OuterDiv = styled.div`
   z-index: 60;
 `;
 const InnerDiv = styled.div`
-  height: 720px;
+  height: 600px;
   color: #fff;
   text-align: center;
   position: relative;
@@ -16,27 +16,45 @@ const InnerDiv = styled.div`
 
 const ContentDiv = styled.div`
   position: absolute;
-  bottom: 10%;
-  left: 11%;
+  bottom: 5%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   z-index: 100;
+  padding: 0 20px;
 `;
 
-const Heading1 = styled.h1``;
+const Heading1 = styled.h1`
+  color: var(--Color-White-100, #fff);
+  text-align: center;
+  font-family: Satoshi;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 0%;
+`;
 
-const Heading4 = styled.h4``;
+const Heading4 = styled.p`
+color: var(--Color-White-100, #FFF);
+text-align: center;
+font-family: Satoshi;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;`;
 
 const data = [
   {
-    title: "Welcome to DevTown",
-    description: "Dive into a World of Seamless Learning With DevTown!",
+    img: Shourya,
+    title: "Welcome Back!",
+    description: "Dive into your journey of discovery! Start exploring our vast resources and enrich your mind.",
   },
   {
-    title: "Welcome to DevTown",
-    description: "Dive into a World of Seamless Learning With DevTown!",
-  },
-  {
-    title: "Welcome to DevTown",
-    description: "Dives into a World of Seamless Learning With DevTown!",
+    img: Ashish,
+    title: "Welcome Back!",
+    description:
+      "Ready to broaden your horizons? Take the next step in your learning adventure and uncover new insights.",
   },
 ];
 
@@ -56,14 +74,15 @@ const LoginCarousel = () => {
   }, [image]);
   return (
     <StyledContainer>
-      <LinearGradientContainer>
+      {/* <LinearGradientContainer>
         <StyledImg src={image} alt="pic" />
-      </LinearGradientContainer>
+        </LinearGradientContainer> */}
       <Carousel autoplay autoplaySpeed={2000}>
         {data.map((e, i) => (
           <OuterDiv key={i}>
             <InnerDiv>
               <ContentDiv>
+                <NewStyledImg src={e.img} alt="pic" ind={i} />
                 <Heading1>{e.title}</Heading1>
                 <Heading4> {e.description} </Heading4>
               </ContentDiv>
@@ -78,11 +97,17 @@ export default LoginCarousel;
 
 const StyledImg = styled.img`
   position: absolute;
-  // objectFit: cover;
   z-index: 0;
   width: 80%;
-  top: 20%;
+  top: 8%;
   left: 10%;
+`;
+const NewStyledImg = styled.img`
+  position: absolute;
+  z-index: -5;
+  width: ${(props) => (props.ind == 0 ? "70%" : "60%")};
+  bottom: -0px;
+  left: ${(props) => (props.ind == 0 ? "15%" : "20%")};
 `;
 
 const StyledContainer = styled.div`
@@ -99,11 +124,7 @@ const LinearGradientContainer = styled.div`
   &::after {
     content: "";
     position: absolute;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.03) 51%,
-      rgb(0, 0, 0) 100%
-    );
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.03) 51%, rgb(0, 0, 0) 100%);
     bottom: 0;
     height: 100%;
     width: 100%;

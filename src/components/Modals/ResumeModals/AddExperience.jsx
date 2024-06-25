@@ -3,18 +3,11 @@ import TextArea from "antd/es/input/TextArea";
 import { Button, Checkbox, Col, Form, Input, Row, Select, Space } from "antd";
 import useWindowSize from "../../../hooks/useWindowSize";
 import CustomDatePicker from "../../DatePicker/CustomDatePicker";
-import {
-  StyledForm,
-  Title,
-  InnerContainer,
-  StyledDate,
-  SaveBtn,
-  UpdateDelete,
-} from "../../../styles/myResume.styles";
+import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from "../../../styles/myResume.styles";
 import customizeRequiredMark from "../../../utils/custom-form-functions";
 import useResumeStore from "../../../store/resumeStore";
 
-const AddExperience = ({ value }) => {
+const AddExperience = ({ value, handleCancel }) => {
   const [state, setState] = useState(value);
   const [checkbox1, setcheckbox1] = useState(value?.endDate.present);
   const [checkbox2, setcheckbox2] = useState(false);
@@ -25,33 +18,30 @@ const AddExperience = ({ value }) => {
   const handleCheckbox1 = () => setcheckbox1(!checkbox1);
   const handleCheckbox2 = () => setcheckbox2(!checkbox2);
 
-  const handleSubmit = async(e) => {
-    try{
-        const data={
-            companyName:e.company,
-            role:e.role,
-            startDate:new Date(e.startYear,e.startMonth-1,10),
-            endDate:checkbox1 ? null : new Date(e.endYear,e.endMonth-1,10),
-            description:e.description,
-            isProfileSubHeadline:checkbox2,
-            locationType:e.locationType,
-            employmentType:e.employmentType
-        }
-        //console.log(data)
-        await postExperience(data);         
-    }catch(err){
-        console.log(err)
+  const handleSubmit = async (e) => {
+    try {
+      const data = {
+        companyName: e.company,
+        role: e.role,
+        startDate: new Date(e.startYear, e.startMonth - 1, 10),
+        endDate: checkbox1 ? null : new Date(e.endYear, e.endMonth - 1, 10),
+        description: e.description,
+        isProfileSubHeadline: checkbox2,
+        locationType: e.locationType,
+        employmentType: e.employmentType,
+      };
+      //console.log(data)
+      await postExperience(data);
+      handleCancel();
+    } catch (err) {
+      console.log(err);
     }
-}
+  };
 
   const handleDelete = () => console.log("delete");
 
   return (
-    <StyledForm
-      name="basic"
-      onFinish={handleSubmit}
-      requiredMark={customizeRequiredMark}
-    >
+    <StyledForm name="basic" onFinish={handleSubmit} requiredMark={customizeRequiredMark}>
       <Title>{value ? "Edit" : "Add"} Work Experience</Title>
       <InnerContainer>
         <Form.Item
@@ -84,19 +74,10 @@ const AddExperience = ({ value }) => {
           <h5>Start Date</h5>
           <Row gutter={15}>
             <Col span={12}>
-              <CustomDatePicker
-                mode={"Month"}
-                name={"startMonth"}
-                value={state?.startDate.month}
-              />
+              <CustomDatePicker mode={"Month"} name={"startMonth"} required={true} value={state?.startDate.month} />
             </Col>
             <Col span={12}>
-              <CustomDatePicker
-                mode={"Year"}
-                name={"startYear"}
-                required={true}
-                value={state?.startDate.year}
-              />
+              <CustomDatePicker mode={"Year"} name={"startYear"} required={true} value={state?.startDate.year} />
             </Col>
           </Row>
         </StyledDate>
@@ -105,19 +86,10 @@ const AddExperience = ({ value }) => {
           {!checkbox1 && (
             <Row gutter={15}>
               <Col span={12}>
-                <CustomDatePicker
-                  mode={"Month"}
-                  name={"endMonth"}
-                  value={state?.endDate.month}
-                />
+                <CustomDatePicker mode={"Month"} name={"endMonth"} value={state?.endDate.month} required={true} />
               </Col>
               <Col span={12}>
-                <CustomDatePicker
-                  mode={"Year"}
-                  name={"endYear"}
-                  required={true}
-                  value={state?.endDate.year}
-                />
+                <CustomDatePicker mode={"Year"} name={"endYear"} required={true} value={state?.endDate.year} />
               </Col>
             </Row>
           )}
@@ -129,7 +101,12 @@ const AddExperience = ({ value }) => {
         </Form.Item>
         <Row gutter={15} style={{ marginBottom: "25px" }}>
           <Col span={12}>
-            <Form.Item name="locationType" label="Location type">
+            <Form.Item name="locationType" label="Location type"  rules={[
+            {
+              required: true,
+              message: "Location type needed!",
+            },
+          ]}>
               <Select placeholder="Please select" allowClear>
                 <Option value="onSite">On-site</Option>
                 <Option value="hybrid">Hybrid</Option>
@@ -138,7 +115,11 @@ const AddExperience = ({ value }) => {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="employmentType" label="Employment type">
+            <Form.Item name="employmentType" label="Employment type" rules={[
+            {
+              required: true,
+              message: "Employment type needed!",
+            }]}>
               <Select placeholder="Please select" allowClear>
                 <Option value="fullTime">Full-time</Option>
                 <Option value="partTime">Part-time</Option>
@@ -149,7 +130,7 @@ const AddExperience = ({ value }) => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item label="Description" name={"description"}>
+        <Form.Item label="Description" name={"description"} >
           <TextArea rows={5} />
         </Form.Item>
         <Form.Item name={"profileHeadlineChecked"}>
@@ -164,13 +145,7 @@ const AddExperience = ({ value }) => {
             <Button type="primary" htmlType="submit" size="large">
               Update
             </Button>
-            <Button
-              type="primary"
-              danger
-              ghost
-              size="large"
-              onClick={handleDelete}
-            >
+            <Button type="primary" danger ghost size="large" onClick={handleDelete}>
               Delete
             </Button>
           </UpdateDelete>

@@ -41,7 +41,7 @@ const MyCertificate = () => {
               <h3 className="title">Course Certification</h3>
               <Row gutter={[15, 15]}>
                 {enrolledCourses.map((card, ind) => (
-                  <Col key={ind} span={24} md={12} xxl={8}>
+                  <Col key={ind} span={24} md={12}>
                     <CourseCompletionCard 
                       bgColor={ind % 2 === 0 ? "#1A4674" : "#3E863D"} 
                       data={card?.batch?.course} 
@@ -56,7 +56,7 @@ const MyCertificate = () => {
               <h2 className="title">Course Certification</h2>
               <Row gutter={[15, 15]}>
                 {completedCoursesCertificates && completedCoursesCertificates.map((card, ind) => (
-                  <Col key={ind} span={24} md={12} xxl={8}>
+                  <Col key={ind} span={24} md={12}>
                     <CourseCompletionCard data={card} completed={true} />
                   </Col>
                 ))}

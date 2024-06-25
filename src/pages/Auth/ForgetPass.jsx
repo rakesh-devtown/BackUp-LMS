@@ -39,7 +39,7 @@ const Image = styled.img`
 
 const Title = styled.h2`
   text-align: start;
-  font-size: 40px;
+  font-size: 26px;
   font-weight: 900;
 `;
 
@@ -134,7 +134,7 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
           textAlign: "center",
           width: "100%",
           fontWeight: 400,
-          fontSize: "18px",
+          fontSize: "14px",
         }}
       >
         Terms and Conditions | FAQs | Contact Us

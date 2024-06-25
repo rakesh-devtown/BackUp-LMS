@@ -22,6 +22,7 @@ import loginUiStore from "../../store/loginUi.store";
 import useWindowSize from "../../hooks/useWindowSize";
 import useAuthStore from "../../store/authStore";
 import Config from "../../config.js";
+import styled from "styled-components";
 
 const googleClientId = Config.googleClientId; // Access the client ID from the config
 
@@ -31,9 +32,7 @@ function MobileLogin() {
   const { login, isAuthenticated, isGoogleAuthenticated } = useAuthStore();
   const screenLimitReached = useAuthStore((state) => state.screenLimitReached);
   const navigate = useNavigate();
-  const setMobileCurrentPage = loginUiStore(
-    (state) => state.setMobileCurrentPage
-  );
+  const setMobileCurrentPage = loginUiStore((state) => state.setMobileCurrentPage);
 
   const width = useWindowSize();
 
@@ -68,10 +67,12 @@ function MobileLogin() {
 
   return (
     <StyledSignInForm width={width} name="login-form" onFinish={handleSubmit}>
-      <StyledHeading>Hey Buddy,</StyledHeading>
-      {/* <Form.Item name="form-text"> */}
-      <StyledP>Create an account and start learning with us!</StyledP>
-      {/* </Form.Item> */}
+      <Space size={5} direction="vertical">
+        <StyledHeading>Hey Learner,</StyledHeading>
+        {/* <Form.Item name="form-text"> */}
+        <StyledP>Unlock your learning journey! Log in now to explore and discover.</StyledP>
+        {/* </Form.Item> */}
+      </Space>
       <div
         style={{
           display: "flex",
@@ -102,47 +103,45 @@ function MobileLogin() {
         <StyledHr />
       </FlexContainer>
 
-      <Space size={10} direction="vertical">
-        <StyledLabel>Email Address</StyledLabel>
-        <Form.Item
-          name="email"
-          rules={[
-            {
-              type: "email",
-              required: true,
-              message: "Please enter your email!",
-            },
-          ]}
-          normalize={(value) => value.trim()}
-        >
-          <InputUsername placeholder="examplemail@gmail.com" />
-        </Form.Item>
-
-        <StyledLabel>Password</StyledLabel>
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please enter your password!",
-            },
-            {
-              min: 1,
-              message: "Password must be at least 8 characters long.",
-            },
-          ]}
-        >
-          <StyledPassword placeholder="Min. 8 characters" type="password" />
-        </Form.Item>
+      <Space size={12.7} direction="vertical">
+        <Field>
+          <StyledLabel>Email Address</StyledLabel>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                type: "email",
+                required: true,
+                message: "Please enter your email!",
+              },
+            ]}
+            normalize={(value) => value.trim()}
+          >
+            <InputUsername placeholder="support@devtown.in" />
+          </Form.Item>
+        </Field>
+        <Field>
+          <StyledLabel>Password</StyledLabel>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your password!",
+              },
+              {
+                min: 1,
+                message: "Password must be at least 8 characters long.",
+              },
+            ]}
+          >
+            <StyledPassword placeholder="Min. 8 characters" type="password" />
+          </Form.Item>
+        </Field>
       </Space>
 
       <Form.Item>
-        <StyledButton
-          type="primary"
-          htmlType="submit"
-          className="login-button"
-          children="Login"
-        >
+        <StyledButton type="primary" htmlType="submit" className="login-button" children="Login">
           Login
         </StyledButton>
         <div
@@ -178,5 +177,11 @@ function MobileLogin() {
     </StyledSignInForm>
   );
 }
+
+const Field = styled.div`
+  display: flex;
+  gap: 8.2px;
+  flex-direction: column;
+`;
 
 export default MobileLogin;

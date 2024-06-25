@@ -4,33 +4,20 @@ import { useState } from "react";
 import styled from "styled-components";
 import useResumeStore from "../../../store/resumeStore";
 
-const Skill = ({ skills, setSkills }) => {
+const CertificateSkills = ({ skills, setSkills }) => {
   const [addSkill, setAddSkill] = useState(false);
   const [input, setInput] = useState("");
-  const resumeId = useResumeStore((state) => state.resumeId);
-  const { deleteSkills, updateSkills } = useResumeStore();
-  const handleAddSkill = () => setAddSkill(!addSkill);
 
+  const handleAddSkill = () => setAddSkill(!addSkill);
   const handleKeyPress = async (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      try {
-        if (!input) return notification.error({ message: "Please add some skills" });
-        const data = {
-          name: [input],
-          resumeId: resumeId,
-        };
-        await updateSkills(data, skills);
-      } catch (err) {
-        console.log(err);
-      }
+      setSkills([...skills, input]);
       setInput("");
     }
-    // setAddSkill(false)
   };
-
-  const handleRemove = (id) => {
-    deleteSkills(id);
+  const handleRemove = (e) => {
+    setSkills(() => [...skills.filter((ele) => ele !== e)]);
   };
 
   return (
@@ -38,7 +25,6 @@ const Skill = ({ skills, setSkills }) => {
       {addSkill && (
         <div className="input-box">
           <label for="skill">Skills:</label>
-          {/* <Input placeholder="Skill (i.e- Communication)" size='large' /> */}
           <Input
             id="skill"
             value={input}
@@ -64,8 +50,8 @@ const Skill = ({ skills, setSkills }) => {
         <StyledSkill>
           {skills.map((ele, ind) => (
             <div key={ind}>
-              <p>{ele.name}</p>
-              <CloseOutlined style={{ fontSize: "10px" }} onClick={() => handleRemove(ele.id)} />
+              <p>{ele}</p>
+              <CloseOutlined style={{ fontSize: "10px" }} onClick={() => handleRemove(ele)} />
             </div>
           ))}
         </StyledSkill>
@@ -148,4 +134,4 @@ const StyledButton = styled(Button)`
   margin-top: 10px;
 `;
 
-export default Skill;
+export default CertificateSkills;

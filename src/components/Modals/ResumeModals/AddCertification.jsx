@@ -1,56 +1,66 @@
-import React, { useState } from 'react'
-import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from 'antd'
-import useWindowSize from '../../../hooks/useWindowSize'
-import CustomDatePicker from '../../DatePicker/CustomDatePicker'
-import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from '../../../styles/myResume.styles'
-import Skill from './Skill'
-import customizeRequiredMark from '../../../utils/custom-form-functions'
-import useResumeStore from '../../../store/resumeStore'
-
+import React, { useState } from "react";
+import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from "antd";
+import useWindowSize from "../../../hooks/useWindowSize";
+import CustomDatePicker from "../../DatePicker/CustomDatePicker";
+import { StyledForm, Title, InnerContainer, StyledDate, SaveBtn, UpdateDelete } from "../../../styles/myResume.styles";
+import customizeRequiredMark from "../../../utils/custom-form-functions";
+import useResumeStore from "../../../store/resumeStore";
 
 const AddCertification = ({ value, handleCancel }) => {
+  const [certificate, setCertificate] = useState(value);
+  const [checked, setChecked] = useState(false);
+  const { width } = useWindowSize();
 
-    const [state, setState] = useState(value);
-    const [checked, setChecked] = useState(false)
-    const [skills, setSkills] = useState([])
-    const { width } = useWindowSize();
+  console.log(certificate);
+  const { postCertificates, updateCertificate, deleteCertificate } = useResumeStore();
 
-    const {postCertificates} = useResumeStore();
-
-    const handleDelete = () => console.log("delete");
-    const handleCheckbox = () => setChecked(!checked)
-    const handleSkills = (e) => setSkills(e)
-
-    const handleSubmit = async(e) => {
-       try{
-        const data={
-            skills:skills,
-            name:e.name,
-            credentialId:e.credentialId,
-            credentialUrl:e.credentialUrl,
-            issuingOrg:e.issueOrg,
-            issueDate:new Date(e.startYear,e.startMonth-1,10)
-        }
-        await postCertificates(data);
-       }catch(err){
-           console.log(err)
-       }finally{
-           handleCancel()
-       }
+  const handleDelete = async () => {
+    try {
+      await deleteCertificate(certificate.id);
+      handleCancel();
+    } catch (err) {
+      console.log(err);
     }
-
+  };
+  const handleCheckbox = () => setChecked(!checked);
+  const handleSubmit = async (e) => {
+    try {
+      const data = !value
+        ? {
+            name: e.name,
+            credentialId: e.credentialId,
+            credentialUrl: e.credentialUrl,
+            issuingOrg: e.issuingOrg,
+            issueDate: new Date(e.startYear, e.startMonth - 1, 10),
+          }
+        : {
+            name: e.name,
+            credentialId: e.credentialId,
+            credentialUrl: e.credentialUrl,
+            issuingOrg: e.issuingOrg,
+            issueDate: new Date(e.startYear, e.startMonth - 1, 10),
+            id: certificate.id,
+          };
+      if (value) {
+        await updateCertificate(data);
+      } else {
+        await postCertificates(data);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      handleCancel();
+    }
+  };
 
   return (
-    <StyledForm
-      name="basic"
-      onFinish={handleSubmit}
-      requiredMark={customizeRequiredMark}
-    >
+    <StyledForm name="basic" onFinish={handleSubmit} requiredMark={customizeRequiredMark}>
       <Title>{value ? "Edit" : "Add"} Certificate</Title>
       <InnerContainer>
         <Form.Item
           label="Certificate Name"
-          name="certificate"
+          name="name"
+          initialValue={certificate?.name}
           rules={[
             {
               required: true,
@@ -63,7 +73,8 @@ const AddCertification = ({ value, handleCancel }) => {
 
         <Form.Item
           label="Issuing Organization"
-          name="issueOrg"
+          name="issuingOrg"
+          initialValue={certificate?.issuingOrg}
           rules={[
             {
               required: true,
@@ -78,13 +89,25 @@ const AddCertification = ({ value, handleCancel }) => {
           <h5>Issue Date</h5>
           <Row gutter={15}>
             <Col span={12}>
-              <CustomDatePicker mode={"Month"} name={"startMonth"} />
+              <CustomDatePicker
+                mode={"Month"}
+                name={"startMonth"}
+                required={true}
+                value={
+                  certificate?.issueDate
+                    ? new Date(certificate?.issueDate).toLocaleString("default", {
+                        month: "2-digit",
+                      })
+                    : null
+                }
+              />
             </Col>
             <Col span={12}>
               <CustomDatePicker
                 mode={"Year"}
                 name={"startYear"}
                 required={true}
+                value={certificate?.issueDate ? new Date(certificate?.issueDate).getFullYear() : null}
               />
             </Col>
           </Row>
@@ -93,6 +116,7 @@ const AddCertification = ({ value, handleCancel }) => {
         <Form.Item
           label="Credential ID"
           name="credentialId"
+          initialValue={certificate?.credentialId}
           rules={[
             {
               required: true,
@@ -103,34 +127,41 @@ const AddCertification = ({ value, handleCancel }) => {
           <Input placeholder="i.e ID" size="large" />
         </Form.Item>
 
-                <Form.Item label="Credential URL" name="credentialUrl"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input Credential URL!',
-                        },
-                    ]}
-                >
-                    <Input placeholder="i.e URL" size='large' />
-                </Form.Item>
-                <Skill skills={skills} setSkills={handleSkills} />
-                {/* <Form.Item name={"checked"}>
+        <Form.Item
+          label="Credential URL"
+          name="credentialUrl"
+          initialValue={certificate?.credentialUrl}
+          rules={[
+            {
+              required: true,
+              message: "Please input Credential URL!",
+            },
+          ]}
+        >
+          <Input placeholder="i.e URL" size="large" />
+        </Form.Item>
+        {/* <Form.Item name={"checked"}>
                     <Checkbox onChange={handleCheckbox} checked={checked}>Add DevTown Certificate</Checkbox>
-                </Form.Item> */}
-            </InnerContainer>
-            <Form.Item>
-                {
-                    value ? (
-                        <UpdateDelete width={width}>
-                            <Button type='primary' htmlType='submit' size='large'>Update</Button>
-                            <Button type='primary' danger ghost size='large' onClick={handleDelete}>Delete</Button>
-                        </UpdateDelete>
-                    ) :
-                        <SaveBtn width={width} type='primary' htmlType='submit' size='large'>Save</SaveBtn>
-                }
-            </Form.Item>
-        </StyledForm>
-    )
-}
+            </Form.Item> */}
+      </InnerContainer>
+      <Form.Item>
+        {value ? (
+          <UpdateDelete width={width}>
+            <Button type="primary" htmlType="submit" size="large">
+              Update
+            </Button>
+            <Button type="primary" danger ghost size="large" onClick={handleDelete}>
+              Delete
+            </Button>
+          </UpdateDelete>
+        ) : (
+          <SaveBtn width={width} type="primary" htmlType="submit" size="large">
+            Save
+          </SaveBtn>
+        )}
+      </Form.Item>
+    </StyledForm>
+  );
+};
 
 export default AddCertification;

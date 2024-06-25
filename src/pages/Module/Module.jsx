@@ -117,7 +117,7 @@ const Module = () => {
           )} */}
           <ModuleTop>
             <Link to={"/courses"}>
-              <Button type="link" className="back-btn">
+              <Button type="link" className="back-btn" style={{display:'flex',alignItems:'center'}}>
                 {" "}
                 <ArrowLeftOutlined /> Back{" "}
               </Button>

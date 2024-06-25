@@ -1,11 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import {
-  serviceDelete,
-  serviceGet,
-  servicePost,
-  servicePut,
-} from "../utils/api";
+import { serviceDelete, serviceGet, servicePost, servicePut } from "../utils/api";
 import { notification } from "antd";
 import useAuthStore from "./authStore";
 import loginUiStore from "./loginUi.store";
@@ -23,35 +18,35 @@ const useResumeStore = create(
         certifications:[],
         socialLinks:{},
 
-    resetResume: () => {
-      set({
-        personalDetails: {},
-        education: [],
-        experience: [],
-        skills: [],
-        projects: [],
-        certifications: [],
-      });
-    },
+        resetResume: () => {
+            set({
+                personalDetails: {},
+                education: [],
+                experience: [],
+                skills: [],
+                projects: [],
+                certifications: [],
+            });
+        },
 
-    setLoading: (loading) => {
-      set({ loading });
-    },
+        setLoading: (loading) => {
+            set({ loading });
+        },
 
-    fetchResume: async () => {
-      try {
-        set({ loading: true });
-        const userId = useAuthStore.getState().user.id;
-        const res = await serviceGet(`student/student/v1/resume/?id=${userId}`);
-        const {
-          data: { resume },
-          message,
-          success,
-        } = res;
+        fetchResume: async () => {
+            try {
+                set({ loading: true });
+                const userId = useAuthStore.getState().user.id;
+                const res = await serviceGet(`student/student/v1/resume/?id=${userId}`);
+                const {
+                    data: { resume },
+                    message,
+                    success,
+                  } = res;
 
                 if(success){
                     const { personalDetails, education, workExp, Skills, projects, certifications, socialLinks, role} = resume;
-                    //console.log(resume?.role);
+                     //console.log(resume?.role);
                     set({
                         resumeId:resume.id,
                         personalDetails,
@@ -92,386 +87,661 @@ const useResumeStore = create(
                     success,
                   } = res;
 
-        if (success) {
-          set({ personalDetails: personalDetails });
-          notification.success({
-            message: "Success",
-            description: "Personal Details Updated",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
+                if (success) {
+                    set({ personalDetails: personalDetails });
+                    notification.success({
+                        message: "Success",
+                        description: "Personal Details Updated",
+                    });
+                } else {
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    });
+                }
+            } catch (err) {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                });
+            } finally {
+                set({ loading: false });
+            }
+        },
 
-    setSocialLinks: async (socialLinks) => {
-      try {
-        const res = await servicePost("resume/socialLinks", socialLinks);
-        const {
-          data: { user },
-          message,
-          success,
-        } = res;
+        setSocialLinks: async (socialLinks) => {
+            try {
+                const res = await servicePost("resume/socialLinks", socialLinks);
+                const {
+                    data: { user },
+                    message,
+                    success,
+                  } = res;
 
-        if (success) {
-          set({ socialLinks: socialLinks });
-          notification.success({
-            message: "Success",
-            description: "Social Links Updated",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      }
-    },
-    updateSkills: async (skills, prevSkills) => {
-      try {
-        set({ loading: true });
-        const res = await servicePost(
-          "student/student/v1/resume/skills",
-          skills
-        );
-        const { data, message, success } = res;
+                if (success) {
+                    set({ socialLinks: socialLinks });
+                    notification.success({
+                        message: "Success",
+                        description: "Social Links Updated",
+                    });
+                }else {
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    });
+                }
+            } catch (err) {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                });
+            }
+        },
+        updateSkills: async (skills, prevSkills) => {
+            try {
+                set({ loading: true });
+                const res = await servicePost(
+                  "student/student/v1/resume/skills",
+                  skills
+                );
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        if (success) {
-          set({ skills: [...prevSkills, ...data] });
-          notification.success({
-            message: "Success",
-            description: "Skills Updated",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    updateSocialLinks: async (socialLinks) => {
-      try {
-        const userId = useAuthStore.getState().user.id;
-        set({ loading: true });
-        const res = await servicePost(
-          `student/student/v1/resume/social-links/edit?id=${userId}`,
-          socialLinks
-        );
-        const { data, message, success } = res;
+                if(success){
+                    set({skills:[...prevSkills,...data]});
+                    notification.success({
+                        message: "Success",
+                        description: "Skills Updated",
+                    });
+                } else {
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    });
+                }
+            } catch (err) {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                });
+            } finally {
+                set({ loading: false });
+            }
+        },
+        deleteSkills: async(id) => {
+            try{
+                set({loading:true});
+                const res = await serviceDelete(`student/student/v1/resume/skills?id=${id}`);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        if (success) {
-          set({ socialLinks: socialLinks });
-          notification.success({
-            message: "Success",
-            description: "Social Links Updated",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    postCertificates: async (certificates) => {
-      try {
-        const resumeId = useResumeStore.getState().resumeId;
-        set({ loading: true });
-        const res = await servicePost(
-          `student/student/v1/resume/certification`,
-          {
-            ...certificates,
-            resumeId: resumeId,
-          }
-        );
-        const { data, message, success } = res;
+                const prevSkills = useResumeStore.getState().skills;
+                if(success){
+                    set({skills:prevSkills.filter((skill)=>skill.id!==id)});
+                    notification.success({
+                        message: "Success",
+                        description: "Skill Deleted",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        updateSocialLinks: async (socialLinks) => {
+            try {
+                const userId = useAuthStore.getState().user.id;
+                set({ loading: true });
+                const res = await servicePost(
+                  `student/student/v1/resume/social-links/edit?id=${userId}`,
+                  socialLinks
+                );
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        const prevCertificates = useResumeStore.getState().certifications;
-        if (success) {
-          set({ certifications: [...prevCertificates, data] });
-          notification.success({
-            message: "Success",
-            description: "Certifications Added",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    postEducation: async (education) => {
-      try {
-        const resumeId = useResumeStore.getState().resumeId;
-        set({ loading: true });
-        const res = await servicePost(`student/student/v1/resume/education`, {
-          ...education,
-          resumeId: resumeId,
-        });
-        const { data, message, success } = res;
+                if (success) {
+                    set({ socialLinks: socialLinks });
+                    notification.success({
+                        message: "Success",
+                        description: "Social Links Updated",
+                    });
+                } else {
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    });
+                }
+            } catch (err) {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                });
+            } finally {
+                set({ loading: false });
+            }
+        },
+        postCertificates: async (certificates) => {
+            try {
+                const resumeId = useResumeStore.getState().resumeId;
+                set({loading:true});
+                const res = await servicePost(`student/student/v1/resume/certification`,{
+                    ...certificates,
+                    resumeId:resumeId,
+                });
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        const prevEducation = useResumeStore.getState().education;
-        if (success) {
-          set({ education: [...prevEducation, data] });
-          notification.success({
-            message: "Success",
-            description: "Education Added",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    deleteEducation: async (id) => {
-      try {
-        set({ loading: true });
-        const res = await serviceDelete(
-          `student/student/v1/resume/education?id=${id}`
-        );
-        const { data, message, success } = res;
+                const prevCertificates = useResumeStore.getState().certifications;
+                if(success){
+                    set({certifications:[...prevCertificates,data]});
+                    notification.success({
+                        message: "Success",
+                        description: "Certifications Added",
+                    });
+                } else {
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    });
+                }
+            } catch (err) {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                });
+            } finally {
+                set({ loading: false });
+            }
+        },
+        updateCertificate: async(certificate) => {
+            try{
+                set({loading:true});
+                const userId = useAuthStore.getState().user.id;
+                const res = await servicePost(`student/student/v1/resume/certification/edit?id=${userId}`,certificate);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        const prevEducation = useResumeStore.getState().education;
-        if (success) {
-          set({ education: prevEducation.filter((edu) => edu.id !== id) });
-          notification.success({
-            message: "Success",
-            description: "Education Deleted",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    updateEducation: async (education) => {
-      try {
-        set({ loading: true });
-        const userId = useAuthStore.getState().user.id;
-        const res = await servicePost(
-          `student/student/v1/resume/education/edit?id=${userId}`,
-          education
-        );
-        const { data, message, success } = res;
+                const prevCertificates = useResumeStore.getState().certifications;
+                if(success){
+                    // console.log(prevCertificates);
+                    // console.log(data)
+                    const newCertificates = prevCertificates.filter((certificate)=>certificate.id!==data.id);
+                    set({certifications:[...newCertificates,data]});
+                    notification.success({
+                        message: "Success",
+                        description: "Certificate Updated",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        deleteCertificate: async(id) => {
+            try{
+                set({loading:true});
+                const res = await serviceDelete(`student/student/v1/resume/certification?id=${id}`);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        const prevEducation = useResumeStore.getState().education;
-        if (success) {
-          console.log(prevEducation);
-          console.log(data);
-          const newEducation = prevEducation.filter(
-            (edu) => edu.id !== data.id
-          );
-          set({ education: [...newEducation, data] });
-          notification.success({
-            message: "Success",
-            description: "Education Updated",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    postExperience: async (experience) => {
-      try {
-        const resumeId = useResumeStore.getState().resumeId;
-        set({ loading: true });
-        const res = await servicePost(`student/student/v1/resume/work-exp`, {
-          ...experience,
-          resumeId: resumeId,
-        });
-        const { data, message, success } = res;
+                  const prevCertificates = useResumeStore.getState().certifications;
+                if(success){
+                    set({certifications:prevCertificates.filter((certificate)=>certificate.id!==id)});
+                    notification.success({
+                        message: "Success",
+                        description: "Certificate Deleted",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        postEducation: async (education) => {
+            try{
+                const resumeId = useResumeStore.getState().resumeId;
+                set({loading:true});
+                const res = await servicePost(`student/student/v1/resume/education`,{
+                    ...education,
+                    resumeId:resumeId
+                });
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        const prevExperience = useResumeStore.getState().experience;
-        if (success) {
-          set({ experience: data });
-          notification.success({
-            message: "Success",
-            description: "Experience Added",
-          });
-        } else {
-          notification.error({
-            message: "Error",
-            description: message,
-          });
-        }
-      } catch (err) {
-        notification.error({
-          message: "Error",
-          description: err.message,
-        });
-      } finally {
-        set({ loading: false });
-      }
-    },
-    async requestPasswordChange(value) {
-      try {
-        const res = await servicePost(
-          "student/student/v1/me/request-password-change",
-          {
-            email: value,
-          }
-        );
-        const { success, message } = res;
-        if (success) {
-          notification.success({ message: "Success", description: message });
-          return true;
-        }
-        return false;
-      } catch (error) {
-        notification.error({ message: "Error", description: error.message });
-        return false;
-      }
-    },
-    async changeName(email, name) {
-      try {
-        const res = await servicePost("student/student/v1/me/change-name", {
-          email,
-          name,
-        });
-        const { success, message } = res;
-        notification.success({ message: "Success", description: message });
-        return true;
-      } catch (error) {
-        notification.error({ message: "Error", description: error.message });
-        return false;
-      }
-    },
-    async changePhone(email, phone) {
-      try {
-        const res = await servicePost("student/student/v1/me/change-phone", {
-          email,
-          phone,
-        });
-        const { success, message } = res;
-        notification.success({ message: "Success", description: message });
-        return true;
-      } catch (error) {
-        notification.error({ message: "Error", description: error.message });
-        return false;
-      }
-    },
-    async passwordChangeOtpVerify(otp,email) {
-      try {
+                const prevEducation = useResumeStore.getState().education;
+                if(success){
+                    set({education:[...prevEducation,data]});
+                    notification.success({
+                        message: "Success",
+                        description: "Education Added",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        deleteEducation: async(id) => {
+            try{
+                set({loading:true});
+                const res = await serviceDelete(`student/student/v1/resume/education?id=${id}`);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        const res = await servicePost(
-          "student/student/v1/me/verify-otp",
-          { otp, email }
-        );
-        const { success, message, data } = res;
+                const prevEducation = useResumeStore.getState().education;
+                if(success){
+                    set({education:prevEducation.filter((edu)=>edu.id!==id)});
+                    notification.success({
+                        message: "Success",
+                        description: "Education Deleted",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    });
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                });
+            }finally{
+                set({loading:false});
+            }
+        },
+        updateEducation: async(education) => {
+            try{
+                set({loading:true});
+                const userId = useAuthStore.getState().user.id;
+                const res = await servicePost(`student/student/v1/resume/education/edit?id=${userId}`,education);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        if (success) {
-          notification.success({ message: "Success", description: message });
-          localStorage.setItem('token', data.token);
-          return true;
-        } else {
-          notification.error({ message: "Error", description: message });
-          return false;
-        }
-      } catch (error) {
-        return false;
-        notification.error({ message: "Error", description: error.message });
-      }
-    },
-    async changePassowrd(password) {
-      try {
+                const prevEducation = useResumeStore.getState().education;
+                if(success){
+                    console.log(prevEducation);
+                    console.log(data)
+                    const newEducation = prevEducation.filter((edu)=>edu.id!==data.id);
+                    set({education:[...newEducation,data]});
+                    notification.success({
+                        message: "Success",
+                        description: "Education Updated",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        postExperience: async(experience) => {
+            try{
+                const resumeId = useResumeStore.getState().resumeId;
+                set({loading:true});
+                const res = await servicePost(`student/student/v1/resume/work-exp`,{
+                    ...experience,
+                    resumeId:resumeId
+                });
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        const otp = loginUiStore?.getState().currentOtp;
-        const email = loginUiStore?.getState().currentUserEmail;
-        console.log(otp, email);
+                const prevExperience = useResumeStore.getState().experience;
+                if(success){
+                    set({experience:data});
+                    notification.success({
+                        message: "Success",
+                        description: "Experience Added",
+                    });
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    });
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                });
+            } finally {
+                set({ loading: false });
+            }
+        },
+        deleteExperience: async(id) => {
+            try{
+                set({loading:true});
+                const res = await serviceDelete(`student/student/v1/resume/work-exp?id=${id}`);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
 
-        const res = await servicePost(
-          `student/student/v1/me/change-password`,
-          { password, otp, email }
-        );
-        const { success, message } = res;
-        if (success) {
-          notification.success({
-            message: "Success",
-            description: message,
-          });
-          return true;
-        } else {
-          const [err] = res.data.errors;
-          err.param === "token"
-            ? notification.error({
-              message: "Error",
-              description: message,
-            })
-            : notification.error({ message: "Error", description: message });
+                const prevExp = useResumeStore.getState().experience;
+                if(success){
+                    set({experience:prevExp.filter((exp)=>exp.id!==id)});
+                    notification.success({
+                        message: "Success",
+                        description: "Experience Deleted",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    });
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                });
+            }finally{
+                set({loading:false});
+            }
+        },
+
+        postProject: async(project) => {
+            try{
+                const resumeId = useResumeStore.getState().resumeId;
+                set({loading:true});
+                const res = await servicePost(`student/student/v1/resume/projects`,{
+                    ...project,
+                    resumeId:resumeId
+                });
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
+
+                const prevProjects = useResumeStore.getState().projects;
+                if(success){
+                    set({projects:[...prevProjects,data]});
+                    notification.success({
+                        message: "Success",
+                        description: "Project Added",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        updateProject: async(project) => {
+            try{
+                set({loading:true});
+                const userId = useAuthStore.getState().user.id;
+                const res = await servicePost(`student/student/v1/resume/projects/edit?id=${userId}`,project);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
+
+                  const prevProjects = useResumeStore.getState().projects;
+                if(success){
+                    const newProjects = prevProjects.filter((proj)=>proj.id!==data.id);
+                    set({projects:[...newProjects,data]});
+                    notification.success({
+                        message: "Success",
+                        description: "Project Updated",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        deleteProject: async(id) => {
+            try{
+                set({loading:true});
+                const res = await serviceDelete(`student/student/v1/resume/projects?id=${id}`);
+                const {
+                    data,
+                    message,
+                    success,
+                  } = res;
+
+                  const prevProjects = useResumeStore.getState().projects;
+                if(success){
+                    set({projects:prevProjects.filter((proj)=>proj.id!==id)});
+                    notification.success({
+                        message: "Success",
+                        description: "Project Deleted",
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "Error",
+                        description: message,
+                    })
+                }
+            }catch(err)
+            {
+                notification.error({
+                    message: "Error",
+                    description: err.message,
+                })
+            }finally{
+                set({loading:false});
+            }
+        },
+        async requestPasswordChange(value) {
+          try {
+            const res = await servicePost(
+              "student/student/v1/me/request-password-change",
+              {
+                email: value,
+              }
+            );
+            const { success, message } = res;
+            if (success) {
+              notification.success({ message: "Success", description: message });
+              return true;
+            }
             return false;
-        }
-      } catch (error) {
-        notification.error({ message: "Error", description: error.message });
-        return false;
-      }
-  },
-  }))
+          } catch (error) {
+            notification.error({ message: "Error", description: error.message });
+            return false;
+          }
+        },
+        async changeName(email, name) {
+          try {
+            const res = await servicePost("student/student/v1/me/change-name", {
+              email,
+              name,
+            });
+            const { success, message } = res;
+            notification.success({ message: "Success", description: message });
+            return true;
+          } catch (error) {
+            notification.error({ message: "Error", description: error.message });
+            return false;
+          }
+        },
+        async changePhone(email, phone) {
+          try {
+            const res = await servicePost("student/student/v1/me/change-phone", {
+              email,
+              phone,
+            });
+            const { success, message } = res;
+            notification.success({ message: "Success", description: message });
+            return true;
+          } catch (error) {
+            notification.error({ message: "Error", description: error.message });
+            return false;
+          }
+        },
+        async passwordChangeOtpVerify(otp,email) {
+          try {
+    
+            const res = await servicePost(
+              "student/student/v1/me/verify-otp",
+              { otp, email }
+            );
+            const { success, message, data } = res;
+    
+            if (success) {
+              notification.success({ message: "Success", description: message });
+              localStorage.setItem('token', data.token);
+              return true;
+            } else {
+              notification.error({ message: "Error", description: message });
+              return false;
+            }
+          } catch (error) {
+            return false;
+            notification.error({ message: "Error", description: error.message });
+          }
+        },
+        async changePassowrd(password) {
+          try {
+    
+            const otp = loginUiStore?.getState().currentOtp;
+            const email = loginUiStore?.getState().currentUserEmail;
+            console.log(otp, email);
+    
+            const res = await servicePost(
+              `student/student/v1/me/change-password`,
+              { password, otp, email }
+            );
+            const { success, message } = res;
+            if (success) {
+              notification.success({
+                message: "Success",
+                description: message,
+              });
+              return true;
+            } else {
+              const [err] = res.data.errors;
+              err.param === "token"
+                ? notification.error({
+                  message: "Error",
+                  description: message,
+                })
+                : notification.error({ message: "Error", description: message });
+                return false;
+            }
+          } catch (error) {
+            notification.error({ message: "Error", description: error.message });
+            return false;
+          }
+        },
+    }))
 );
 
 export default useResumeStore;
