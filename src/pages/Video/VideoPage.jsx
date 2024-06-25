@@ -34,6 +34,7 @@ const Video = () => {
   const currentCourseDetails = useBatchStore(state=>state.currentCourseDetails);
   const currentVideo = useBatchStore(state=>state.currentVideo);
   const courseLoading = useBatchStore(state=>state.courseLoading);
+  const {getVideo} = useBatchStore();
   const { Sider } = Layout;
   const {
     token: { colorBgContainer },
@@ -46,6 +47,17 @@ const Video = () => {
       setCollapsed(!collapsed);
     }
   };
+
+  const onClickPreviousLecture = async() => {
+    const id = currentCourseSections?.sectionItems[currentCourseSections?.sectionItems.findIndex(item => item.id === currentVideo?.id) - 1]?.id;
+    await getVideo(id);
+  }
+
+  const onClickNextLecture = async() => {
+    const id = currentCourseSections?.sectionItems[currentCourseSections?.sectionItems.findIndex(item => item.id === currentVideo?.id) + 1]?.id;
+    await getVideo(id);
+  }
+
 
   const mySiderStyle = {
     background: "transparent",
@@ -145,19 +157,25 @@ const Video = () => {
               )} */}
             </div>
             <ButtonsDiv1 width={width}>
-              <Button
-                color="primary"
-                type="text"
-                size={width > 1120 || width < 768 ? "large" : "middle"}
+              { currentCourseSections?.sectionItems.length > 1 &&
+                currentCourseSections?.sectionItems[0]?.id !== currentVideo?.id &&
+                <Button
+                  onClick={onClickPreviousLecture}
+                  color="primary"
+                  type="text"
+                  size={width > 1120 || width < 768 ? "large" : "middle"}
               >
                 Previous Lecture
-              </Button>
-              <Button
-                type="text"
-                size={width > 1120 || width < 768 ? "large" : "middle"}
-              >
+              </Button>}
+              { currentCourseSections?.sectionItems.length > 1 && 
+                currentCourseSections?.sectionItems[currentCourseSections?.sectionItems.length - 1]?.id !== currentVideo?.id &&
+                <Button
+                  onClick={onClickNextLecture}
+                  type="text"
+                  size={width > 1120 || width < 768 ? "large" : "middle"}
+                >
                 Next Lecture
-              </Button>
+              </Button>}
             </ButtonsDiv1>
           </Header>
 

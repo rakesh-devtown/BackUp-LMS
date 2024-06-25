@@ -17,6 +17,7 @@ const useBatchStore = create(
     currentVideoDetails:{},
     currentVideo: {},
     selectedEnrollIdOfCourse: "",
+    currentModule:[],
     
     setSection: (tracker) => {
       set((state) => {
@@ -32,6 +33,9 @@ const useBatchStore = create(
         });
         return { sections: newSections };
       });
+    },
+    setCurrentModule: (module) => {
+      set({ currentModule: module });
     },
     setCurrentSection: (section) => {
       set({ section: section });
@@ -180,6 +184,7 @@ const useBatchStore = create(
         if(notLoading) set({courseLoading:false})
         setHeader("auth", `bearer ${localStorage.getItem("token")}`);
         const userId = useAuthStore.getState().user.id;
+        //console.log("geting sections details");
         const res = await serviceGet(`student/student/v1/course/sectionModules/${sectionId}?userId=${userId}`);
         const {
           success,
@@ -190,6 +195,14 @@ const useBatchStore = create(
           set({ currentCourseSections: data });
           if(data?.sectionItems?.length > 0 && !notLoading){
             await useBatchStore.getState().getVideo(data?.sectionItems[0].id);
+          }
+          console.log("data parent is",data?.parentId);
+          if(data?.parentId)
+          {
+            const parentSection = await useBatchStore.getState().currentCourseDetails.sections.find((section)=>section.id === data.parentId);
+            console.log("parentSection",parentSection);
+            parentSection.subsections.sort((a,b)=>a.orderNumber-b.orderNumber);
+            set({ currentModule: parentSection });
           }
         }
       } catch (e) {
@@ -242,6 +255,14 @@ const useBatchStore = create(
         if (success) {
           set({ currentCourseSections: data });
           await useBatchStore.getState().getVideo(videoId);
+          //console.log("data parent is",data?.parentId);
+          if(data?.parentId)
+          {
+            const parentSection = await useBatchStore.getState().currentCourseDetails.sections.find((section)=>section.id === data.parentId);
+           // console.log("parentSection",parentSection);
+            parentSection.subsections.sort((a,b)=>a.orderNumber-b.orderNumber);
+            set({ currentModule: parentSection });
+          }
         }
       } catch (e) {
         notification.error({
@@ -275,6 +296,13 @@ const useBatchStore = create(
             data.sectionItems.sort((a,b)=>a.orderNumber-b.orderNumber);
             set({ currentCourseSections: data });
             await useBatchStore.getState().getVideo(data.sectionItems[0].id);
+          }
+
+          console.log("data parent is",data);
+          if(data?.subsections.length > 0)
+          {
+             // console.log("data parent is",data?.subsections[0]);
+              set({ currentModule: data });
           }
         }
       } catch (e) {
