@@ -32,14 +32,16 @@ const AddCertification = ({ value, handleCancel }) => {
             credentialUrl: e.credentialUrl,
             issuingOrg: e.issuingOrg,
             issueDate: new Date(e.startYear, e.startMonth - 1, 10),
+            skills:[],
           }
-        : {
+          : {
             name: e.name,
             credentialId: e.credentialId,
             credentialUrl: e.credentialUrl,
             issuingOrg: e.issuingOrg,
             issueDate: new Date(e.startYear, e.startMonth - 1, 10),
             id: certificate.id,
+            skills:[],
           };
       if (value) {
         await updateCertificate(data);

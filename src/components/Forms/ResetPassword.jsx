@@ -39,8 +39,9 @@ export default function ResetPassword({ handleNext }) {
         }
 
         if (res) {
-          navigate("/");
+          handleNext();
         }
+
       } else {
         notification.error({
           message: "Password Mismatch",

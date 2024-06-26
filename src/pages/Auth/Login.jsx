@@ -380,7 +380,7 @@ export default function Login() {
                   </Form.Item>
                 </StyledRegisterForm>
               ) : currentPage === "forget-password" ? (
-                <ForgetPass toggleSignUp={toggleSignUp} nextPage={() => setCurrentPage("reset-password")} />
+                <ForgetPass toggleSignUp={toggleSignUp} nextPage={() => setCurrentPage("otp")} />
               ) : currentPage === "otp" ? (
                 <OTPverify handleBack={toggleSignUp} handleNext={() => setCurrentPage("reset-password")} />
               ) : currentPage === "reset-password" ? (

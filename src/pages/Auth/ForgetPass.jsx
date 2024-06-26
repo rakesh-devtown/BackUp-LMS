@@ -57,7 +57,8 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
     //console.log(response);
     if (response) {
       setCurrentUserEmail(email);
-      setCurrentPage("otp");
+      // setCurrentPage("otp");
+      nextPage()
     }
   };
 
