@@ -139,6 +139,17 @@ const useBatchStore = create(
             ...data,
             sections: sections,
           }});
+
+          if(sections.length <= 0) return;
+          if(sections[0]?.subsections.length > 0){
+           // await useBatchStore.getState().getFirstSectionOfCourse(data.id);
+          }else if(sections[0]?.sectionItems.length > 0){
+            set({ currentModule: {
+              ...data,
+              sections: sections,
+            } });
+  
+          }
         }
       }catch(e){
         notification.error({
@@ -196,12 +207,16 @@ const useBatchStore = create(
           if(data?.sectionItems?.length > 0 && !notLoading){
             await useBatchStore.getState().getVideo(data?.sectionItems[0].id);
           }
-          console.log("data parent is",data?.parentId);
+          //console.log("data parent is",data?.parentId);
           if(data?.parentId)
           {
             const parentSection = await useBatchStore.getState().currentCourseDetails.sections.find((section)=>section.id === data.parentId);
             console.log("parentSection",parentSection);
             parentSection.subsections.sort((a,b)=>a.orderNumber-b.orderNumber);
+            set({ currentModule: parentSection });
+          }else
+          {
+            const parentSection = await useBatchStore.getState().currentCourseDetails;
             set({ currentModule: parentSection });
           }
         }
@@ -262,6 +277,10 @@ const useBatchStore = create(
            // console.log("parentSection",parentSection);
             parentSection.subsections.sort((a,b)=>a.orderNumber-b.orderNumber);
             set({ currentModule: parentSection });
+          }else
+          {
+            const parentSection = await useBatchStore.getState().currentCourseDetails;
+            set({ currentModule: parentSection });
           }
         }
       } catch (e) {
@@ -288,6 +307,7 @@ const useBatchStore = create(
         } = res;
         if (success) 
         {
+
           if(data?.subsections?.length > 0){
             data.subsections[0]?.sectionItems?.sort((a,b)=>a.orderNumber-b.orderNumber);
             set({ currentCourseSections: data.subsections[0] });
@@ -298,12 +318,8 @@ const useBatchStore = create(
             await useBatchStore.getState().getVideo(data.sectionItems[0].id);
           }
 
-          console.log("data parent is",data);
-          if(data?.subsections.length > 0)
-          {
-             // console.log("data parent is",data?.subsections[0]);
-              set({ currentModule: data });
-          }
+          //console.log("data parent is",data);
+          
         }
       } catch (e) {
         notification.error({

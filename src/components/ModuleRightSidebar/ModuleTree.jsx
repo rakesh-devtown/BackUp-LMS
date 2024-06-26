@@ -57,10 +57,40 @@ const ModuleTree = () => {
     }
   }
 
+  const clickOnPreviousModule2 = async() => {
+    try{
+      const indexOfCurrentCourseSectionInModule = currentModule?.sections.findIndex((item) => item.id === currentCourseSections?.id);
+      const previousModule = currentModule?.sections[indexOfCurrentCourseSectionInModule - 1];
+      if(previousModule){
+        await getCurrentSectionDetailsWithVideo(
+          previousModule?.id,
+          previousModule?.sectionItems[0]?.id
+        )
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   const clickOnNextModule = async() => {
     try{
       const indexOfCurrentCourseSectionInModule = currentModule?.subsections.findIndex((item) => item.id === currentCourseSections?.id);
       const nextModule = currentModule?.subsections[indexOfCurrentCourseSectionInModule  + 1];
+      if(nextModule){
+        await getCurrentSectionDetailsWithVideo(
+          nextModule?.id,
+          nextModule?.sectionItems[0]?.id
+        )
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  const clickOnNextModule2 = async() => {
+    try{
+      const indexOfCurrentCourseSectionInModule = currentModule?.sections.findIndex((item) => item.id === currentCourseSections?.id);
+      const nextModule = currentModule?.sections[indexOfCurrentCourseSectionInModule  + 1];
       if(nextModule){
         await getCurrentSectionDetailsWithVideo(
           nextModule?.id,
@@ -102,8 +132,7 @@ const ModuleTree = () => {
         switcherIcon={<DownOutlined />}
         screenWidth={width}
       />
-      }
-      
+      }     
       {
         (currentCourseDetails &&
         currentCourseDetails?.sections?.length > 0 && 
@@ -120,6 +149,27 @@ const ModuleTree = () => {
             currentModule?.subsections?.length > 1 &&
             currentModule?.subsections[currentModule?.subsections.length - 1]?.id !== currentCourseSections?.id&&
             <Col span={12} onClick={clickOnNextModule}>
+              <p>Next Module</p>
+            </Col>
+          }
+        </BottomButtons>
+      }
+      {
+        (currentCourseDetails &&
+        currentCourseDetails?.sections?.length > 0 && 
+        currentCourseDetails?.sections[0]?.sectionItems?.length > 0) &&
+        <BottomButtons>
+          {
+            currentModule?.sections?.length > 1 &&
+            currentModule?.sections[0]?.id !== currentCourseSections?.id&&
+            <Col span={12} onClick={clickOnPreviousModule2}>
+              <p>Previous Module</p>
+            </Col>
+          }
+          {
+            currentModule?.sections?.length > 1 &&
+            currentModule?.sections[currentModule?.sections.length - 1]?.id !== currentCourseSections?.id&&
+            <Col span={12} onClick={clickOnNextModule2}>
               <p>Next Module</p>
             </Col>
           }
