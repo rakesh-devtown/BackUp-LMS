@@ -122,7 +122,7 @@ const Player = ({
 				)}
 			</div>
 			<div
-				className="absolute bottom-0 text-white w-[100%] invisible"
+				className="absolute bottom-0 text-white w-[100%] invisible bg-[rgba(0,0,0,0.5)]"
 				ref={controlRef}
 			>
 				<div className="mx-4">

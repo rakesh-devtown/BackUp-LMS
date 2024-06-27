@@ -5,7 +5,7 @@ import styled from "styled-components";
 import CertificateDownloadModal from "../Modals/CertificationModal";
 import useWindowSize from "../../hooks/useWindowSize";
 
-const CourseCompletionCard = ({ data, completed,bgColor }) => {
+const CourseCompletionCard = ({ data, completed,bgColor, isStudentMigrated }) => {
 
     const [showCertificate, setShowCertificate] = useState(false)
     const [certificateData, setCertificateData] = useState({})
@@ -48,7 +48,7 @@ const CourseCompletionCard = ({ data, completed,bgColor }) => {
                 <CertificateDownloadModal data={certificateData}/>
             </Modal>
 
-            { (percentage<100 || completed) && <StyledCard bgColor={bgColor}>
+            { (percentage<100 || completed || isStudentMigrated) && <StyledCard bgColor={bgColor}>
                 <MainCard width={width}>
                     <Space size={29}>
                         <img src={bannerImg} className=" max-w-20 max-h-20" alt="icon" />

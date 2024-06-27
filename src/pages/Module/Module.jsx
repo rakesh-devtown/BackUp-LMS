@@ -25,7 +25,7 @@ const Module = () => {
   const navigate = useNavigate();
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const courseLoading = useBatchStore((state) => state.courseLoading);
-  const {getCurrentSectionDetails , getModuleOfEnrolledCourse} = useBatchStore();
+  const {getCurrentSectionDetails , getModuleOfEnrolledCourse, setCurrentModule} = useBatchStore();
   const selectedEnrollIdOfCourse = useBatchStore((state) => state.selectedEnrollIdOfCourse);
   const { Content, Sider } = Layout;
 

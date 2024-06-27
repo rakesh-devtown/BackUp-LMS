@@ -10,8 +10,10 @@ const ModuleTree = () => {
   const { width } = useWindowSize();
   const [treeData, setTreeData] = useState([])
   const [defaultExpandedKeys, setDefaultExpandedKeys] = useState([0]);
+  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
-  const {getVideo} = useBatchStore();
+  const {getVideo,getCurrentSectionDetailsWithVideo} = useBatchStore();
+  const currentModule = useBatchStore((state) => state.currentModule);
   const onSelect = async(selectedKeys, info) => {
     try{
       const id = info.node.key;
@@ -40,6 +42,69 @@ const ModuleTree = () => {
     };
   };
 
+  const clickOnPreviousModule = async() => {
+    try{
+      const indexOfCurrentCourseSectionInModule = currentModule?.subsections.findIndex((item) => item.id === currentCourseSections?.id);
+      const previousModule = currentModule?.subsections[indexOfCurrentCourseSectionInModule - 1];
+      if(previousModule){
+        await getCurrentSectionDetailsWithVideo(
+          previousModule?.id,
+          previousModule?.sectionItems[0]?.id
+        )
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  const clickOnPreviousModule2 = async() => {
+    try{
+      const indexOfCurrentCourseSectionInModule = currentModule?.sections.findIndex((item) => item.id === currentCourseSections?.id);
+      const previousModule = currentModule?.sections[indexOfCurrentCourseSectionInModule - 1];
+      if(previousModule){
+        await getCurrentSectionDetailsWithVideo(
+          previousModule?.id,
+          previousModule?.sectionItems[0]?.id
+        )
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  const clickOnNextModule = async() => {
+    try{
+      const indexOfCurrentCourseSectionInModule = currentModule?.subsections.findIndex((item) => item.id === currentCourseSections?.id);
+      const nextModule = currentModule?.subsections[indexOfCurrentCourseSectionInModule  + 1];
+      if(nextModule){
+        await getCurrentSectionDetailsWithVideo(
+          nextModule?.id,
+          nextModule?.sectionItems[0]?.id
+        )
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  const clickOnNextModule2 = async() => {
+    try{
+      const indexOfCurrentCourseSectionInModule = currentModule?.sections.findIndex((item) => item.id === currentCourseSections?.id);
+      const nextModule = currentModule?.sections[indexOfCurrentCourseSectionInModule  + 1];
+      if(nextModule){
+        await getCurrentSectionDetailsWithVideo(
+          nextModule?.id,
+          nextModule?.sectionItems[0]?.id
+        )
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  // console.log("currentModules : ",currentModule);
+  // console.log("current course sections :"currentCourseSections)
+
 
   useEffect(()=>{
     if(currentCourseSections){
@@ -67,15 +132,49 @@ const ModuleTree = () => {
         switcherIcon={<DownOutlined />}
         screenWidth={width}
       />
+      }     
+      {
+        (currentCourseDetails &&
+        currentCourseDetails?.sections?.length > 0 && 
+        currentCourseDetails?.sections[0]?.subsections?.length > 0) &&
+        <BottomButtons>
+          {
+            currentModule?.subsections?.length > 1 &&
+            currentModule?.subsections[0]?.id !== currentCourseSections?.id&&
+            <Col span={12} onClick={clickOnPreviousModule}>
+              <p>Previous Module</p>
+            </Col>
+          }
+          {
+            currentModule?.subsections?.length > 1 &&
+            currentModule?.subsections[currentModule?.subsections.length - 1]?.id !== currentCourseSections?.id&&
+            <Col span={12} onClick={clickOnNextModule}>
+              <p>Next Module</p>
+            </Col>
+          }
+        </BottomButtons>
       }
-      <BottomButtons>
-        <Col span={12}>
-          <p>Previous Module</p>
-        </Col>
-        <Col span={12}>
-          <p>Next Module</p>
-        </Col>
-      </BottomButtons>
+      {
+        (currentCourseDetails &&
+        currentCourseDetails?.sections?.length > 0 && 
+        currentCourseDetails?.sections[0]?.sectionItems?.length > 0) &&
+        <BottomButtons>
+          {
+            currentModule?.sections?.length > 1 &&
+            currentModule?.sections[0]?.id !== currentCourseSections?.id&&
+            <Col span={12} onClick={clickOnPreviousModule2}>
+              <p>Previous Module</p>
+            </Col>
+          }
+          {
+            currentModule?.sections?.length > 1 &&
+            currentModule?.sections[currentModule?.sections.length - 1]?.id !== currentCourseSections?.id&&
+            <Col span={12} onClick={clickOnNextModule2}>
+              <p>Next Module</p>
+            </Col>
+          }
+        </BottomButtons>
+      }
     </>
   );
 };

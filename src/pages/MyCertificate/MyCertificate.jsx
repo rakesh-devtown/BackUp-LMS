@@ -44,7 +44,8 @@ const MyCertificate = () => {
                   <Col key={ind} span={24} md={12}>
                     <CourseCompletionCard 
                       bgColor={ind % 2 === 0 ? "#1A4674" : "#3E863D"} 
-                      data={card?.batch?.course} 
+                      data={card?.batch?.course}
+                      isStudentMigrated={card?.isStudentMigrated} 
                       completed={false} />
                   </Col>
                 ))}
