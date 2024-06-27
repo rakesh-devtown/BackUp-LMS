@@ -157,7 +157,7 @@ const OTPverify = ({ handleBack, handleNext }) => {
 
             <BlueText
                 style={{
-                    fontSize: "20px"
+                    fontSize: "14px"
                 }}
                 onClick={() => handleBack()}
             >

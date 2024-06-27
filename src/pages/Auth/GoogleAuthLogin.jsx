@@ -9,7 +9,10 @@ import jwt_decode from "jwt-decode";
 import useAuthStore from "../../store/authStore";
 import { useNavigate } from "react-router-dom";
 import useLoadingStore from "../../store/loadingStore";
+import useWindowSize from "../../hooks/useWindowSize";
+
 export const GoogleAuthLogin = () => {
+  const {width}=useWindowSize()
   const navigate = useNavigate();
   // const dispatch = useDispatch();
   const googleLogin = useAuthStore((state) => state.googleLogin);
@@ -86,7 +89,7 @@ export const GoogleAuthLogin = () => {
           Sign in with Google
         </button>
       )}
-      width={375}
+      width={width<410 ? 320 : 375}
       onSuccess={onSignInSuccess}
       onFailure={onSignInFailure}
       cookiePolicy="single_host_origin"

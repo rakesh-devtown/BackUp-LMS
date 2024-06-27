@@ -34,7 +34,7 @@ function MobileLogin() {
   const navigate = useNavigate();
   const setMobileCurrentPage = loginUiStore((state) => state.setMobileCurrentPage);
 
-  const width = useWindowSize();
+  const {width} = useWindowSize();
 
   const handleSubmit = async (values) => {
     try {
