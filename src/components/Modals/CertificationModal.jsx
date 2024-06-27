@@ -143,7 +143,7 @@ const StyledButtons = styled.div`
   button {
     color: #1e6de8;
     font-family: Inter;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     letter-spacing: -0.18px;
     border-radius: 9px;
