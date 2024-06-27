@@ -65,7 +65,7 @@ export const Box = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: ${props=> props.width <400 ? "0 0.5rem" : "0 2rem"};
   border: 1px solid #ccc;
   border-radius: 1rem;
   margin-bottom: 1rem;

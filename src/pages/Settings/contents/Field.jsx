@@ -19,7 +19,7 @@ const Field = ({ title, value, change, view, keyNumber, openModal }) => {
         <MainModalBox handleCancel={handleCancel} keyNumber={keyNumber} />
       )}
 
-      <StyledField width={width}>
+      <StyledField value={value} width={width}>
         <FieldName>{title}</FieldName>
         <FlexBox width={width}>
           {value && <p className="value text-sm">{value}</p>}
@@ -88,7 +88,7 @@ const StyledField = styled.div`
   &:first-child,
   &:nth-child(2),
   &:nth-child(3) {
-    flex-direction: ${(props) => (props.width >= 768 ? "row" : "column")};
+    flex-direction: ${(props) => (props.width >= 768 ? "row" : (props.value? "column" : null))};
   }
 `;
 

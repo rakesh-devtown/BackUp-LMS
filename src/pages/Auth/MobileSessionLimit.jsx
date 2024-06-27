@@ -142,7 +142,7 @@ function MobileSessionLimit() {
         </p>
         <div>
           {sessions.map((e, index) => (
-            <Box key={index} onClick={() => clearSession(e.id)}>
+            <Box key={index} width={width} onClick={() => clearSession(e.id)}>
               <SessionLimitContainers>
                 <div>
                   {e?.os?.includes("Windows") ? (

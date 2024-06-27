@@ -34,7 +34,7 @@ const ProfilePopover = () => {
         <div className="box1">
           <div>
             <p className="name">{user?.name}</p>
-            <p className="email">{user?.email}</p>
+            <p className="email">{( user?.email.length< 30) ? user.email : user.email.substring(0,30)+"..."}</p>
           </div>
           <i>
             <ArrowUpOutlined

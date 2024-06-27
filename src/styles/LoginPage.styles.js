@@ -62,7 +62,8 @@ export const StyledLoginForm = styled.div`
 
 export const StyledSignInForm = styled(Form)`
   display: flex;
-  width: 375px;
+  /* width: 375px; */
+  width: ${props=> props.width<410 ? "320px" : "375px"};
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -252,6 +253,7 @@ export const BlueText = styled.p`
   line-height: normal;
   margin-top: 10px;
   cursor: pointer;
+  margin-top:3px;
 `;
 
 export const StyledLabel = styled.p`
