@@ -14,6 +14,8 @@ const ModuleTree = () => {
   const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
   const {getVideo,getCurrentSectionDetailsWithVideo} = useBatchStore();
   const currentModule = useBatchStore((state) => state.currentModule);
+  const currentVideo = useBatchStore(state=>state.currentVideo);
+
   const onSelect = async(selectedKeys, info) => {
     try{
       const id = info.node.key;
@@ -114,16 +116,15 @@ const ModuleTree = () => {
     }
   },[currentCourseSections])
 
-
   return (
     <>
       {
         treeData.length > 0 &&
         <StyledTree
         //   checkable
-        // defaultSelectedKeys={["0-0-0", "0-0-1"]}
         // defaultCheckedKeys={["0-0-0", "0-0-1"]}
         defaultExpandedKeys={[treeData[0]?.key]}
+        defaultSelectedKeys={[currentVideo?.id]}
         onSelect={onSelect}
         onCheck={onCheck}
         treeData={treeData}
@@ -221,10 +222,10 @@ const StyledTree = styled(Tree.DirectoryTree)`
       props.screenWidth >= 992 ? "calc(100vh - 285px)" : "calc(100vh - 120px)"};
   }
 
-  .ant-tree-treenode ~ .ant-tree-treenode-switcher-close:hover {
-    /* .ant-tree-node-content-wrapper { */
-    color: #0859de !important;
-    /* } */
+  .ant-tree-treenode:hover:not(.ant-tree-treenode-selected){
+    .ant-tree-title>div {
+    color: #3d7fe9 !important;
+    }
     &::before {
       background-color: #e6ebf3 !important;
     }
