@@ -1,5 +1,5 @@
 import { ArrowUpOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Modal, Progress, Space } from "antd";
+import { Button, Col, Modal, Progress, Space } from "antd";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CertificateDownloadModal from "../Modals/CertificationModal";
@@ -48,7 +48,9 @@ const CourseCompletionCard = ({ data, completed,bgColor, isStudentMigrated }) =>
                 <CertificateDownloadModal data={certificateData}/>
             </Modal>
 
-            { (percentage<100 || completed || isStudentMigrated) && <StyledCard bgColor={bgColor}>
+            { (percentage<100 || completed || isStudentMigrated) && 
+                <Col span={24} md={12}>
+                    <StyledCard bgColor={bgColor}>
                 <MainCard width={width}>
                     <Space size={29}>
                         <img src={bannerImg} className=" max-w-20 max-h-20" alt="icon" />
@@ -84,7 +86,8 @@ const CourseCompletionCard = ({ data, completed,bgColor, isStudentMigrated }) =>
                     }
                 </div>
 
-            </StyledCard>}
+            </StyledCard>
+            </Col>}
         </>
     )
 }

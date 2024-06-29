@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { Col, Row, Tabs } from "antd";
-import CourseCompletionCard from "../../components/Cards/CourseCompletionCard";
 import styled from "styled-components";
+import CourseCompletionCard from "../../components/Cards/CourseCompletionCard";
 import { StyledContainer } from "../../styles/layout.styles";
 import useBatchStore from "../../store/batchStore";
 import Spinner from "../../components/loader/Spinner";
-import { useEffect } from "react";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const MyCertificate = () => {
 
@@ -12,6 +13,7 @@ const MyCertificate = () => {
   const completedCoursesCertificates = useBatchStore((state) => state.completedCoursesCertificates);
   const { getCompletedCoursesCertificates,getAllEnrolledCourses } = useBatchStore();
   const courseLoading = useBatchStore((state) => state.courseLoading);
+  const {width}= useWindowSize()
 
   const loadCourses = async () => {
     try{
@@ -29,7 +31,7 @@ const MyCertificate = () => {
 
   return (
     <>
-      <StyledContainer>
+      <StyledContainer width={width}>
         <StyledTabs>
           <Tabs
             defaultActiveKey="1"
@@ -41,13 +43,12 @@ const MyCertificate = () => {
               <h3 className="title">Course Certification</h3>
               <Row gutter={[15, 15]}>
                 {enrolledCourses.map((card, ind) => (
-                  <Col key={ind} span={24} md={12}>
-                    <CourseCompletionCard 
-                      bgColor={ind % 2 === 0 ? "#1A4674" : "#3E863D"} 
-                      data={card?.batch?.course}
-                      isStudentMigrated={card?.isStudentMigrated} 
-                      completed={false} />
-                  </Col>
+                  <CourseCompletionCard
+                    key={ind} 
+                    bgColor={ind % 2 === 0 ? "#1A4674" : "#3E863D"} 
+                    data={card?.batch?.course}
+                    isStudentMigrated={card?.isStudentMigrated} 
+                    completed={false} />
                 ))}
               </Row>
             </Tabs.TabPane>
@@ -57,9 +58,7 @@ const MyCertificate = () => {
               <h2 className="title">Course Certification</h2>
               <Row gutter={[15, 15]}>
                 {completedCoursesCertificates && completedCoursesCertificates.map((card, ind) => (
-                  <Col key={ind} span={24} md={12}>
-                    <CourseCompletionCard data={card} completed={true} />
-                  </Col>
+                  <CourseCompletionCard key={ind} data={card} completed={true} />
                 ))}
               </Row>
               {

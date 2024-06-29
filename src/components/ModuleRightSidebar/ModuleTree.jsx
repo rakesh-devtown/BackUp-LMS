@@ -9,7 +9,7 @@ import TopicNode from "./TopicNode";
 const ModuleTree = () => {
   const { width } = useWindowSize();
   const [treeData, setTreeData] = useState([])
-  const [defaultExpandedKeys, setDefaultExpandedKeys] = useState([0]);
+  const [selectedKeys, setSelectedKeys] = useState();
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
   const {getVideo,getCurrentSectionDetailsWithVideo} = useBatchStore();
@@ -116,6 +116,12 @@ const ModuleTree = () => {
     }
   },[currentCourseSections])
 
+  useEffect(()=>{
+    if(currentVideo?.id){
+      setSelectedKeys([currentVideo?.id])
+    }
+  },[currentVideo?.id])
+
   return (
     <>
       {
@@ -124,7 +130,7 @@ const ModuleTree = () => {
         //   checkable
         // defaultCheckedKeys={["0-0-0", "0-0-1"]}
         defaultExpandedKeys={[treeData[0]?.key]}
-        defaultSelectedKeys={[currentVideo?.id]}
+        selectedKeys={selectedKeys}
         onSelect={onSelect}
         onCheck={onCheck}
         treeData={treeData}
