@@ -51,7 +51,7 @@ const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated }) =
         <Col span={24} md={12}>
           <StyledCard bgColor={bgColor}>
             <MainCard width={width}>
-            { isStudentMigrated && <CustomButton type="default">Generate Certificate</CustomButton>}
+            {/* { isStudentMigrated && <CustomButton type="default">Generate Certificate</CustomButton>} */}
               <Space size={29}>
                 <img src={bannerImg} className=" max-w-20 max-h-20" alt="icon" />
                 <h4>{String(name).length > 30 ? String(name).substring(0, 30) + "..." : name}</h4>
