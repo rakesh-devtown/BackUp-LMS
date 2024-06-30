@@ -37,6 +37,7 @@ import LoginMainPage from "../pages/Auth/LoginMainPage.jsx";
 import OTPverify from "../components/Forms/OTPverification.jsx";
 import Module from "../pages/Module/Module.jsx";
 import Test from "./Test.jsx";
+import NotFound from "../pages/NotFound/NotFound.jsx";
 export const routes = [
   {
     path: routeDefinitions.AUTH,
@@ -183,4 +184,8 @@ export const routes = [
       },
     ],
   },
+  {
+    path:"*",
+    element: <NotFound/>
+  }
 ];
