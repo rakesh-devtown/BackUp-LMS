@@ -71,7 +71,7 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
         </Flex>
         <h3
           style={{
-            fontWeight: 800,
+            fontWeight: 500,
             marginBottom: "15px",
           }}
         >

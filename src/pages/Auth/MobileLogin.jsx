@@ -23,6 +23,8 @@ import useWindowSize from "../../hooks/useWindowSize";
 import useAuthStore from "../../store/authStore";
 import Config from "../../config.js";
 import styled from "styled-components";
+import magicLinkIcon from "../../assets/images/magicLinkIcon.png"
+
 
 const googleClientId = Config.googleClientId; // Access the client ID from the config
 
@@ -88,10 +90,8 @@ function MobileLogin() {
       <LoginContainer>
         <LoginLink to="/auth/magic-login">
           <img
-            width="25"
-            height="25"
             color="blue"
-            src="https://img.icons8.com/ios/50/000000/fantasy.png"
+            src={magicLinkIcon}
             alt="maginc Link icons"
           />
           <p style={{ color: "#6B7280" }}>Sign In with Magic Link </p>

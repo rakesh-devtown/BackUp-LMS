@@ -22,6 +22,7 @@ const BackButtonOuterContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  z-index: 5;
 `;
 const MagicLinkLogoOuterContainer = styled.div`
   text-align: center;
@@ -78,6 +79,7 @@ const VerifyMagicLinkContainer = styled.div`
   width: 100%;
   background: linear-gradient(to right, #5C258D, #4389A2);
   color: white;
+  z-index: 5;
 `;
 
 const VerifyMagicLinkText = styled.div`

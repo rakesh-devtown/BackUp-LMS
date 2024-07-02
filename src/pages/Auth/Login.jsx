@@ -108,7 +108,7 @@ export default function Login() {
 
   return (
     <>
-      <BrandBox />
+      <BrandBox position={"absolute"} />
       <main className={`main ${signuptrue ? "sign-up-mode" : ""}`}>
         <Helmet>
           <title>Learn-DevTown Login</title>
