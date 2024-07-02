@@ -188,8 +188,6 @@ const ModuleTree = () => {
 export default ModuleTree;
 
 const StyledTree = styled(Tree.DirectoryTree)`
-  /* overflow-y: scroll;
-  scrollbar-width: none; */
   .ant-tree-indent,
   .ant-tree-switcher-noop {
     display: none;
@@ -222,8 +220,8 @@ const StyledTree = styled(Tree.DirectoryTree)`
 
   .ant-tree-list-holder-inner {
     position: relative;
-    overflow: auto;
-    scrollbar-width: none;
+    overflow-y: auto;
+    scrollbar-width: thin;
     max-height: ${(props) =>
       props.screenWidth >= 992 ? "calc(100vh - 285px)" : "calc(100vh - 120px)"};
   }

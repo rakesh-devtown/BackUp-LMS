@@ -10,6 +10,7 @@ import ForgetPass from "./ForgetPass";
 import OTPverify from "../../components/Forms/OTPverification";
 import SuccessBox from "../../components/Forms/Success";
 import ResetPassword from "../../components/Forms/ResetPassword";
+import BrandBox from "../../components/BrandDevtown/BrandBox";
 
 const LoginMobileView = () => {
   const { width } = useWindowSize();
@@ -43,6 +44,8 @@ const LoginMobileView = () => {
       ) : // ) : mobileCurrentPage === "carrer-path" ? (
       //   <MobileCarrerPath />
       null}
+      <BrandBox/>
+
     </LoginMobile>
   );
 };

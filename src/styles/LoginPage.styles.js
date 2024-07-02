@@ -127,10 +127,10 @@ export const InputUsername = styled(Input)`
   padding: 11.651px 10.965px;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Poppins;
-  font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  font-size: 14px;
 `;
 export const StyledPassword = styled(Input.Password)`
   /* background-color: white;
@@ -151,10 +151,10 @@ export const StyledPassword = styled(Input.Password)`
   padding: 11.651px 10.965px;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Poppins;
-  font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  font-size: 14px;
 `;
 export const ForgotPassword = styled.p`
   color: #1677ff;
@@ -217,7 +217,7 @@ export const LoginLink = styled(Link)`
   border-radius: 4.865px;
   border: 0.608px solid #d8dae5;
   gap: 10px;
-  padding: 9.7px;
+  padding: 9px;
   color: #081735;
   font-size: 13.5px;
   font-weight: 500;
