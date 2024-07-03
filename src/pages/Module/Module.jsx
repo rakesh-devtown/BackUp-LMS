@@ -92,13 +92,13 @@ const Module = () => {
   },[])
 
   return (
-    <Layout>
+    <Layout style={{height:"100%"}}>
       <Helmet>
         <title>DevTown - Module</title>
         <meta name="settings" content="settings" />
         <link rel="canonical" href="https://www.learn.devtown.in/setting" />
       </Helmet>
-      <Content style={{ background: "#F4F7FE" }}>
+      <Content style={{ background: "#F4F7FE" , height:"100%" }}>
         <MainContainer width={width} rightSidebarWidth={rightSidebarWidth}>
           {courseLoading && <Spinner large/>}
           {/* sidebar in mobile view */}
@@ -156,6 +156,8 @@ const Module = () => {
 
 const MainContainer = styled.section`
   /* adjusting middle bar size according to sidebar */
+  height: 100%;
+  overflow-y: auto;
   margin-right: ${(props) =>
     props.width < 992 ? null : `calc(${props.rightSidebarWidth} + 20px)`};
   padding: ${(props) => (props.width >= 768 ? "24px" : "12px")};

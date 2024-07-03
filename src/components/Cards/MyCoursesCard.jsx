@@ -63,7 +63,7 @@ const MyCoursesCard = ({ enroll }) => {
           {/* <p className="completion">0% Completed</p> */}
 
           <DashboardButton onClick={onClickOnDashboard} shape="round" size="large">
-            View Dashboard
+            View Modules
           </DashboardButton>
         </Space>
       </Top>
