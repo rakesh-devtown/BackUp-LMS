@@ -35,6 +35,8 @@ const MyCourses = () => {
 };
 
 const StyledContainerVariant = styled(StyledContainer)`
+  height: 100%;
+  overflow-y: auto;
   h4 {
     color: var(--darkColor1);
     font-size: 26px;
