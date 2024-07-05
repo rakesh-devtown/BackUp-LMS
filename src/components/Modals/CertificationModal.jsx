@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { Space, message } from "antd";
+import { Modal, Space, message } from "antd";
 import styled from "styled-components";
 import certificate1 from "../../assets/images/certificate1.jpg";
 import logo from "../../assets/images/devtown-logo.svg";
 import useWindowSize from "../../hooks/useWindowSize";
 import { DownloadOutlined, SendOutlined } from "@ant-design/icons";
 import ShareModal from "./ShareModal/ShareModal";
-import MainModalBox from "./ModalsSecurityPage";
+// import MainModalBox from "./ModalsSecurityPage";
 import { SuccessMessage } from "../../styles/messagePopup.styles";
+import CertificateNameChange from "./CertificateNameChange.jsx";
 
 const CertificateDownloadModal = ({ data }) => {
-  const { width } = useWindowSize(); //getting width for movile view
-  //console.log(data)
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const { width } = useWindowSize();
 
   const [messageApi, contextHolder] = message.useMessage();
   const [showShareModal, setShowShareModal] = useState(false);
@@ -48,7 +49,23 @@ const CertificateDownloadModal = ({ data }) => {
       {contextHolder}
 
       {/* open modal box to change name */}
-      {editCertificate && <MainModalBox keyNumber={1} handleCancel={handleEditCertificate} />}
+      {/* {editCertificate && <MainModalBox keyNumber={1} handleCancel={handleEditCertificate} />} */}
+      {editCertificate && (
+        <StyledModal
+          propWidth={width}
+          // maskClosable={false}
+          open={true}
+          confirmLoading={confirmLoading}
+          onCancel={handleEditCertificate}
+          centered={true}
+          okText={"Continue"}
+          cancelButtonProps={{ visible: false }}
+          width={width >= 768 ? "600px" : "450px"}
+          footer={null}
+        >
+          <CertificateNameChange />
+        </StyledModal>
+      )}
 
       {/* Social Media Modal for sharing */}
       <ShareModal handleClose={handleClose} showShareModal={showShareModal} title={shareModaltitle} data={data} />
@@ -62,7 +79,9 @@ const CertificateDownloadModal = ({ data }) => {
           </p>
         </Space>
         <StyledButtons width={width}>
-          {/* <button className='btn1' onClick={handleEditCertificate} >Edit Certificate</button> */}
+          {/* <button className="btn1" onClick={handleEditCertificate}>
+            Edit Certificate
+          </button> */}
           <button className="btn2" onClick={handleDownload}>
             Download Certificate{" "}
             <i>
@@ -90,6 +109,12 @@ const CertificateDownloadModal = ({ data }) => {
     </StyledCertificate>
   );
 };
+
+const StyledModal = styled(Modal)`
+  .ant-modal-content {
+    padding: ${(props) => (props.propWidth >= 768 ? "40px" : "20px")};
+  }
+`;
 
 const StyledCertificate = styled.section`
   display: flex;
@@ -148,7 +173,7 @@ const StyledButtons = styled.div`
     letter-spacing: -0.18px;
     border-radius: 9px;
     background: #ddeaff;
-    padding: 17px 32px;
+    padding: 17px 23px;
     border: none;
     transition: all 0.2s;
     cursor: pointer;
