@@ -18,6 +18,7 @@ const useBatchStore = create(
     currentVideo: {},
     selectedEnrollIdOfCourse: "",
     currentModule:[],
+    certificateLoading:false,
     
     setSection: (tracker) => {
       set((state) => {
@@ -331,7 +332,50 @@ const useBatchStore = create(
           courseLoading: false,
         })
       }
-    }
+    },
+    generateMigrateCertificate: async (batchId) => {
+      try {
+        setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+        set({courseLoading:true})
+        const userId = useAuthStore.getState().user.id;
+        const res = await servicePost(`student/student/v1/certificate/migrate?batchId=${batchId}&userId=${userId}`);
+        const {
+          success,
+          message,
+          data,
+        } = res;
+        if (success) {
+          const allEnrolledCourses = await useBatchStore.getState().enrolledCourses;
+          //console.log(allEnrolledCourses);
+          const thisCourseIndex = allEnrolledCourses.findIndex((course)=>course.batch?.id === batchId);
+          //console.log(thisCourseIndex);
+          if(thisCourseIndex !== -1)
+          {
+            allEnrolledCourses[thisCourseIndex] = {
+              ...allEnrolledCourses[thisCourseIndex],
+              isStudentMigrated:false
+            };
+          }
+          //console.log(allEnrolledCourses);
+          set({
+            enrolledCourses: allEnrolledCourses,
+          })
+
+          notification.success({
+            message: "Success",
+            description: "Your certificates are generated successfully. You can download them from the certificate section.",
+          })
+
+        }
+      } catch (e) {
+        notification.error({
+          message: "Error",
+          description: e?.response?.data?.error?.message || e.message,
+        });
+      }finally{
+        set({courseLoading:false})
+      }
+    },
 
   }))
 );

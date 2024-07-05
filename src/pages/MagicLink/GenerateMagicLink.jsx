@@ -6,7 +6,7 @@ import {
   ArrowLeftOutlined,
   BackwardOutlined,
 } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { Button, Input, notification } from "antd";
 import img from "../../assets/images/ICON.svg";
 import {
   BackButtonOuterContainer,
@@ -37,9 +37,17 @@ function GenerateMagicLink() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    if(!value.email || value.email.trim() === ""){
+      return notification.error({
+        message: "Email is required",
+        description: "Please enter a valid email address",
+      })
+    }
+    
     if (value) {
-      auth.generateMagicLink(value);
+      auth.generateMagicLink({
+        email:String(value.email).toLowerCase().trim(),
+      });
     }
   };
   return (

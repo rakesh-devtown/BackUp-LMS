@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CertificateDownloadModal from "../Modals/CertificationModal";
 import useWindowSize from "../../hooks/useWindowSize";
+import useBatchStore from "../../store/batchStore";
 
-const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated }) => {
+const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated,batch }) => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [certificateData, setCertificateData] = useState({});
   const [percentage, setPercentage] = useState(0);
   const { width } = useWindowSize();
+  const { generateMigrateCertificate } = useBatchStore();
 
   const { name, description, bannerImg } = data;
   const handleModal = (data) => {
@@ -25,6 +27,13 @@ const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated }) =
 
     setPercentage(Math.min(parseInt(progress), 100));
   };
+
+  const migrateCertificatesHandler = async() => {
+    try{
+      await generateMigrateCertificate(batch?.id);
+    }catch(err){
+    }
+  }
 
   useEffect(() => {
     if (data) {
@@ -51,7 +60,7 @@ const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated }) =
         <Col span={24} md={12}>
           <StyledCard bgColor={bgColor}>
             <MainCard width={width}>
-            {/* { isStudentMigrated && <CustomButton type="default">Generate Certificate</CustomButton>} */}
+            { isStudentMigrated && <CustomButton onClick={migrateCertificatesHandler} type="default">Get Certificate</CustomButton>}
               <Space size={29}>
                 <img src={bannerImg} className=" max-w-20 max-h-20" alt="icon" />
                 <h4>{String(name).length > 30 ? String(name).substring(0, 30) + "..." : name}</h4>

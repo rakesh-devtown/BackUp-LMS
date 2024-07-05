@@ -1,4 +1,4 @@
-import { Form, Input, Button as AntButton, Flex } from "antd";
+import { Form, Input, Button as AntButton, Flex, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useAuthStore from "../../store/authStore";
@@ -53,10 +53,19 @@ export default function ForgetPass({ toggleSignUp, nextPage }) {
 
   const onFinish = async(values) => {
     const { email } = values;
-    const response = await forgotPassword(email);
+
+    if(!email || email.trim() === ""){
+      return notification.error({
+        message: "Email is required",
+        description: "Please enter a valid email address",
+      })
+    }
+
+    let small = String(email).toLowerCase().trim();
+    const response = await forgotPassword(small);
     //console.log(response);
     if (response) {
-      setCurrentUserEmail(email);
+      setCurrentUserEmail(small);
       // setCurrentPage("otp");
       nextPage()
     }
