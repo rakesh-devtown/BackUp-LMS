@@ -37,7 +37,7 @@ const NameChange = ({ handleCancel }) => {
         Note:{" "}
         <span>
           Please enter your name carefully, same name will be printed on your
-          certificates.
+          certificates always.
         </span>
       </StyledParagraph>
       <form onSubmit={handleSave}>

@@ -160,6 +160,7 @@ const useAuthStore = create(
             });
             
           } else {
+            notification.error({ message: "Login Error", description: message });
             set({
               token: null,
               chatToken: null,
@@ -170,7 +171,10 @@ const useAuthStore = create(
         }
       } catch (error) {
         deleteHeader("Authorization");
-
+        notification.error({
+          message: "Login Error",
+          description: error.message,
+        });
       }
     },
     registerUserSession: async () => {
@@ -368,7 +372,9 @@ const useAuthStore = create(
         notification.success({ message: "Success", description: message });
         return true;
       } catch (error) {
-        notification.error({ message: "Error", description: error.message });
+        const {response} = error;
+        const {data : data} = response;
+        notification.error({ message: "Error", description: data?.message ||  error?.message });
         return false;
       }
     },

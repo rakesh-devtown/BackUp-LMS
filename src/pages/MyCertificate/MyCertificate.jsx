@@ -32,6 +32,7 @@ const MyCertificate = () => {
   return (
     <>
       <StyledContainer width={width}>
+        
         <StyledTabs>
           <Tabs
             defaultActiveKey="1"
@@ -47,6 +48,7 @@ const MyCertificate = () => {
                     key={ind} 
                     bgColor={ind % 2 === 0 ? "#1A4674" : "#3E863D"} 
                     data={card?.batch?.course}
+                    batch={card?.batch}
                     isStudentMigrated={card?.isStudentMigrated} 
                     completed={false} />
                 ))}
@@ -54,7 +56,6 @@ const MyCertificate = () => {
             </Tabs.TabPane>
 
             <Tabs.TabPane tab="Completed" key={"2"}>
-              {courseLoading && <Spinner/>}
               <h2 className="title">Course Certification</h2>
               <Row gutter={[15, 15]}>
                 {completedCoursesCertificates && completedCoursesCertificates.map((card, ind) => (
@@ -68,6 +69,7 @@ const MyCertificate = () => {
           </Tabs>
         </StyledTabs>
       </StyledContainer>
+      {courseLoading && <Spinner />}
     </>
   );
 };
