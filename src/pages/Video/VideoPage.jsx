@@ -75,6 +75,8 @@ const Video = () => {
   useEffect(() => {
     if (width >= 992) {
       setCollapsed(false);
+    }else{
+      setCollapsed(true);
     }
   }, [width]);
 
