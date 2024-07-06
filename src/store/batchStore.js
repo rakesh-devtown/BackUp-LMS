@@ -19,6 +19,7 @@ const useBatchStore = create(
     selectedEnrollIdOfCourse: "",
     currentModule:[],
     certificateLoading:false,
+    certificateCanBeEdited:false,
     
     setSection: (tracker) => {
       set((state) => {
@@ -177,7 +178,11 @@ const useBatchStore = create(
           data,
         } = res;
         if (success) {
-          set({ completedCoursesCertificates: data });
+          set({ 
+            completedCoursesCertificates: data.certificates,
+            certificateCanBeEdited: data.canBeEdited
+          });
+
         }
       } catch (e) {
         notification.error({
