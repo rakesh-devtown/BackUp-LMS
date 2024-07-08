@@ -14,12 +14,13 @@ import ResetPassword from "../../Forms/ResetPassword";
 import SuccessBox from "../../Forms/Success";
 import useResumeStore from "../../../store/resumeStore";
 import loginUiStore from "../../../store/loginUi.store";
+import useMeStore from "../../../store/meStore";
 
 const PasswordChange = ({ handleCancel }) => {
   const [email, setEmail] = useState("");
   const [step, setStep] = useState(1);
   const { width } = useWindowSize();
-  const { requestPasswordChange } = useResumeStore();
+  const { requestPasswordChange } = useMeStore();
   const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
   const setCurrentUserEmail = loginUiStore(
     (state) => state.setCurrentUserEmail

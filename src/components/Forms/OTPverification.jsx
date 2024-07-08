@@ -9,6 +9,7 @@ import styled from "styled-components";
 import useAuthStore from "../../store/authStore";
 import loginUiStore from "../../store/loginUi.store";
 import useResumeStore from "../../store/resumeStore";
+import useMeStore from "../../store/meStore";
 
 const OTPverify = ({ handleBack, handleNext }) => {
     const currentUserEmail = loginUiStore((state) => state.currentUserEmail);
@@ -19,7 +20,7 @@ const OTPverify = ({ handleBack, handleNext }) => {
     const setCurrentPage = loginUiStore((state) => state.setCurrentPage);
     const currentPage = loginUiStore((state) => state.currentPage);
     const { forgotPassword } = useAuthStore();
-    const { passwordChangeOtpVerify } = useResumeStore();
+    const { passwordChangeOtpVerify } = useMeStore();
 
     // #region The Uncontrolled Logic
     const [form] = Form.useForm();

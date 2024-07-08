@@ -15,6 +15,7 @@ import { StyledLabel } from "../../styles/LoginPage.styles";
 import { HaddingColored } from "../../styles/shared.styles";
 import loginUiStore from "../../store/loginUi.store";
 import useResumeStore from "../../store/resumeStore";
+import useMeStore from "../../store/meStore";
 
 export default function ResetPassword({ handleNext }) {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function ResetPassword({ handleNext }) {
   const currentPage = loginUiStore((state) => state.currentPage);
   const [loading, setLoading] = useState(false);
   const { resetPassword } = useAuthStore();
-  const { changePassowrd } = useResumeStore();
+  const { changePassowrd } = useMeStore();
 
   const handleSubmit = async (values) => {
     try {
