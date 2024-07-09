@@ -9,11 +9,13 @@ import ShareModal from "./ShareModal/ShareModal";
 // import MainModalBox from "./ModalsSecurityPage";
 import { SuccessMessage } from "../../styles/messagePopup.styles";
 import CertificateNameChange from "./CertificateNameChange.jsx";
+import useBatchStore from "../../store/batchStore.js";
 
 const CertificateDownloadModal = ({ data }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { width } = useWindowSize();
 
+  const certificateCanBeEdited = useBatchStore((state) => state.certificateCanBeEdited);
   const [messageApi, contextHolder] = message.useMessage();
   const [showShareModal, setShowShareModal] = useState(false);
   const [editCertificate, setEditCertificate] = useState(false);
@@ -41,6 +43,7 @@ const CertificateDownloadModal = ({ data }) => {
     });
   };
 
+  console.log("edited", certificateCanBeEdited)
   const handleEditCertificate = () => setEditCertificate(!editCertificate);
 
   return (
@@ -63,7 +66,7 @@ const CertificateDownloadModal = ({ data }) => {
           width={width >= 768 ? "600px" : "450px"}
           footer={null}
         >
-          <CertificateNameChange />
+          <CertificateNameChange handleCancel={handleEditCertificate} />
         </StyledModal>
       )}
 
@@ -79,9 +82,12 @@ const CertificateDownloadModal = ({ data }) => {
           </p>
         </Space>
         <StyledButtons width={width}>
-          {/* <button className="btn1" onClick={handleEditCertificate}>
-            Edit Certificate
-          </button> */}
+          {
+            certificateCanBeEdited &&
+            <button className="btn1" onClick={handleEditCertificate}>
+              Edit Certificate
+            </button>
+          }
           <button className="btn2" onClick={handleDownload}>
             Download Certificate{" "}
             <i>

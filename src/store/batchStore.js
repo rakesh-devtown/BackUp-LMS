@@ -382,6 +382,37 @@ const useBatchStore = create(
       }
     },
 
+    nameChangeRequestForCertificate: async (name) => {
+      try {
+        setHeader("auth", `bearer ${localStorage.getItem("token")}`);
+        set({certificateLoading:true})
+        const userId = useAuthStore.getState().user.id;
+        const res = await servicePost(`student/student/v1/certificate/nameRequest`,{
+          userId:userId,
+          updatedName:name
+        })
+        const {
+          success,
+          message,
+          data,
+        } = res;
+        if (success) {
+          notification.success({
+            message: "Success",
+            description: "Your name change request has been submitted successfully. You will be notified once it is approved.",
+          })
+          set({certificateCanBeEdited:false})
+        }
+      } catch (e) {
+        notification.error({
+          message: "Error",
+          description: e?.response?.data?.error?.message || e.message,
+        });
+      }finally{
+        set({certificateLoading:false})
+      }
+    },
+
   }))
 );
 
