@@ -13,11 +13,14 @@ import useWindowSize from "../../hooks/useWindowSize";
 import useResumeStore from "../../store/resumeStore";
 import useAuthStore from "../../store/authStore";
 import useBatchStore from "../../store/batchStore";
+import useMeStore from "../../store/meStore";
 
 const CertificateNameChange = ({ handleCancel }) => {
   const [myName, setMyName] = useState("");
   const { width } = useWindowSize();
   const {nameChangeRequestForCertificate} = useBatchStore();
+  const { changeName } = useMeStore();
+  const user = useAuthStore((state) => state.user);
 
   const handleSave = async () => {
     if(String(myName).trim().length < 3){

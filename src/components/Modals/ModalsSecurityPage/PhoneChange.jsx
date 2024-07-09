@@ -11,9 +11,10 @@ import useWindowSize from "../../../hooks/useWindowSize";
 import useAuthStore from "../../../store/authStore";
 import useResumeStore from "../../../store/resumeStore";
 import { useState } from "react";
+import useMeStore from "../../../store/meStore";
 
 const PhoneChange = ({ handleCancel }) => {
-  const { changePhone } = useResumeStore();
+  const { changePhone } = useMeStore();
   const [myPhone, setMyPhone] = useState("");
   const user = useAuthStore((state) => state.user);
   const { width } = useWindowSize();

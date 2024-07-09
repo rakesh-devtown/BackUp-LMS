@@ -81,8 +81,7 @@ const Module = () => {
       console.log(err)
     }
   }
-
-
+  
   useEffect(() => {
     if(selectedEnrollIdOfCourse){
         getEnrollCourses();
