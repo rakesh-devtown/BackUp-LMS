@@ -4,7 +4,7 @@ import Field from "./Field";
 import profileLogo from "../../../assets/images/profile_logo.svg";
 import { StyledSettingsContent } from "../../../styles/settings.styles";
 import MainModalBox from "../../../components/Modals/ModalsSecurityPage";
-import useAuthStore from "../../../store/authStore";
+import useMeStore from "../../../store/meStore";
 
 const SignInAndSecurity = () => {
   // const [changeEmailModal, setChangeEmailModal] = useState(false)
@@ -12,7 +12,7 @@ const SignInAndSecurity = () => {
   // const [changePsdModal, setChangePsdModal] = useState(false)
   // const [deviceModal, setDeviceModal] = useState(false)
 
-  const user = useAuthStore((state) => state.user);
+  const user = useMeStore((state) => state.user);
 
   return (
     <StyledSettingsContent>

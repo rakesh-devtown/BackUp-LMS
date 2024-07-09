@@ -5,21 +5,24 @@ import { StyledContainer } from "../../styles/layout.styles";
 import useBatchStore from "../../store/batchStore";
 import Spinner from "../../components/loader/Spinner";
 import { useEffect } from "react";
+import useMeStore from "../../store/meStore";
 
 const MyCourses = () => {
   const { width } = useWindowSize();
   const courseLoading = useBatchStore((state) => state.courseLoading);
   const enrolledCourses = useBatchStore((state) => state.enrolledCourses);
   const {getAllEnrolledCourses} = useBatchStore();
+  const { getStudentById } = useMeStore();
 
   useEffect(() => {
+    getStudentById();
     getAllEnrolledCourses();
   },[])
 
   return (
     <StyledContainerVariant width={width}>
       {courseLoading && <Spinner large />}
-      <h4>Enrolled Courses</h4>
+      <h4>Enrollesd Courses</h4>
       <div className="list">
         {enrolledCourses &&
           enrolledCourses.map((course) => (

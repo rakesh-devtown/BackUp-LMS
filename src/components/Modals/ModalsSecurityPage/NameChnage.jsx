@@ -12,11 +12,12 @@ import useWindowSize from "../../../hooks/useWindowSize";
 import useResumeStore from "../../../store/resumeStore";
 import useAuthStore from "../../../store/authStore";
 import { useNavigate } from "react-router-dom";
+import useMeStore from "../../../store/meStore";
 
 const NameChange = ({ handleCancel }) => {
   const [myName, setMyName] = useState("");
   const { width } = useWindowSize();
-  const { changeName } = useResumeStore();
+  const { changeName } = useMeStore();
   const  user = useAuthStore(state => state.user);
 
   const handleSave = async () => {
