@@ -13,6 +13,7 @@ const SignInAndSecurity = () => {
   // const [deviceModal, setDeviceModal] = useState(false)
 
   const user = useMeStore((state) => state.user);
+  const nameCanBeChanged = useMeStore((state) => state.nameCanBeChanged);
 
   return (
     <StyledSettingsContent>
@@ -25,7 +26,7 @@ const SignInAndSecurity = () => {
           keyNumber={1}
           title={"My Name"}
           value={user?.name}
-          change={true}
+          change={nameCanBeChanged}
         />
         <Field keyNumber={2} title={"Email Address"} value={user?.email} />
         <Field

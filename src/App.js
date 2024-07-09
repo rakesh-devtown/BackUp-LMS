@@ -50,7 +50,7 @@ const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
 
 const App = () => {
 
-  if ( window.location.origin === "https://www.learn.devtown.in") {
+  if ( window.location.origin === "https://www.learn.devtown.in" || window.location.origin === "https://learn.devtown.in") {
     console.log = () => {}
     console.error = () => {}
     console.debug = () => {}
