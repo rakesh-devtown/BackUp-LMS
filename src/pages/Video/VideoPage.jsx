@@ -106,6 +106,7 @@ const Video = () => {
           onCancel={() => setIsModalOpen(false)}
           maskClosable
           width={900}
+          styles={{mask:{background:"rgb(0,0,0,0.8)"}}}
         >
           <DoubtModal />
         </StyledModal>
@@ -202,13 +203,13 @@ const Video = () => {
                 Code Rubiks
               </Button> */}
             </div>
-            {/* <Button
+            <Button
               size="large"
               className="ask-btn"
               onClick={() => setIsModalOpen(true)}
             >
               ✋ Ask Doubt
-            </Button> */}
+            </Button> 
             {/* Bookmark button for mobile */}
             {/* {width < 992 && (
               <Button
@@ -273,6 +274,9 @@ const StyledModal = styled(Modal)`
     height: 653px;
     max-height: 100vh;
     scrollbar-width: none;
+  }
+  .ant-modal-body{
+    height: 100%;
   }
 `;
 

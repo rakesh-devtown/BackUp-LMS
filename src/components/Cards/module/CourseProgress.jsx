@@ -8,12 +8,7 @@ const CourseProgress = () => {
     <ProgressCard>
       <h5>Course Progress</h5>
       <ProgressBar>
-        <Progress
-          percent={75}
-          showInfo={false}
-          strokeColor={"#1E6DE8"}
-          size={"small"}
-        />
+        <Progress percent={75} showInfo={false} strokeColor={"#1E6DE8"} size={"small"} />
         <i className="first-icon">
           <TrophyOutlined />
         </i>
@@ -22,7 +17,7 @@ const CourseProgress = () => {
         </i>
       </ProgressBar>
       <p>0% Completed</p>
-      <LastActivityCard />
+      {/* <LastActivityCard /> */}
     </ProgressCard>
   );
 };

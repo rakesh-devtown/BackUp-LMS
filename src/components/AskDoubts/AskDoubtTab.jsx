@@ -1,13 +1,12 @@
-import { Button, Divider, Form, Space, Tabs } from "antd";
-import React, { useState } from "react";
+import { Tabs } from "antd";
 import styled from "styled-components";
 import HelpWithCodeTab from "./HelpWithCodeTab";
 import QuestionRelatedTab from "./QuestionRelatedTab";
 import PlatformRelatedTab from "./PlatformRelatedTab";
 import OtherTab from "./OtherTab";
-import { CheckCircleOutlined, EditOutlined } from "@ant-design/icons";
-import TextArea from "antd/es/input/TextArea";
+import { EditOutlined } from "@ant-design/icons";
 import CustomTabBar from "./CustomTabBar";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const items = [
   {
@@ -17,7 +16,7 @@ const items = [
   },
   {
     key: "2",
-    label: "Questions/concept Related",
+    label: "Questions/ concept Related",
     children: <QuestionRelatedTab />,
   },
   {
@@ -33,9 +32,7 @@ const items = [
 ];
 
 const AskDoubtTab = () => {
-  const [selected, setSelected] = useState(true);
-
-  const handleSelected = (e) => setSelected(e);
+  const { width } = useWindowSize();
   const handleSubmit = (value) => {
     console.log(value);
   };
@@ -46,7 +43,7 @@ const AskDoubtTab = () => {
   };
 
   return (
-    <StyledCard>
+    <StyledCard width={width}>
       <StyledTop>
         <div className="header">
           <h4>
@@ -64,7 +61,7 @@ const AskDoubtTab = () => {
           <p>What are you facing trouble with?</p>
         </div>
       </StyledTop>
-      <TabContainer>
+      <TabContainer width={width}>
         <Tabs
           items={items}
           indicator={{ size: 0 }}
@@ -72,60 +69,6 @@ const AskDoubtTab = () => {
           // renderTabBar={() => <CustomTabBar />}
           // centered
         />
-        {selected && (
-          <>
-            <Divider style={{ marginBottom: "38px" }} />
-            <CustomForm layout="vertical" onFinish={handleSubmit}>
-              <Form.Item label="Describe your Issue" name="description">
-                {/* <StyledLabel>Email Address</StyledLabel> */}
-                <TextArea
-                  rows={5}
-                  placeholder="Doubts with clear and detailed description is accepted 80% faster than doubts with poor description."
-                />
-              </Form.Item>
-              <p className="minimum-words">Minimum 200 words</p>
-              <BottomPart>
-                <div>
-                  <p>Tips on writing a good question:</p>
-                  <Space size={6} align="center">
-                    <i>
-                      <CheckCircleOutlined />
-                    </i>
-                    <p>
-                      Anything you have already tried before to solve the issue
-                      but didn't work.
-                    </p>
-                  </Space>
-                  <Space size={6} align="center">
-                    <i>
-                      <CheckCircleOutlined />
-                    </i>
-                    <p>Specific area where you need help.</p>
-                  </Space>
-                  <Space size={6} align="center">
-                    <i>
-                      <CheckCircleOutlined />
-                    </i>
-                    <p>
-                      Anything you have already tried before to solve the issue
-                      but didn't work.
-                    </p>
-                  </Space>
-                </div>
-                <Divider />
-                <Button
-                  type="primary"
-                  danger
-                  size="large"
-                  style={{ float: "right" }}
-                  htmlType="submit"
-                >
-                  Submit
-                </Button>
-              </BottomPart>
-            </CustomForm>
-          </>
-        )}
       </TabContainer>
     </StyledCard>
   );
@@ -134,7 +77,8 @@ const AskDoubtTab = () => {
 export default AskDoubtTab;
 
 const StyledCard = styled.div`
-  padding: 8px 24px 24px;
+  /* padding: 8px 24px 24px; */
+  padding: ${(props) => (props.width >= 768 ? "8px 24px 24px" : "8px 10px 24px")};
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -189,91 +133,23 @@ const TabContainer = styled.div`
   padding-bottom: 32px;
   .ant-tabs-tab {
     text-wrap: balance;
-    padding: 20px 16px !important;
+    /* padding: 20px 16px !important; */
+    padding: ${(props) => (props.width >= 768 ? " 20px 16px !important" : " 20px 8px !important")};
     margin: 0 !important;
     text-align: center;
     color: white;
     font-family: "DM Sans";
-    font-size: 18px;
+    font-size: ${(props) => (props.width >= 768 ? "18px" : "14px")};
+    width: 25%;
   }
   .ant-tabs-tab-active {
     background-color: white;
     color: #0859de;
   }
-  .minimum-words {
-    float: right;
-    margin-right: 10px;
-    color: #6c727f;
-    text-align: right;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-`;
-
-const CustomForm = styled(Form)`
-  position: relative;
-  padding: 0 16px;
-  .ant-form-item {
-    margin-bottom: 8px;
-  }
-  .ant-form-item-row {
-    position: relative;
-    .ant-form-item-label {
-      position: absolute;
-      color: #121826;
-      top: -15px;
-      z-index: 5;
-      background: white;
-      left: 15px;
-      font-weight: 700;
-      padding: 0;
-      label {
-        color: var(--Color-Brand-Brand-Blue, #0859de) !important;
-        font-family: "DM Sans";
-        font-size: 24px !important;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-      }
-    }
-    textarea {
-      padding: 18px 19px;
-      color: #6c727f;
-      font-family: "DM Sans";
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    }
-  }
-`;
-
-const BottomPart = styled.div`
-  font-family: "DM Sans";
-  color: #6c727f;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .ant-tabs-nav-list {
     width: 100%;
-    .ant-space-item {
-      i {
-        color: green;
-        display: flex;
-        align-items: center;
-        svg {
-          height: 22px;
-          width: 22px;
-        }
-      }
-      p {
-        font-size: 16px;
-        font-weight: 400;
-      }
-    }
+  }
+  .ant-tabs-tab-btn {
+    width: 100%;
   }
 `;
