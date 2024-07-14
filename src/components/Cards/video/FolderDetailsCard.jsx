@@ -22,7 +22,7 @@ const FolderDetailsCard = () => {
               ? currentCourseDetails?.totalSubSections 
               :currentCourseDetails?.sections?.length
             )
-            :currentCourseDetails?.sections?.length} Sections</p>
+            :currentCourseDetails?.sections?.length} Modules</p>
       </div>
       <div className="small-box">
         <i>

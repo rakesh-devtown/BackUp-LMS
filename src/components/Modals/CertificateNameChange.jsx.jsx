@@ -40,7 +40,7 @@ const CertificateNameChange = ({ handleCancel }) => {
         Certificate Name
       </StyledTitle>
       <StyledParagraph>
-        Note: <span>Please enter your name carefully, same name will be printed on your certificates and can't be edit in future.</span>
+        Note: <span>Please enter your name carefully, same name will be printed on your certificates and can't be edited in future.</span>
       </StyledParagraph>
       <form onSubmit={handleSave}>
         <StyledLabel htmlFor="myName">Name</StyledLabel>
