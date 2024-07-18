@@ -13,6 +13,7 @@ import useWindowSize from "../../hooks/useWindowSize";
 import useLayoutUiStore from "../../store/layoutUI";
 import ProfilePopover from "../ProfilePopover/ProfilePopover";
 import useAuthStore from "../../store/authStore";
+import { useEffect } from "react";
 
 function HeaderBar() {
   const { width } = useWindowSize();
@@ -25,6 +26,13 @@ function HeaderBar() {
   );
   const navigate = useNavigate();
 
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+  useEffect(() => {
+    localStorage.setItem('lastPath', currentPath);
+  }, [location]); 
+
   //css styling for antd components
   const darkStyle = {
     color: isMobileSideBarOpen ? "#3f3d3d" : "#808080",
@@ -36,8 +44,6 @@ function HeaderBar() {
   const myPopoverlayStyle = {
     width: width >= 576 ? "400px" : null,
   };
-
-  const location = useLocation();
 
   return (
     // < StyledNav >
