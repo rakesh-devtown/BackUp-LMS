@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { persist, createJSONStorage } from 'zustand/middleware'
 import { serviceGet, servicePost } from "../utils/api";
 import { notification } from "antd";
 import { setHeader } from "../utils/header";
 import useAuthStore from "./authStore";
 
 const useBatchStore = create(
-  devtools((set, get) => ({
+  persist((set, get) => ({
     courseLoading: false,
     currentBatch: {},
     sections: [],
@@ -412,8 +413,14 @@ const useBatchStore = create(
         set({certificateLoading:false})
       }
     },
-
-  }))
+  }),
+  
+  {
+    name: 'batchStored', 
+    storage: createJSONStorage(() => sessionStorage),
+  },
+  ),
+  devtools
 );
 
 export default useBatchStore;

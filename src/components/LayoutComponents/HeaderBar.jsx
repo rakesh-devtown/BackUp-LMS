@@ -30,7 +30,7 @@ function HeaderBar() {
   const currentPath = location.pathname;
 
   useEffect(() => {
-    localStorage.setItem('lastPath', currentPath);
+    sessionStorage.setItem('lastPath', currentPath);
   }, [location]); 
 
   //css styling for antd components
