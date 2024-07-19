@@ -188,3 +188,7 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #727272;
 }
+
+.player video {
+  border-radius: 6px;
+}

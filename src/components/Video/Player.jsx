@@ -64,13 +64,13 @@ const Player = ({ url, videoId }) => {
 
 	return (
 		<div
-			className="player-wrapper relative w-full md:w-[70%]"
+			className="player-wrapper relative w-full md:w-[70%] flex flex-col justify-center"
 			onMouseMove={mouseMoveHandler}
 			ref={playerWrapperRef}
 			onKeyDown={handleKeyPress}
 			tabIndex={0}
 		>
-			<div className=" bg-black" onClick={playPauseHandler}>
+			<div className=" bg-black rounded-md" onClick={playPauseHandler}>
 				<ReactPlayer
 					ref={videoPlayerRef}
 					className="player"
@@ -111,7 +111,7 @@ const Player = ({ url, videoId }) => {
 							className="md:w-8 md:h-8 w-6 h-6"
 						/>
 					</div>
-					<div className="w-1/5" onClick={playPauseHandler}>
+					<div className="w-1/5 flex justify-center" onClick={playPauseHandler}>
 						{videoState.buffer ? (
 							<svg
 								aria-hidden="true"
@@ -145,7 +145,11 @@ const Player = ({ url, videoId }) => {
 						/>
 					</div>
 				</div>
-				<div className="absolute bottom-0 text-white w-[100%] bg-[rgba(0,0,0,0.5)]">
+				{/* <div className="absolute top-0 text-white w-[100%]  rounded-b-md p-4 bg-[rgba(0,0,0,0.5)] ">
+					day 1
+
+				</div> */}
+				<div className="absolute bottom-0 text-white w-[100%] bg-[rgba(0,0,0,0.5)] rounded-b-md">
 					<div className="mx-4">
 						<input
 							type="range"
@@ -161,14 +165,85 @@ const Player = ({ url, videoId }) => {
 									{playing ? <IoMdPause /> : <IoMdPlay />}
 								</div>
 
-								{/* <div className="ml-2 cursor-pointer">
-							<IoMdSkipForward />
-						</div> */}
-								<div className="ml-2 cursor-pointer" onClick={rewindHandler}>
+								<div className="ml-2 cursor-pointer hidden sm:block" onClick={rewindHandler}>
 									<TbRewindBackward10 />
 								</div>
 								<div
-									className="ml-2 cursor-pointer"
+									className="ml-2 cursor-pointer hidden sm:block"
+									onClick={handleFastForward}
+								>
+									<TbRewindForward10 />
+								</div>
+								<div className="ml-2 flex items-center group">
+									{muted ? (
+										<IoMdVolumeOff
+											className="text-xl cursor-pointer"
+											onClick={muteHandler}
+										/>
+									) : (
+										<IoMdVolumeHigh
+											className="text-xl cursor-pointer"
+											onClick={muteHandler}
+										/>
+									)}
+									<input
+										type="range"
+										min="0"
+										max="100"
+										value={videoState?.volume * 100}
+										className="h-1 w-16 sm:w-0 opacity-100 sm:opacity-0 sm:invisible group-hover:visible group-hover:volumeSeek group-hover:w-20 group-hover:opacity-100 cursor-pointer sm:transition-all sm:duration-300"
+										onChange={volumeSeekUpHandler}
+									/>
+								</div>
+
+								<div className="ml-2 text-xs truncate sm:text-sm font-bold">
+									<span>
+										{formatCurrentTime} / {formatDuration}
+									</span>
+								</div>
+							</div>
+							<div className="flex text-xl items-center">
+								<SettingsController
+									data={playbackRate}
+									handleQualityChange={handlePlaybackSpeedChange}
+								/>
+								<QualityControl videoPlayerRef={videoPlayerRef} url={url} />
+
+								<div
+									className="ml-2 text-3xl cursor-pointer "
+									onClick={handleFullscreen}
+								>
+									{!videoState.isFullscreen ? (
+										<MdFullscreen className="viewFullscreen" />
+									) : (
+										<MdFullscreenExit className="exitFullscreen" />
+									)}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="absolute bottom-0 text-white w-[100%] bg-[rgba(0,0,0,0.5)] rounded-b-md">
+					<div className="mx-4">
+						<input
+							type="range"
+							min="0"
+							max="100"
+							value={played * 100}
+							className="w-full h-1 cursor-pointer"
+							onChange={seekHandler}
+						/>
+						<div className="flex justify-between">
+							<div className="flex text-xl items-center">
+								<div className="cursor-pointer" onClick={playPauseHandler}>
+									{playing ? <IoMdPause /> : <IoMdPlay />}
+								</div>
+
+								<div className="ml-2 cursor-pointer hidden sm:block" onClick={rewindHandler}>
+									<TbRewindBackward10 />
+								</div>
+								<div
+									className="ml-2 cursor-pointer hidden sm:block"
 									onClick={handleFastForward}
 								>
 									<TbRewindForward10 />
