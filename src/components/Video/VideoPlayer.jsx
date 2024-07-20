@@ -20,9 +20,6 @@ const VideoWrapper = styled.div`
 margin: 12px 0;
 display: flex;
 justify-content: center;
-cursor: pointer;
-
-
 .react_player{
     border-radius: 16px;
     overflow: hidden;
