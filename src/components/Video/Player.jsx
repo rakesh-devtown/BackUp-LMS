@@ -64,7 +64,7 @@ const Player = ({ url, videoId }) => {
 
 	return (
 		<div
-			className="player-wrapper relative w-full md:w-[70%] flex flex-col justify-center"
+			className="player-wrapper relative w-full md:w-[70%] flex flex-col justify-center cursor-pointer"
 			onMouseMove={mouseMoveHandler}
 			ref={playerWrapperRef}
 			onKeyDown={handleKeyPress}
@@ -100,7 +100,7 @@ const Player = ({ url, videoId }) => {
 				/>
 			</div>
 			<div className="" ref={controlRef}>
-				<div className="absolute top-0 h-full w-full flex justify-center items-center text-white">
+				<div className={`absolute  top-0 h-full w-full flex justify-center items-center text-white ${!playing && "bg-black bg-opacity-30"}`}>
 					{/* loading play pause */}
 					<div
 						className="h-full w-1/2 flex items-center justify-center"
@@ -108,7 +108,7 @@ const Player = ({ url, videoId }) => {
 					>
 						<FaFastBackward
 							onClick={rewindHandler}
-							className="md:w-8 md:h-8 w-6 h-6"
+							className="md:w-8 md:h-8 w-6 h-6 bg-gray-500 p-2 rounded-full"
 						/>
 					</div>
 					<div className="w-1/5 flex justify-center" onClick={playPauseHandler}>
@@ -137,11 +137,11 @@ const Player = ({ url, videoId }) => {
 					</div>
 					<div
 						onClick={playPauseHandler}
-						className="h-full w-1/2 flex items-center justify-center"
+						className="h-full w-1/2 flex items-center justify-center "
 					>
 						<FaFastForward
-							onClick={rewindHandler}
-							className="md:w-8 md:h-8 w-6 h-6"
+							onClick={handleFastForward}
+							className="md:w-8 md:h-8 w-6 h-6 bg-gray-500 p-2 rounded-full"
 						/>
 					</div>
 				</div>
