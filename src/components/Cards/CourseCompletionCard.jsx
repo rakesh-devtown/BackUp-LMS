@@ -6,7 +6,8 @@ import CertificateDownloadModal from "../Modals/CertificationModal";
 import useWindowSize from "../../hooks/useWindowSize";
 import useBatchStore from "../../store/batchStore";
 
-const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated,batch }) => {
+const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated, batch }) => {
+  const [viewCertificateOptions, setViewCertificateOptions] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
   const [certificateData, setCertificateData] = useState({});
   const [percentage, setPercentage] = useState(0);
@@ -28,12 +29,13 @@ const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated,batc
     setPercentage(Math.min(parseInt(progress), 100));
   };
 
-  const migrateCertificatesHandler = async() => {
-    try{
+  const migrateCertificatesHandler = async () => {
+    try {
       await generateMigrateCertificate(batch?.id);
-    }catch(err){
-    }
-  }
+    } catch (err) {}
+  };
+
+  const handleViewCertificateOptions = () => setViewCertificateOptions(!viewCertificateOptions);
 
   useEffect(() => {
     if (data) {
@@ -59,43 +61,57 @@ const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated,batc
       {(percentage < 100 || completed || isStudentMigrated) && (
         <Col span={24} md={12}>
           <StyledCard bgColor={bgColor}>
-            <MainCard width={width}>
-            { isStudentMigrated && <CustomButton onClick={migrateCertificatesHandler} type="default">Get Certificate</CustomButton>}
+            <MainCard width={width} completed={completed}>
+              {isStudentMigrated && (
+                <CustomButton onClick={migrateCertificatesHandler} type="default">
+                  Get Certificate
+                </CustomButton>
+              )}
               <Space size={29}>
                 <img src={bannerImg} className=" max-w-20 max-h-20" alt="icon" />
                 <h4>{String(name).length > 30 ? String(name).substring(0, 30) + "..." : name}</h4>
               </Space>
               <hr />
-              <div>
-                <p>{String(description)?.length > 60 ? String(description).substring(0, 60) + "..." : description}</p>
+              <div className="description-section">
+                <p className="description">
+                  {String(description)?.length > 60 ? String(description).substring(0, 60) + "..." : description}
+                </p>
+                {completed && (
+                  <Button type="primary" onClick={handleViewCertificateOptions}>
+                    View Certificate
+                  </Button>
+                )}
               </div>
-            </MainCard>
-
-            {/* hidden element shown on hovered*/}
-            <div className="hidden-card">
-              {completed ? (
-                <>
-                  {data &&
-                    data?.versions &&
-                    data?.versions[0]?.certificates?.map((certificate, index) => (
-                      <div className="completed" onClick={handleModal.bind(this, certificate)}>
-                        <p>{certificate?.name}</p>
-                        <i>
-                          <ArrowUpOutlined rotate={45} />
-                        </i>
-                      </div>
-                    ))}
-                </>
-              ) : (
-                <>
+              {!completed && (
+                <div>
                   <div className="ongoing">
                     <p>Course Contents</p>
                     <p className="percentage-completion">{percentage}% Completed</p>
                   </div>
-                  <Progress percent={percentage} showInfo={false} trailColor="white" strokeColor={bgColor} />
-                </>
+                  <Progress percent={percentage} showInfo={false} strokeColor={bgColor} />
+                </div>
               )}
-            </div>
+              {completed && (
+                <HiddenCard show={viewCertificateOptions}>
+                  <div className="top">
+                    <p>{ data?.versions[0]?.certificates?.length } Certificates Earned 🎊</p>
+                    <CustomHideButton onClick={handleViewCertificateOptions}>Hide Certificate</CustomHideButton>
+                  </div>
+                  <div className="certificate-list">
+                    {data &&
+                      data?.versions &&
+                      data?.versions[0]?.certificates?.map((certificate, index) => (
+                        <div className="completed" onClick={handleModal.bind(this, certificate)}>
+                          <p>{certificate?.name}</p>
+                          <i>
+                            <ArrowUpOutlined rotate={45} />
+                          </i>
+                        </div>
+                      ))}
+                  </div>
+                </HiddenCard>
+              )}
+            </MainCard>
           </StyledCard>
         </Col>
       )}
@@ -103,13 +119,29 @@ const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated,batc
   );
 };
 
-const CustomButton= styled(Button)`
-position: absolute;
-top: 10px;
-right: 15px;
-/* width: fit-content; */
-/* margin-left: auto; */
-`
+const CustomButton = styled(Button)`
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  /* width: fit-content; */
+  /* margin-left: auto; */
+`;
+
+const CustomHideButton = styled.button`
+  border-radius: 5px;
+  padding: 4px 8px;
+  flex-shrink: 0;
+  background: var(--Color-White-100, #fff);
+  color: #1e6de8;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "DM Sans";
+  font-size: 14px;
+  font-weight: 400;
+  &:hover {
+    background-color: #ebebeb;
+  }
+`;
+
 const StyledCard = styled.div`
   font-feature-settings: "clig" off, "liga" off;
   font-family: "DM Sans";
@@ -121,56 +153,23 @@ const StyledCard = styled.div`
   border-color: ${(props) => (props.bgColor ? props.bgColor : "#E7B11F")};
   max-width: 600px;
   //styling for the hidden div
-  .hidden-card {
-    display: none;
-    padding: 14px 0px;
-    flex-direction: column;
-
-    font-family: Inter;
-    font-size: 14.4px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 25.6px;
-    letter-spacing: -0.144px;
-
-    background-color: ${(props) => (props.bgColor ? props.bgColor : "#E7B11F")};
-    color: white;
-    .completed,
-    .ongoing {
-      font-size: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 16px;
-      transition: all 0.3s;
-    }
-    .completed {
-      cursor: pointer;
-      /* &:hover{
-                background-color: #808080a1;
-            } */
-    }
-    i {
-      display: grid;
-      place-items: center;
-      background-color: #ffffff55;
-      border-radius: 50%;
-      height: 30px;
-      width: 30px;
-    }
-  }
-  &:hover .hidden-card {
+  .ongoing {
+    font-size: 16px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 11px 0 3px 0;
+    p {
+      font-weight: 500;
+    }
   }
+
   .percentage-completion {
     font-size: 14px;
     font-weight: 400;
   }
   .ant-progress-bg {
-    opacity: 50%;
-  }
-  .ant-progress {
-    padding: 0 20px;
+    opacity: 70%;
   }
 `;
 
@@ -181,7 +180,7 @@ const MainCard = styled.div`
   flex-direction: column;
   overflow-y: auto;
   padding: ${(props) => (props.width >= 768 ? " 0 16px 20px 16px" : "52px 16px 20px 16px")};
-  height: ${(props) => (props.width >= 768 ? "208px" : null)};
+  height: ${(props) => (props.width >= 768 ? (props.completed ? "210px" : "240px") : null)};
   .ant-space {
     overflow-y: auto;
   }
@@ -194,14 +193,81 @@ const MainCard = styled.div`
   hr {
     height: 0.511px;
     color: #5c8dbc;
-    margin: 11.46px;
+    margin: 11px;
   }
-  p {
+  .description {
     color: var(--Neutral-Colors-800, #19213d);
     font-size: 14.729px;
     font-weight: 400;
     width: 300px;
   }
+  .description-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
+const HiddenCard = styled.div`
+  display: ${(props) => (props.show ? "flex" : "none")};
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  padding: 20px 16px;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  gap: 25px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+
+  background-color: ${(props) => (props.bgColor ? props.bgColor : "#E7B11F")};
+  color: white;
+
+  .top {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    /* height: 38px; */
+    align-items: center;
+    align-self: stretch;
+    color: var(--Color-White-100, #fff);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: "DM Sans";
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .completed {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--Color-White-100, #fff);
+    font-family: Inter;
+    font-size: 14.4px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 25.6px;
+    letter-spacing: -0.144px;
+    cursor: pointer;
+  }
+  .certificate-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+  }
+  i {
+    display: grid;
+    place-items: center;
+    background-color: #ffffff55;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+  }
+`;
 export default CourseCompletionCard;
