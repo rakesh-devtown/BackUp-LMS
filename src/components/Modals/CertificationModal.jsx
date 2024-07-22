@@ -75,7 +75,7 @@ const CertificateDownloadModal = ({ data }) => {
 
       <FirstContainer>
         <Space direction="vertical" size={18}>
-          <img src={data?.imageUrl} alt="certificate.jpg" width={width < 768 ? 326 : 500} />
+          <img src={data?.imageUrl} alt="certificate.jpg" width={width < 768 ? 326 : 400} />
           <p>
             This certificate affirms that <span>{data?.studentName}</span> has satisfactorily fulfilled the requirements
             outlined. This validation ensures its authenticity, having been duly verified and granted by Devtown.

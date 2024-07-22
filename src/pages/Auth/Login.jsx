@@ -62,6 +62,7 @@ export default function Login() {
   const toggleSignUp = () => {
     setSignupTrue(!signuptrue);
   };
+  const lastPath= sessionStorage.getItem('lastPath')?? '/courses'
 
   const handleSubmit = async (values) => {
     try {
@@ -89,7 +90,8 @@ export default function Login() {
   useEffect(() => {
     if (isAuthenticated || isGoogleAuthenticated) {
       // Check if either isAuthenticated or isGoogleAuthenticated is true
-      navigate("/courses");
+      // navigate("/courses");
+      navigate(lastPath);
     }
   }, [isAuthenticated, isGoogleAuthenticated, navigate]); // Add isAuthenticated, isGoogleAuthenticated, and navigate as dependencies
 

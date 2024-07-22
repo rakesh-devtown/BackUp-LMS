@@ -2,13 +2,14 @@
 
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { persist, createJSONStorage } from 'zustand/middleware'
 import { serviceGet, servicePost } from "../utils/api";
 import { notification } from "antd";
 import useAuthStore from "./authStore";
 import loginUiStore from "./loginUi.store";
 
 const useMeStore = create(
-    devtools((set) => ({
+    persist((set) => ({
         user: null,
         nameCanBeChanged: false,
         getStudentById: async () => {
@@ -130,7 +131,13 @@ const useMeStore = create(
               return false;
             }
           },
-    }))
+      }),
+      {
+        name: 'useMeStored', 
+        storage: createJSONStorage(() => sessionStorage),
+      },
+  ),
+  devtools
 )
 
 export default useMeStore; 

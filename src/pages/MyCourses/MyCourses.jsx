@@ -29,7 +29,7 @@ const MyCourses = () => {
           <MyCoursesCard key={course.id} enroll={course} />
         ))}
 
-        {enrolledCourses && enrolledCourses.length === 0 && 
+        {enrolledCourses && enrolledCourses.length === 0 && !courseLoading &&
           <h4>No Enrolled Courses</h4>
         }
       </div>
