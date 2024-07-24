@@ -1,17 +1,23 @@
+import { ArrowUpOutlined } from "@ant-design/icons";
 import * as React from "react";
 import styled from "styled-components";
 
 export default function CourseInstructorCard() {
   return (
     <Div>
-      <Div2>Course instructor</Div2>
+      {/* <Div2>Course instructor</Div2> */}
       <Div3>
         <Img
           loading="lazy"
           srcSet="https://cdn.builder.io/api/v1/image/assets/TEMP/651f13fa7e76b804234ab4a8b81f7b54f29ac5ce84603cfc1f867658c2382d5b?apiKey=3253b8c03e174b5d8b62115417961652&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/651f13fa7e76b804234ab4a8b81f7b54f29ac5ce84603cfc1f867658c2382d5b?apiKey=3253b8c03e174b5d8b62115417961652&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/651f13fa7e76b804234ab4a8b81f7b54f29ac5ce84603cfc1f867658c2382d5b?apiKey=3253b8c03e174b5d8b62115417961652&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/651f13fa7e76b804234ab4a8b81f7b54f29ac5ce84603cfc1f867658c2382d5b?apiKey=3253b8c03e174b5d8b62115417961652&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/651f13fa7e76b804234ab4a8b81f7b54f29ac5ce84603cfc1f867658c2382d5b?apiKey=3253b8c03e174b5d8b62115417961652&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/651f13fa7e76b804234ab4a8b81f7b54f29ac5ce84603cfc1f867658c2382d5b?apiKey=3253b8c03e174b5d8b62115417961652&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/651f13fa7e76b804234ab4a8b81f7b54f29ac5ce84603cfc1f867658c2382d5b?apiKey=3253b8c03e174b5d8b62115417961652&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/651f13fa7e76b804234ab4a8b81f7b54f29ac5ce84603cfc1f867658c2382d5b?apiKey=3253b8c03e174b5d8b62115417961652&"
         />
         <Div4>
-          <Div5>Shaurya Sinha</Div5>
+          <Div5>
+            <p>Shaurya Sinha</p>
+            <i>
+              <ArrowUpOutlined rotate={45} style={{ color: "#0859DE", fontSize: "1.2rem" }} />
+            </i>
+          </Div5>
           <Div6>Full Stack Web Developer and Co - Founder | DevTown</Div6>
           <Div7>
             <Div8>
@@ -20,13 +26,9 @@ export default function CourseInstructorCard() {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/81d648f704950ba7c743f2a887061d6517fbf48426feac69ae944538c2453811?apiKey=3253b8c03e174b5d8b62115417961652&"
               />
               <Div9>
-                <span >
-                  4.9
-                </span>
+                <span>4.9</span>
                 <span> C</span>
-                <span >
-                  ourse rating
-                </span>
+                <span>ourse rating</span>
               </Div9>
             </Div8>
             <Div10>
@@ -36,10 +38,7 @@ export default function CourseInstructorCard() {
               />
               <Div11>
                 236,568
-                <span >
-                  {" "}
-                  Students
-                </span>
+                <span> Students</span>
               </Div11>
             </Div10>
             <Div12>
@@ -49,18 +48,14 @@ export default function CourseInstructorCard() {
               />
               <Div13>
                 09
-                <span>
-                  {" "}
-                  Courses
-                </span>
+                <span> Courses</span>
               </Div13>
             </Div12>
           </Div7>
           <Div14>
-            One day Vako had enough with the 9-to-5 grind, or more like 9-to-9
-            in his case, and quit his job, or more like got himself fired from
-            his own startup. He decided to work on his dream: be his own boss,
-            travel the world, only do the work he enjoyed...
+            One day Vako had enough with the 9-to-5 grind, or more like 9-to-9 in his case, and quit his job, or more
+            like got himself fired from his own startup. He decided to work on his dream: be his own boss, travel the
+            world, only do the work he enjoyed...
           </Div14>
           <Div15>
             <Img5
@@ -129,6 +124,8 @@ const Div4 = styled.div`
 `;
 
 const Div5 = styled.div`
+  display: flex;
+  gap: 10px;
   color: var(--Gray-900, #1d2026);
   font: 600 20px/130% Inter, sans-serif;
   @media (max-width: 991px) {
@@ -257,5 +254,3 @@ const Div16 = styled.div`
   font-family: Poppins, sans-serif;
   margin: auto 0;
 `;
-
-

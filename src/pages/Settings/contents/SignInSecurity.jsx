@@ -15,6 +15,7 @@ const SignInAndSecurity = () => {
   const user = useMeStore((state) => state.user);
   const nameCanBeChanged = useMeStore((state) => state.nameCanBeChanged);
 
+  console.log(user);
   return (
     <StyledSettingsContent>
       <div>

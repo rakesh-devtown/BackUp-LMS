@@ -1,9 +1,4 @@
-import {
-  ArrowLeftOutlined,
-  LeftOutlined,
-  RightOutlined,
-  UserAddOutlined,
-} from "@ant-design/icons";
+import { ArrowLeftOutlined, LeftOutlined, RightOutlined, UserAddOutlined } from "@ant-design/icons";
 import { Button, Space } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -43,9 +38,11 @@ const DoubtCard = () => {
             <p className="sub-header">"What I did wrong"</p>
           </Space>
         </Div2>
-        <Link>
-          <Button>Go to Doubt</Button>
-        </Link>
+        <Div3>
+          <Link>
+            <Button>Go to Doubt</Button>
+          </Link>
+        </Div3>
       </BoxBottom>
     </Box>
   );
@@ -80,7 +77,7 @@ const Box = styled.div`
 const BoxBottom = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   row-gap: 12px;
   padding: ${(props) => (props.width >= 768 ? "0 24px" : "0 12px")};
   flex-direction: ${(props) => (props.width >= 768 ? "row" : "column")};
@@ -111,7 +108,7 @@ const Div2 = styled.div`
   background: #f4f8ff;
   font-family: "DM Sans";
   padding: 8px 24px;
-  height: 100%;
+  /* height: 100%; */
   width: ${(props) => (props.width < 768 ? "100%" : null)};
 
   .sub-header {
@@ -120,5 +117,10 @@ const Div2 = styled.div`
     font-weight: 400;
   }
 `;
+
+const Div3= styled.div`
+  display: flex;
+  align-items: center;
+`
 
 export default DoubtCard;

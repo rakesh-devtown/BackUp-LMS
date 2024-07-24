@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Form } from "antd";
 import styled from "styled-components";
 
 export const DotStyle = styled.i`
@@ -92,11 +92,11 @@ export const Doubt = styled.div`
     padding: 12px 8px;
     margin-right: 20px;
     cursor: pointer;
-    &:hover,
-    .selected {
-      margin-right: 5px;
-      color: #0859de;
-    }
+  }
+  div:hover,
+  .selected {
+    margin-right: 5px;
+    color: #0859de;
   }
   p {
     width: ${(props) => (props.width >= 768 ? "180px" : null)};
@@ -104,5 +104,84 @@ export const Doubt = styled.div`
   }
   hr {
     margin: 2px 0;
+  }
+`;
+
+
+// input issue component css
+
+export const CustomForm = styled(Form)`
+  position: relative;
+  padding: 0 16px;
+  .ant-form-item {
+    margin-bottom: 8px;
+  }
+  .ant-form-ite {
+    position: relative;
+    .ant-form-item-label {
+      position: absolute;
+      color: #121826;
+      top: -15px;
+      z-index: 5;
+      background: white;
+      left: 15px;
+      font-weight: 700;
+      padding: 0;
+      label {
+        color: var(--Color-Brand-Brand-Blue, #0859de) !important;
+        font-family: "DM Sans";
+        font-size: 24px !important;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+    }
+    textarea {
+      padding: 18px 19px;
+      color: #6c727f;
+      font-family: "DM Sans";
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+  .minimum-words {
+    float: right;
+    margin-right: 10px;
+    color: #6c727f;
+    text-align: right;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+`;
+
+export const BottomPart = styled.div`
+  font-family: "DM Sans";
+  color: #6c727f;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    .ant-space-item {
+      i {
+        color: green;
+        display: flex;
+        align-items: center;
+        svg {
+          height: 22px;
+          width: 22px;
+        }
+      }
+      p {
+        font-size: 16px;
+        font-weight: 400;
+      }
+    }
   }
 `;

@@ -1,8 +1,4 @@
-import {
-  CheckOutlined,
-  FileTextOutlined,
-  FolderOutlined,
-} from "@ant-design/icons";
+import { CheckOutlined, FileTextOutlined, FolderOutlined } from "@ant-design/icons";
 import { Space } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,13 +9,13 @@ const TopicCard = ({ data }) => {
   const navigate = useNavigate();
   const getVideo = useBatchStore((state) => state.getVideo);
   const getCurrentSectionDetailsWithVideo = useBatchStore((state) => state.getCurrentSectionDetailsWithVideo);
-  const handleClick = async() => {
-    try{
+  const handleClick = async () => {
+    try {
       //console.log("data",data)
-      await getCurrentSectionDetailsWithVideo(data.sectionId,data.id);
+      await getCurrentSectionDetailsWithVideo(data.sectionId, data.id);
       navigate("/video");
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -43,12 +39,12 @@ const TopicCard = ({ data }) => {
           </Space>
         </Space> */}
       </CardContent>
-      <i>
+      {/* <i>
         {data?.sectionProgress?.length > 0 ? 
             data?.sectionProgress[0]?.isCompleted ?
             <CheckOutlined style={{ color: "#008022" }} /> : ""
          : ""}
-      </i>
+      </i> */}
     </StyledCard>
   );
 };

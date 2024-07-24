@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button, FloatButton, Layout, Tree, notification, theme } from "antd";
+import { Button, Calendar, FloatButton, Layout, Modal, Tree, notification, theme } from "antd";
 import { ArrowLeftOutlined, ArrowUpOutlined, CloseOutlined, DownOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import useWindowSize from "../../hooks/useWindowSize";
 import RightSiderMenu from "../../components/RightSiderMenu/RightSiderMenu";
@@ -13,19 +13,37 @@ import ModuleCardHeader from "../../components/ModuleTree2/ModuleCardHeader";
 import TopicCard from "../../components/ModuleTree2/TopicCard";
 import Spinner from "../../components/loader/Spinner";
 import ModuleChapter from "../../components/Module/ModuleChapter";
+import AttendenceSheduleCard from "../../components/Cards/AttendenceSheduleCard";
+import TaskAssignmentCard from "../../components/Cards/TaskAssignmentCard";
+import NextClass from "./NextClass";
+import CourseInstructorCard from "../../components/Cards/CourseInstructorCard";
+import WatchBeforeNextLive from "./WatchBeforeNextLive";
+import ScheduleModalContent from "../../components/Modals/ScheduleCalendarModal/ScheduleModalContent";
+import TaskModal from "../../components/Modals/TaskModal";
 
-const Module = () => {
+const LiveClass = () => {
   const { width } = useWindowSize();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState("");
+
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const courseLoading = useBatchStore((state) => state.courseLoading);
   const { getCurrentSectionDetails, getModuleOfEnrolledCourse, setCurrentModule } = useBatchStore();
   const selectedEnrollIdOfCourse = useBatchStore((state) => state.selectedEnrollIdOfCourse);
   const { Content, Sider } = Layout;
 
-  const chapterNameArray = ["FrontEnd Development", "BackendDevelopment", "DSA", "others"];
+  const handleScheduleModal = () => {
+    setActiveModal("calendar");
+    setIsModalOpen(!isModalOpen);
+  };
+  const handleTaskModal = () => {
+    setActiveModal("task");
+    setIsModalOpen(!isModalOpen);
+  };
 
-  const mySiderStyle = {
+  //internal css
+  const myRightSiderStyle = {
     background: "transparent",
     zIndex: width < 992 ? 123456 : null,
     overflow: "auto",
@@ -36,17 +54,25 @@ const Module = () => {
     scrollbarWidth: "none",
   };
 
-  // const rightSidebarWidth = width >= 992 ? "60px" : "0";
-  const rightSidebarWidth = 0;
+  const myScheduleModalStyle = {
+    top: "0",
+    float: "right",
+  };
+
+  const rightSidebarWidth1 = width >= 992 ? "60px" : "0";
+  const rightSidebarWidth2 = width >= 992 ? "300px" : "0";
+  const rightSidebarWidth = rightSidebarWidth1 + rightSidebarWidth2;
+  // console.log("rightSidebarWidth", rightSidebarWidth);
+  //   cost rightSidebarWith =0;
 
   const startLearningFromFirstModule = async () => {
     try {
-      console.log("currentCourseDetails", currentCourseDetails);
+      // console.log("currentCourseDetails", currentCourseDetails);
       if (currentCourseDetails?.sections?.length === 0) {
         notification.error({ message: "No Module Found", description: "No module found to start learning" });
         return;
       }
-      console.log(currentCourseDetails?.sections[0]?.subsections?.length);
+      // console.log(currentCourseDetails?.sections[0]?.subsections?.length);
       if (currentCourseDetails?.sections[0]?.subsections?.length > 0) {
         await getCurrentSectionDetails(currentCourseDetails?.sections[0]?.subsections[0]?.id);
       } else if (currentCourseDetails?.sections?.length > 0) {
@@ -73,7 +99,7 @@ const Module = () => {
     if (selectedEnrollIdOfCourse) {
       getEnrollCourses();
     } else {
-      navigate("/courses");
+      //   navigate("/courses");
     }
   }, []);
 
@@ -85,10 +111,22 @@ const Module = () => {
         <link rel="canonical" href="https://www.learn.devtown.in/setting" />
       </Helmet>
       <Content style={{ background: "#F4F7FE", height: "100%" }}>
+        <StyledModal
+          title={activeModal === "calendar" ? "Class Schedule" : "Task and Assignment"}
+          footer={null}
+          open={isModalOpen}
+          style={myScheduleModalStyle}
+          styles={{ header: { padding: "20px", background: "#F5F7FE" }, body: { minHeight: "530px" } }}
+          maskClosable
+          width={400}
+          onCancel={handleScheduleModal}
+        >
+          {activeModal === "calendar" ? <ScheduleModalContent /> : <TaskModal />}
+        </StyledModal>
         <MainContainer width={width} rightSidebarWidth={rightSidebarWidth}>
           {courseLoading && <Spinner large />}
           {/* sidebar in mobile view */}
-          {/* {width < 992 && (
+          {width < 992 && (
             <FloatButton.Group
               trigger="click"
               type="primary"
@@ -100,25 +138,34 @@ const Module = () => {
             >
               <RightSiderMenu />
             </FloatButton.Group>
-          )} */}
+          )}
           <ModuleTop>
             <Link to={"/courses"}>
               <Button type="link" className="back-btn" style={{ display: "flex", alignItems: "center" }}>
-                {" "}
-                <ArrowLeftOutlined /> Back{" "}
+                <ArrowLeftOutlined /> Back
               </Button>
             </Link>
             <h1>{currentCourseDetails?.name}</h1>
             <FolderDetailsCard />
-            {/* <CousreProgress /> */}
             <Button type="primary" size="large" danger onClick={startLearningFromFirstModule}>
               Start Learning
             </Button>
+            <CousreProgress />
+            <NextClass />
           </ModuleTop>
-
+          {width < 992 && (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap" }}>
+              <AttendenceSheduleCard handleScheduleModal={handleScheduleModal} />
+              <TaskAssignmentCard handleTaskModal={handleTaskModal} />
+            </div>
+          )}
+          <ModuleBody>
+            <h4>Watch Videos before next live :</h4>
+            <WatchBeforeNextLive />
+          </ModuleBody>
           {/* showing all the chapter and modules */}
           <ModuleBody>
-            <h4>Explore Modules for Learning</h4>
+            <h4>Explore Modules for Learning :</h4>
             {currentCourseDetails &&
               currentCourseDetails?.sections?.map((ele, ind) => (
                 <ModuleChapter
@@ -128,28 +175,51 @@ const Module = () => {
                 />
               ))}
           </ModuleBody>
+          <CourseInstructorCard />
         </MainContainer>
       </Content>
 
       {/* right sidebar to show modules */}
-      {/* {width >= 992 && (
-        <Sider
-          collapsedWidth="0"
-          width={rightSidebarWidth}
-          style={mySiderStyle}
-        >
-          <RightSiderMenu />
+      {width >= 992 && (
+        <Sider collapsedWidth="0" width={rightSidebarWidth1} style={myRightSiderStyle}>
+          {/* <RightSideSheduleBar> */}
+          {/* </RightSideSheduleBar> */}
         </Sider>
-      )} */}
+      )}
+      {width >= 992 && (
+        <>
+          <div>
+            <AttendenceSheduleCard handleScheduleModal={handleScheduleModal} />
+            <TaskAssignmentCard handleTaskModal={handleTaskModal} />
+          </div>
+          <RightSiderMenu />
+        </>
+      )}
     </Layout>
   );
 };
+
+export default LiveClass;
+
+const StyledModal = styled(Modal)`
+  .ant-modal-content {
+    padding: 0;
+  }
+  .ant-modal-title {
+    color: #2a2a2a;
+    font-family: "DM Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
 
 const MainContainer = styled.section`
   /* adjusting middle bar size according to sidebar */
   height: 100%;
   overflow-y: auto;
-  margin-right: ${(props) => (props.width < 992 ? null : `calc(${props.rightSidebarWidth} + 20px)`)};
+  margin-right: ${(props) => (props.width < 992 ? null : `calc(${props.rightSidebarWidth} + 34px)`)};
   padding: ${(props) => (props.width >= 768 ? "24px" : "12px")};
   border-radius: 25px;
   border: 1px solid #e9eaf0;
@@ -183,6 +253,7 @@ const ModuleTop = styled.div`
 `;
 
 const ModuleBody = styled.div`
+  margin-bottom: 32px;
   h4 {
     padding: 16px;
     color: #252525;
@@ -196,5 +267,3 @@ const ModuleBody = styled.div`
     margin-bottom: 5px;
   }
 `;
-
-export default Module;
