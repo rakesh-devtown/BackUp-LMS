@@ -6,13 +6,11 @@ import {
 	IoMdVolumeHigh,
 	IoMdVolumeOff,
 } from "react-icons/io";
-import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
 import { MdFullscreen, MdFullscreenExit } from "react-icons/md";
 import SettingsController from "./SettingsController";
 import QualityControl from "./QualityControl";
 import { VideoPlayerContext } from "../../context/VideoPlayerContext";
 import useBatchStore from "../../store/batchStore";
-import { FaFastBackward, FaFastForward } from "react-icons/fa";
 
 const Player = ({ url, videoId }) => {
 	const { postVideoProgress } = useBatchStore();
@@ -35,7 +33,9 @@ const Player = ({ url, videoId }) => {
 		progressHandler,
 		playPauseHandler,
 		rewindHandler,
+		rewindBackward,
 		handleFastForward,
+		fastForwardClicked,
 		handleFullscreen,
 		formatCurrentTime,
 		formatDuration,
@@ -64,7 +64,7 @@ const Player = ({ url, videoId }) => {
 
 	return (
 		<div
-			className="player-wrapper relative w-full md:w-[70%] flex flex-col justify-center cursor-pointer"
+			className="player-wrapper relative w-full md:w-[70%] flex flex-col justify-center"
 			onMouseMove={mouseMoveHandler}
 			ref={playerWrapperRef}
 			onKeyDown={handleKeyPress}
@@ -100,49 +100,102 @@ const Player = ({ url, videoId }) => {
 				/>
 			</div>
 			<div className="" ref={controlRef}>
-				<div className={`absolute  top-0 h-full w-full flex justify-center items-center text-white ${!playing && "bg-black bg-opacity-30"}`}>
+				<div
+					className={`absolute top-0 h-full w-full flex justify-center items-center rounded-md text-white ${
+						!playing && "bg-black bg-opacity-30 "
+					}`}
+				>
 					{/* loading play pause */}
-					<div
-						className="h-full w-1/2 flex items-center justify-center"
-						onClick={playPauseHandler}
-					>
-						<FaFastBackward
-							onClick={rewindHandler}
-							className="md:w-8 md:h-8 w-6 h-6 bg-gray-500 p-2 rounded-full"
-						/>
-					</div>
-					<div className="w-1/5 flex justify-center" onClick={playPauseHandler}>
-						{videoState.buffer ? (
-							<svg
-								aria-hidden="true"
-								className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-								viewBox="0 0 100 101"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-									d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-									fill="currentColor"
-								/>
-								<path
-									d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-									fill="currentFill"
-								/>
-							</svg>
-						) : !playing ? (
-							<IoMdPlay size={40} />
+					<div className="h-full w-1/2 flex items-center justify-center">
+						{rewindBackward ? (
+							<div className="rewindBackward">
+								<div
+									className="arrow md:w-6 md:h-6 w-4 h-4"
+									style={{ "--i": 0 }}
+								></div>
+								<div
+									className="arrow md:w-6 md:h-6 w-4 h-4"
+									style={{ "--i": 0 }}
+								></div>
+								<div
+									className="arrow md:w-6 md:h-6 w-4 h-4"
+									style={{ "--i": 0 }}
+								></div>
+							</div>
 						) : (
-							<IoMdPause size={40} />
+							<button
+								onClick={rewindHandler}
+								className="md:w-12 md:h-12 w-10 h-10 bg-black p-2 md:p-3 bg-opacity-30 rounded-full"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 -960 960 960"
+									fill="#ffffff"
+								>
+									<path d="M480-80q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-440h80q0 117 81.5 198.5T480-160q117 0 198.5-81.5T760-440q0-117-81.5-198.5T480-720h-6l62 62-56 58-160-160 160-160 56 58-62 62h6q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-440q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-80ZM360-320v-180h-60v-60h120v240h-60Zm140 0q-17 0-28.5-11.5T460-360v-160q0-17 11.5-28.5T500-560h80q17 0 28.5 11.5T620-520v160q0 17-11.5 28.5T580-320h-80Zm20-60h40v-120h-40v120Z" />
+								</svg>
+							</button>
 						)}
 					</div>
 					<div
+						className="w-1/5 flex justify-center h-full items-center cursor-pointer"
 						onClick={playPauseHandler}
-						className="h-full w-1/2 flex items-center justify-center "
 					>
-						<FaFastForward
-							onClick={handleFastForward}
-							className="md:w-8 md:h-8 w-6 h-6 bg-gray-500 p-2 rounded-full"
-						/>
+						<button className="bg-black p-2 md:p-3 bg-opacity-30 rounded-full">
+							{videoState.buffer ? (
+								<svg
+									aria-hidden="true"
+									className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+									viewBox="0 0 100 101"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+										fill="currentColor"
+									/>
+									<path
+										d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+										fill="currentFill"
+									/>
+								</svg>
+							) : !playing ? (
+								<IoMdPlay size={40} />
+							) : (
+								<IoMdPause size={40} />
+							)}{" "}
+						</button>
+					</div>
+					<div className="h-full w-1/2 flex items-center justify-center ">
+						{fastForwardClicked ? (
+							<div className="fastforward">
+								<div
+									className="arrow md:w-6 md:h-6 w-4 h-4"
+									style={{ "--i": 0 }}
+								></div>
+								<div
+									className="arrow md:w-6 md:h-6 w-4 h-4"
+									style={{ "--i": 0 }}
+								></div>
+								<div
+									className="arrow md:w-6 md:h-6 w-4 h-4"
+									style={{ "--i": 0 }}
+								></div>
+							</div>
+						) : (
+							<button
+								onClick={handleFastForward}
+								className="md:w-12 md:h-12 w-10 h-10 bg-black p-2 md:p-3 bg-opacity-30 rounded-full"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 -960 960 960"
+									fill="#ffffff"
+								>
+									<path d="M360-320v-180h-60v-60h120v240h-60Zm140 0q-17 0-28.5-11.5T460-360v-160q0-17 11.5-28.5T500-560h80q17 0 28.5 11.5T620-520v160q0 17-11.5 28.5T580-320h-80Zm20-60h40v-120h-40v120ZM480-80q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-440q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-800h6l-62-62 56-58 160 160-160 160-56-58 62-62h-6q-117 0-198.5 81.5T200-440q0 117 81.5 198.5T480-160q117 0 198.5-81.5T760-440h80q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-80Z" />
+								</svg>
+							</button>
+						)}
 					</div>
 				</div>
 				{/* <div className="absolute top-0 text-white w-[100%]  rounded-b-md p-4 bg-[rgba(0,0,0,0.5)] ">
@@ -165,7 +218,10 @@ const Player = ({ url, videoId }) => {
 									{playing ? <IoMdPause /> : <IoMdPlay />}
 								</div>
 
-								<div className="ml-2 cursor-pointer hidden sm:block" onClick={rewindHandler}>
+								{/* <div
+									className="ml-2 cursor-pointer hidden sm:block"
+									onClick={rewindHandler}
+								>
 									<TbRewindBackward10 />
 								</div>
 								<div
@@ -173,7 +229,7 @@ const Player = ({ url, videoId }) => {
 									onClick={handleFastForward}
 								>
 									<TbRewindForward10 />
-								</div>
+								</div> */}
 								<div className="ml-2 flex items-center group">
 									{muted ? (
 										<IoMdVolumeOff
@@ -196,81 +252,7 @@ const Player = ({ url, videoId }) => {
 									/>
 								</div>
 
-								<div className="ml-2 text-xs truncate sm:text-sm font-bold">
-									<span>
-										{formatCurrentTime} / {formatDuration}
-									</span>
-								</div>
-							</div>
-							<div className="flex text-xl items-center">
-								<SettingsController
-									data={playbackRate}
-									handleQualityChange={handlePlaybackSpeedChange}
-								/>
-								<QualityControl videoPlayerRef={videoPlayerRef} url={url} />
-
-								<div
-									className="ml-2 text-3xl cursor-pointer "
-									onClick={handleFullscreen}
-								>
-									{!videoState.isFullscreen ? (
-										<MdFullscreen className="viewFullscreen" />
-									) : (
-										<MdFullscreenExit className="exitFullscreen" />
-									)}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="absolute bottom-0 text-white w-[100%] bg-[rgba(0,0,0,0.5)] rounded-b-md">
-					<div className="mx-4">
-						<input
-							type="range"
-							min="0"
-							max="100"
-							value={played * 100}
-							className="w-full h-1 cursor-pointer"
-							onChange={seekHandler}
-						/>
-						<div className="flex justify-between">
-							<div className="flex text-xl items-center">
-								<div className="cursor-pointer" onClick={playPauseHandler}>
-									{playing ? <IoMdPause /> : <IoMdPlay />}
-								</div>
-
-								<div className="ml-2 cursor-pointer hidden sm:block" onClick={rewindHandler}>
-									<TbRewindBackward10 />
-								</div>
-								<div
-									className="ml-2 cursor-pointer hidden sm:block"
-									onClick={handleFastForward}
-								>
-									<TbRewindForward10 />
-								</div>
-								<div className="ml-2 flex items-center group">
-									{muted ? (
-										<IoMdVolumeOff
-											className="text-xl cursor-pointer"
-											onClick={muteHandler}
-										/>
-									) : (
-										<IoMdVolumeHigh
-											className="text-xl cursor-pointer"
-											onClick={muteHandler}
-										/>
-									)}
-									<input
-										type="range"
-										min="0"
-										max="100"
-										value={videoState?.volume * 100}
-										className="h-1 w-16 sm:w-0 opacity-100 sm:opacity-0 sm:invisible group-hover:visible group-hover:volumeSeek group-hover:w-20 group-hover:opacity-100 cursor-pointer sm:transition-all sm:duration-300"
-										onChange={volumeSeekUpHandler}
-									/>
-								</div>
-
-								<div className="ml-2 text-xs truncate sm:text-sm font-bold">
+								<div className="ml-2 text-xs sm:text-sm font-bold">
 									<span>
 										{formatCurrentTime} / {formatDuration}
 									</span>
