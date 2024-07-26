@@ -132,6 +132,8 @@ export const StyledContainer = styled.section`
   background-color: white;
   /* min-height: calc(100vh - 160px); */
   padding-bottom: 50px;
+  overflow-y: scroll;
+  height: 100%;
 `;
 
 export const FullContentLayout = styled(Content)`
