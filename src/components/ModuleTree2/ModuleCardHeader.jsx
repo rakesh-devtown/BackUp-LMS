@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 import useWindowSize from "../../hooks/useWindowSize";
 
-const ModuleCardHeader = ({ title, onGoing, topic1, topic2 }) => {
+const ModuleCardHeader = ({ title, topic1, topic2 }) => {
   const { width } = useWindowSize();
   return (
     <StyledDiv width={width}>
@@ -19,11 +19,6 @@ const ModuleCardHeader = ({ title, onGoing, topic1, topic2 }) => {
         <div></div>
       </div>
       <Icons>
-        {onGoing && (
-          <i className="check">
-            <CheckOutlined style={{ color: "#008022" }} />
-          </i>
-        )}
         <i className="closed">
           <DownOutlined style={{ strokeWidth: "50px", stroke: "black" }} />
         </i>
@@ -61,24 +56,6 @@ const StyledDiv = styled.div`
     font-weight: 500;
     line-height: normal;
   }
-  .tag {
-    padding: 4px 12px;
-    font-family: "DM Sans";
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    border-radius: 34px;
-    width: fit-content;
-  }
-  .on-going {
-    color: #1b9d5e;
-    background: #edf7ef;
-  }
-  .pending {
-    color: #d7984d;
-    background: #fff5e5;
-  }
   .box-bottom {
     display: flex;
     flex-direction: column;
@@ -90,6 +67,7 @@ const StyledDiv = styled.div`
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+      margin: 0;
     }
   }
 `;

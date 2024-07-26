@@ -133,7 +133,7 @@ const Module = () => {
           <ModuleBody>
             <h4>Explore Modules for Learning</h4>
             {currentCourseDetails && currentCourseDetails?.sections?.map((ele, ind) => (
-              <ModuleChapter section={ele} index={ind} />
+              <ModuleChapter section={ele} index={ind} lastModule={ind === currentCourseDetails?.sections?.length - 1}/>
             ))}
           </ModuleBody>
         </MainContainer>
