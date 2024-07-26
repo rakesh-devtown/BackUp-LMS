@@ -60,7 +60,7 @@ const CourseCompletionCard = ({ data, completed, bgColor, isStudentMigrated, bat
 
       {(percentage < 100 || completed || isStudentMigrated) && (
         <Col span={24} md={12}>
-          <StyledCard bgColor={bgColor}>
+          <StyledCard bgColor={bgColor} onGoing={Boolean(percentage < 100 || !completed)}>
             <MainCard width={width} completed={completed}>
               {isStudentMigrated && (
                 <CustomButton onClick={migrateCertificatesHandler} type="default">
@@ -149,7 +149,7 @@ const StyledCard = styled.div`
   border-radius: 6.137px;
   box-shadow: 0px 0px 8.49px 0px rgba(151, 151, 151, 0.37);
   border-bottom-width: 7px;
-  border-bottom-style: solid;
+  border-bottom-style: ${(props) => (props.onGoing ? "none" : "solid")};
   border-color: ${(props) => (props.bgColor ? props.bgColor : "#E7B11F")};
   max-width: 600px;
   //styling for the hidden div

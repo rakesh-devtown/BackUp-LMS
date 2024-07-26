@@ -87,7 +87,6 @@ const ProfileContainer = styled.section`
   display: flex;
   padding: ${(props) => (props.width >= 768 ? "20px" : "25px")};
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 20px;
   flex: 1 0 0;
@@ -96,6 +95,8 @@ const ProfileContainer = styled.section`
   font-style: normal;
   line-height: normal;
   border-radius: 16px;
+  height: 100%;
+  overflow-y: auto;
 `;
 const ResumeHeader = styled.div`
   display: flex;

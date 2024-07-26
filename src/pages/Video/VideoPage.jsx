@@ -106,6 +106,7 @@ const Video = () => {
           onCancel={() => setIsModalOpen(false)}
           maskClosable
           width={900}
+          styles={{mask:{background:"rgb(0,0,0,0.8)"}}}
         >
           <DoubtModal />
         </StyledModal>
@@ -225,7 +226,10 @@ const Video = () => {
               />
             )} */}
           </ButtonsDiv2>
-          <Description />
+          {
+            currentVideo?.description &&
+            <Description  description={currentVideo?.description} />
+          }
           <ClassNotes />
         </MainContainer>
 
@@ -273,6 +277,9 @@ const StyledModal = styled(Modal)`
     height: 653px;
     max-height: 100vh;
     scrollbar-width: none;
+  }
+  .ant-modal-body{
+    height: 100%;
   }
 `;
 
