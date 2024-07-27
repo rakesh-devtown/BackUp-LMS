@@ -52,12 +52,11 @@ const ModuleChapter = ({ section, index, lastModule }) => {
       title: (
         <TimelineElement
           completed={completed}
-          icon={completed && <CheckOutlined style={{ fontSize: "10px" }} />}
+          icon={completed && <CheckOutlined style={{ fontSize: "9px"}} />}
           iconStyle={{
             background: completed ? "#008022" : "white",
             color: completed ? "white" : "#008022",
             zIndex: 6,
-            left: completed ? "3px" : "5px",
           }}
           lastElementSecondFormat={subIndex === totalLength - 1}
           // lastElementSecondFormat={true}
@@ -90,12 +89,12 @@ const ModuleChapter = ({ section, index, lastModule }) => {
               lastElement={index === data.sectionItems.length - 1}
             >
               <TimelineElement
-                icon={completedTopic && <CheckOutlined style={{ fontSize: "8px" }} />}
+                icon={completedTopic && <CheckOutlined style={{ fontSize: "9px" }} />}
                 iconStyle={{
                   background: completedTopic ? "#008022" : "white",
                   color: completedTopic ? "white" : "#008022",
                   zIndex: 6,
-                  left: completedTopic ? "8px" : "9px",
+                  left: "9px",
                 }}
                 completed={completedTopic}
               >
@@ -178,7 +177,6 @@ const TimelineElement = styled(VerticalTimelineElement)`
     display: ${(props) => (props.lastElementSecondFormat ? "block " : "none")};
     top: 37px;
     z-index: 5;
-    width: 12px;
     background-color: white;
     position: absolute;
     left: 14px;
@@ -190,13 +188,20 @@ const TimelineElement = styled(VerticalTimelineElement)`
     display: grid;
     place-items: center;
     top: 28px;
-    height: 22px;
-    width: 22px;
-    box-shadow: ${(props) => `0 0 0 3px ${props.completed ? "#fff" : "#5E5E5E"}`};
-    height: ${(props) => (props.completed ? null : "19.2px")};
-    width: ${(props) => (props.completed ? null : "19.2px")};
+    height: 19px;
+    width: 19px;
+    left: 5px;
+    box-shadow: 0 0 0 1.5px #fff;
+    border: ${(props) => (props.completed ? "none" : "2px solid #5E5E5E")};
     svg {
       width: 100%;
+    width: unset;
+    height: unset;
+    position: unset;
+    left: unset;
+    top: unset;
+    margin-left: 0;
+    margin-top: 0;
     }
     span {
       display: grid;
