@@ -247,7 +247,7 @@ const Player = ({ url, videoId }) => {
 										min="0"
 										max="100"
 										value={videoState?.volume * 100}
-										className="h-1 w-16 sm:w-0 opacity-100 sm:opacity-0 sm:invisible group-hover:visible group-hover:volumeSeek group-hover:w-20 group-hover:opacity-100 cursor-pointer sm:transition-all sm:duration-300"
+										className="h-1 w-16 sm:w-0 opacity-100 sm:opacity-0 sm:invisible group-hover:visible sm:group-hover:volumeSeek sm:group-hover:w-20 group-hover:opacity-100 cursor-pointer sm:transition-all sm:duration-300"
 										onChange={volumeSeekUpHandler}
 									/>
 								</div>
