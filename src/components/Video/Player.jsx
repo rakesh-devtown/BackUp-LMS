@@ -74,7 +74,9 @@ const Player = ({ url, videoId }) => {
 				<ReactPlayer
 					ref={videoPlayerRef}
 					className="player"
-					url={url}
+					url={
+						"https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
+					}
 					width="100%"
 					height="100%"
 					playing={playing}
@@ -159,11 +161,27 @@ const Player = ({ url, videoId }) => {
 										fill="currentFill"
 									/>
 								</svg>
-							) : !playing ? (
-								<IoMdPlay size={40} />
+							) : playing ? (
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									height="40px"
+									viewBox="0 -960 960 960"
+									width="40px"
+									fill="#ffffff"
+								>
+									<path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z" />
+								</svg>
 							) : (
-								<IoMdPause size={40} />
-							)}{" "}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									height="40px"
+									viewBox="0 -960 960 960"
+									width="40px"
+									fill="#ffffff"
+								>
+									<path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z" />
+								</svg>
+							)}
 						</button>
 					</div>
 					<div className="h-full w-1/2 flex items-center justify-center ">
@@ -215,7 +233,27 @@ const Player = ({ url, videoId }) => {
 						<div className="flex justify-between">
 							<div className="flex text-xl items-center">
 								<div className="cursor-pointer" onClick={playPauseHandler}>
-									{playing ? <IoMdPause /> : <IoMdPlay />}
+									{playing ? (
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									height="30px"
+									viewBox="0 -960 960 960"
+									width="30px"
+									fill="#ffffff"
+								>
+									<path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z" />
+								</svg>
+							) : (
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									height="30px"
+									viewBox="0 -960 960 960"
+									width="30px"
+									fill="#ffffff"
+								>
+									<path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z" />
+								</svg>
+							)}
 								</div>
 
 								{/* <div
