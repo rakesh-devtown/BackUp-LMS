@@ -1,9 +1,8 @@
-
 import React, { createContext, useState, useRef } from "react";
 import { formatTime } from "../utils/formatDate";
 export const VideoPlayerContext = createContext();
 
-let count = 0
+let count = 0;
 const VideoPlayerProvider = ({ children }) => {
 	const videoPlayerRef = useRef(null);
 	const controlRef = useRef(null);
@@ -34,6 +33,14 @@ const VideoPlayerProvider = ({ children }) => {
 		},
 		selected: "1X",
 	});
+
+	const [videoQuality, setVideoQuality] = useState({
+		options: {
+		},
+		selected: "Auto",
+	});
+	const [fastForwardClicked, setFastForwardClicked] = useState(false);
+	const [rewindBackward, setRewindBackward] = useState(false);
 
 	const seekHandler = (e) => {
 		const value = e.target.value;
@@ -91,7 +98,7 @@ const VideoPlayerProvider = ({ children }) => {
 		}
 	};
 
-    const playPauseHandler = () => {
+	const playPauseHandler = () => {
 		//plays and pause the video (toggling)
 		setVideoState({ ...videoState, playing: !videoState.playing });
 	};
@@ -99,11 +106,19 @@ const VideoPlayerProvider = ({ children }) => {
 	const rewindHandler = () => {
 		//Rewinds the video player reducing 5
 		videoPlayerRef.current.seekTo(videoPlayerRef.current.getCurrentTime() - 10);
+		setRewindBackward(true);
+		setTimeout(() => {
+			setRewindBackward(false);
+		}, 1000);
 	};
 
 	const handleFastForward = () => {
 		//FastForwards the video player by adding 10
 		videoPlayerRef.current.seekTo(videoPlayerRef.current.getCurrentTime() + 10);
+		setFastForwardClicked(true);
+		setTimeout(() => {
+			setFastForwardClicked(false);
+		}, 1000);
 	};
 
 	const progressHandler = (state) => {
@@ -118,7 +133,7 @@ const VideoPlayerProvider = ({ children }) => {
 
 		// const progressPercentage = state.played * 100;
 		// if(progressPercentage)
-	}
+	};
 
 	const currentTime = videoPlayerRef.current
 		? videoPlayerRef.current.getCurrentTime()
@@ -156,15 +171,19 @@ const VideoPlayerProvider = ({ children }) => {
 		mouseMoveHandler,
 		volumeSeekUpHandler,
 		muteHandler,
-        progressHandler,
-        playPauseHandler,
-        rewindHandler,
-        handleFastForward,
-        handleFullscreen,
+		progressHandler,
+		playPauseHandler,
+		rewindHandler,
+		rewindBackward,
+		handleFastForward,
+		fastForwardClicked,
+		handleFullscreen,
 		formatCurrentTime,
 		formatDuration,
 		handlePlaybackSpeedChange,
-		handlePlayerReady
+		handlePlayerReady,
+		videoQuality,
+		setVideoQuality,
 	};
 
 	return (

@@ -1,13 +1,38 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FaCheck } from "react-icons/fa6";
 import { IoMdSettings } from "react-icons/io";
 
 const SettingsController = ({ type, data, handleQualityChange }) => {
+	const playBackOptionsRef = useRef();
+
 	return (
 		<div className="text-3xl cursor-pointer relative mx-2">
 			<div className="inline-block text-left dropdown">
-				<button className="w-full text-2xl font-medium transition duration-150 ease-in-out">
-					{type === "quality" ? (
+				<button
+					className="w-full text-2xl font-medium transition duration-150 ease-in-out"
+					onClick={() => {
+						const computedStyle = window.getComputedStyle(
+							playBackOptionsRef.current,
+						);
+
+						console.log(computedStyle);
+						console.log(computedStyle.visibility);
+						console.log(computedStyle.opacity);
+						if (
+							computedStyle.visibility === "visible" &&
+							computedStyle.opacity === "1"
+						) {
+							playBackOptionsRef.current.style.visibility = "hidden";
+							playBackOptionsRef.current.style.visibility = "0";
+						} else {
+							playBackOptionsRef.current.style.visibility = "visible";
+							playBackOptionsRef.current.style.transform =
+								"translate(0) scale(1)";
+							playBackOptionsRef.current.style.visibility = "1";
+						}
+					}}
+				>
+					{!type === "quality" ? (
 						<IoMdSettings />
 					) : (
 						<svg
@@ -23,9 +48,11 @@ const SettingsController = ({ type, data, handleQualityChange }) => {
 						</svg>
 					)}
 				</button>
-
-				<div className="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
-					<div className="absolute z-20 right-0 bottom-10 w-40 sm:h-auto  mt-2 h-40  overflow-y-auto bg-black bg-opacity-60 border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+				<div
+					className="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95"
+					ref={playBackOptionsRef}
+				>
+					<div className="absolute -right-20 md:-left-[100px] bottom-14 w-40 md:w-52 lg:h-auto lg:max-h-60  mt-2 h-40  overflow-y-auto bg-black rounded-lg p-2">
 						{Object.keys(data.options).map((key, index) => (
 							<div
 								className="flex justify-between w-full px-4 py-2 text-sm leading-5 text-left items-center"
