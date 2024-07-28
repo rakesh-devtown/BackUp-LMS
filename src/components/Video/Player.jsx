@@ -74,9 +74,7 @@ const Player = ({ url, videoId }) => {
 				<ReactPlayer
 					ref={videoPlayerRef}
 					className="player"
-					url={
-						"https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8"
-					}
+					url={url}
 					width="100%"
 					height="100%"
 					playing={playing}
