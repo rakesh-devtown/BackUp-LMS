@@ -1,39 +1,36 @@
-import {
-  ClockCircleOutlined,
-  FolderOpenOutlined,
-  PlayCircleOutlined,
-} from "@ant-design/icons";
-import { Space, Typography } from "antd";
+import { ClockCircleOutlined, FolderOpenOutlined, PlayCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import useBatchStore from "../../../store/batchStore";
-import { useEffect } from "react";
+import secondsToHrMin from "../../../utils/secondsToHour";
 
-const FolderDetailsCard = () => {
-  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+const FolderDetailsCard = (props) => {
+  const { noOfModules, noOfLectures, totalLength } = props;
 
   return (
     <StyledDetailsCard>
-      <div className="small-box">
-        <i>
-          <FolderOpenOutlined />
-        </i>
-        <p>{currentCourseDetails?.totalSubSections ? 
-            (parseInt(currentCourseDetails?.totalSubSections) > 0 
-              ? currentCourseDetails?.totalSubSections 
-              :currentCourseDetails?.sections?.length
-            )
-            :currentCourseDetails?.sections?.length} Modules</p>
-      </div>
-      <div className="small-box">
-        <i>
-          <PlayCircleOutlined />
-        </i>
-        <p>{currentCourseDetails?.totalLecture} lectures</p>
-      </div>
-      {/* <div className='small-box'>
-                <i><ClockCircleOutlined /></i>
-                <p>19h 37m</p>
-            </div> */}
+      {noOfModules && (
+        <div className="small-box">
+          <i>
+            <FolderOpenOutlined />
+          </i>
+          <p>{noOfModules} Modules</p>
+        </div>
+      )}
+      {noOfLectures && (
+        <div className="small-box">
+          <i>
+            <PlayCircleOutlined />
+          </i>
+          <p>{noOfLectures} lectures</p>
+        </div>
+      )}
+      {totalLength && (
+        <div className="small-box">
+          <i>
+            <ClockCircleOutlined />
+          </i>
+          <p>{secondsToHrMin(totalLength)}</p>
+        </div>
+      )}
     </StyledDetailsCard>
   );
 };
@@ -56,7 +53,7 @@ const StyledDetailsCard = styled.div`
       color: #4e5566;
       font-size: 14px;
       font-weight: 400;
-      line-height: 22px; /* 157.143% */
+      line-height: 22px;
       letter-spacing: -0.14px;
     }
   }

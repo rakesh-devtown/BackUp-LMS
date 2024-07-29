@@ -6,6 +6,7 @@ import LastActivityCard from "./LastActivityCard";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useBatchStore from "../../store/batchStore";
+import FolderDetailsCard from "./video/FolderDetailsCard";
 
 const MyCoursesCard = ({ enroll }) => {
   const { width } = useWindowSize();
@@ -15,6 +16,9 @@ const MyCoursesCard = ({ enroll }) => {
   const getCurrentSectionDetails = useBatchStore((state) => state.getCurrentSectionDetails);
   const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
   const navigate = useNavigate();
+
+  const noOfLectures=course?.totalSectionItems
+  const totalLength= course?.totalLectureLengthInSeconds
 
   const onClickOnDashboard = async () => {
     try {
@@ -51,12 +55,7 @@ const MyCoursesCard = ({ enroll }) => {
           <img src={course?.bannerImg} height={33} width={33} alt="icon" />
           <div className="header">
             <h5>{course?.name}</h5>
-            <Space>
-              <i>
-                <FileFilled />
-              </i>
-              <p className="lessons">{course?.totalSectionItems} Lectures</p>
-            </Space>
+            <FolderDetailsCard noOfLectures={noOfLectures} totalLength={totalLength} />
           </div>
         </FlexBox>
         <Space size={16}>
