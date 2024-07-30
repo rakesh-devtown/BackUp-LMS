@@ -29,12 +29,15 @@ const Module = () => {
   const selectedEnrollIdOfCourse = useBatchStore((state) => state.selectedEnrollIdOfCourse);
   const { Content, Sider } = Layout;
 
-  const chapterNameArray = [
-    "FrontEnd Development",
-    "BackendDevelopment",
-    "DSA",
-    "others",
-  ];
+  const noOfModules=currentCourseDetails?.totalSubSections ? 
+    (parseInt(currentCourseDetails?.totalSubSections) > 0 ?
+       currentCourseDetails?.totalSubSections 
+       :currentCourseDetails?.sections?.length
+    )
+    :currentCourseDetails?.sections?.length
+
+  const noOfLectures= currentCourseDetails?.totalLecture 
+  const totalLength= currentCourseDetails?.lectureLengthInSeconds
 
   const mySiderStyle = {
     background: "transparent",
@@ -122,7 +125,7 @@ const Module = () => {
               </Button>
             </Link>
             <h1>{currentCourseDetails?.name}</h1>
-            <FolderDetailsCard />
+            <FolderDetailsCard noOfModules={noOfModules} noOfLectures={noOfLectures} totalLength={totalLength} />
             {/* <CousreProgress /> */}
               <Button type="primary" size="large" danger onClick={startLearningFromFirstModule}>
                 Start Learning
