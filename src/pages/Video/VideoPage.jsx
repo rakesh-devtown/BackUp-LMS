@@ -3,26 +3,20 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Layout, Modal, Space, theme } from "antd";
 import styled from "styled-components";
-import {
-  ArrowLeftOutlined,
-  ArrowUpOutlined,
-  PlayCircleOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowUpOutlined, PlayCircleOutlined, RightOutlined } from "@ant-design/icons";
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { BsBookmarkPlusFill } from "react-icons/bs";
 import Description from "../../components/DescriptionSection/Description";
 import ClassNotes from "../../components/ClassNotesSection/ClassNotes";
 import useWindowSize from "../../hooks/useWindowSize";
 import VideoPlayer from "../../components/Video/VideoPlayer";
-import {
-  FullContentLayout,
-  MainContentLayout,
-} from "../../styles/layout.styles";
+import { FullContentLayout, MainContentLayout } from "../../styles/layout.styles";
 import ModuleRightSidebar from "../../components/ModuleRightSidebar/ModuleRightSidebar";
 import DoubtModal from "../../components/AskDoubts/DoubtModal";
 import useBatchStore from "../../store/batchStore";
 import Spinner from "../../components/loader/Spinner";
+import AssignmentModal from "../../components/Modals/AssignmentModal";
+import useIsModalOpen from "../../store/modalStore";
 
 const Video = () => {
   const { width } = useWindowSize();
@@ -30,11 +24,12 @@ const Video = () => {
   const [bookmarked, setBookmarked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const currentCourseSections = useBatchStore(state=>state.currentCourseSections);
-  const currentCourseDetails = useBatchStore(state=>state.currentCourseDetails);
-  const currentVideo = useBatchStore(state=>state.currentVideo);
-  const courseLoading = useBatchStore(state=>state.courseLoading);
-  const {getVideo} = useBatchStore();
+  const { isAssignmentModalOpen, setIsAssignmentModalOpen } = useIsModalOpen();
+  const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
+  const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
+  const currentVideo = useBatchStore((state) => state.currentVideo);
+  const courseLoading = useBatchStore((state) => state.courseLoading);
+  const { getVideo } = useBatchStore();
   const { Sider } = Layout;
   const {
     token: { colorBgContainer },
@@ -48,16 +43,21 @@ const Video = () => {
     }
   };
 
-  const onClickPreviousLecture = async() => {
-    const id = currentCourseSections?.sectionItems[currentCourseSections?.sectionItems.findIndex(item => item.id === currentVideo?.id) - 1]?.id;
+  const onClickPreviousLecture = async () => {
+    const id =
+      currentCourseSections?.sectionItems[
+        currentCourseSections?.sectionItems.findIndex((item) => item.id === currentVideo?.id) - 1
+      ]?.id;
     await getVideo(id);
-  }
+  };
 
-  const onClickNextLecture = async() => {
-    const id = currentCourseSections?.sectionItems[currentCourseSections?.sectionItems.findIndex(item => item.id === currentVideo?.id) + 1]?.id;
+  const onClickNextLecture = async () => {
+    const id =
+      currentCourseSections?.sectionItems[
+        currentCourseSections?.sectionItems.findIndex((item) => item.id === currentVideo?.id) + 1
+      ]?.id;
     await getVideo(id);
-  }
-
+  };
 
   const mySiderStyle = {
     background: "transparent",
@@ -75,7 +75,7 @@ const Video = () => {
   useEffect(() => {
     if (width >= 992) {
       setCollapsed(false);
-    }else{
+    } else {
       setCollapsed(true);
     }
   }, [width]);
@@ -91,7 +91,7 @@ const Video = () => {
         widtth={width}
         type="link"
         size="large"
-        style={{display:'flex', alignItems:"center"}}
+        style={{ display: "flex", alignItems: "center" }}
         onClick={() => navigate("/module")}
       >
         <ArrowLeftOutlined /> Back To DashBoard
@@ -106,27 +106,33 @@ const Video = () => {
           onCancel={() => setIsModalOpen(false)}
           maskClosable
           width={900}
-          styles={{mask:{background:"rgb(0,0,0,0.8)"}}}
+          styles={{ mask: { background: "rgb(0,0,0,0.8)" } }}
         >
           <DoubtModal />
         </StyledModal>
-        <MainContainer
-          width={width}
-          rightSidebarWidth={rightSidebarWidth}
-          collapsed={collapsed}
+        <StyledModal
+          open={isAssignmentModalOpen}
+          footer={null}
+          centered
+          onCancel={() => setIsAssignmentModalOpen(false)}
+          maskClosable
+          width={900}
+          styles={{ mask: { background: "rgb(0,0,0,0.8)" } }}
         >
-          
+          <AssignmentModal />
+        </StyledModal>
+        <MainContainer width={width} rightSidebarWidth={rightSidebarWidth} collapsed={collapsed}>
           <Header width={width}>
             <div className="inner-header" onClick={handleRightSideBar}>
               <Space size={12} align="center">
                 <i>
-                  <PlayCircleOutlined
-                    style={{ fontSize: "40px", color: "#3F4B5E" }}
-                  />
+                  <PlayCircleOutlined style={{ fontSize: "40px", color: "#3F4B5E" }} />
                 </i>
                 <Space direction="vertical" size={4}>
-                  <p>{currentCourseSections?.name} / {currentVideo?.title}</p>
-                  <h1 className="test">{ currentCourseDetails?.name}</h1>
+                  <p>
+                    {currentCourseSections?.name} / {currentVideo?.title}
+                  </p>
+                  <h1 className="test">{currentCourseDetails?.name}</h1>
                 </Space>
                 {width < 992 && (
                   <RightOutlined
@@ -160,40 +166,45 @@ const Video = () => {
               )} */}
             </div>
             <ButtonsDiv1 width={width}>
-              { currentCourseSections?.sectionItems.length > 1 &&
-                currentCourseSections?.sectionItems[0]?.id !== currentVideo?.id &&
-                <Button
-                  onClick={onClickPreviousLecture}
-                  color="primary"
-                  type="text"
-                  size={width > 1120 || width < 768 ? "large" : "middle"}
-              >
-                Previous Lecture
-              </Button>}
-              { currentCourseSections?.sectionItems.length > 1 && 
-                currentCourseSections?.sectionItems[currentCourseSections?.sectionItems.length - 1]?.id !== currentVideo?.id &&
-                <Button
-                  onClick={onClickNextLecture}
-                  type="text"
-                  size={width > 1120 || width < 768 ? "large" : "middle"}
-                >
-                Next Lecture
-              </Button>}
+              {currentCourseSections?.sectionItems.length > 1 &&
+                currentCourseSections?.sectionItems[0]?.id !== currentVideo?.id && (
+                  <Button
+                    onClick={onClickPreviousLecture}
+                    color="primary"
+                    type="text"
+                    size={width > 1120 || width < 768 ? "large" : "middle"}
+                  >
+                    Previous Lecture
+                  </Button>
+                )}
+              {currentCourseSections?.sectionItems.length > 1 &&
+                currentCourseSections?.sectionItems[currentCourseSections?.sectionItems.length - 1]?.id !==
+                  currentVideo?.id && (
+                  <Button
+                    onClick={onClickNextLecture}
+                    type="text"
+                    size={width > 1120 || width < 768 ? "large" : "middle"}
+                  >
+                    Next Lecture
+                  </Button>
+                )}
             </ButtonsDiv1>
           </Header>
 
           {courseLoading && <Spinner large />}
 
-          <VideoPlayer id={currentVideo?.id} url={currentVideo?.hlsLink}/>
+          <VideoPlayer id={currentVideo?.id} url={currentVideo?.hlsLink} />
 
           <ButtonsDiv2>
             <div>
               <a className="btn" href="#description">
                 Description
               </a>
-              { currentVideo?.note && <a className="btn" href="#classNotes">
-                Notes
-              </a>}
+              {currentVideo?.note && (
+                <a className="btn" href="#classNotes">
+                  Notes
+                </a>
+              )}
 
               {/* buttons not included in first phase */}
               {/* <Button type="text" size="large">
@@ -203,13 +214,9 @@ const Video = () => {
                 Code Rubiks
               </Button> */}
             </div>
-            {/* <Button
-              size="large"
-              className="ask-btn"
-              onClick={() => setIsModalOpen(true)}
-            >
+            <Button size="large" className="ask-btn" onClick={() => setIsModalOpen(true)}>
               ✋ Ask Doubt
-            </Button> */}
+            </Button>
             {/* Bookmark button for mobile */}
             {/* {width < 992 && (
               <Button
@@ -226,23 +233,13 @@ const Video = () => {
               />
             )} */}
           </ButtonsDiv2>
-          {
-            currentVideo?.description &&
-            <Description  description={currentVideo?.description} />
-          }
+          {currentVideo?.description && <Description description={currentVideo?.description} />}
           <ClassNotes />
         </MainContainer>
 
         {/* right sidebar to show modules */}
-        <Sider
-          collapsed={collapsed}
-          collapsedWidth="0"
-          width={rightSidebarWidth}
-          style={mySiderStyle}
-        >
-          {width < 992 && !collapsed && (
-            <div className="shaded-background" onClick={handleCollapsed}></div>
-          )}
+        <Sider collapsed={collapsed} collapsedWidth="0" width={rightSidebarWidth} style={mySiderStyle}>
+          {width < 992 && !collapsed && <div className="shaded-background" onClick={handleCollapsed}></div>}
           <ModuleRightSidebar />
         </Sider>
       </FullContentLayout>
@@ -259,10 +256,7 @@ const GoBackBtn = styled(Button)`
 
 const MainContainer = styled(MainContentLayout)`
   /* adjusting middle bar size according to sidebar */
-  margin-right: ${(props) =>
-    props.collapsed || props.width < 992
-      ? null
-      : `calc(${props.rightSidebarWidth} + 8px)`};
+  margin-right: ${(props) => (props.collapsed || props.width < 992 ? null : `calc(${props.rightSidebarWidth} + 8px)`)};
   padding: 0;
 `;
 
@@ -278,7 +272,7 @@ const StyledModal = styled(Modal)`
     max-height: 100vh;
     scrollbar-width: none;
   }
-  .ant-modal-body{
+  .ant-modal-body {
     height: 100%;
   }
 `;
@@ -321,8 +315,7 @@ const ButtonsDiv1 = styled.div`
   justify-content: center;
   margin: 0 auto;
   gap: ${(props) => (props.width >= 1200 ? "10px" : "5px")};
-  /* font-size: ${(props) =>
-    props.width < 1120 && props.width >= 992 ? "14px" : null}; */
+  /* font-size: ${(props) => (props.width < 1120 && props.width >= 992 ? "14px" : null)}; */
   button {
     color: #294169;
   }

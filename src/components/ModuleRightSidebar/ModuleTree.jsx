@@ -5,36 +5,44 @@ import { DownOutlined } from "@ant-design/icons";
 import useWindowSize from "../../hooks/useWindowSize";
 import useBatchStore from "../../store/batchStore";
 import TopicNode from "./TopicNode";
+import useIsModalOpen from "../../store/modalStore";
 
 const ModuleTree = () => {
   const { width } = useWindowSize();
-  const [treeData, setTreeData] = useState([])
+  const [treeData, setTreeData] = useState([]);
   const [selectedKeys, setSelectedKeys] = useState();
   const currentCourseDetails = useBatchStore((state) => state.currentCourseDetails);
   const currentCourseSections = useBatchStore((state) => state.currentCourseSections);
-  const {getVideo,getCurrentSectionDetailsWithVideo} = useBatchStore();
+  const setIsAssignmentModalOpen = useIsModalOpen((state) => state.setIsAssignmentModalOpen);
+  const { getVideo, getCurrentSectionDetailsWithVideo } = useBatchStore();
   const currentModule = useBatchStore((state) => state.currentModule);
-  const currentVideo = useBatchStore(state=>state.currentVideo);
+  const currentVideo = useBatchStore((state) => state.currentVideo);
 
-  const onSelect = async(selectedKeys, info) => {
-    try{
+  const onSelect = async (selectedKeys, info) => {
+    try {
       const id = info.node.key;
       await getVideo(id);
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   };
   const onCheck = (checkedKeys, info) => {
     console.log("onCheck", checkedKeys, info);
   };
 
-
   const transformDataToTree = (data) => {
     const children = data.sectionItems.map((item, index) => ({
-      title: <TopicNode class="ant-tree-treenode-selected" time={""} topic={`Day ${item?.orderNumber}: `+item.title} checked={item?.sectionProgress?.length > 0 ? (item?.sectionProgress[0].isCompleted) :false} />,
+      title: (
+        <TopicNode
+          class="ant-tree-treenode-selected"
+          time={""}
+          topic={`Day ${item?.orderNumber}: ` + item.title}
+          checked={item?.sectionProgress?.length > 0 ? item?.sectionProgress[0].isCompleted : false}
+        />
+      ),
       key: item?.id, // Use the section item ID as the key
     }));
-  
+
     return {
       title: data.name,
       key: "0", // Use the module ID as the key
@@ -44,144 +52,132 @@ const ModuleTree = () => {
     };
   };
 
-  const clickOnPreviousModule = async() => {
-    try{
-      const indexOfCurrentCourseSectionInModule = currentModule?.subsections.findIndex((item) => item.id === currentCourseSections?.id);
+  const clickOnPreviousModule = async () => {
+    try {
+      const indexOfCurrentCourseSectionInModule = currentModule?.subsections.findIndex(
+        (item) => item.id === currentCourseSections?.id
+      );
       const previousModule = currentModule?.subsections[indexOfCurrentCourseSectionInModule - 1];
-      if(previousModule){
-        await getCurrentSectionDetailsWithVideo(
-          previousModule?.id,
-          previousModule?.sectionItems[0]?.id
-        )
+      if (previousModule) {
+        await getCurrentSectionDetailsWithVideo(previousModule?.id, previousModule?.sectionItems[0]?.id);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
-  const clickOnPreviousModule2 = async() => {
-    try{
-      const indexOfCurrentCourseSectionInModule = currentModule?.sections.findIndex((item) => item.id === currentCourseSections?.id);
+  const clickOnPreviousModule2 = async () => {
+    try {
+      const indexOfCurrentCourseSectionInModule = currentModule?.sections.findIndex(
+        (item) => item.id === currentCourseSections?.id
+      );
       const previousModule = currentModule?.sections[indexOfCurrentCourseSectionInModule - 1];
-      if(previousModule){
-        await getCurrentSectionDetailsWithVideo(
-          previousModule?.id,
-          previousModule?.sectionItems[0]?.id
-        )
+      if (previousModule) {
+        await getCurrentSectionDetailsWithVideo(previousModule?.id, previousModule?.sectionItems[0]?.id);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
-  const clickOnNextModule = async() => {
-    try{
-      const indexOfCurrentCourseSectionInModule = currentModule?.subsections.findIndex((item) => item.id === currentCourseSections?.id);
-      const nextModule = currentModule?.subsections[indexOfCurrentCourseSectionInModule  + 1];
-      if(nextModule){
-        await getCurrentSectionDetailsWithVideo(
-          nextModule?.id,
-          nextModule?.sectionItems[0]?.id
-        )
+  const clickOnNextModule = async () => {
+    try {
+      const indexOfCurrentCourseSectionInModule = currentModule?.subsections.findIndex(
+        (item) => item.id === currentCourseSections?.id
+      );
+      const nextModule = currentModule?.subsections[indexOfCurrentCourseSectionInModule + 1];
+      if (nextModule) {
+        await getCurrentSectionDetailsWithVideo(nextModule?.id, nextModule?.sectionItems[0]?.id);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
-  const clickOnNextModule2 = async() => {
-    try{
-      const indexOfCurrentCourseSectionInModule = currentModule?.sections.findIndex((item) => item.id === currentCourseSections?.id);
-      const nextModule = currentModule?.sections[indexOfCurrentCourseSectionInModule  + 1];
-      if(nextModule){
-        await getCurrentSectionDetailsWithVideo(
-          nextModule?.id,
-          nextModule?.sectionItems[0]?.id
-        )
+  const clickOnNextModule2 = async () => {
+    try {
+      const indexOfCurrentCourseSectionInModule = currentModule?.sections.findIndex(
+        (item) => item.id === currentCourseSections?.id
+      );
+      const nextModule = currentModule?.sections[indexOfCurrentCourseSectionInModule + 1];
+      if (nextModule) {
+        await getCurrentSectionDetailsWithVideo(nextModule?.id, nextModule?.sectionItems[0]?.id);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   // console.log("currentModules : ",currentModule);
   // console.log("current course sections :"currentCourseSections)
 
-
-  useEffect(()=>{
-    if(currentCourseSections){
-      const transformedData = transformDataToTree(currentCourseSections)
+  useEffect(() => {
+    if (currentCourseSections) {
+      const transformedData = transformDataToTree(currentCourseSections);
       //console.log(transformedData)
-      setTreeData([transformedData])
+      setTreeData([transformedData]);
     }
-  },[currentCourseSections])
+  }, [currentCourseSections]);
 
-  useEffect(()=>{
-    if(currentVideo?.id){
-      setSelectedKeys([currentVideo?.id])
+  useEffect(() => {
+    if (currentVideo?.id) {
+      setSelectedKeys([currentVideo?.id]);
     }
-  },[currentVideo?.id])
+  }, [currentVideo?.id]);
 
   return (
     <>
-      {
-        treeData.length > 0 &&
+      {treeData.length > 0 && (
         <StyledTree
-        //   checkable
-        // defaultCheckedKeys={["0-0-0", "0-0-1"]}
-        defaultExpandedKeys={[treeData[0]?.key]}
-        selectedKeys={selectedKeys}
-        onSelect={onSelect}
-        onCheck={onCheck}
-        treeData={treeData}
-        showIcon={false}
-        blockNode
-        switcherIcon={<DownOutlined />}
-        screenWidth={width}
-      />
-      }     
-      {
-        (currentCourseDetails &&
-        currentCourseDetails?.sections?.length > 0 && 
-        currentCourseDetails?.sections[0]?.subsections?.length > 0) &&
-        <BottomButtons>
-          {
-            currentModule?.subsections?.length > 1 &&
-            currentModule?.subsections[0]?.id !== currentCourseSections?.id&&
-            <Col span={12} onClick={clickOnPreviousModule}>
-              <p>Previous Module</p>
-            </Col>
-          }
-          {
-            currentModule?.subsections?.length > 1 &&
-            currentModule?.subsections[currentModule?.subsections.length - 1]?.id !== currentCourseSections?.id&&
-            <Col span={12} onClick={clickOnNextModule}>
-              <p>Next Module</p>
-            </Col>
-          }
-        </BottomButtons>
-      }
-      {
-        (currentCourseDetails &&
-        currentCourseDetails?.sections?.length > 0 && 
-        currentCourseDetails?.sections[0]?.sectionItems?.length > 0) &&
-        <BottomButtons>
-          {
-            currentModule?.sections?.length > 1 &&
-            currentModule?.sections[0]?.id !== currentCourseSections?.id&&
-            <Col span={12} onClick={clickOnPreviousModule2}>
-              <p>Previous Module</p>
-            </Col>
-          }
-          {
-            currentModule?.sections?.length > 1 &&
-            currentModule?.sections[currentModule?.sections.length - 1]?.id !== currentCourseSections?.id&&
-            <Col span={12} onClick={clickOnNextModule2}>
-              <p>Next Module</p>
-            </Col>
-          }
-        </BottomButtons>
-      }
+          //   checkable
+          // defaultCheckedKeys={["0-0-0", "0-0-1"]}
+          defaultExpandedKeys={[treeData[0]?.key]}
+          selectedKeys={selectedKeys}
+          onSelect={onSelect}
+          onCheck={onCheck}
+          treeData={treeData}
+          showIcon={false}
+          blockNode
+          switcherIcon={<DownOutlined />}
+          screenWidth={width}
+        />
+      )}
+      <AssignmentBtn onClick={() => setIsAssignmentModalOpen(true)}>Assignment</AssignmentBtn>
+      {currentCourseDetails &&
+        currentCourseDetails?.sections?.length > 0 &&
+        currentCourseDetails?.sections[0]?.subsections?.length > 0 && (
+          <BottomButtons>
+            {currentModule?.subsections?.length > 1 &&
+              currentModule?.subsections[0]?.id !== currentCourseSections?.id && (
+                <Col span={12} onClick={clickOnPreviousModule}>
+                  <p>Previous Module</p>
+                </Col>
+              )}
+            {currentModule?.subsections?.length > 1 &&
+              currentModule?.subsections[currentModule?.subsections.length - 1]?.id !== currentCourseSections?.id && (
+                <Col span={12} onClick={clickOnNextModule}>
+                  <p>Next Module</p>
+                </Col>
+              )}
+          </BottomButtons>
+        )}
+      {currentCourseDetails &&
+        currentCourseDetails?.sections?.length > 0 &&
+        currentCourseDetails?.sections[0]?.sectionItems?.length > 0 && (
+          <BottomButtons>
+            {currentModule?.sections?.length > 1 && currentModule?.sections[0]?.id !== currentCourseSections?.id && (
+              <Col span={12} onClick={clickOnPreviousModule2}>
+                <p>Previous Module</p>
+              </Col>
+            )}
+            {currentModule?.sections?.length > 1 &&
+              currentModule?.sections[currentModule?.sections.length - 1]?.id !== currentCourseSections?.id && (
+                <Col span={12} onClick={clickOnNextModule2}>
+                  <p>Next Module</p>
+                </Col>
+              )}
+          </BottomButtons>
+        )}
     </>
   );
 };
@@ -222,13 +218,12 @@ const StyledTree = styled(Tree.DirectoryTree)`
     position: relative;
     overflow-y: auto;
     scrollbar-width: thin;
-    max-height: ${(props) =>
-      props.screenWidth >= 992 ? "calc(100vh - 285px)" : "calc(100vh - 120px)"};
+    max-height: ${(props) => (props.screenWidth >= 992 ? "calc(100vh - 285px)" : "calc(100vh - 120px)")};
   }
 
-  .ant-tree-treenode:hover:not(.ant-tree-treenode-selected){
-    .ant-tree-title>div {
-    color: #3d7fe9 !important;
+  .ant-tree-treenode:hover:not(.ant-tree-treenode-selected) {
+    .ant-tree-title > div {
+      color: #3d7fe9 !important;
     }
     &::before {
       background-color: #e6ebf3 !important;
@@ -260,6 +255,29 @@ const StyledTree = styled(Tree.DirectoryTree)`
   }
   .show-hover {
     display: none;
+  }
+`;
+
+const AssignmentBtn = styled.div`
+  display: flex;
+  padding: 16px 14px 16px 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+  color: var(--Color-Brand-Brand-Blue, #0859de);
+  font-family: "DM Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border-bottom: 1px solid #d6d6d6;
+  border-top: 1px solid #d6d6d6;
+  background: var(--Color-White-100, #fff);
+  cursor: pointer;
+  &:hover {
+    background-color: #e6ebf3;
   }
 `;
 

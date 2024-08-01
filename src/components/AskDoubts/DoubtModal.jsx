@@ -20,17 +20,16 @@ const items = [
 const DoubtModal = () => {
   return (
     <StyledContainer>
-      <Tabs
-        defaultActiveKey="1"
-        items={items}
-        indicator={{ size: 0 }}
-        tabBarGutter={0}
-      />
+      <Tabs defaultActiveKey="1" items={items} indicator={{ size: 0 }} tabBarGutter={0} />
     </StyledContainer>
   );
 };
 
 const StyledContainer = styled.div`
+  height: 100%;
+  .ant-tabs {
+    height: 100%;
+  }
   .tab-btn {
     color: #294169;
     font-family: "DM Sans";
@@ -48,6 +47,10 @@ const StyledContainer = styled.div`
   .ant-tabs-tab-active .tab-btn {
     color: var(--Color-White-100, #fff);
     background: #294169;
+  }
+  .ant-tabs-content-holder {
+    height: 100%;
+    overflow: auto;
   }
 `;
 

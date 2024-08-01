@@ -38,6 +38,9 @@ import OTPverify from "../components/Forms/OTPverification.jsx";
 import Module from "../pages/Module/Module.jsx";
 import Test from "./Test.jsx";
 import NotFound from "../pages/NotFound/NotFound.jsx";
+import ResolvedDoubts from "../pages/ResolvedDoubts/ResolvedDoubts.jsx";
+import LiveClass from "../pages/LiveClass/LiveClass.jsx";
+
 export const routes = [
   {
     path: routeDefinitions.AUTH,
@@ -85,6 +88,15 @@ export const routes = [
         path: routeDefinitions.Module,
         element: <Module />,
       },
+      {
+        path: 'doubt',
+        element: <ResolvedDoubts/>,
+      },
+      {
+        path: 'liveclass',
+        element: <LiveClass/>,
+      },
+
       // {
       //   path: 'lms',
       //   element: <Lms />,

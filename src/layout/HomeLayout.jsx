@@ -10,6 +10,7 @@ import {
   StarOutlined,
   UploadOutlined,
   UserOutlined,
+  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { LuLayers } from "react-icons/lu";
 import { IoMdChatboxes } from "react-icons/io";
@@ -47,10 +48,16 @@ export const menuItems = [
     // disabled: "true",
   },
   {
-    key: "discussion",
+    key: "doubt",
     icon: <IoMdChatboxes />,
     label: "Discussion Forum",
-    disabled: "true",
+    // disabled: "true",
+  },
+  {
+    key: "liveclass",
+    icon: <VideoCameraOutlined />,
+    label: "Live Class",
+    // disabled: "true",
   },
 ];
 
