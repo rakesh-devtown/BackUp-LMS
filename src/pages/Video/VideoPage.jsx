@@ -121,10 +121,10 @@ const Video = () => {
               <Space size={12} align="center">
                 <i>
                   <PlayCircleOutlined
-                    style={{ fontSize: "40px", color: "#3F4B5E" }}
+                    style={{ fontSize: "33.33px", color: "#3F4B5E" }}
                   />
                 </i>
-                <Space direction="vertical" size={4}>
+                <Space direction="vertical" size={4} style={{marginBottom:"12px"}}>
                   <p>{currentCourseSections?.name} / {currentVideo?.title}</p>
                   <h1 className="test">{ currentCourseDetails?.name}</h1>
                 </Space>
@@ -159,6 +159,9 @@ const Video = () => {
                 </StyledBookmarkBtn>
               )} */}
             </div>
+            {/* prev & next button for laptop view */}
+            {
+              width >= 992 &&
             <ButtonsDiv1 width={width}>
               { currentCourseSections?.sectionItems.length > 1 &&
                 currentCourseSections?.sectionItems[0]?.id !== currentVideo?.id &&
@@ -180,12 +183,38 @@ const Video = () => {
                 Next Lecture
               </Button>}
             </ButtonsDiv1>
+            }
           </Header>
 
           {courseLoading && <Spinner large />}
 
           <VideoPlayer id={currentVideo?.id} url={currentVideo?.hlsLink}/>
 
+          {/* prev & next button for mobile view */}
+          {
+              width <992 &&
+          <ButtonsDiv1 width={width} style={{marginBottom:"12px"}}>
+              { currentCourseSections?.sectionItems.length > 1 &&
+                currentCourseSections?.sectionItems[0]?.id !== currentVideo?.id &&
+                <Button
+                  onClick={onClickPreviousLecture}
+                  color="primary"
+                  type="text"
+                  size={width > 1120 || width < 768 ? "large" : "middle"}
+              >
+                Previous Lecture
+              </Button>}
+              { currentCourseSections?.sectionItems.length > 1 && 
+                currentCourseSections?.sectionItems[currentCourseSections?.sectionItems.length - 1]?.id !== currentVideo?.id &&
+                <Button
+                  onClick={onClickNextLecture}
+                  type="text"
+                  size={width > 1120 || width < 768 ? "large" : "middle"}
+                >
+                Next Lecture
+              </Button>}
+            </ButtonsDiv1>
+          }
           <ButtonsDiv2>
             <div>
               <a className="btn" href="#description">
